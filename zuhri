@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>Curriculum Vitea</h1>
+<img src="https://radargarut.jabarekspres.com/wp-content/uploads/2023/02/hijab.png" alt="Italian Trulli">
+<p>Nama : Siti Aminatu Zuhriyah.</p>
+<p>Saya adalah mahasiswa aktif di Universitas Aisyah Pr
+    ingsewu Prodi S1 Teknik Informatika Saat ini saya sedang menempu disemester tujuh,kegiatan di semester tujuh yaitu melaksanakan Praktek Kerja Lapangan (PKL) saat ini saya sedang melaksanakn Pkl di PT.Microdata Bandar Lampung Indonesia .</p>
+
+
+     <h2>SUMMARY </h2>
+<style>
+ table, th, td{ 
+    border:1px solid black;
+ }
+   </style>
+<table style="width:100%">
+
+</tr>
+<tr>
+<th>Education</th>
+<td>  
+<ul>
+<li>JUNIOR HIGH SCHOOL</li>
+<li> ISLAMIC BOARDING SCHOOL</li>
+<li> AISYAH UNIVERSITY</li> 
+</ul>
+</td>
+
+</tr>
+<tr>
+<th> Experience </th>
+<td> 
+<ol> 
+<li> 2019-2020, PT ABC sebagai xxx</li>
+<li> PT XYZ sebagai xxx </li>
+<li>2023-2024, PT XYZ sebagai xxx</li>
+</ol>
+</td>
+
+</tr>
+<tr>
+<th> Achievement</th>
+<td>
+<ul>
+ <li> Juara 1 Lomba xxx,2020</li>
+<li> Juara 1 Lomba XYZ,2022</li>
+<li> Juara 1 Lomba HIJ,2023</li>
+</ul>
+</td>
+
+</tr>
+</table>
+</body>
+</html>
+
