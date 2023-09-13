@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Susi</title>
+</head>
+<body>
+
+    <!--ngoding di bawah ini-->
+    <h1> Curriculum Susi</h1>
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSU9Wo6-9v4YEksYtxpEinEoNP5oDNZQCyICFUn6uN7spIivtT6rix_v4m7zDU4YP0gp1o&usqp=CAU">
+    <p>Nama saya Susi Widianti.</p>
+
+    <p> Saat adalah mahasiwa semester 7 di Universitas Aisyah Pringsewu. Dan saat ini saya sedang menjalakan progam magang
+       di PT Microdata.</p>
+
+       <h2> Riwayat Pendidikan</h2>
+
+       <style>
+        table, th, td {
+          border:1px solid black;
+        }
+        </style>
+<table style="width:100%">
+  
+</tr>
+<tr>
+<th>Education</th>
+<td>  
+<ul>
+     <li>SMPN 10 MESUJI</li>
+     <li> MA PLUS WALI SONGO</li>
+     <li> Universitas Aisyah Pringsewu</li> 
+</ul>
+</td>
+
+</tr>
+<tr>
+<th> Experience </th>
+<td> 
+    <ol> 
+    <li> 2019-2020, PT ABC sebagai xxx</li>
+    <li> PT XYZ sebagai xxx </li>
+    <li>2023-2024, PT XYZ sebagai xxx</li>
+</ol>
+</td>
+  
+</tr>
+<tr>
+<th> Achievement</th>
+<td>
+<ul>
+  <li> Juara 1 Lomba xxx,2020</li>
+  <li> Juara 1 Lomba XYZ,2022</li>
+  <li> Juara 1 Lomba HIJ,2023</li>
+</ul>
+</td>
+ 
+</tr>
+</table>
+
+</body>
+</html>
+
