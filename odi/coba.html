@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html>
 <style>
+  .container{
+    width: 300px;
+    margin: 100px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    background-color: #f0f0f0;
+  }
 input[type=text], select {
   width: 70%;
   padding: 12px 20px;
@@ -16,7 +23,6 @@ input[type=submit] {
   background-color: #8B008B;
   color: white;
   padding: 14px 20px;
-  margin: 8px 0;
   border: none;
   border-radius: 20px;
   cursor: pointer;
@@ -27,16 +33,17 @@ input[type=submit]:hover {
 }
 
 div {
-  border-radius: 100px;
-  background-color: #f2f2f2;
-  padding: 30px;
+  border-radius: 10px;
+  
+
 }
 </style>
 <body>
 
 <h3>Login</h3>
 
-<div>
+
+<div class="container">
   <form action="/action_page.php">
   	<div style="display:flex; flex-direction: 'column'; justify-content: space-between ">
       <p style="width:130px;" for="user">Username</p>
