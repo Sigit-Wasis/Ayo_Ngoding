@@ -150,6 +150,99 @@ if ($temanku == "rudi"){
 }else{
     echo "Bukan Teman Saya";
 }
+
+echo "</br>";
+echo "<hr>";
+
+//Perkondisian Switch Case
+
+$bulan = "Maret";
+
+switch ($bulan) {
+    case 'Januari':
+        echo "Ini Bulan Januari";
+        break;
+
+    case 'Februari':
+        echo "Ini Bulan Februari";
+        break;
+
+    case 'Maret':
+        echo "Ini Bulan Maret";
+        break;
+    
+    default:
+        echo "Tidak Ada Bulan";
+        break;
+}
+echo "</br>";
+echo "<hr>";
+
+//Perulangan For
+$f = 10;
+for ($i=1; $i < $f; $i++) { 
+    echo " Microdata";
+    echo $i;
+    echo "</br>";
+}
+
+echo "</br>";
+echo "<hr>";
+
+// Buat Perulangan dari 10 - 1
+$f = 10;
+for ($i=0; $i < $f; $i++) { 
+    echo " Microdata";
+    echo $f - $i;
+    echo "</br>";
+}
+
+echo "</br>";
+echo "<hr>";
+
+for ($r = 10; $r >= 1; $r--) { 
+    echo " Microdata";
+    echo $r;
+    echo "</br>";
+}
+
+echo "</br>";
+echo "<hr>";
+
+// Buat perulangan 1 sampai 10 dengan tampilan angka perulangan bilangan genap dan ganjil
+
+for ($i=0; $i <= 10; $i++) {
+    // % sisa bagi atau modulus
+    // Bilangan genap adalah bilangan yang bisa dibagi 2
+    if (($i % 2)==0){
+        echo $i. " Bilangan Genap";
+        echo "</br>";
+    }else{
+        echo $i. " Bilangan Ganjil"; 
+    echo "</br>";
+    }
+}
+
+echo "</br>";
+echo "<hr>";
+
+// Array
+// Index adalah yang diawali 0
+
+$buah =  ['Mangga','Jeruk','Apel','Durian','Pisang',88,true];
+
+echo $buah [2]; // hasilnya apel 
+$buah [4] = "Kelengkeng";
+
+echo "</br>";
+echo "<hr>";
+
+// Perulangan forecach
+// Array dengan Looping
+foreach ($buah as $value){
+    var_dump ($value);
+    echo "</br>";
+}
 // Constanta
 echo "</br>";
 echo "<hr>";
