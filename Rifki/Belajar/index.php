@@ -157,4 +157,26 @@ if ($c >= $d){
 echo "</br>";
 echo "<hr>";
 
+// PENGKONDISIAN SWITCH CASE
+
+$bulan = "Januari";
+
+switch ($bulan){
+    case 'Januari';
+    echo "ini bulan Januari";
+    break;
+
+    case 'Februari';
+    echo "ini bulan Februari";
+    break;
+
+    case 'Maret';
+    echo "ini bulan Maret";
+    break;
+
+    case 'April';
+    echo "ini bulan April";
+    break;
+}
+
 ?>

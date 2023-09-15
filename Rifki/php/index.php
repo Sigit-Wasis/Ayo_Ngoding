@@ -186,4 +186,65 @@ if ($c >= $d){
 echo "</br>";
 echo "<hr>";
 
+// PENGKONDISIAN SWITCH CASE
+
+$bulan = "Januari";
+
+switch ($bulan){
+    case 'Januari';
+    echo "ini bulan Januari";
+    break;
+
+    case 'Februari';
+    echo "ini bulan Februari";
+    break;
+
+    case 'Maret';
+    echo "ini bulan Maret";
+    break;
+
+    case 'April';
+    echo "ini bulan April";
+    break;
+
+    default :
+    echo "Tidak ada bulan";
+    break;
+}
+echo "</br>";
+echo "<hr>";
+
+// PERULANGAN FOR
+
+$f = 15;
+for ($i=0; $i <$f ; $i++) { 
+    echo "WTF ";
+    echo $i;
+    echo "</br>";
+}
+echo "</br>";
+echo "<hr>";
+
+// BUAT PERULANGAN DARI 10 SAMPAI 1
+
+for ($r=10; $r >= 1; $r--) { 
+    echo "WTF ";
+    echo $r;
+    echo "</br>";
+}
+echo "</br>";
+echo "<hr>";
+
+// BUAT PERULANGAN 1 SAMPAI 10 DENGAN TAMPILKAN ANGKA PERULANGAN BILANGAN GENAP ATAU BILANGAN GANJIL
+
+for ($i = 1; $i <= 10; $i++) {
+    if ($i % 2 == 0) {
+        echo " $i genap";
+    } else {
+        echo " $i ganjil";
+    }
+echo "</br>";
+}
+
+
 ?>
