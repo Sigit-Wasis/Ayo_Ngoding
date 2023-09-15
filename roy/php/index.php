@@ -148,6 +148,85 @@ if ($c >= $d) {
 echo "</br>";
 echo "<hr>";
 
+// PENGKONDISIAN SWITCH CASE
+$bulan = "Januari";
+
+switch ($bulan) {
+    case 'Januari':
+        echo "Ini bulan Januari";
+        break;
+
+    case 'Februari':
+        echo "Ini bulan februari";
+        break;    
+
+    case 'Maret':
+        echo "Ini bulan Maret";
+        break;
+
+    default:
+        echo "Tidak ada Bulan";
+        break;
+
+}
+echo "</br>";
+echo "<hr>";
+
+// PERULANGAN FOR
+$f = 10;
+for ($i=0; $i < $f; $i++) {
+    echo "Microdata ";
+    echo $i;
+    echo "</br>";
+
+
+}
+echo "</br>";
+echo "<hr>";
+// BUAT PERULANGAN DARI 10 SAMPAI 1
+for ($r=10; $r >= 1; $r--) {
+    
+    echo "Microdata ";
+    echo $r;
+    echo "</br>";
+}
+echo "</br>";
+echo "<hr>";
+// Buat perulangan 1 sampai 10 dengan tampilkan angka perulangan bilangan genap atau bilangan ganjil
+for ($m = 1; $m <= 10; $m++) {
+    // % sisa bagi atau modulus
+    // bilangan genap adalah bilangan yang habis kalau dibagi 2
+    if ($m % 2 == 0) {
+        echo $m . "adalah bilangan genap";
+        echo "</br>";
+    } else {
+        echo $m .  "adalah bilangan ganjil";
+        echo "</br>";
+    }
+    
+}
+    echo "</br>";
+    echo "<hr>";
+
+    // ARAY []
+    // index itu diawali dengan angka 0
+    $buah = ['mangga', 'apel', 'jeruk', 'durian', 'pisang', 78, true];
+    // menampilkan  value dengan angka ke 2
+    echo $buah[2]; // hasilnya adalah jeruk
+    $buah[4] = "semangka";
+
+    echo "</br>";
+    echo "<hr>";
+
+    foreach ($buah as $value) {
+        var_dump($value);
+        echo "</br>";
+    }
+    // PERULANGAN WHILE
+    // ARRAY DENGAN LOOPING
+    echo "</br>";
+    echo "<hr>";
+
 
 //KONSTANTA
 const nama = "Roy Priandana ";
