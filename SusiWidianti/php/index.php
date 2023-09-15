@@ -285,6 +285,7 @@ echo"</hr>";
 $buah =  ['mangga','apel','jeruk','nanas','durian','semangka',78,true];
 //menampilkan valeu dengan index ke 2
 echo $buah [4]; // hasilnya adalah jeruk
+$buah[4]= "semangka"
 echo"</br>";
 echo"</hr>";
 
