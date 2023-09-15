@@ -178,8 +178,119 @@ if ($temanku == "Rudi") {
 }else { 
     echo"Bukan teman saya";
 }
+echo"</br>";
+echo"</hr>";
+
+// PENGKONDISIAN SWITCH CASE(menampilkan nama-nama bulan)
+
+$bulan = "September";
+
+switch ($bulan) {
+
+    case 'Januari':
+        echo "ini bulan Januari";
+        break;
+
+    case 'Februari':
+        echo "ini bulan Februari";
+        break;
+
+    case 'Maret':
+        echo "ini bulan Maret";
+        break;
+
+    case 'April':
+        echo "ini bulan April";
+        break;
+        
+    case'Mei':
+        echo "ini bulan mei";
+        break;
+    
+    default:
+        echo "tidak ada bulan";
+        break;
+}
+echo"</br>";
+echo"</hr>";
+
+//PERULANGAN FOR
+$f = 10;
+$r =10;
+
+for ($i=0; $i < $f; $i++){
+    echo "microdata";
+    echo $i;
+    echo "</br>";
+}
 
 
+// buat perulangan dari 10 sampai 1
+// microdata 10
+// microdata 9
+// microdata 8
+// microdata 7
+// microdata 6
+// microdata 5
+// microdata 4
+// microdata 3
+// microdata 2
+// microdata 1
 
+//PERULANGAN  9
 
+echo"PERULANGAN 10-1";
+echo"</br>";
+echo"</hr>";
+
+for ($r=10; $r >=1; $r--){
+    echo "microdata";
+    echo $r;
+    echo "</br>";
+}
+echo"</br>";
+echo"</hr>";
+
+//Perulangan 1 sampai 10 dengan tampilkan angka perulangan bilangan genap atau bilangan ganjil
+//hsdilnys
+//1 bulangan ganjil
+//2 bilangan genap
+//....
+//10 adalah bilangan genap
+
+$a = 10;
+
+for ($a=1; $a < 10; $a++){
+    //% sisa bagi atau modulus
+    // bilangan genap adalah bilangan yang habis di bagi 2
+    if($a % 2 == 0){
+        echo "Bilangan Genap";
+    }
+    else{
+        echo "Ini Bilangan Ganjil";
+    }
+    echo "</br>";
+    echo $a;
+}
+echo"</br>";
+echo"</hr>";
+
+//ARRAY[]
+//index itu di awali dengan angka 0
+
+echo"ARRAY"; 
+echo"</br>";
+echo"</hr>";
+
+$buah =  ['mangga','apel','jeruk','nanas','durian','semangka',78,true];
+//menampilkan valeu dengan index ke 2
+echo $buah [4]; // hasilnya adalah jeruk
+echo"</br>";
+echo"</hr>";
+
+//var_dump untuk menampilkan tipe data 
+foreach ($buah as $valeu){
+    var_dump ($valeu);
+    echo"</br>";
+}
 ?>
