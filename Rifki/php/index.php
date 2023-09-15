@@ -263,6 +263,8 @@ echo "<hr>";
 foreach ($buah as $value) {
     var_dump($value);
     echo "</br>";
+    echo "</br>";
+echo "<hr>";
    
 }
 
