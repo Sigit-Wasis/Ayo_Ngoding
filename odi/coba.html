@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<style>
+input[type=text], select {
+  width: 70%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input[type=submit] {
+  width: 70%;
+  background-color: #8B008B;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+input[type=submit]:hover {
+  background-color: #8B008B;
+}
+
+div {
+  border-radius: 100px;
+  background-color: #f2f2f2;
+  padding: 30px;
+}
+</style>
+<body>
+
+<h3>Login</h3>
+
+<div>
+  <form action="/action_page.php">
+  	<div style="display:flex; flex-direction: 'column'; justify-content: space-between ">
+      <p style="width:130px;" for="user">Username</p>
+      <input type="text" id="user" name="username"/>
+    </div>  
+    
+    <div style="display:flex; flex-direction: 'column'; justify-content: space-between ">
+    <p style="width:130px;" for="pass">Password</p>
+    <input type="text" id="pass" name="password" >
+   </div>
+    
+    <div style="display:flex; flex-direction: 'column'; justify-content: space-between ">
+    <p style="width:130px;" for="email">Email</p>
+    <input type="text" id="email" name="email" >
+   </div>
+    
+  
+    <input type="submit" value="Submit">
+  </form>
+</div>
+
+</body>
+</html>
+
+
