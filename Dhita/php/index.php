@@ -5,11 +5,11 @@ echo "Hello World!! ";
 // fungsi variabel untuk menyimpan data baik itu string, integer dll
 
 // tampilkan variabel namaku
-$namaku = "Dhita Humdana";
+$namaku = "It's Dhita Humdana";
 echo $namaku;
 echo "</br>";
 
-$huruf = "Microdata";
+$huruf = "I am Internship Student at Microdata Indonesia";
 
 $angka = 16;
 $angka1 = 40;
@@ -25,9 +25,9 @@ echo "</br>";
 echo $angka1 + $angka2;
 echo "</br>";
 
-
 //KONSTANTA
 const nama = "Tobi";
 echo nama;
+echo "<br/>";
 
  ?>
