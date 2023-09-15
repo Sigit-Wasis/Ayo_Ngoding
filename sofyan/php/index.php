@@ -110,8 +110,8 @@ echo "</br>";
 echo "<hr>";
 echo "</br>";
 
-// penggunaan if else
 
+// penggunaan if else
 echo "Pengkodisian IF ELSE";
 echo "</br>";
 echo "<hr>";
@@ -143,11 +143,98 @@ if ($c>$d){
 }else{
     echo "Salah";
 }
+echo "</br>";
+echo "<hr>";
+echo "</br>";
 
+//pengkondisian switch case
+echo "Pengkodisian SWITCH CASE";
+echo "</br>";
+echo "<hr>";
+$bulan = "Januari";
+switch ($bulan) {
+    case 'Januari':
+        echo "Ini bulan Januari";
+        break;
+    
+    case 'Febuari':
+        echo "Ini bulan Febuari";
+        break;
+
+    case 'Maret':
+        echo "Ini bulan Maret";
+        break;        
+    default:
+        echo "Tidak Ada bulan";
+        break;
+}
+echo "</br>";
+echo "<hr>";
+echo "</br>";
+
+//pengkondisian Pengulangan FOR
+echo "Pengkodisian Pengulangn FOR";
+echo "</br>";
+echo "<hr>";
+$f = 5;
+for ($i=0; $i < $f; $i++) { 
+    echo "MIKRODATA";
+    echo $i;
+    echo "</br>";
+}
+echo "</br>";
+echo "<hr>";
+
+// BUAT PENGULANGAN DARI 10 SAMPAI 1
+$g =1;
+for ($j=10; $j >= $g; $j--) { 
+    echo "MIKRODATA";
+    echo $j;
+    echo "</br>";
+}
+echo "</br>";
+echo "<hr>";
+
+
+//buat perulangan 1 sampai 10 dengan tampilan angka perulangan bilangan genap atau bilangan ganjil
+for ($h=1; $h <= 10; $h++) { 
+    // % sisa bagi atau modulus
+    // bilangan genap adlah bialngan yang habis di bagi 2
+    if (($h % 2) ==0){
+        echo "bilangan genap ";
+    }else{
+        echo "bilangan ganjil ";
+    }
+    echo $h;
+    echo "</br>";
+}
+echo "</br>";
+
+
+//Array []
+//Indek diawali dengan angka 0
+echo "Array";
+echo "</br>";
+echo "<hr>";
+$buah = ['mangga','apel','melon','jeruk','semangka',56,true];
+echo $buah[2];//menampilkan value dengan indek ke 2
+$buah[7]="jambu"; //fungsi menambahkan atai mengggantikn data array sebelmnya
+echo "</br>";
+echo "<hr>";
+echo "</br>";
+
+//perulangan forech
+//Array dengan Looping
+echo "perulangan forech";
+echo "</br>";
+echo "<hr>";
+foreach ($buah as $value) {
+    var_dump($value);
+    echo "</br>";
+}
 
 //konstanta
 echo "</br>";
-echo "<hr>";
 const namaasf = "Sofyan Hadi";
 echo namaasf; 
 echo "</br>";
