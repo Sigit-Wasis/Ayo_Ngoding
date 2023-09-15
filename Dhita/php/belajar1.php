@@ -149,12 +149,86 @@ if ($c >= $d) {
  }else{
     echo "salah";
  }
-
  
-
+ echo "<br/>";
+ echo "<hr/>";
 
 // PENGKONDISIAN SWITCH CASE
+echo "PENGKONDISIAN SWITCH CASE";
+echo "<br/>";
+
+$bulan = "Februari";
+switch ($bulan) {
+    case "Januari":
+      echo "Ini bulan Januari";
+      break;
+    case "Februari":
+      echo "Ini bulan Februari";
+      break;
+    case "Maret":
+      echo "Ini bulan Maret";
+      break;
+    default:
+    echo "Tidak ada Bulan"; 
+    break;
+    }
+
+    echo "<br/>";
+    echo "<hr/>";
+
+// PERULANGAN 
+echo "PERULANGAN ";
+echo "<br/>";
+echo "<hr/>";
+
+$f = 10;
+for ($i=0; $i < $f; $i++) {
+    echo "Microdata";
+    echo $i;
+    echo "<br/>";
+}
+
+echo "<br/>";
+echo "<hr/>";
+
+$f = 1;
+for ($i=10; $i >= $f; $i--) {
+    echo "Micro";
+    echo $i;
+    echo "<br/>";
+}
+echo "<br/>";
+echo "<hr/>";
+
+for ($h=1; $h <= 10; $h++) {
+    if (($h % 2 ) == 0) {
+        echo "bilangan genap";
+    }else{
+        echo "bilangan ganjil";
+    }
+    echo $h;
+    echo "</br>";
+    
+}
+
+// ARRAY 
+echo "<hr/>";
+echo "ARRAY";
+echo "</br>";
+// Index diawali dengan angka 0
+$buah = ['mangga', 'apel','jeruk','durian','pisang',16, true];
+
+echo $buah[3];
+$buah[4]="semangkat";
 
 
-// PENGULANGAN 
+echo "<hr/>";
+echo "</br>";
+// PERULANGAN 
+
+foreach ($buah as $value) {
+    var_dump($value);
+    echo "</br>";
+}
+
 ?>
