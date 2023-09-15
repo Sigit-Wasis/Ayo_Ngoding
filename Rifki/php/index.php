@@ -240,11 +240,30 @@ echo "<hr>";
 for ($i = 1; $i <= 10; $i++) {
     if ($i % 2 == 0) {
         echo " $i genap";
+        echo "</br>";
     } else {
         echo " $i ganjil";
+        echo "</br>";
     }
-echo "</br>";
 }
+echo "</br>";
+echo "<hr>";
 
+// ARRAY
+//index itu diawal dengan angka 0
+
+$buah = ['jagung', 'jeruk', 'anggur', 'apel', 'pisang',true];
+
+// menampilkan value dengan index ke 2
+echo $buah[2];
+
+echo "</br>";
+echo "<hr>";
+
+foreach ($buah as $value) {
+    var_dump($value);
+    echo "</br>";
+   
+}
 
 ?>
