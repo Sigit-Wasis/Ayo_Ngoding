@@ -173,12 +173,111 @@ echo "<hr>";
  }
  echo "</br>";
  echo "<hr>";
- 
 
+ // PENGKODNDISIAN SWITCH CASE
+ echo "PENGKONDISIAN SWITCH CASE";
+ echo "</br>";
+ echo "<hr>";
+ $switch = "Januari";
 
+ switch ($switch) {
+    case 'Januari':
+        echo "ini bulan januari";
+        break;
+        case 'Februari':
+        echo "ini bulan Februari";
+            break;
+            case 'Maret':
+         echo "ini bulan Maret";
+                break;
+        default:
+        echo "Tidak Ada Bulan";
+        break;
+        echo "</br>";
+        echo "<hr>";
 
+ }
 
+ //PERULANGAN FOR
 
+ echo "PERULANGAN FOR";
+ echo "</br>";
+ echo "<hr>";
 
+$f = 10;
+for ($i=0; $i < 10 ; $i++) {
+    echo " Microdata ";
+    echo $i;
+    echo "</br>";
+}
+echo "</br>";
+echo "<hr>";
+
+//Buat pengulangan dari 10 sampai 1
+//Microdata 10
+//Microdata 9
+//Microdata 8
+//Microdata 7
+//Microdata 6
+//Microdata 5
+//Microdata 4
+//Microdata 3
+//Microdata 2
+//Microdata 1
+
+$f = 10;
+for ($i=20; $i <= $f; $i--) {
+    echo " Microdata ";
+    echo $f - $i;
+    echo "</br>";
+}
+echo "</br>";
+echo "<hr>";
+
+//Buat perulangan 1 sampai 10 dengan tampilkan angka perulangan bilangan genap atau bilangan ganjil 
+//hasilnya 
+//1 adalah bilangan ganjil
+//2 adalah bilangan genap 
+//.....
+//10 adalah bilangan genap
+
+$f = 10;
+for ($f=1; $f<=10; $f++) {
+    if ($f % 2 == 1 )
+{
+    echo $f."<ini bilangan ganjil>";
+}
+echo "</br>";
+echo "<hr>";
+}
+for ($h=1; $h <= 10; $h++) {
+    if (($h % 2) ==0){
+        echo "bilangan genap";
+    }else{
+        echo "bilangan ganjil";
+    }
+    echo $h;
+    echo "</br>";
+    echo "<hr>";
+}
+// ARRAY []
+//index itu diawali dengan angka 0,index = key = kunci 
+//mangga 0
+//apel 1
+//jeruk 2
+//durian 3
+//pisang 4
+$buah = ['mangga','apel','jeruk','durian','pisang',78,true];
+// menampilkan value dengan index ke 2
+echo $buah [2]; //hasilnya adalah jeruk
+
+//PERULANGAN FOREACH
+//ARRAY DENGAN LOOPING
+foreach ($buah as $value) {
+    var_dump($value);
+    echo "</br>";
+    //untuk menambahkan array array_push
+    $buah[7] = "semangka";
+}
 
 ?>
