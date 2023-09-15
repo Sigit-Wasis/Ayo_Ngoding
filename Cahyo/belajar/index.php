@@ -1,7 +1,7 @@
 <?php
 
 //SINTAK DASAR
-echo "Hi";
+echo "Hi Mas Bro";
 echo "</br>";
 echo "<hr>";
 //VARIABEL
@@ -174,5 +174,111 @@ if ($c <= $d) {
 } else {
     echo "Salah";
 }
+
+echo "</br>";
+echo "<hr>";
+
+// PENGKONDISIAN SWITCH CASE
+$bulan = "Januari";
+
+switch ($bulan) {
+    case 'Januari':
+        echo "Ini bulan Januari";
+        break;
+        
+    case 'Februari':
+        echo "Ini bulan Februari";
+        break;
+
+    case 'Maret':
+        echo "Ini bulan Maret";
+        break;
+
+    default:
+    echo "Tidak Ada Bulan";
+    break;
+}
+
+echo "</br>";
+echo "<hr>";
+
+//PERULANGAN FOR
+$f = 10;
+for ($i=0; $i < $f; $i++) { 
+   echo "BISMILLAH ";
+   echo $i;
+   echo "</br>";
+}
+
+echo "</br>";
+echo "<hr>";
+
+$f = 10;
+for ($i=0; $i <= $f; $i++) { 
+   echo "BISMILLAH ";
+   echo $f - $i;
+   echo "</br>";
+}
+
+echo "</br>";
+echo "<hr>";
+
+for ($r = 10; $r >= 1; $r--) { 
+   echo "BISMILLAH ";
+   echo $r;
+   echo "</br>";
+}
+
+echo "</br>";
+echo "<hr>";
+
+// BUAT PERULANGAN DARI 10 SAMPAI 1
+// BISMILLAH 10
+// BISMILLAH 9
+// BISMILLAH 8
+// BISMILLAH 7
+// BISMILLAH 6
+// BISMILLAH 5
+// BISMILLAH 4
+// BISMILLAH 3
+// BISMILLAH 2
+// BISMILLAH 1
+
+// BUAT PERULANGAN 1 SAMPAI 10 DENGAN TAMPILKAN ANGKA PERULANGAN BILANGAN GENAP ATAU BILANGAN GANJIL
+// HASILNYA
+// 1 ADALAH BILANGAN GANJIL
+// 2 ADALAH BILANGAN GENAP
+// .....
+
+$f = 10;
+for ($i = 0; $i <= $f; $i++) {
+    if ($i % 2 == 0) {
+        echo "$i ADALAH BILANGAN GENAP";
+    } else {
+        echo "$i ADALAH BILANGAN GANJIL";
+    }
+    echo "</br>";
+    // % sisa bagi atau modulus
+    // bilangan genap adalah bilangan yang habis kalau dibagi 2
+}
+
+echo "</br>";
+echo "<hr>";
+
+// ARRAY []
+// index itu di awali dengan angka 0
+$buah = ['Rambutan','Kelengkeng','Durian', true];
+// menampilkan value dengan index ke 2
+echo $buah[2];
+$buah[5] = "aaaaaaaaaaaaa";
+
+echo "</br>";
+echo "<hr>";
+
+foreach ($buah as $value) {
+    var_dump($value);
+    echo "</br>";
+}
+
 
 ?>
