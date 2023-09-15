@@ -252,7 +252,7 @@ echo "<hr>";
 // ARRAY
 //index itu diawal dengan angka 0
 
-$buah = ['jagung', 'jeruk', 'anggur', 'apel', 'pisang',true];
+$buah = ['jagung', 'jeruk', 'anggur', 'apel', 'pisang','durian',true];
 
 // menampilkan value dengan index ke 2
 echo $buah[2];
