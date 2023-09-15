@@ -232,7 +232,7 @@ foreach ($buah as $value) {
     var_dump($value);
     echo "</br>";
 }
-
+echo "</br>";
 //konstanta
 echo "</br>";
 const namaasf = "Sofyan Hadi";
