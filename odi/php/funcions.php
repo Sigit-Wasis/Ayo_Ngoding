@@ -12,7 +12,7 @@ function Luaspersegi() {
   $keliling_persegi = 4 * $sisi;
   $luas_persegi = $sisi * $sisi;
    
-  echo "sisi persegi = $sisi <br>";
+  echo "Sisi persegi = $sisi <br>";
   echo "Keliling persegi = (4 x $sisi) = $keliling_persegi <br>";
   echo "Luas persegi = ($sisi x $sisi) = $luas_persegi <br>";
 
@@ -41,9 +41,14 @@ function Luaspersegi() {
   echo "<br>";
   echo "<hr>";
 
-  function luasBelahKetupat($diagonal1, $diagonal2) {
+}
+Luaspersegi();
+?>
+
+<?php
+function luasBelahKetupat($diagonal1, $diagonal2) {
     // Menghitung luas belah ketupat
-    $luas = ($diagonal1 * $diagonal2 * 0.5) ;
+    $luas = (0.5 * $diagonal1 * $diagonal2) ;
     return $luas;
     }
 
@@ -53,6 +58,4 @@ function Luaspersegi() {
 
   echo "Luas belah ketupat dengan diagonal $diagonal1 dan $diagonal2 adalah: " . luasBelahKetupat($diagonal1, $diagonal2,) . "<br>";
 
-}
-Luaspersegi();
 ?>
