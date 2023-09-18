@@ -5,16 +5,24 @@
   <style>
     body {
       font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
     }
     
     .container {
-      width: 300px;
-      margin: 250px auto;
-      padding: 20px;
-      border: 1px solid #ccc;
+      display: flex;
+      max-width: 800px;
+      margin: 100px auto;
       background-color: #f4f4f4;
+      border: 1px solid #ccc;
+      border-radius: 15px;
     }
-    
+
+    .left {
+      flex: 1;
+      padding: 20px;
+    }
+
     h2 {
       text-align: center;
     }
@@ -43,18 +51,38 @@
       border-radius: 4px;
       cursor: pointer;
     }
+
+    .right {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .right img {
+      width: 225px;
+      height: auto;
+      border-top-right-radius: 15px;
+      border-bottom-right-radius: 15px;
+    }
+    
   </style>
 </head>
 <body>
   <div class="container">
-    <h2>Login</h2>
-    <form>
-      <label for="username">Username:</label>
-      <input type="text" id="username" name="username" required>
-      <label for="password">Password:</label>
-      <input type="password" id="password" name="password" required>
-      <input type="submit" value="Login">
-    </form>
+    <div class="left">
+      <h2>Login</h2>
+      <form>
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+        <input type="submit" value="Login">
+      </form>
+    </div>
+    <div class="right">
+      <img src="https://www.aisyahuniversity.ac.id/wp-content/uploads/2022/12/LOGO-Universitas-Aisyah-Pringsewu-Lampung.png" alt="">
+    </div>
   </div>
 </body>
 </html>
