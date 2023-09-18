@@ -228,10 +228,89 @@ for ($m = 1; $m <= 10; $m++) {
     echo "</br>";
     echo "<hr>";
 
+    // MENCARI LUAS PERSEGI PANJANG
+    function Luaspersegipanjang () {
+        $panjang = 10;
+        $lebar = 5;
+
+        echo "menghitung luas persegi panjang";
+        echo "<hr>";
+        echo "panjang : $panjang cm <br>";
+        echo "lebar : $lebar cm <br>";
+        echo "luas persegi =" , ($panjang *$lebar);
+        echo "cm"; 
+    }
+
+    Luaspersegipanjang();
+    echo "</br>";
+    echo "<hr>";
+
+    // MENCARI LUAS SEGITIGA 
+    function segitiga () {
+        $alas = 10;
+        $tinggi = 20;
+
+        echo "menghitung luas segitiga";
+        echo "<hr>";
+        echo "alas : $alas cm <br>";
+        echo "lebar : $tinggi cm <br>";
+        echo "luas persegi =" . ($alas *$tinggi);
+        
+
+    }
+    segitiga();
+    echo "</br>";
+    echo "<hr>";
+
+    // MENCARI LUAS TRAPESIUM
+    function trapesium() {
+
+    
+        $sisiA = 10;
+        $sisiB = 12;
+        $tinggiT = 10;
+
+        echo "menghitung luas trapesium";
+        echo "<hr>";
+        echo "sisi 1 : $sisiA cm <br>";
+        echo "sisi 2 : $sisiB cm <br>";
+        echo "tinggi  : $tinggiT cm <br>";
+        echo "luas trapesium = " . (0.5 * ($sisiA + $sisiB)*$tinggiT)." cm";
+    
+
+    }
+
+    trapesium();
+    echo "</br>";
+    echo "<hr>";
+
+    // MENGHITUNG VOLUME KUBUS
+    $sisi = 10;
+$volume = $sisi * $sisi * $sisi;
+echo "Volume Kubus: " . $volume;
+
+echo "</br>";
+echo "<hr>";
+
+// MENGHITUNG LUAS PERMUKAAN BOLA
+
+
+$r = 3; // Ganti nilai jari-jari sesuai kebutuhan
+$volume_bola = (4/3) * M_PI * pow($r, 3);
+$luas_permukaan_bola = 4 * M_PI * pow($r, 2);
+
+echo "Volume Bola: " . $volume_bola;
+echo "Luas Permukaan Bola: " . $luas_permukaan_bola;
+
+echo "</br>";
+echo "<hr>";
 
 //KONSTANTA
 const nama = "Roy Priandana ";
 echo nama;
+
+echo "</br>";
+echo "<hr>";
 
 ?>
 

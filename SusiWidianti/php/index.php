@@ -285,7 +285,7 @@ echo"</hr>";
 $buah =  ['mangga','apel','jeruk','nanas','durian','semangka',78,true];
 //menampilkan valeu dengan index ke 2
 echo $buah [4]; // hasilnya adalah jeruk
-$buah[4]= "semangka"
+$buah[4]= "semangka";
 echo"</br>";
 echo"</hr>";
 
@@ -293,5 +293,78 @@ echo"</hr>";
 foreach ($buah as $valeu){
     var_dump ($valeu);
     echo"</br>";
+    echo "<hr>";
 }
+
+echo "Rumus Trapesium";
+echo"</br>";
+function volumeTrapesium($panjangAlas, $panjangSisiSejajar, $tinggiTrapesium, $tinggiSegitiga) {
+    // Menghitung volume trapesium
+    $volume = (1/2) * $panjangAlas * $panjangSisiSejajar * $tinggiTrapesium * $tinggiSegitiga;
+    
+    return $volume;
+}
+
+// Contoh penggunaan fungsi
+$panjangAlas = 8; 
+$panjangSisiSejajar = 6; 
+$tinggiTrapesium = 4; 
+$tinggiSegitiga = 2;
+
+$hasilVolume = volumeTrapesium($panjangAlas, $panjangSisiSejajar, $tinggiTrapesium, $tinggiSegitiga);
+echo "Hasil luas trapesium </br>";
+echo "Diketahui: <br>";
+echo "panjang alas = $panjangAlas</br>";
+echo " panjang sisi sejajar = $panjangSisiSejajar</br>";
+echo "tinggi trapesium = $tinggiTrapesium</br>";
+echo "tinggi Segitiga = $tinggiSegitiga</br>";
+echo "Volume trapesium adalah: " . $hasilVolume;
+echo "</br>";
+echo"<hr>";
+
+
+
+function volumeBola($jariJari) {
+    // Menghitung volume bola
+echo"Rumus Menghitung Volume Bola";
+    $volume = (4/3) * M_PI * pow($jariJari, 3);
+    return $volume;
+   
+}
+
+// Contoh penggunaan fungsi
+$jariJari = 5;
+
+$hasilVolume = volumeBola($jariJari);
+echo "Hasil Hitung Volume Bola </br>";
+echo "Diketahui: <br>";
+echo "Jari-jari = $jariJari <br>";
+echo "Volume bola adalah: " . $hasilVolume;
+echo "</br>";
+echo "<hr>";
+
+
+function volumePrismaSegiLima($panjangAlas, $panjangApotem, $tinggiPrisma) {
+    // Menghitung volume prisma segi lima
+    $volume = (5/4) * $panjangAlas * $panjangApotem * $tinggiPrisma;
+    
+    return $volume;
+}
+
+//Prisma Segi Lima
+echo "Rumus Bangun Ruang Prisma Segi Lima</br>";
+$panjangAlas = 6; 
+$panjangApotem = 4; 
+$tinggiPrisma = 8; 
+
+$hasilVolume = volumePrismaSegiLima($panjangAlas, $panjangApotem, $tinggiPrisma);
+echo "Hasil hitung volume prisma segi lima yaitu <br>";
+echo "Diketahui: <br>";
+echo "Panjang Alas = $panjangAlas <br>";
+echo "Panjang Apotem = $panjangApotem <br>";
+echo "Tinggi Prisma = $tinggiPrisma <br>";
+echo "Volume prisma segi lima adalah: " . $hasilVolume;
+echo "<hr>";
+
+
 ?>
