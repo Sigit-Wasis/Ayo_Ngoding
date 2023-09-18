@@ -279,6 +279,142 @@ foreach ($buah as $value) {
     var_dump($value);
     echo "</br>";
 }
+echo "</br>";
+echo "<hr>";
+
+// ARRAY DENGAN LOOPING
+
+// PERULANGAN WHILE
+
+// PERULANGAN DO WHILE
+
+// PERULANGAN FOREACH
+
+// FUNCTION
+echo "FUNCTION";
+echo "<hr>";
+function tampilkan_nama(){ // pembuatan function
+	echo "Nama saya Mbuh"; // isi function
+}
+ 
+tampilkan_nama(); // panggilan function
+
+echo "</br>";
+echo "<hr>";
+
+//Function dengan Parameter
+function penjumlahan($angkaC, $angkaA){
+    $jumlah = $angkaC + $angkaA; 
+	echo "Hasil : $jumlah"; 
+}
+ 
+penjumlahan(5, 3); 
+
+echo "</br>";
+echo "<hr>";
+
+//Function PHP mengembalikan Nilai / Value
+//function hitung_umur($thn_lahir, $thn_sekarang){
+    //$umur = $thn_sekarang - $thn_lahir; 
+	//return $umur; 
+//}
+//echo "Umur Saya Sekarang " . hitung_umur (2002, 2023) . " tahun"; 
+
+echo "</br>";
+echo "<hr>";
+
+// Memanggil Fungsi didalam Function
+function hitung_umur($thn_lahir, $thn_sekarang){
+    $umur = $thn_sekarang - $thn_lahir; 
+    return $umur;
+}
+
+function perkenalan($nama, $tahun_lahir, $tahun_sekarang, $salam = "Selamat Pagi"){
+    echo $salam. " </br>";
+    echo "Perkenalkan Nama Saya " . $nama . "</br>";
+    // Memanggil function hitung_umur dengan parameter tahun lahir dan tahun sekarang
+    echo "Umur Saya Sekarang " . hitung_umur($tahun_lahir, $tahun_sekarang) . " tahun</br>"; 
+    echo "Senang bisa mengenal anda</br>";
+}
+
+// Memanggil function perkenalan dengan parameter nama, tahun lahir, dan tahun sekarang
+perkenalan("Uvuvwevwevwe Onyetenyetwevwe Ugwemubwem Ossas", 2002, 2023);
+
+echo "</br>";
+echo "<hr>";
+
+//Luas Bangun Persegi Panjang
+echo "Luas Bangun Datar</br>";
+echo "<hr>";
+
+echo "Belah Ketupat </br>";
+function hitung_luas_belah_ketupat($diagonal1, $diagonal2) {
+    $luas = 0.5 * $diagonal1 * $diagonal2;
+    return $luas;
+}
+
+$diagonal1 = 9; 
+$diagonal2 = 4;    
+$luas_belah_ketupat = hitung_luas_belah_ketupat($diagonal1, $diagonal2);
+
+echo "Diagonal 1: $diagonal1<br>";
+echo "Diagonal 2: $diagonal2<br>";
+echo "Luas Belah Ketupat: $luas_belah_ketupat";
+
+echo "</br>";
+echo "<hr>";
+
+echo "Trapesium </br>";
+function hitung_luas_trapesium($sisi1, $sisi2, $tinggi) {
+    $luas = 0.5 * ($sisi1 + $sisi2) * $tinggi;
+    return $luas;
+}
+
+$sisi1_trapesium = 8;
+$sisi2_trapesium = 6;
+$tinggi_trapesium = 4;
+
+$luas_trapesium = hitung_luas_trapesium($sisi1_trapesium, $sisi2_trapesium, $tinggi_trapesium);
+
+echo "Luas Trapesium: $luas_trapesium";
+
+echo "</br>";
+echo "<hr>";
+
+echo "</br>";
+echo "<hr>";
+
+echo "Luas Bangun Volume</br>";
+echo "<hr>";
+
+echo "Kubus </br>";
+function hitung_volume_kubus($sisi) {
+    $volume = pow($sisi, 3);
+    return $volume;
+}
+
+$sisi_kubus = 5;
+
+$volume_kubus = hitung_volume_kubus($sisi_kubus);
+
+echo "Volume Kubus: $volume_kubus";
+
+echo "</br>";
+echo "<hr>";
+
+echo "Tabung </br>";
+function hitung_volume_tabung($jari_jari, $tinggi) {
+    $volume = M_PI * pow($jari_jari, 2) * $tinggi;
+    return $volume;
+}
+
+$jari_jari_tabung = 5;
+$tinggi_tabung = 10;
+
+$volume_tabung = hitung_volume_tabung($jari_jari_tabung, $tinggi_tabung);
+
+echo "Volume Tabung: $volume_tabung";
+
 
 
 ?>
