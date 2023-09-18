@@ -219,7 +219,7 @@ echo "</br>";
 $buah = ['mangga', 'apel','jeruk','durian','pisang',16, true];
 
 echo $buah[3];
-$buah[4]="semangkat";
+$buah[4]="semangka";
 
 
 echo "<hr/>";
