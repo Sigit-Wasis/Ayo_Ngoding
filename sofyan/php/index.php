@@ -320,7 +320,7 @@ function Prismasegitiga() {
     $sisi3= 4;
     $tinggiPrisma = 8;
 
-    echo "menghitung bangun ruang prisma segitiga";
+    echo "Menghitung Bangun Ruang Prisma Segitiga";
     echo "<hr>";
 
     echo "Luas Permukaan alas segitiga";
