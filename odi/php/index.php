@@ -253,17 +253,7 @@ echo nama;
 echo "</br>";
 echo "<hr>";
 
-function luasBelahKetupat($diagonal1, $diagonal2) {
-    // Menghitung luas belah ketupat
-    $luas = ($diagonal1 * $diagonal2) / 2;
-    return $luas;
-}
 
-function kelilingBelahKetupat($sisi) {
-    // Menghitung keliling belah ketupat
-    $keliling = 4 * $sisi;
-    return $keliling;
-}
 
 // Contoh penggunaan fungsi
 $diagonal1 = 8;
