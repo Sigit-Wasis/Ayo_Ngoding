@@ -239,4 +239,117 @@ const namaasf = "Sofyan Hadi";
 echo namaasf; 
 echo "</br>";
 echo "<hr>";
+echo " <br>";
+echo " <br>";
+//mencari luas persegi panjang
+function luasPersegipanjang() {
+    $panjang = 7;
+    $lebar = 5;
+
+    echo "Menghitung Luas Persegi Panjang";
+    echo "<hr>";
+    echo "panjang : $panjang cm <br>";
+    echo "lebar : $lebar cm <br>";
+    echo "Luas Persegi = " . ($panjang * $lebar);
+    echo " cm";
+}
+
+luasPersegipanjang();
+echo " <br>";
+echo " <br>";
+
+
+//mencari luas segitiga
+function Segitiga() {
+    $alas = 6;
+    $tinggi = 8;
+
+    echo "Menghitung Luas segitiga";
+    echo "<hr>";
+    echo "Alas : $alas cm <br>";
+    echo "Tinggi : $tinggi cm <br>";
+    echo "Luas Segitiga = " . (0.5 * $alas * $tinggi)." cm";
+}
+
+Segitiga();
+echo " <br>";
+echo " <br>";
+
+//mencari luas Trapesium
+function Trapesium() {
+    $sisiA = 6;
+    $sisiB = 8;
+    $tinggiT =10;
+
+    echo "Menghitung Luas Trapesium";
+    echo "<hr>";
+    echo "Sisi 1 : $sisiA cm <br>";
+    echo "Sisi 2 : $sisiB cm <br>";
+    echo "Tinggi : $tinggiT cm <br>";
+    echo "Luas Trapesium = " . (0.5 * ($sisiA + $sisiB)*$tinggiT)." cm";
+}
+
+Trapesium();
+echo " <br>";
+echo " <br>";
+
+//mencari luas layang-layang
+function Layanglayang() {
+    $diagonala1 = 6;
+    $diagonala2 = 8;
+
+    echo "Menghitung Luas Layang-layang";
+    echo "<hr>";
+    echo "Diagonal 1: $diagonala1 cm <br>";
+    echo "Diagonal 2: $diagonala2 cm <br>";
+    echo "Luas Layang-layang = " . (0.5 * $diagonala1 * $diagonala2) . " cm²";
+}
+
+Layanglayang();
+
+echo " <br>";
+echo " <br>";
+
+//mencari luar bangun ruang prisma segitiga
+function Prismasegitiga() {
+    $alasP = 6;
+    $tinggiP = 8;
+
+    $sisi1= 4;
+    $sisi2= 4;
+    $sisi3= 4;
+    $tinggiPrisma = 8;
+
+    echo "menghitung bangun ruang prisma segitiga";
+    echo "<hr>";
+
+    echo "Luas Permukaan alas segitiga";
+    echo "<br>";
+    echo "Alas : $alasP cm <br>";
+    echo "Tinggi : $tinggiP cm <br>";
+    $totalpermukaan = 0.5 * $alasP * $tinggiP;
+    echo "Luas Permukaan Prisma = $totalpermukaan " ." cm <br>";
+    echo "<br>";
+
+
+    echo "Luas Permukaan sisi-sisi prisma <br>";
+    echo "Sisi 1 : $sisi1 cm <br>";
+    echo "Sisi 2 : $sisi2 cm <br>";
+    echo "Sisi 3 : $sisi3 cm <br>";
+    echo "Tinggi : $tinggiPrisma cm <br>";
+    $toatalsisiPrisma = ($sisi1+$sisi2+$sisi3) * $tinggiPrisma;
+    echo "Luas Sisi - Sisi Prisma = $toatalsisiPrisma" ." cm <br>";
+    echo "<br>";
+
+    echo "Luas Permukaan Total <br>";
+    echo "Luas Permukaan Prisma = $totalpermukaan " ." cm <br>";
+    echo "Luas Sisi - Sisi Prisma = $toatalsisiPrisma" ." cm <br>";
+    echo "Total Luas = ". 2*($totalpermukaan+$toatalsisiPrisma)." cm <br>";
+
+}
+
+Prismasegitiga();
+echo " <br>";
+echo " <br>";
+
 ?>
