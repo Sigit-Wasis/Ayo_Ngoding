@@ -1,11 +1,12 @@
 <?php
 function hitungluaspersegipanjang ($Panjang, $Lebar){
+    // UNTUK MENGHITUNG
     $Luas = $Panjang * $Lebar;
     return $Luas;
 
 }
 
-// MENGHITUNG LUAS PERSEGI PANJANG
+// MENENTUKAN NILAI LUAS PERSEGI PANJANG
 $Panjang = 6;
 $Lebar = 3;
 
