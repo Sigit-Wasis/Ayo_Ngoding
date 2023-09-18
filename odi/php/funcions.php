@@ -10,14 +10,14 @@ function Luaspersegi() {
   $lebar = 10;
  
   $keliling_persegi = 4 * $sisi;
-  $luas_persegi = $panjang * $lebar;
+  $luas_persegi = $sisi * $sisi;
    
   echo "Panjang sisi persegi = $sisi <br>";
   echo "Keliling persegi = (4 x $sisi) = $keliling_persegi <br>";
-  echo "Luas persegi = ($panjang x $lebar) = $luas_persegi <br>";
+  echo "Luas persegi = ($sisi x $sisi) = $luas_persegi <br>";
 
-echo "<br>";
-echo "<hr>";
+  echo "<br>";
+  echo "<hr>";
 
   echo "Keliling dan Luas Segitiga";
   echo "<hr>";
@@ -39,19 +39,19 @@ echo "<hr>";
   echo "Luas segitiga = ". round($luas_segitiga,2) ."<br>";
 
   echo "<br>";
-echo "<hr>";
+  echo "<hr>";
 
   function luasBelahKetupat($diagonal1, $diagonal2) {
     // Menghitung luas belah ketupat
     $luas = ($diagonal1 * $diagonal2 * 0.5) ;
     return $luas;
-}
+    }
 
-// Contoh penggunaan fungsi
-$diagonal1 = 8;
-$diagonal2 = 6;
+    // Contoh penggunaan fungsi
+    $diagonal1 = 8;
+    $diagonal2 = 6;
 
-echo "Luas belah ketupat dengan diagonal $diagonal1 dan $diagonal2 adalah: " . luasBelahKetupat($diagonal1, $diagonal2,) . "<br>";
+  echo "Luas belah ketupat dengan diagonal $diagonal1 dan $diagonal2 adalah: " . luasBelahKetupat($diagonal1, $diagonal2,) . "<br>";
 
 }
 Luaspersegi();
