@@ -312,34 +312,39 @@ echo " <br>";
 
 //mencari luar bangun ruang prisma segitiga
 function HitungLuasPrismaSegitiga($alasP, $tinggiP, $sisi1, $sisi2, $sisi3, $tinggiPrisma) {
-    echo "Menghitung Bangun Ruang Prisma Segitiga";
-    echo "<hr>";
+    $hasil = [];
 
-    echo "Luas Permukaan alas segitiga";
-    echo "<br>";
-    echo "Alas : $alasP cm <br>";
-    echo "Tinggi : $tinggiP cm <br>";
+    $hasil[] = "Menghitung Bangun Ruang Prisma Segitiga";
+    $hasil[] = "<hr>";
+
+    $hasil[] = "Luas Permukaan alas segitiga";
+    $hasil[] = "<br>";
+    $hasil[] = "Alas : $alasP cm <br>";
+    $hasil[] = "Tinggi : $tinggiP cm <br>";
     $totalpermukaan = 0.5 * $alasP * $tinggiP;
-    echo "Luas Permukaan Prisma = $totalpermukaan cm <br>";
-    echo "<br>";
+    $hasil[] = "Luas Permukaan Prisma = $totalpermukaan cm <br>";
+    $hasil[] = "<br>";
 
-    echo "Luas Permukaan sisi-sisi prisma <br>";
-    echo "Sisi 1 : $sisi1 cm <br>";
-    echo "Sisi 2 : $sisi2 cm <br>";
-    echo "Sisi 3 : $sisi3 cm <br>";
-    echo "Tinggi : $tinggiPrisma cm <br>";
+    $hasil[] = "Luas Permukaan sisi-sisi prisma <br>";
+    $hasil[] = "Sisi 1 : $sisi1 cm <br>";
+    $hasil[] = "Sisi 2 : $sisi2 cm <br>";
+    $hasil[] = "Sisi 3 : $sisi3 cm <br>";
+    $hasil[] = "Tinggi : $tinggiPrisma cm <br>";
     $toatalsisiPrisma = ($sisi1 + $sisi2 + $sisi3) * $tinggiPrisma;
-    echo "Luas Sisi - Sisi Prisma = $toatalsisiPrisma cm <br>";
-    echo "<br>";
+    $hasil[] = "Luas Sisi - Sisi Prisma = $toatalsisiPrisma cm <br>";
+    $hasil[] = "<br>";
 
-    echo "Luas Permukaan Total <br>";
-    echo "Luas Permukaan Prisma = $totalpermukaan cm <br>";
-    echo "Luas Sisi - Sisi Prisma = $toatalsisiPrisma cm <br>";
-    echo "Total Luas = " . 2 * ($totalpermukaan + $toatalsisiPrisma) . " cm <br>";
+    $hasil[] = "Luas Permukaan Total <br>";
+    $hasil[] = "Luas Permukaan Prisma = $totalpermukaan cm <br>";
+    $hasil[] = "Luas Sisi - Sisi Prisma = $toatalsisiPrisma cm <br>";
+    $hasil[] = "Total Luas = " . 2 * ($totalpermukaan + $toatalsisiPrisma) . " cm <br>";
+
+    return implode("\n", $hasil);
 }
 
 
-HitungLuasPrismaSegitiga(6,8, 4, 4, 4, 10);
+$hasilPerhitungan = HitungLuasPrismaSegitiga(6,8, 4, 4, 4, 10);
+echo $hasilPerhitungan;
 echo " <br>";
 echo " <br>";
 
