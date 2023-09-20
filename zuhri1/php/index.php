@@ -278,6 +278,48 @@ foreach ($buah as $value) {
     echo "</br>";
     //untuk menambahkan array array_push
     $buah[7] = "semangka";
+    echo "</br>";
+    echo "<hr>";
+
 }
+echo "FUNCTION";
+echo "</br>";
+echo "<hr>";  
+
+function volumePrismaSegitiga($panjangAlasSegitiga, $tinggiSegitiga, $tinggiPrisma) {
+    // Menghitung volume prisma segitiga
+    $volume = (1/2) * $panjangAlasSegitiga * $tinggiSegitiga * $tinggiPrisma;
+    
+    return $volume;
+
+
+}
+
+// Contoh penggunaan fungsi
+$panjangAlasSegitiga = 6; // Ganti dengan panjang alas segitiga yang sesuai
+$tinggiSegitiga = 4; // Ganti dengan tinggi segitiga yang sesuai
+$tinggiPrisma = 8; // Ganti dengan tisnggi prisma yang sesuai
+
+$hasilVolume = volumePrismaSegitiga($panjangAlasSegitiga, $tinggiSegitiga, $tinggiPrisma);
+echo "Volume prisma segitiga adalah: " . $hasilVolume;
+echo "</br>";
+echo "<hr>";
+
+function hitung_luas_belah_ketupat($diagonal1, $diagonal2) {
+    $luas = 0.5 * $diagonal1 * $diagonal2;
+    return $luas;
+}
+
+$diagonal1 = 10; 
+$diagonal2 = 8;    
+
+$luas_belah_ketupat = hitung_luas_belah_ketupat($diagonal1, $diagonal2);
+
+echo "Diagonal 1: $diagonal1<br>";
+echo "Diagonal 2: $diagonal2<br>";
+echo "Luas Belah Ketupat: $luas_belah_ketupat";
+
+
+
 
 ?>

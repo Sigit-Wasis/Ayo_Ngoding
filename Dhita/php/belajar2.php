@@ -13,9 +13,9 @@ function sum (int $alas, $tinggi)
     echo "Luas $alas x $tinggi = $luas " . PHP_EOL;
 }
 
-Sum(5, 10);
+sum(5, 10);
 echo "<br/>";
- echo "<hr/>";
+echo "<hr/>";
 
 
 function addNumbers(int $panjang, $lebar, $tinggi)
