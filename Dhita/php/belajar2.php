@@ -9,15 +9,14 @@ sayHello();
 
 function sum (int $alas, $tinggi)
 {
-    $luas = $alas * $tinggi;
+    $luas = 1/2 * $alas * $tinggi;
     echo "Luas $alas x $tinggi = $luas " . PHP_EOL;
 }
 
-Sum(5, 10);
+sum(5, 10);
 echo "<br/>";
- echo "<hr/>";
+echo "<hr/>";
 
-// 2 x (panjang x lebar + panjang x tinggi + lebar x tinggi)
 
 function addNumbers(int $panjang, $lebar, $tinggi)
 {
@@ -29,3 +28,4 @@ function addNumbers(int $panjang, $lebar, $tinggi)
    echo addNumbers(5, 10, 10); 
 //  echo "Hitung Luas Balok Menggunakan $panjang x $lebar + $panjang x $tinggi + $lebar x $tinggi adalah";
 ?>
+

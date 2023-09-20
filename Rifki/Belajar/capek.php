@@ -1,32 +1,23 @@
 <?php
-function hitungLuasSegitiga($alas, $tinggi) {
-    $luas = (1/2) * $alas * $tinggi;
-    return $luas;
-}
-
-// Contoh penggunaan fungsi:
-$alas = 4;
-$tinggi = 5;
-
-$luasSegitiga = hitungLuasSegitiga($alas, $tinggi);
-
-echo "Luas segitiga dengan alas $alas dan tinggi $tinggi adalah: $luasSegitiga";
-
-echo "</br>";
-echo "<hr>";
-
 function hitungluaspersegipanjang ($Panjang, $Lebar){
-    $Luas = ($Panjang * $Lebar);
+    // UNTUK MENGHITUNG
+    $Luas = $Panjang * $Lebar;
     return $Luas;
 
 }
+
+// MENENTUKAN NILAI LUAS PERSEGI PANJANG
 $Panjang = 6;
-$Lebar = 5;
+$Lebar = 3;
 
 $luaspersegipanjang = hitungluaspersegipanjang($Panjang, $Lebar);
 
-echo "Luas persegi panjang dengan lebar $Panjang dan panjang $Lebar adalah: $luaspersegipanjang";
+// MENAMPILKAN HASIL
+
+echo "Luas persegi panjang dengan lebar $Panjang * $Lebar = $luaspersegipanjang";
 
 echo "</br>";
 echo "<hr>";
+
+
 ?>
