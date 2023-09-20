@@ -295,7 +295,7 @@ echo "<hr>";
 // MENGHITUNG LUAS PERMUKAAN BOLA
 
 
-$r = 3; // Ganti nilai jari-jari sesuai kebutuhan
+$r = 3; 
 $volume_bola = (4/3) * M_PI * pow($r, 3);
 $luas_permukaan_bola = 4 * M_PI * pow($r, 2);
 
