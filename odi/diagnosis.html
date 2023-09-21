@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagnosis Penyakit Anak</title>
+</head>
+<body>
+    <h1>Sistem Diagnosis Penyakit Anak</h1>
+    <p>Masukkan gejala yang diamati:</p>
+    <form id="diagnosisForm">
+        <label for="gejala1">Gejala 1:</label>
+        <input type="checkbox" id="gejala1" name="gejala" value="Gejala 1">
+        <label for="gejala2">Gejala 2:</label>
+        <input type="checkbox" id="gejala2" name="gejala" value="Gejala 2">
+        <!-- Tambahkan lebih banyak gejala sesuai kebutuhan -->
+        <button type="button" onclick="diagnosaPenyakit()">Diagnosa</button>
+    </form>
+    <h2>Hasil Diagnosa:</h2>
+    <div id="hasilDiagnosa"></div>
+
+    <script>
+        function diagnosaPenyakit() {
+            // Mendapatkan gejala yang dipilih oleh pengguna
+            const gejalaCheckbox = document.querySelectorAll('input[name="gejala"]:checked');
+            const gejalaTerpilih = Array.from(gejalaCheckbox).map(checkbox => checkbox.value);
+
+            // Lakukan diagnosa berdasarkan gejala (implementasi sesuai aturan pengetahuan)
+            // Contoh sederhana: Jika Gejala 1 dan Gejala 2 terpilih, maka mungkin penyakit A
+            let hasilDiagnosa = "Hasil diagnosa: ";
+            if (gejalaTerpilih.includes("Gejala 1") && gejalaTerpilih.includes("Gejala 2")) {
+                hasilDiagnosa += "Penyakit A";
+            } else {
+                hasilDiagnosa += "Tidak ada diagnosa yang ditemukan.";
+            }
+
+            // Tampilkan hasil diagnosa pada halaman
+            document.getElementById('hasilDiagnosa').textContent = hasilDiagnosa;
+        }
+    </script>
+</body>
+</html>
