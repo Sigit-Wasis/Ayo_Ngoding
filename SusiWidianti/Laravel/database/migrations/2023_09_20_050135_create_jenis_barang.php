@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nama_jenis_barang');
             $table->string('deskripsi_barang');
-            $table->foreignId('craeted_by')->notNull()->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('created_by')->notNull()->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('updated_by')->notNull()->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();  //Field created_at dan update sudah otomatis ke generate di timestamps
             
