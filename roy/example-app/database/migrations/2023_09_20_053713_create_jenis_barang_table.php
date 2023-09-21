@@ -15,7 +15,6 @@ class CreateJenisBarangTable extends Migration
     {
         Schema::create('jenis_barang', function (Blueprint $table) {
             $table->id();
-            $table->integer('id_jenis_barang')->unique();
             $table->string('nama_barang');
             $table->string('deskripsi');
             $table->foreignId('created_by')->notNull()->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
