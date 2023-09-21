@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('mst_jenis_barang', function (Blueprint $table) {
             $table->id();
-            $table->string('nama');
+            $table->string('nama_barang');
             $table->string('deskripsi');
             $table->foreignId('created_by')->notNull()->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('updated_by')->notNull()->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
