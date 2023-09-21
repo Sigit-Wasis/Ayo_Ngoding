@@ -291,8 +291,6 @@ function volumePrismaSegitiga($panjangAlasSegitiga, $tinggiSegitiga, $tinggiPris
     $volume = (1/2) * $panjangAlasSegitiga * $tinggiSegitiga * $tinggiPrisma;
     
     return $volume;
-
-
 }
 
 // Contoh penggunaan fungsi
