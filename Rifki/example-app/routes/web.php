@@ -13,6 +13,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+// Route::get('/', function () {
+//     return view('backend.home.index');
+// });
+
+// ROUTING ATAU URL UNTUK JENIS BARANG
+Route::group(['namespace' => 'App\Http\Controllers'], function(){
+    Route::get('/', 'Backend\JenisBarangController@index');
+
 });

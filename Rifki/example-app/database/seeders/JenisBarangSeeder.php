@@ -32,7 +32,7 @@ class JenisBarangSeeder extends Seeder
     $data = [
         [
         'nama_barang' =>'Alat Tulis65',
-        'deskripsi' =>'Alat Tulis Kantor65',
+        'deskripsi' =>'Alat Tulis Kantor75',
         'created_by' => $idTerakhir->id, // mengambil id terakhir
         'updated_by' => $idTerakhir->id, // mengambil id terakhir
         ],
