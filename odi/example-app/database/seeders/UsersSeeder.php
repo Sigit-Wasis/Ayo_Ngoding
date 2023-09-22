@@ -21,7 +21,7 @@ class UsersSeeder extends Seeder
             'nama_lengkap' => 'Odi Adrian',
             'alamat' => 'Tanggamus',
             'nomor_telpon' => '082278890881',
-            'email' => 'adrianodii14331@gmail.com',
+            'email' => 'adrian@gmail.com',
         ]);
     }
 }
