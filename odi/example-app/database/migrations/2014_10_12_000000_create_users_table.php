@@ -18,10 +18,9 @@ return new class extends Migration
             $table->string('password');
             $table->string('nama_lengkap');
             $table->string('alamat');
-            $table->integer('nomor_telpon');
+            $table->string('nomor_telpon', 13);
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
-
             $table->rememberToken();
             $table->timestamps();
         });
