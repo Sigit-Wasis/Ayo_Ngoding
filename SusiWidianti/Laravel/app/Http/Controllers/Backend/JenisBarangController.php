@@ -16,6 +16,31 @@ class JenisBarangController extends Controller
 
         // dd($jenisBarang);
 
-        return view('backend.home.index', compact('jenisBarang'));
+        return view ('backend.jenis_barang.index', compact('jenisBarang'));
     }
+
+    public function create() {
+         return view ('backend.jenis_barang.create');
+    }
+
+    public function store(Request $request){
+
+        // dd($request->all());
+        DB::table('jenis_barang')->insert([
+            'nama_jenis_barang' => $request->nama_jenis_barang,
+            'deskripsi_barang' =>$request->deskripsi_barang,
+            'craeted_by' => 1,
+            'updated_by' => 1,
+            'created_at' => \Carbon\Carbon::now(),
+            'updated_at' => \Carbon\Carbon::now(),
+
+        ]);
+
+        return redirect()->route('jenis_barang')->with('message', 'Jenis Barang Berhasil disimpan');
+    }
+        public function destroy($id){
+            DB::table('jenis_barang')->where('id',$id)->delete();
+
+            return redirect()->route('jenis_barang')->with('message', 'Jenis Barang Berhasil dihapus');
+        }
 }
