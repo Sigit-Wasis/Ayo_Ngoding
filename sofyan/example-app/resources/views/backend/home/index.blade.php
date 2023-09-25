@@ -18,33 +18,9 @@
         </div>
     </section>
 
+    
     <section class="content">
-        <div class="card">
-            <div class="card-body">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th scope="col">NO</th>
-                            <th scope="col">Nama Jenis Barang</th>
-                            <th scope="col">Deskripsi</th>
-                            <th scope="col">Di Buat Pada</th>
-                            <th scope="col">Di Buat Oleh</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($jenisBarang as $jenis)
-                        <tr>
-                            <td scope="row">{{$loop->iteration}}</td>
-                            <td>{{$jenis->nama}}</td>
-                            <td>{{$jenis->deskripsi}}</td>
-                            <td>{{$jenis->created_at ?? \Carbon\Carbon::now() }}</td>
-                            <td>{{$jenis->created_by}}</td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-        </div>
+        HI INI HALAMAN DASBOARD
     </section>
 </div>
 
