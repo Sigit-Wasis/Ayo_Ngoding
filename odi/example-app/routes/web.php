@@ -13,6 +13,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+// Route::get('/', function () {
+//     return view('backend.home.index');
+// });
+
+Route::group(['namespace' => 'App\Http\Controllers'], function() {
+    Route::get('/', 'Backend\JenisBarangController@index');
 });
