@@ -21,17 +21,23 @@
 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 
 <li class="nav-item">
-<a href="../widgets.html" class="nav-link">
+    <a href="{{ route('beranda') }}" class="nav-link">
+        <i class="nav-icon fas fa-home"></i>
+            <p>
+                Beranda
+            </p>
+        </a>
+    </li>
+<li class="nav-item">
+<a href="{{ route('jenis_barang') }}" class="nav-link">
 <i class="nav-icon fas fa-th"></i>
-<p>
-Jenis Barang
-</p>
-</a>
-</li>
-</ul>
-</li>
-<p>
-</a>
+            <p>
+                  Jenis Barang
+            </p>
+        </ul>
+        </li>
+        <p>
+    </a>
 </li>
 </ul>
 </nav>
