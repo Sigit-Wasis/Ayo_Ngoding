@@ -328,12 +328,14 @@ function volumeBola($jariJari) {
     // Menghitung volume bola
 echo"Rumus Menghitung Volume Bola";
     $volume = (4/3) * M_PI * pow($jariJari, 3);
+    //pow 
     return $volume;
+//return digunakan untuk memanggil variabel 
    
 }
 
 // Contoh penggunaan fungsi
-$jariJari = 5;
+$jariJari = 7;
 
 $hasilVolume = volumeBola($jariJari);
 echo "Hasil Hitung Volume Bola </br>";
@@ -365,6 +367,18 @@ echo "Panjang Apotem = $panjangApotem <br>";
 echo "Tinggi Prisma = $tinggiPrisma <br>";
 echo "Volume prisma segi lima adalah: " . $hasilVolume;
 echo "<hr>";
+echo "</br >";
 
+function hitungluaspersegipanjang ($panjang, $lebar){
+    // UNTUK MENGHITUNG
+    $luas = $panjang * $lebar;
+    return $luas;
+}
+
+// MENENTUKAN NILAI LUAS PERSEGI PANJANG
+$panjang = 6;
+$lebar = 5;
+
+echo hitungluaspersegipanjang($panjang, $lebar);
 
 ?>
