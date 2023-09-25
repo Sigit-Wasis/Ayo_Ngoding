@@ -18,7 +18,7 @@ class UserSeeder extends Seeder
         // QUIERY BUILDER
         DB::table('users')->insert([
             'name'=>'rifki alvareza',
-            'email'=>'alva14lonte@gmail',
+            'email'=>'alva13done@gmail',
             'password'=> Hash::make('12345689')
         ]);
     }
