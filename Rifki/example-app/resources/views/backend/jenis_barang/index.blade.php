@@ -54,19 +54,22 @@
 
                         @foreach($jenisbarang as $jenis)
                     <tr>
-                    <th scope="row">{{ $loop->iteration}}</th>
+                    <td>{{ $jenisbarang->firstItem() + $loop->index}}</td>
                     <td>{{ $jenis->nama_barang }}</td>
                     <td>{{ $jenis->deskripsi }}</td>
                     <td>{{ $jenis->created_at ?? \Carbon\Carbon::now()}}</td>
                     <td>{{ $jenis->created_by }}</td>
                     <td>
-                    <a href="" class="btn btn-sm btn-primary">Edit</a>
+                    <a href="{{ route('jenis_barang.edit', $jenis->id) }}" class="btn btn-primary">Edit</a>
                     <a href="{{route('delete_jenis_barang', $jenis->id)}}" onclick="return confirm('Are you sure')" class="btn btn-sm btn-danger"> Delete</a>
                 </td>
                     </tr>
                     @endforeach
                 </tbody>
-                </table>      
+                </table>   
+
+                {{$jenisbarang->links()}}  
+
                  </div>
              </div>
     </section>

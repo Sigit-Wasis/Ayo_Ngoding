@@ -22,7 +22,17 @@
 
 
 <li class="nav-item">
-<a href="../widgets.html" class="nav-link">
+<li class="nav-item">
+<a href="{{ route('beranda') }}" class="nav-link">
+<i class="nav-icon fas fa-th"></i>
+<p>
+ Beranda
+<span class="right badge badge-danger"></span>
+</p>
+</a>
+</li>
+</li class="nav-item">
+<a href="{{ route('jenis_barang') }}" class="nav-link">
 <i class="nav-icon fas fa-th"></i>
 <p>
 Jenis Barang
