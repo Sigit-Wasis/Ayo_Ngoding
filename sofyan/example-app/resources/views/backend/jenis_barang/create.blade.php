@@ -20,6 +20,17 @@
 
     <!-- KONTEN TAMBAH JENIS BARANG -->
     <section class="content">
+
+        @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
+    
         <div class="card card-primary">
             <div class="card-header">
                 <h3 class="card-title">Tambah Jenis Barang</h3>
@@ -38,7 +49,8 @@
                     </div>
 
                 <div class="card-footer">
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-primary">Simpan Jenis Barang</button>
+                    <a href ="{{route('jenis-barang')}}" class="btn btn-info">kembali</a>
                 </div>
             </form>
         </div>
