@@ -7,7 +7,7 @@
 <div class="container-fluid">
 <div class="row mb-2">
 <div class="col-sm-6">
-<h1>Jenis Barang</h1>
+<h1>BERANDA</h1>
 </div>
 <div class="col-sm-6">
 <ol class="breadcrumb float-sm-right">
@@ -20,35 +20,7 @@
 </section>
 
 <section class="content">
-<div class="card">
-<div class="card-body">
-<table class="table">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Nama Jenis Barang</th>
-      <th scope="col">Deskripsi</th>
-      <th scope="col">Dibuat Pada</th>
-      <th scope="col">Dibuat oleh</th>
-    </tr>
-  </thead>
-  <tbody>
-    @foreach($jenisBarang as $jenis)
-    <tr>
-      <th scope="row">{{$loop->iteration }}</th>
-      <td>{{ $jenis->nama_jenis_barang }}</td>
-      <td>{{ $jenis->deskripsi }}</td>
-      <td>{{ $jenis->created_at ?? \Carbon\Carbon::now()}}</td>
-      <td>{{ $jenis->created_by }}</td>
-    </tr>
-    @endforeach
-
-  </tbody>
-</table>
-</div>
-
-</div>
-
+HI ----- INI HALAMAN DASHBOARD
 
 </section>
 
