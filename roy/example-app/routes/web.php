@@ -25,5 +25,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function() {
     Route::get('/tambah-jenis-barang', 'Backend\JenisBarangController@create')->name('tambah_jenis_barang');
     Route::post('/store-jenis-barang', 'Backend\JenisBarangController@store')->name('store_jenis_barang');
     Route::get('delete-jenis-barang/{id}', 'Backend\JenisBarangController@destory')->name('delete_jenis_barang');
-    
+    Route::get('edit-jenis-barang/{id}', 'Backend\JenisBarangController@edit')->name('edit_jenis_barang');
+    Route::post('/update-jenis-barang/{id}', 'Backend\JenisBarangController@update')->name('update_jenis_barang');
+
 });
