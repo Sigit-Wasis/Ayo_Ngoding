@@ -10,7 +10,7 @@
                             <h1>Tambah Jenis Barang</h1>
                         </div>
                         <div class="col-sm-6">
-                            <ol class="breadcrumb float-sm-right">
+                            <ol class="breadcrumb floatw-sm-right">
                                 <li class="breadcrumb-item"><a href="#">Home</a></li>
                                 <li class="breadcrumb-item active">Tambah Jenis Barang</li>
                             </ol>
@@ -22,6 +22,16 @@
 <!-- KONTEN TAMBAH JENIS BARANG -->
 
 <section class="content">
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
     <form method="POST" action="{{route('store_jenis_barang')}}">
     @csrf
 
@@ -36,6 +46,7 @@
 </div>
         <div class="card-footer">
     <button type="submit" class="btn btn-primary">Simpan Jenis Barang</button>
+    <a href="{{route('jenis_barang')}}" class="btn btn-primary">kembali</a>
 </div>
 </form>
     </section>
