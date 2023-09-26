@@ -52,21 +52,26 @@
   <tbody>
     @foreach($jenisBarang as $jenis)
     <tr>
-      <th scope="row">{{ $loop->iteration }}</th>
+      <!--<th scope="row">{{ $loop->iteration }}</th>-->
+      <td>{{$jenisBarang->firstItem() + $loop->index }}</td>
       <td>{{ $jenis->nama_jenis_barang}}</td>
       <td>{{ $jenis->deskripsi_barang}}</td>
-      <td>{{ $jenis->craeted_at ?? \Carbon\Carbon::now() }}</td>
+      <td>{{ $jenis->created_at ?? \Carbon\Carbon::now() }}</td>
       <td>{{ $jenis->craeted_by}} </td>
         <td>
 
-          <a href="" class="btn btn-sm btn-primary">Edit</a>
+            <a href="{{ route('edit_jenis_barang',$jenis->id)}}" class="btn btn-sm btn-primary">edit</a>
           <a href="{{ route('delete_jenis_barang', $jenis->id) }}" onclick="return confirm('Are You Sure?')"
            class="btn btn-sm btn-danger">Delete</a>
-</td>
-</tr>
+        </td>
+      </tr>
     @endforeach
   </tbody>
-</table>
+      </table>
+      
+      {{$jenisBarang->links()}}
+
+
    </div>
      </div>
        </section>
