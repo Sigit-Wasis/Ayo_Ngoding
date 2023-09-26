@@ -44,6 +44,7 @@
                                 <th scope="col">Nama Jenis Barang</th>
                                 <th scope="col">Deskripsi</th>
                                 <th scope="col">Dibuat Pada</th>
+                                <th scope="col">Diupdate Pada</th>
                                 <th scope="col">Dibuat Oleh</th>
                                 <th scope="col">Aksi</th>
                             </tr>
@@ -51,19 +52,22 @@
                         <tbody>
                         @foreach($jenisBarang as $jenis)
                             <tr>
-                                <th scope="row">{{ $loop->iteration }}</th>
+                                <!-- <th scope="row">{{ $loop->iteration }}</th> -->
+                                <td>{{ $jenisBarang->firstItem() + $loop->index }}</td>
                                 <td>{{ $jenis->nama_jenis_barang }}</td>
                                 <td>{{ $jenis->deskripsi }}</td>
                                 <td>{{ $jenis->created_at ?? \Carbon\Carbon::now() }}</td>
+                                <td>{{ $jenis->updated_at ?? \Carbon\Carbon::now() }}</td>
                                 <td>{{ $jenis->created_by }}</td>
                                 <td>
-                                    <a href ="" class="btn btn-sm btn-primary">Edit</a>
+                                    <a href ="{{ route('edit_jenis_barang', $jenis->id) }}" class="btn btn-sm btn-warning">Edit</a>
                                     <a href ="{{ route('delete_jenis_barang', $jenis->id) }}" onclick="return confirm('Apa kamu yakin')" class="btn btn-sm btn-danger">Hapus</a>
                                 </td>
                             </tr>
                         @endforeach
                         </tbody>
                     </table>
+                    {{ $jenisBarang->links() }}
                 </div>
             </div>
     </section>
