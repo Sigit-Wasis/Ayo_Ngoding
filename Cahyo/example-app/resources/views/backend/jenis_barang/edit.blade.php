@@ -7,19 +7,19 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Tambah Jenis Barang</h1>
+                    <h1>Edit Jenis Barang</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Tambah Jenis Barang</li>
+                        <li class="breadcrumb-item active">Edit Jenis Barang</li>
                     </ol>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- KONTEN TAMBAH JENIS BARANG -->
+    <!-- KONTEN EDIT JENIS BARANG -->
     <section class="content">
     
         @if ($errors->any())
@@ -32,20 +32,21 @@
             </div>
         @endif
 
-        <form method="POST" action="{{ route('store_jenis_barang') }}">
+        <form method="POST" action="{{ route('jenis_barang.update', ['id' => $editJenisBarang->id]) }}">
             @csrf
+            @method('PUT')
             <div class="card-body">
                 <div class="form-group">
                     <label for="nama_jenis_barang">Nama Jenis Barang</label>
-                    <input type="text" class="form-control" id="nama_jenis_barang" name="nama_jenis_barang" placeholder="">
+                    <input type="text" class="form-control" id="nama_jenis_barang" name="nama_jenis_barang" value="{{ $editJenisBarang->nama_jenis_barang }}">
                 </div>
                 <div class="form-group">
                     <label for="deskripsi_barang">Deskripsi Barang</label>
-                    <input type="text" class="form-control" id="deskripsi_barang" name="deskripsi_barang" placeholder="">
+                    <textarea class="form-control" id="deskripsi_barang" name="deskripsi_barang">{{ $editJenisBarang->deskripsi_barang }}</textarea>
                 </div>
            
                 <div class="card-footer">
-                    <button type="submit" class="btn btn-primary">Simpan</button>
+                    <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
                     <a href= "{{ route('jenis_barang') }}" class=" btn btn-info">Kembali</a>
                 </div>
             </form>
