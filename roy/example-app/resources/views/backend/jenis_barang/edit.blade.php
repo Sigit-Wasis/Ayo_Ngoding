@@ -7,7 +7,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1> Tambah Jenis Barang</h1>
+                    <h1> Edit Jenis Barang</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -32,16 +32,16 @@
     </div>
 @endif
 
-    <form method="POST" action="{{ route('store_jenis_barang') }}">
+    <form method="POST" action="{{ route('update_jenis_barang', $editJenisBarang->id) }}">
         @csrf
 <div class="card-body">
 <div class="form-group">
 <label for="nama_jenis_barang">Jenis Barang</label>
-<input type="text" class="form-control" id="nama_jenis_barang" name="nama_jenis_barang" placeholder="">
+<input type="text" class="form-control" value="{{ $editJenisBarang->nama_barang }}" id="nama_jenis_barang" name="nama_jenis_barang" placeholder="">
 </div>
 <div class="form-group">
 <label for="deskripsi">Deskripsi Jenis Barang</label>
-<input type="text" class="form-control" id="deskripsi" name="deskripsi" placeholder="">
+<input type="text" class="form-control" value="{{ $editJenisBarang->deskripsi }}" id="deskripsi" name="deskripsi" placeholder="">
 </div>
 
 
