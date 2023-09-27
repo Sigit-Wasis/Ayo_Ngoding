@@ -29,7 +29,7 @@
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <li class="nav-item">
                     <a href="{{route('beranda')}}" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
+                        <i class="nav-icon fas fa-home"></i>
                             <p>
                                 Beranda
                             </p>
@@ -42,6 +42,29 @@
                                 Jenis Barang
                             </p>
                     </a>
+                </li>
+
+                 <li class="nav-item">
+                    <a href="{{route('user')}}" class="nav-link">
+                        <i class="nav-icon fas fa-th"></i>
+                            <p>
+                                Users
+                            </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{{ route('logout') }}"
+                        onclick="event.preventDefault();
+                        document.getElementById('logout-form').submit();" class="nav-link">
+                        <i class="nav-icon fas fa-sign-out-alt"></i> <!-- Menggunakan kelas CSS "fas fa-sign-out-alt" -->
+                        <p>
+                            Logout
+                        </p>
+                    </a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                        @csrf
+                    </form>
                 </li>
             </ul>
         </nav>

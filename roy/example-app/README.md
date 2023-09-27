@@ -7,58 +7,135 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## About Laravel
+## READ DATA USER
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+1. Buat route unutuk user
+   ```
+    Route::get('/user', 'Backend\userController@index')->name('user');
+    Route::get('/tambah-user', 'Backend\userController@create')->name('tambah_user');
+    Route::post('/store-user', 'Backend\userController@store')->name('store_user');
+    Route::get('delete-user/{id}', 'Backend\userController@destory')->name('delete_user');
+    Route::get('edit-user/{id}', 'Backend\userController@edit')->name('edit_user');
+    Route::post('/update-user/{id}', 'Backend\userController@update')->name('update_user');
+    ``` 
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+2. Buat controller di terminal dengan perintah
+    ```
+    php artisan make:controller Backend/UserController    
+    ```
+3. Update pada file UserController yang ada di folder app/Http/Controllers/Backend    
+    ```
+    <?php
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+    namespace App\Http\Controllers\Backend;
 
-## Learning Laravel
+    use App\Http\Controllers\Controller;
+    use Illuminate\Http\Request;
+    use DB; // <- tambahkan DB
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+    class UserController extends Controller
+    {
+     public function index() {
+        // Queri ini untuk mengambil data users  secara keseluruhan dengan id secara discending (dari id terbesar ke terkecil)
+        $users = DB::table('users')->select('users.*')->orderBy('users.id', 'DESC')->paginate(5);
+    
+        return view('backend.user.index', compact('users'));
+    }
+    }
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+    ```
+4. Buat View untuk menampilkan data user di dalam folder Resources/View/Backend/user/indez.blade.php
+    ```
+    @extends('backend.app')
 
-## Laravel Sponsors
+@section('content')
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+<div class="content-wrapper">
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>User</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">User</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
 
-### Premium Partners
+    <section class="content">
+        <div class="col-md-2 mb-2">
+            <!--<a href="{{ route('tambah_jenis_barang') }}" class="btn btn-sm btn-block btn-success">Tambah User</a>
+</div>
+<!--END BUTTON JENIS BARANG -->
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+        <div class="card">
+            <div class="card-body">
+             @if(Session::has('message'))   
+            <div class="alert alert-success alert-dismissible">
+<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+<h5>
+    <i class="icon fas fa-check"></i> Sukses!
+    <h5>
+        {{ Session('message')}}
+</div>
+@endif
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">N0</th>
+                            <th scope="col">name</th>
+                            <th scope="col">username</th>
+                            <th scope="col">email</th>
+                            <th scope="col">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($users as $user)
+                        <tr>
+                            <!-- <th scope="row">{{ $loop->iteration }}</th> -->
+                            <td>{{ $users->firstItem() + $loop->index }}</td>
+                            <td>{{ $user->name }}</td>
+                            <td>{{ $user->username }}</td>
+                            <td>{{ $user->email }}</td>
+                            <td>
+                                <a href=" {{ route('edit_jenis_barang', $jenis->id) }}" class="btn btn-sm btn-primary">Edit</a>
+                                <a href=" {{ route('delete_jenis_barang', $jenis->id) }}" onclick="return confirm('Are you sure?')" class="btn btn-sm btn-danger">Hapus</a>
+                            <td>
 
-## Contributing
+                            </tr>
+                        <tr>
+                    @endforeach
+                    </tbody>
+                    </table>
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+                    {{ $users->links() }}
+            </div>
 
-## Code of Conduct
+    </div>
+</section>
+</div>
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
 
-## Security Vulnerabilities
+@endsection
+    ```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+5. Buat menu user di dalam file sidebar.blade.php yang ada di dalam folder resources/view/backend/_partial/sidebar.php
+```
+<li class="nav-item">
+                <a href="{{ route('user') }}" class="nav-link">
+                    <i class="nav-icon fas fa-th"></i>
+                    <p>
+                        Jenis Barang
+                        <span class="right badge badge-danger"></span>
+                    </p>
+                </a>
+            </li>
+```
+5. Buka brouser dan refreash
+    
 
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
