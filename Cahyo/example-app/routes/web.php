@@ -23,6 +23,8 @@ Route::group(['namespace' => 'App\Http\Controllers'], function() {
     Route::get('/jenis_barang','Backend\JenisBarangController@index')->name('jenis_barang');
     Route::get('/tambah_jenis_barang', 'Backend\JenisBarangController@create')->name('tambah_jenis_barang');
     Route::post('/store_jenis_barang', 'Backend\JenisBarangController@store')->name('store_jenis_barang');
+    Route::get('/jenis_barang/edit/{id}', 'Backend\JenisBarangController@edit')->name('jenis_barang.edit');
+    Route::put('/jenis_barang/update/{id}', 'Backend\JenisBarangController@update')->name('jenis_barang.update');
     Route::get('/delete_jenis_barang/{id}','Backend\JenisBarangController@destroy')->name('delete_jenis_barang');
     
 });

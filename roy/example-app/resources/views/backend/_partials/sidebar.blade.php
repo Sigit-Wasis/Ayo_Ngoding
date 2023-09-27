@@ -18,7 +18,7 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
             <li class="nav-item">
                 <a href="{{ route('beranda') }}" class="nav-link">
-                    <i class="nav-icon fas fa-th"></i>
+                    <i class="nav-icon fas fa-university"></i>
                     <p>
                         Beranda
                         <span class="right badge badge-danger"></span>
@@ -32,9 +32,34 @@
                         Jenis Barang
                         <span class="right badge badge-danger"></span>
                     </p>
+                </a> 
+            </li>
+                <li class="nav-item">
+                <a href="{{ route('user') }}" class="nav-link">
+                    <i class="nav-icon fas fa-th"></i>
+                    <p>
+                        Data User
+                        <span class="right badge badge-danger"></span>
+                    </p>
                 </a>
             </li>
-        </ul>
-    </nav>
-</div>
+            <li class="nav-item">
+                <a href="{{ route('logout') }}"
+                            onclick="event.preventDefault();
+                            document.getElementById('logout-form').submit();"
+                            class="nav-link">
+                    
+                    <i class="nav-icon fas fa-sign-out-alt"></i>
+                    <p>
+                        Logout
+                    </p>
+                </a>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                        @csrf
+                                    </form>
+
+</li>
+         </ul>
+     </nav>
+    </div>
 </aside>

@@ -46,20 +46,32 @@
                         </tr>
                     </thead>
                     <tbody>
+                         {{-- Calculate the row number --}}
+                        @php
+                            $rowNumber = ($jenisBarang->currentPage() - 1) * $jenisBarang->perPage() + 1;
+                        @endphp
+
                         @foreach($jenisBarang as $jenis)
                         <tr>
-                            <td scope="row">{{$loop->iteration}}</td>
+                            <td scope="row">{{ $rowNumber++ }}</td>
                             <td>{{$jenis->nama}}</td>
                             <td>{{$jenis->deskripsi}}</td>
                             <td>{{$jenis->created_at ?? \Carbon\Carbon::now() }}</td>
+                            <td>{{$jenis->updated_at ?? \Carbon\Carbon::now() }}</td>
                             <td>{{$jenis->created_by}}</td>
                             <td>
-                                <a href="" class="btn btn-sm btn-primary">Edit</a>
+                               <a href="{{ route('edit_jenis_barang', $jenis->id) }}" class="btn btn-sm btn-primary">Edit</a>
+
                                 <a href="{{route('delete_jenis_barang',$jenis->id)}}" onclick="return confirm('are you sure?')" class="btn btn-sm btn-danger">Delete</a>
                         </tr>
                         @endforeach
                     </tbody>
                 </table>
+
+                <div class="float-right">
+                {{ $jenisBarang->links() }}
+                </div>
+                
             </div>
         </div>
         
