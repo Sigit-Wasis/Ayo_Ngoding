@@ -20,8 +20,11 @@
     </section>
 
     <section class="content">
-        AW... IKI HALAMAN DASHBOARD
-    </section>
+    <marquee behavior="scroll" direction="left" style="font-size: 300px; scrollamount: 1000;">
+        METALL 🤟 HHURRRAAA
+    </marquee>
+</section>
+
 </div>
 
 @endsection
