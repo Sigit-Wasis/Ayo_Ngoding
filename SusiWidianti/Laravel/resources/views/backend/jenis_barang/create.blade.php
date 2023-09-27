@@ -21,6 +21,17 @@
 
 <!--KONTEN TAMBAH JENIS BARABG -->
 <section class="content">
+
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
     <form method="POST" action="{{ route('store_jenis_barang') }}">
         @csrf
         <div class="card-body">
@@ -34,11 +45,11 @@
 </div>
 </div>
 
-<div class="card-footer">
-<button type="Simpan Jenis Barang" class="btn btn-primary" fdprocessedid="gjaft">Simpan Jenis Barang</button>
-</div>
-</form>
-
+    <div class="card-footer">
+            <button type="submit" class="btn btn-primary" fdprocessedid="gjaft">Simpan Jenis Barang</button>
+            <a href="{{ route('jenis_barang') }}" class="btn btn-info">Kembali</a>
+        </div>
+    </form>
     </section>
 </div>
 
