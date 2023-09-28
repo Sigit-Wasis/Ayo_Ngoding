@@ -25,12 +25,12 @@
         <div class="alert alert-danger">
             <ul>
                 @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
+                <li>{{ $error }}</li>
                 @endforeach
             </ul>
         </div>
         @endif
-    
+
         <div class="card card-primary">
             <div class="card-header">
                 <h3 class="card-title">Tambah Jenis Barang</h3>
@@ -41,17 +41,17 @@
                 <div class="card-body">
                     <div class="form-group">
                         <label for="nama">Nama Jenis Barang</label>
-                        <input type="text" class="form-control" id="nama" name="nama_jenis_barang"placeholder="">
+                        <input type="text" class="form-control" id="nama" name="nama_jenis_barang" placeholder="">
                     </div>
                     <div class="form-group">
                         <label for="deskripsi">Deskripsi Jenis Barang</label>
                         <input type="text" class="form-control" id="deskripsi" name="deskripsi" placeholder="">
                     </div>
 
-                <div class="card-footer">
-                    <button type="submit" class="btn btn-primary">Simpan Jenis Barang</button>
-                    <a href ="{{route('jenis-barang')}}" class="btn btn-info">kembali</a>
-                </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-primary">Simpan Jenis Barang</button>
+                        <a href="{{route('jenis-barang')}}" class="btn btn-info">kembali</a>
+                    </div>
             </form>
         </div>
     </section>
