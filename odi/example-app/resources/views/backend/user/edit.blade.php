@@ -8,12 +8,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Tambah User</h1>
+                    <h1>Edit Users</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Tambah User</li>
+                        <li class="breadcrumb-item active">Edit User</li>
                     </ol>
                 </div>
             </div>
@@ -32,46 +32,46 @@
             </ul>
         </div>
         @endif
-        <form method="POST" action="{{ route('store_user') }}">
+        <form method="POST" action="{{ route('update_user', $edituser->id) }}">
             @csrf
             <div class="card-body">
                 <div class="form-group">
-                    <label for="name">Nama</label>
-                    <input type="text" class="form-control" value="{{ old ('name') }}" id=" name" name="name"
+                    <label for="name">Name</label>
+                    <input type="text" class="form-control" value="{{$edituser->name}}" id="name" name="name"
                         placeholder="Name">
                 </div>
                 <div class="form-group">
                     <label for="username">Username</label>
-                    <input type="text" class="form-control" value="{{ old ('username') }}" id="username" name="username"
-                        placeholder="Username">
+                    <input type="text" class="form-control" value="{{$edituser->username}}" id="username"
+                        name="username" placeholder="Username">
                 </div>
                 <div class="form-group">
                     <label for="password">Password</label>
                     <input type="password" class="form-control" id="password" name="password" placeholder="Password">
                 </div>
                 <div class="form-group">
-                    <label for="password">Komfirmasi Password</label>
-                    <input type="password" class="form-control" id="password" name="password_confirmation"
+                    <label for="password">Confirmasi Password</label>
+                    <input type="password" class="form-control" id="password_confirmation" name="password_confirmation"
                         placeholder="Password">
                 </div>
                 <div class="form-group">
                     <label for="namalengkap">Nama Lengkap</label>
-                    <input type="text" class="form-control" value="{{ old ('nama_lengkap') }}" id="namalengkap"
+                    <input type="text" class="form-control" value="{{$edituser->nama_lengkap}}" id="namalengkap"
                         name="nama_lengkap" placeholder="Nama Lengkap">
                 </div>
                 <div class="form-group">
                     <label for="alamat">Alamat</label>
-                    <input type="text" class="form-control" value="{{ old ('alamat') }}" id="alamat" name="alamat"
+                    <input type="text" class="form-control" value="{{$edituser->alamat}}" id="alamat" name="alamat"
                         placeholder="Alamat">
                 </div>
                 <div class="form-group">
                     <label for="nomortelpon">Nomor Telpon</label>
-                    <input type="text" class="form-control" value="{{ old ('nomor_telpon') }}" id="nomortelpon"
+                    <input type="text" class="form-control" value="{{$edituser->nomor_telpon}}" id="nomortelpon"
                         name="nomor_telpon" placeholder="Nomor Telpon">
                 </div>
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="email" class="form-control" value="{{ old ('email') }}" id="email" name="email"
+                    <input type="email" class="form-control" value="{{$edituser->email}}" id="email" name="email"
                         placeholder="Email">
                 </div>
             </div>
