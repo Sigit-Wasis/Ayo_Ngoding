@@ -13,11 +13,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', function () {
-//     return view('backend.home.index');
-// });
+Route::get('/', function () {
+    // return view('welcome'); // ini diarahin ke halaman welcome
+     return view('auth.login'); // ini diarahin ke halaman login
+});
  Route::group(['namespace' => 'App\Http\Controllers'], function(){
-   Route::get('/', 'Backend\BerandaController@index')->name('beranda');
+   Route::get('/home', 'Backend\BerandaController@index')->name('beranda');
 
     Route::get('/jenis-barang','Backend\JenisBarangController@index')->name('jenis_barang');
     Route::get('/tambah-jenis-barang','Backend\JenisBarangController@create')->name('tambah_jenis_barang');
@@ -25,4 +26,17 @@ use Illuminate\Support\Facades\Route;
     Route::get('/delete-jenis-barang/{id}', 'Backend\JenisBarangController@destroy')->name('delete_jenis_barang');
     Route::get('/edit-jenis-barang/{id}', 'Backend\JenisBarangController@edit')->name('edit_jenis_barang');
     Route::post('/update-jenis-barang/{id}', 'Backend\JenisBarangController@update')->name('update_jenis_barang');
- });
+ 
+    Route::get('/user','Backend\userController@index')->name('user');
+    Route::get('/tambah-user','Backend\userController@create')->name('tambah_user');
+    Route::post('/store-user','Backend\userController@store')->name('store_user');
+    Route::get('/delete-user/{id}', 'Backend\userController@destroy')->name('delete_user');
+    Route::get('/edit-user/{id}', 'Backend\userController@edit')->name('edit_user');
+    Route::post('/update-user/{id}', 'Backend\userController@update')->name('update_user');
+
+  });
+
+
+Auth::routes();
+
+//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
