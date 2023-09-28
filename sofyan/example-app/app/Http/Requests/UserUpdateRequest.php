@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UsersRequest extends FormRequest
+class UserUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,19 +25,20 @@ class UsersRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|unique:users', // Validasi email dan memastikan email unik
+            'username' => 'required|string|max:255',
+            'email' => 'required|string|email', // Validasi email dan memastikan email unik
             'password' => 'required|string|min:8|max:10|confirmed', // Validasi password dan konfirmasi password
         ];
     }
-
     public function messages()
     {
         return [
             'name.required' => 'Kolom nama harus diisi.',
             'name.max' => 'Nama terlalu panjang.',
+            'username.required' => 'Kolom username harus diisi.',
+            'username.max' => 'Username terlalu panjang.',
             'email.required' => 'Kolom email harus diisi.',
             'email.email' => 'Email harus berformat email yang valid.',
-            'email.unique' => 'Email sudah digunakan oleh pengguna lain.',
             'password.required' => 'Kolom password harus diisi.',
             'password.min' => 'Password terlalu pendek.',
             'password.max' => 'Password terlalu panjang.',
