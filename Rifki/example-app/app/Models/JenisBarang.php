@@ -11,5 +11,5 @@ class JenisBarang extends Model
     // NAMA TABLE SAMA DENGAN YANG ADA DI DATABASE
     protected $table = 'mst_jenis_barang';
     // SEMUA FIELD ITU TERISI
-    protected $guarded =[];
+    protected $guarded = [];
 }

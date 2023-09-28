@@ -23,7 +23,7 @@ class JenisBarangRequest extends FormRequest
     {
         return [
             'nama_jenis_barang' => 'required |max:255',
-            'deskripsi'=> 'required'
+            'deskripsi' => 'required'
         ];
     }
 
