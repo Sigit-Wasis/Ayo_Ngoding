@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -30,11 +31,13 @@ Route::get('/', function () {
 
     
     Route::get('/user', 'Backend\UserController@index')->name('user');
-    Route::get('/tambah-user','Backend\UserController@index')->name('tambah_user');
-    Route::get('/store-user', 'Backend\UserController@create')->name('store_user');
-    Route::post('/delete-user', 'Backend\UserController@store')->name('delete_user');
-    Route::get('edit-user/{id}', 'Backend\UserController@edit')->name('edit_user');
-    Route::put('update/update/{id}', 'Backend\UserController@update')->name('update_user');
+    Route::get('/tambah-user','Backend\UserController@create')->name('tambah_user');
+    Route::post('/store-user', 'Backend\UserController@store')->name('store_user');
+    Route::get('/delete-user/{id}', 'Backend\UserController@destroy')->name('delete_user');
+    Route::get('/edit-user/{id}', 'Backend\UserController@edit')->name('edit_user');
+    Route::post('update-user/{id}', 'Backend\UserController@update')->name('update_user');
+
+
        
         
     

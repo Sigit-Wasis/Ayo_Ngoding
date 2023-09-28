@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UserRequest extends FormRequest
+class UserStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,8 @@ class UserRequest extends FormRequest
         return [
             'name' => 'required|max:255',
             'username' => 'required',
-            'email' => 'required'
+            'password' => 'required|confirmed',
+            'email' => 'required|unique:users',
         ];
     }
     public function messages()
@@ -33,7 +34,10 @@ class UserRequest extends FormRequest
             'name.required' => 'Nama Wajib Diisi',
             'name.max' => 'Nama Tidak Boleh Banyak',
             'username.required' => 'Username Wajib Diisi',
+            'password.required' => 'Password Wajib Diisi',
+            'password.confirmed' => 'Password Harus Sama',
             'email.required' => 'Email Barang Wajib Diisi',
+            'email.unique' => 'Email Harus Sama',
         ];
 
 

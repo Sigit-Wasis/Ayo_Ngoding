@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UserRequest;
+use App\Http\Requests\UserStoreRequest;
+use App\Http\Requests\UserUpdateRequest;
 use Illuminate\Http\Request;
-use DB;
+use Illuminate\Support\Facades\DB as FacadesDB;
 
 class UsersController extends Controller
 {
@@ -14,7 +15,7 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $users = DB::table('users')->select('users.*')->orderBy('users.id', 'DESC')
+        $users = FacadesDB::table('users')->select('users.*')->orderBy('users.id', 'DESC')
         ->paginate(10);
 
         // dd($jenisBarang);
@@ -33,15 +34,19 @@ class UsersController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(UserRequest $request)
+    public function store(UserStoreRequest $request)
     {
-        DB::table('users')->insert([
+        FacadesDB::table('users')->insert([
             'name' =>$request->name,
             'username' =>$request->username,
+            'password' =>bcrypt($request->password),
+            'nama_lengkap' =>$request->nama_lengkap,
+            'alamat' =>$request->alamat,
+            'nomor_telpon' =>$request->nomor_telpon,
             'email' =>$request->email,
         ]);
 
-        return redirect()->route('user')->with('message','Jenis Barang Berhasil Disimpan');
+        return redirect()->route('user')->with('message','User Berhasil Disimpan');
     }
     
 
@@ -58,15 +63,40 @@ class UsersController extends Controller
      */
     public function edit($id)
     {
-        //
+        $edituser = FacadesDB::table('users')->where('id', $id)->first();
+
+        return view('backend.user.edit', compact('edituser'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UserUpdateRequest $request, $id)
     {
-        //
+        if($request->password) {
+        FacadesDB::table('users')->where ('id',$id)->update([
+            'name' =>$request->name,
+            'username' =>$request->username,
+            'password' =>$request->password,
+            'nama_lengkap' =>$request->nama_lengkap,
+            'alamat' =>$request->alamat,
+            'nomor_telpon' =>$request->nomor_telpon,
+            'email' =>$request->email,
+            'updated_at' => \Carbon\Carbon::now(),
+        ]);
+        }else{
+            FacadesDB::table('users')->where ('id',$id)->update([
+                'name' =>$request->name,
+                'username' =>$request->username,
+                'nama_lengkap' =>$request->nama_lengkap,
+                'alamat' =>$request->alamat,
+                'nomor_telpon' =>$request->nomor_telpon,
+                'email' =>$request->email,
+                'updated_at' => \Carbon\Carbon::now(),
+        
+        ]);
+    }
+        return redirect()->route('user')->with('message','User Berhasil Diupdate');
     }
 
     /**
@@ -74,7 +104,8 @@ class UsersController extends Controller
      */
     public function destroy( $id)
     {
-        //
-    }
+        FacadesDB::table('users')->where('id', $id)->delete();
+
+        return redirect()->route('user')->with('message','User Berhasil Dihapus');    }
 
 }
