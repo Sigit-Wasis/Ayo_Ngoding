@@ -55,8 +55,8 @@
                             <td>{{ $user->user_name }}</td>
                             <td>{{ $user->email }}</td>
                             <td>
-                                <a href=" {{ route('edit_jenis_barang', $user->id) }}" class="btn btn-sm btn-primary">Edit</a>
-                                <a href=" {{ route('delete_jenis_barang', $user->id) }}" onclick="return confirm('Are you sure?')" class="btn btn-sm btn-danger">Hapus</a>
+                                <a href=" {{ route('edit_user', $user->id) }}" class="btn btn-sm btn-primary">Edit</a>
+                                <a href=" {{ route('delete_user', $user->id) }}" onclick="return confirm('Are you sure?')" class="btn btn-sm btn-danger">Hapus</a>
                             <td>
 
                             </tr>
