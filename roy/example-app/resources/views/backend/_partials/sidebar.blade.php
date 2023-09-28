@@ -36,7 +36,7 @@
             </li>
                 <li class="nav-item">
                 <a href="{{ route('user') }}" class="nav-link">
-                    <i class="nav-icon fas fa-th"></i>
+                    <i class="nav-icon fas fa-user"></i>
                     <p>
                         Data User
                         <span class="right badge badge-danger"></span>

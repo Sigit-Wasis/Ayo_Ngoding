@@ -7,7 +7,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1> Tambah User</h1>
+                    <h1> Edit User</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -19,7 +19,7 @@
         </div>
     </section>
 
-    <!-- KONTEN TAMBAH JENIS USER -->
+    <!-- KONTEN TAMBAH USER -->
     <section class="content">
 
         @if ($errors->any())
@@ -32,28 +32,28 @@
         </div>
         @endif
 
-        <form method="POST" action="{{ route('store_user') }}">
+        <form method="POST" action="{{ route('update_user', $editUser->id) }}">
             @csrf
             <div class="card-body">
                 <div class="form-group">
-                    <label for="name">name</label>
-                    <input type="text" class="form-control" value="{{ old('name') }}" id="name" name="name" placeholder="">
+                    <label for="user">User</label>
+                    <input type="text" class="form-control" value="{{ $editUser->name }}" id="name" name="name" placeholder="">
                 </div>
                 <div class="form-group">
-                    <label for="user name">user name</label>
-                    <input type="text" class="form-control" value="{{ old('name') }}" id="user name" name="user_name" placeholder="">
+                    <label for="user_name">User Name</label>
+                    <input type="text" class="form-control" value="{{ $editUser->user_name }}" id="user_name" name="user_name" placeholder="">
                 </div>
                 <div class="form-group">
-                    <label for="email">email</label>
-                    <input type="text" class="form-control" value="{{ old('name') }}" id="email" name="email" placeholder="">
+                    <label for="email">Email</label>
+                    <input type="text" class="form-control" value="{{ $editUser->email }}" id="email" name="email" placeholder="">
                 </div>
                 <div class="form-group">
-                    <label for="email">password</label>
+                    <label for="pasword">Password</label>
                     <input type="password" class="form-control" id="password" name="password" placeholder="">
                 </div>
                 <div class="form-group">
                     <label for="pasword_confirmation">Konfirmasi Password</label>
-                    <input type="password" class="form-control" name="password confirmation" id="password confirmation" required>
+                    <input type="password" class="form-control" name="password_confirmation" id="password_confirmation">
                 </div>
                 <div class="card-footer">
                     <button type="submit" class="btn btn-primary">Simpan User</button>
