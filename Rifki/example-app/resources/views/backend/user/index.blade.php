@@ -20,6 +20,9 @@
     </section>
 
     <section class="content">
+        <div class="col-md-2 mb-2">
+            <a href="{{ route('tambah_user') }}" class="btn btn-sm btn-block btn-success">Tambah User</a>
+        </div>
         <div class="card">
             <div class="card-body">
                 @if(Session::has('message'))
@@ -46,8 +49,9 @@
                                 <td>{{ $user->name }}</td>
                                 <td>{{ $user->email }}</td>
                                 <td>
-                                    <a href="{{ route('jenis_barang.edit', $user->id) }}" class="btn btn-primary">Edit</a>
-                                    <a href="{{ route('delete_jenis_barang', $user->id) }}" onclick="return confirm('Are you sure')" class="btn btn-sm btn-danger">Delete</a>
+                                    <a href="{{ route('edit_user', $user->id) }}" class="btn btn-primary">Edit</a>
+                                    <a href="{{ route('delete_user', ['id' => $user->id]) }}" class="btn btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus pengguna ini?')">Hapus</a>
+
                                 </td>
                             </tr>
                         @endforeach
