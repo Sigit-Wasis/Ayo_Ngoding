@@ -23,19 +23,18 @@ class UserRequest extends FormRequest
     {
         return [
             'name' => 'required|max:255',
-            'username' => 'required',
-            'email' => 'required'
+            'password' => 'required|string|confirmed',
+            'email' => 'required|email',
         ];
     }
     public function messages()
     {
         return [
-            'name.required' => 'Nama Wajib Diisi',
-            'name.max' => 'Nama Tidak Boleh Banyak',
-            'username.required' => 'Username Wajib Diisi',
-            'email.required' => 'Email Barang Wajib Diisi',
+            'name' => 'Nama harus diisi alias wajib',
+            'password.required' => 'password harus diisi alias wajib',
+            'password.confirmed' => 'Konfirmasi password harus sama dengan Password',
+            'email.required' => 'email harus diisi alias wajib',
+            'email.email' => 'email tidak valid',
         ];
-
-
-}
+    }
 }

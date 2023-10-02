@@ -17,7 +17,7 @@
             </div>
         </div>
     </section>
-    
+
     <div class="card-footer clearfix">
         <a href="{{route('tambah-jenis-barang')}}" class="btn btn-primary float-right"><i class="fas fa-plus"></i> Tambah Barang</a>
     </div>
@@ -27,10 +27,10 @@
                 @if(Session::has('message'))
                 <div class="alert alert-success alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                        <h5>
-                            <i class="icon fas fa-check"></i> Sukses!
-                        </h5>
-                            {{ Session('message')}}
+                    <h5>
+                        <i class="icon fas fa-check"></i> Sukses!
+                    </h5>
+                    {{ Session('message')}}
                 </div>
                 @endif
 
@@ -46,9 +46,9 @@
                         </tr>
                     </thead>
                     <tbody>
-                         {{-- Calculate the row number --}}
+                        {{-- Calculate the row number --}}
                         @php
-                            $rowNumber = ($jenisBarang->currentPage() - 1) * $jenisBarang->perPage() + 1;
+                        $rowNumber = ($jenisBarang->currentPage() - 1) * $jenisBarang->perPage() + 1;
                         @endphp
 
                         @foreach($jenisBarang as $jenis)
@@ -57,10 +57,9 @@
                             <td>{{$jenis->nama}}</td>
                             <td>{{$jenis->deskripsi}}</td>
                             <td>{{$jenis->created_at ?? \Carbon\Carbon::now() }}</td>
-                            <td>{{$jenis->updated_at ?? \Carbon\Carbon::now() }}</td>
                             <td>{{$jenis->created_by}}</td>
                             <td>
-                               <a href="{{ route('edit_jenis_barang', $jenis->id) }}" class="btn btn-sm btn-primary">Edit</a>
+                                <a href="{{ route('edit_jenis_barang', $jenis->id) }}" class="btn btn-sm btn-primary">Edit</a>
 
                                 <a href="{{route('delete_jenis_barang',$jenis->id)}}" onclick="return confirm('are you sure?')" class="btn btn-sm btn-danger">Delete</a>
                         </tr>
@@ -69,12 +68,12 @@
                 </table>
 
                 <div class="float-right">
-                {{ $jenisBarang->links() }}
+                    {{ $jenisBarang->links() }}
                 </div>
-                
+
             </div>
         </div>
-        
+
     </section>
 </div>
 
