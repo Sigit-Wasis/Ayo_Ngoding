@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class JenisBarangRequest extends FormRequest
+class UserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,17 +22,19 @@ class JenisBarangRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nama_jenis_barang' => 'required |max:255',
-            'deskripsi' => 'required'
+            'name' => 'required|max:255',
+            'password' => 'required|string|confirmed',
+            'email' => 'required|email',
         ];
     }
-
     public function messages()
     {
         return [
-            'nama_jenis_barang.required' => 'Nama Jenis Barang Harus di Isi',
-            'nama_jenis_barang.max' => 'Nama Jenis Barang Tidak Boleh Melebihi 255 Karakter',
-            'deskripsi.required' => 'Deskripsi Barang Harus di Isi'
+            'name' => 'Nama harus diisi alias wajib',
+            'password.required' => 'password harus diisi alias wajib',
+            'password.confirmed' => 'Konfirmasi password harus sama dengan Password',
+            'email.required' => 'email harus diisi alias wajib',
+            'email.email' => 'email tidak valid',
         ];
     }
 }

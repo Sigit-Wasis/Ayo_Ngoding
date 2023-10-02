@@ -55,19 +55,19 @@
 
 <div class="content-wrapper">
  <section class="content-header">
-    <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-6">
-                <h1>User</h1>
-                </div>
-                 <div class="col-sm-6">
-                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active">User</li>
-                 </ol>
-            </div>
-        </div>
-    </div>
+ <div class="container-fluid">
+  <div class="row mb-2">
+  <div class="col-sm-6">
+  <h1>User</h1>
+  </div>
+  <div class="col-sm-6">
+  <ol class="breadcrumb float-sm-right">
+  <li class="breadcrumb-item"><a href="#">Home</a></li>
+  <li class="breadcrumb-item active">User</li>
+  </ol>
+  </div>
+  </div>
+ </div>
 </section>
 
 <section class="content">
@@ -105,33 +105,29 @@
       <!--<th scope="row">{{ $loop->iteration }}</th>-->
       <td>{{$users->firstItem() + $loop->index }}</td>
       <td>{{ $users->username}}</td>
-      <td>{{ $users->nama_engkap}}</td>
-      <td>{{ $users->email}} </td>
-        <td>
+<td>{{ $users->nama_engkap}}</td>
+<td>{{ $users->email}} </td>
+<td>
 
-            <a href="{{ route('edit_jenis_barang',$jenis->id)}}" class="btn btn-sm btn-primary">edit</a>
-          <a href="{{ route('delete_jenis_barang', $jenis->id) }}" onclick="return confirm('Are You Sure?')"
+        <a href="{{ route('edit_jenis_barang',$jenis->id)}}" class="btn btn-sm btn-primary">edit</a>
+        <a href="{{ route('delete_jenis_barang', $jenis->id) }}" onclick="return confirm('Are You Sure?')"
            class="btn btn-sm btn-danger">Delete</a>
         </td>
-      </tr>
-    @endforeach
-  </tbody>
+        </tr>
+        @endforeach
+</tbody>
       </table>
-      
-      {{$jenisBarang->links()}}
-
-
-   </div>
-     </div>
-       </section>
-         </div>
+       {{$jenisBarang->links()}}
+      </div>
+      </div>
+      </section>
+      </div>
 @endsection
 
 ````
 
-
-6. Buat Menu User di dalam sidebar.blade.php yang ada di dalam folder resources/view/backend/partials/sidebar.blade.php
-```
+5.  Buat Menu User di dalam sidebar.blade.php yang ada di dalam folder resources/view/backend/partials/sidebar.blade.php
+   ```
  <li class="nav-item">
         <a href="{{ route('user') }} " class="nav-link">
         <i class="nav-icon fas fa-th"></i>
@@ -140,7 +136,15 @@
          <p>
     </a>
     </li>
-```
+   ```
+
+##RATE TAMBAH USER
+
+1. MEMBUAT ROUTE CREATE CTH:
+
+
+
+
 
 
 
