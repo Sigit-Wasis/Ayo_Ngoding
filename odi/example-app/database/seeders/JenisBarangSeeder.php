@@ -35,12 +35,10 @@ class JenisBarangSeeder extends Seeder
         [
             'nama_jenis_barang' => 'Pulpen permanen',
             'deskripsi' => ('Alat Tulis Kantor'),
-            'created_by' => 3,
-            'updated_by' => 3,
+            'created_by' => 1,
+            'updated_by' => 1,
         ],
     ];
     JenisBarang::insert($data);
 }
 }
-
-

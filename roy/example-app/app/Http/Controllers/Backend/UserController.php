@@ -49,7 +49,7 @@ class UserController extends Controller
             'name' => $request->name,
             'user_name' => $request->user_name,
             'email' => $request->email,
-            'password' => $request->password,
+            'password' => bcrypt($request->password), // ini buat enkripsi pasword
             'updated_at' => \Carbon\Carbon::now(),
         ]);
     } else {
