@@ -12,4 +12,4 @@ class JenisBarang extends Model
     protected $table = 'mst_jenis_barang';
     // semua field itu terisi
     protected $guarded = [];
-}
+} 

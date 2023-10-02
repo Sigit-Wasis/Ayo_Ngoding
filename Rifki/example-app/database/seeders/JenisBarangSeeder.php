@@ -16,43 +16,43 @@ class JenisBarangSeeder extends Seeder
      */
     public function run(): void
     {
-       // QUIERY BUILDER
-    //    DB::table('mst_jenis_barang')->insert([
+        // QUIERY BUILDER
+        //    DB::table('mst_jenis_barang')->insert([
         // 'nama_barang' =>'Alat Tulis',
         // 'deskripsi' =>'Alat Tulis Kantor',
         // 'created_by' => 1,
         // 'updated_by' => 1,
-        
-    // ]);
 
-    // QUERY UNTUK MENGAMBIL ID TERAKHIR DARI TABLE USER
-    $idTerakhir = DB::table('users')->latest('id')->first();
-    
-    //ELEQUENT
-    $data = [
-        [
-        'nama_barang' =>'Alat Tulis65',
-        'deskripsi' =>'Alat Tulis Kantor75',
-        'created_by' => $idTerakhir->id, // mengambil id terakhir
-        'updated_by' => $idTerakhir->id, // mengambil id terakhir
-        ],
-    [
-        'nama_barang' =>'Alat Tulis',
-        'deskripsi' =>'Alat Tulis Kantor',
-        'created_by' => 1,
-        'updated_by' => 1,
-    ],
-    [
-        'nama_barang' =>'Alat Tulis',
-        'deskripsi' =>'Alat Tulis Kantor',
-        'created_by' => 1,
-        'updated_by' => 1,
-    ],
-    
-    ];
-    
-    // JenisBarang adalah Model
-    // Pastikan 
-    JenisBarang::insert($data);
-}
+        // ]);
+
+        // QUERY UNTUK MENGAMBIL ID TERAKHIR DARI TABLE USER
+        $idTerakhir = DB::table('users')->latest('id')->first();
+
+        //ELEQUENT
+        $data = [
+            [
+                'nama_barang' => 'Alat Tulis65',
+                'deskripsi' => 'Alat Tulis Kantor75',
+                'created_by' => $idTerakhir->id, // mengambil id terakhir
+                'updated_by' => $idTerakhir->id, // mengambil id terakhir
+            ],
+            [
+                'nama_barang' => 'Alat Tulis',
+                'deskripsi' => 'Alat Tulis Kantor',
+                'created_by' => 1,
+                'updated_by' => 1,
+            ],
+            [
+                'nama_barang' => 'Alat Tulis',
+                'deskripsi' => 'Alat Tulis Kantor',
+                'created_by' => 1,
+                'updated_by' => 1,
+            ],
+
+        ];
+
+        // JenisBarang adalah Model
+        // Pastikan 
+        JenisBarang::insert($data);
+    }
 }
