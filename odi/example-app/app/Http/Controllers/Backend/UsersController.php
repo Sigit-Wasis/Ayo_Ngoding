@@ -77,7 +77,7 @@ class UsersController extends Controller
         FacadesDB::table('users')->where ('id',$id)->update([
             'name' =>$request->name,
             'username' =>$request->username,
-            'password' =>$request->password,
+            'password' =>bcrypt($request->password),
             'nama_lengkap' =>$request->nama_lengkap,
             'alamat' =>$request->alamat,
             'nomor_telpon' =>$request->nomor_telpon,
@@ -106,6 +106,9 @@ class UsersController extends Controller
     {
         FacadesDB::table('users')->where('id', $id)->delete();
 
-        return redirect()->route('user')->with('message','User Berhasil Dihapus');    }
+        return redirect()->route('user')->with('message','User Berhasil Dihapus');  
+      }
+
+      
 
 }

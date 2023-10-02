@@ -35,6 +35,15 @@
                 </a> 
             </li>
                 <li class="nav-item">
+                <a href="{{ route('barang') }}" class="nav-link">
+                    <i class="nav-icon fas fa-th"></i>
+                    <p>
+                        Data Barang
+                        <span class="right badge badge-danger"></span>
+                    </p>
+                </a> 
+            </li>
+                <li class="nav-item">
                 <a href="{{ route('user') }}" class="nav-link">
                     <i class="nav-icon fas fa-user"></i>
                     <p>

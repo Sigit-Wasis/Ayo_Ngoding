@@ -38,7 +38,12 @@ Route::group(['namespace' => 'App\Http\Controllers'], function() {
     Route::get('edit-user/{id}', 'Backend\userController@edit')->name('edit_user');
     Route::post('/update-user/{id}', 'Backend\userController@update')->name('update_user');
 
-
+    Route::get('/barang', 'Backend\DataBarangController@index')->name('barang');
+    Route::get('/tambah-barang', 'Backend\DataBarangController@create')->name('tambah_barang');
+    Route::post('/store-barang', 'Backend\DataBarangController@store')->name('store_barang');
+    Route::get('delete-barang/{id}', 'Backend\DataBarangController@destroy')->name('delete_barang');
+    Route::get('edit-barang/{id}', 'Backend\DataBarangController@edit')->name('edit_barang');
+    Route::post('/update-barang/{id}', 'Backend\DataBarangController@update')->name('update_barang');
 });
 
 Auth::routes();
