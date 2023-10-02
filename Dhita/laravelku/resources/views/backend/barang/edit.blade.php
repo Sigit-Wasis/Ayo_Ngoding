@@ -7,12 +7,12 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Tambah Jenis Barang</h1>
+                <h1>Edit Data Barang</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active">Tambah Jenis Barang</li>
+                    <li class="breadcrumb-item active">Tambah Data Barang</li>
                 </ol>
             </div>
         </div>
@@ -33,23 +33,22 @@
 @endif
 
 
-<form method="POST" action="{{ route('store_jenis_barang') }}">
+<form method="POST" action="{{ route('update_barang', $editDataBarang->id) }}">
     @csrf
     <div class="card-body">
         <div class="form-group">
-            <label for="nama_jenis_barang">Nama Jenis Barang</label>
-            <input type="text" class="form-control" id="nama_jenis_barang" name="nama_jenis_barang" placeholder="masukan nama jenis barang">
+            <label for="nama_barang">Nama Barang</label>
+            <input type="text" class="form-control" value="{{ $editDataBarang->nama }}" id="nama_barang" name="nama_barang" placeholder="masukan nama jenis barang">
         </div>
-        
         <div class="form-group">
-            <label for="exampleInputPassword1">Deskripsi Jenis Barang</label>
-            <input type="text" class="form-control" id="deskripsi" name="deskripsi" placeholder="masukan deskripsi">
+            <label for="exampleInputPassword1">Deskripsi Data Barang</label>
+            <input type="text" class="form-control" value="{{ $editDataBarang->deskripsi }}" id="deskripsi" name="deskripsi" placeholder="masukan deskripsi">
         </div>
     </div>
 
     <div class="card-footer">
-        <button type="submit" class="btn btn-primary">Simpan Jenis Barang</button>
-        <a href="{{ route('jenis_barang') }}" class="btn btn-info">Kembali</button>
+        <button type="submit" class="btn btn-primary">Simpan Data Barang</button>
+        <a href="{{ route('data_barang') }}" class="btn btn-info">Kembali</a>
     </div>
 </form>
 
