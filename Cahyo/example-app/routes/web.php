@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,6 +35,9 @@ Route::group(['namespace' => 'App\Http\Controllers'], function() {
     Route::get('/edit_user/{id}', 'Backend\userController@edit')->name('edit_user');
     Route::post('/update_user/{id}', 'Backend\userController@update')->name('update_user');
     Route::get('/delete_user/{id}','Backend\userController@destroy')->name('delete_user');
+    Route::get('/tambah_user', 'Backend\userController@create')->name('tambah_user');
+    Route::post('/store_user', 'Backend\userController@store')->name('store_user');
+
     
 });
 Auth::routes();
