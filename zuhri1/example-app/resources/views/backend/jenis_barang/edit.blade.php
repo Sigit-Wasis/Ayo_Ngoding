@@ -4,33 +4,33 @@
 
 <div class="content-wrapper">
 
-<section class="content-header">
-<div class="container-fluid">
-<div class="row mb-2">
-<div class="col-sm-6">
-<h1>EDIT JENIS BARANG</h1>
-</div>
-<div class="col-sm-6">
-<ol class="breadcrumb float-sm-right">
-<li class="breadcrumb-item"><a href="#">Home</a></li>
-<li class="breadcrumb-item active">jenis_barang</li>
-</ol>
-</div>
-</div>
-</div>
-</section>
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>EDIT JENIS BARANG</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">jenis_barang</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
     <!--KONTEN TAMBAH JENIS BARANG -->
     <section class="content">
 
-    @if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
+        @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
                 <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
+                @endforeach
+            </ul>
+        </div>
+        @endif
         <form method="POST" action="{{ route('update_jenis_barang', $editJenisBarang->id) }}">
             @csrf
             <div class="card-body">
@@ -40,7 +40,7 @@
                 </div>
                 <div class="form-group">
                     <label for="deskripsi">Deskripsi Jenis Barang</label>
-                    <input text="text" class="form-control" value= "{{ $editJenisBarang->deskripsi}}" id="deskripsi" name="deskripsi" placeholder="">
+                    <input text="text" class="form-control" value="{{ $editJenisBarang->deskripsi}}" id="deskripsi" name="deskripsi" placeholder="">
                 </div>
             </div>
 

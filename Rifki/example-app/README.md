@@ -138,4 +138,9 @@ class UserController extends Controller
 </a>
 </li>
 ``````
-6. 
+TAMBAH USER
+1. buat route create 
+``````
+Route::get('/tambah-user', 'Backend\UserController@index')->name('tambah_user');
+``````
+2. 

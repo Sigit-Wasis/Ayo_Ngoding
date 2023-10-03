@@ -20,10 +20,10 @@
     </section>
 
     <section class="content">
-    <marquee behavior="scroll" direction="left" style="font-size: 300px;" scrollamount="25">
-        🤟 HURRAAA...
-    </marquee>
-</section>
+        <marquee behavior="scroll" direction="left" style="font-size: 300px;" scrollamount="25">
+            🤟 HURRAAA...
+        </marquee>
+    </section>
 
 
 </div>

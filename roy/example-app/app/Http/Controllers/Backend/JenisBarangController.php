@@ -46,26 +46,26 @@ class JenisBarangController extends Controller
         // apa tipe data dari $id ? tipe datanya string dengan value integer, example "8"
         // Menggunakan first karena kita mau ngambil data hanya 1 yang sesuai dengan ID
 
-        $editJenisBarang =DB::table('jenis_barang')->where('id', $id)->first();
+        $editJenisBarang =DB::table('data_barang')->where('id', $id)->first();
 
-        return view('backend.jenis_barang.edit', compact('editJenisBarang'));
+        return view('backend.data_barang.edit', compact('editDataBarang'));
     }
 
     public function update(JenisBarangRequest $request,$id) {
         DB::table('jenis_barang')->where('id',$id)->update([
-            'nama_barang' => $request->nama_jenis_barang,
+            'nama_barang' => $request->nama_data_barang,
             'deskripsi' => $request->deskripsi,
             'updated_by' => 1,
             'updated_at' => \Carbon\Carbon::now(),
         ]);
 
-        return redirect()->route('jenis_barang')->with('message', 'Jenis Barang Berhasil di Update');      
+        return redirect()->route('jenis_barang')->with('message', 'Data Barang Berhasil di Update');      
 
     }
 
     public function destroy($id) {
-        DB::table('jenis_barang')->where('id', $id)->delete();
+        DB::table('data_barang')->where('id', $id)->delete();
 
-        return redirect()->route('jenis_barang')->with('message', 'Jenis Barang Berhasil Dihapus');
+        return redirect()->route('data_barang')->with('message', 'Data Barang Berhasil Dihapus');
     }
 }
