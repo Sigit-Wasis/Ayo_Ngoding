@@ -36,30 +36,34 @@
     <div class="card-header">
         <h3 class ="card-title">Tambah users</h3>
 </div>
-        <form method="POST" action="{{ route('store_jenis_barang') }}">
+        <form method="POST" action="{{ route('store_user') }}">
             @csrf
             <div class="card-body">
                 <div class="form-group">
-                    <label for="nama_jenis_baranga">Nama Lengkap</label>
-                    <input type="text" class="form-control" id="name" name="nama_jenis_barang" placeholder="">
+                    <label for="name">Nama Lengkap</label>
+                    <input type="text" class="form-control" value="{{old('name')}}" id="name" name="name" placeholder="">
                 </div>
                 <div class="form-group">
-                    <label for="deskripsi">username</label>
-                    <input text="text" class="form-control" id="deskripsi" name="deskripsi" placeholder="">
+                    <label for="username">username</label>
+                    <input text="text" class="form-control"value="{{old('name')}}" id="deskripsi" name="username" placeholder="">
                 </div>
                 <div class="form-group">
-                    <label for="deskripsi">Email</label>
-                    <input text="text" class="form-control" id="deskripsi" name="deskripsi" placeholder="">
+                    <label for="email">email</label>
+                    <input text="text" class="form-control"value="{{old('name')}}" id="email" name="email" placeholder="">
                 </div>
                 <div class="form-group">
-                    <label for="deskripsi">Password</label>
-                    <input text="text" class="form-control" id="deskripsi" name="deskripsi" placeholder="">
+                    <label for="password">password</label>
+                    <input text="password" class="form-control" id="password" name="password" placeholder="">
+                </div>
+                <div class="form-group">
+                    <label for="password_confirmation">confirmasi password</label>
+                    <input text="password" class="form-control" id="password_confirmation" name="password_confirmation" placeholder="">
                 </div>
                 
 
             <div class="card-footer">
-                <button type="submit" class="btn btn-primary">Simpan Jenis Barang</button>
-                <a href="{{ route('jenis_barang')}}" class="btn btn-info">kembali</a>
+                <button type="submit" class="btn btn-primary">Simpan user</button>
+                <a href="{{ route('user')}}" class="btn btn-info">kembali</a>
             </div>
         </form>
     </section>

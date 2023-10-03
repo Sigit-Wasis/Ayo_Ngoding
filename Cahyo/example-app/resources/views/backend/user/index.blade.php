@@ -21,16 +21,16 @@
 
     <section class="content">
         <div class="col-md-2 mb-2">
-            <!-- <a href="{{ route('tambah_jenis_barang')}}" class="btn btn-sm btn-block btn-success">Tambah User </a> -->
-            </div>
+            <a href="{{ route('tambah_user') }}" class="btn btn-sm btn-block btn-success">Tambah User</a>
+        </div>
 
-            <div class="card">
+        <div class="card">
             <div class="card-body">
 
                 @if(Session::has('message'))
                 <div class="alert alert-success alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                    <h5>    
+                    <h5>
                         <i class="icon fas fa-check"></i> Sukses!
                     </h5>
                     {{ Session('message') }}
@@ -41,14 +41,14 @@
                     <thead>
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">Name</th>
+                            <th scope="col">Nama</th>
                             <th scope="col">Username</th>
                             <th scope="col">Email</th>
                             <th scope="col">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                    @foreach($users as $user)    
+                        @foreach($users as $user)
                         <tr>
                             <!-- <th scope="row">{{ $loop->iteration }}</th> -->
                             <td>{{ $users->firstItem() + $loop->index}}</td>
@@ -56,11 +56,11 @@
                             <td>{{ $user->username }}</td>
                             <td>{{ $user->email }}</td>
                             <td>
-                                <a href="{{ route('jenis_barang.edit', $user->id) }}" class="btn btn-sm btn-primary">Edit</a>
-                                <a href="{{ route('delete_jenis_barang', $user->id)}}" onclick="return confirm('Are you sure?')" class="btn btn-sm btn-danger">Delete</a>
+                                <a href="{{ route('edit_user', $user->id) }}" class="btn btn-sm btn-primary">Edit</a>
+                                <a href="{{ route('delete_user', $user->id)}}" onclick="return confirm('Are you sure?')" class="btn btn-sm btn-danger">Delete</a>
                             </td>
                         </tr>
-                    @endforeach
+                        @endforeach
                     </tbody>
                 </table>
 

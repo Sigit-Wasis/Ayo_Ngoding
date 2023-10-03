@@ -22,8 +22,8 @@
 
 <section class="content">
   <!-- BUTTON TAMBAH JENIS BARANG -->
-        <div class="col-md-2 mb-2">
-          <!-- <a href="{{ route('tambah_jenis_barang') }}" class="btn btn-sm btn-block btn-success">Tambah Jenis Barang</a> -->
+  <div class="col-md-2 mb-2">
+          <a href="{{ route('tambah_user') }}" class="btn btn-sm btn-block btn-success">Tambah User</a>
     </div>
     <!-- END BUTTON TAMBAH JENIS BARANG -->
 
@@ -50,8 +50,11 @@
           <tr>
       <th scope="col">#</th>
       <th scope="col">Nama Lengkap</th>
+      <th scope="col">Alamat</th>
+      <th scope="col">No Telephone</th>
       <th scope="col">Username</th>
       <th scope="col">Email</th>
+      <th scope="col">Update pada</th>
       <th scope="col">Aksi</th>
     </tr>
   </thead>
@@ -63,13 +66,17 @@
       <!-- <th scope="row">{{ $loop->iteration}}</th> -->
       <td>{{ $users->firstItem() + $loop->index }}</td>
       <td>{{ $user->nama_lengkap }}</td>
+      <td>{{ $user->alamat }}</td>
+      <td>{{ $user->no_telephone }}</td>
       <td>{{ $user->username }}</td>
       <td>{{ $user->email }}</td>
+      <td>{{ $user->created_at ?? \Carbon\Carbon::now() }}</td>
+    
 
     <td>
     <!-- <a href=" "class="btn btn-sm btn-primary">Edit</a> -->
-    <a href="{{ route('edit_jenis_barang',$user->id) }}" class="btn btn-sm btn-primary">Edit</a>
-    <a href="{{ route('delete_jenis_barang',$user->id) }}" onclick="return confirm('Apakah Kamu Ingin Menghapus ini?')" class="btn btn-sm btn-danger">Hapus</a>
+    <a href="{{ route('edit_user',$user->id) }}" class="btn btn-sm btn-primary">Edit</a>
+    <a href="{{ route('delete_user',$user->id) }}" onclick="return confirm('Apakah Kamu Ingin Menghapus ini?')" class="btn btn-sm btn-danger">Hapus</a>
     </td>
 
     </tr>

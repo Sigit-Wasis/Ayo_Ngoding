@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Auth;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('/login',function(){
+Route::get('/',function(){
     // return view('welcome');
     return view('auth.login');
 
@@ -38,6 +38,13 @@ Route::group(['namespace' => 'App\Http\Controllers'], function() {
     Route::get('/delete-user/{id}', 'Backend\UsersController@destroy')->name('delete_user');
     Route::get('/edit-user/{id}', 'Backend\UsersController@edit')->name('edit_user');
     Route::post('/update-user/{id}', 'Backend\UsersController@update')->name('update_user');
+
+    Route::get('/barang', 'Backend\BarangController@index')-> name('barang');
+    Route::get('/tambah-barang', 'Backend\BarangController@create')->name('tambah_barang');
+    Route::POST('/store-barang', 'Backend\BarangController@store')->name('store_barang');
+    Route::get('/delete-barang/{id}', 'Backend\BarangController@destroy')->name('delete_barang');
+    Route::get('/edit-barang/{id}', 'Backend\BarangController@edit')->name('edit_barang');
+    Route::post('/update-barang/{id}', 'Backend\BarangController@update')->name('update_barang');
    
 });
 Auth::routes();

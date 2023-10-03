@@ -5,11 +5,12 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\JenisBarangRequest;
 use Illuminate\Http\Request;
-use DB;
+use Illuminate\Support\Facades\DB;
 
 class JenisBarangController extends Controller
 {
-    public function index() {
+    public function index()
+    {
         // query ini untuk mengambil data jenis barang secara keseluruhan dengan id secara discending
         $jenisBarang = DB::table('mst_jenis_barang')->select('mst_jenis_barang.*', 'nama_lengkap as created_by')->orderBy('mst_jenis_barang.id', 'DESC')
             ->join('users', 'users.id', 'mst_jenis_barang.created_by')
@@ -20,57 +21,69 @@ class JenisBarangController extends Controller
         return view('backend.jenis_barang.index', compact('jenisBarang'));
     }
 
-    public function create() {
+    public function create()
+    {
         return view('backend.jenis_barang.create');
     }
 
-    public function store(JenisBarangRequest $request) {
+    public function store(JenisBarangRequest $request)
+    {
         // Tipe data $request adalah object
 
         // DD (die dump untuk memeriksa apakahvalue atau rcord didalam variabel $request yang diambil dari form inputan)
         // dd($request->all());
-        
-        DB::table('mst_jenis_barang')->insert([
-                'nama' => $request->nama_jenis_barang,
-                'deskripsi' => $request->deskripsi,
-                'created_by' => 1,
-                'updated_by' => 1,
-                'created_at' => \Carbon\Carbon::now(),
-                'Updated_at' => \Carbon\Carbon::now(),
+
+        DB::table('mst_barang')->insert([   
+            'nama_barang' => $request->nama_barang,
+            'kode_barang' => $request->kodebarang,
+            'harga' => $request->kode,
+            'satuan' => $request->satuan,
+            'deskripsi' => $request->deskripsi,
+            'gambar' => $request->gambar,
+            'stok_barang' => $request->stok_barang,
+            'created_by' => 1,
+            'updated_by' => 1,
+            'created_at' => \Carbon\Carbon::now(),
+            'Updated_at' => \Carbon\Carbon::now(),
         ]);
-        
-        return redirect()->route('jenis_barang')->with('message', 'Jenis Barang berhasil di Simpan!');
+
+        return redirect()->route('_barang')->with('message', 'Jenis Barang berhasil di Simpan!');
     }
-        public function edit($id) {
-            // apa tipe data dari $id? STRING
-            // Menggunakan first karena kita mau mengambil data hanya 1 yang sesuai dengan ID
 
-            $editJenisBarang = DB::table('mst_jenis_barang')->where('id', $id)->first();
+    
+    public function edit($id)
+    {
+        // apa tipe data dari $id? STRING
+        // Menggunakan first karena kita mau mengambil data hanya 1 yang sesuai dengan ID
 
-            session(['edit_jenis_barang'=> $editJenisBarang]);
+        $editJenisBarang = DB::table('mst_jenis_barang')->where('id', $id)->first();
 
-            return view('backend.jenis_barang.edit', compact('editJenisBarang'));
+        session(['edit_jenis_barang' => $editJenisBarang]);
 
-            // return redirect()->route('edit_jenis_barang')->with('message', 'Jenis Barang berhasil dihapus');
-        }
+        return view('backend.jenis_barang.edit', compact('editJenisBarang'));
 
-        public function update(Request $request, $id){
-            $request->validate([
-                'nama_jenis_barang'=> 'required',
-                'deskripsi' => 'required',   
-            ]);
-             DB::table('mst_jenis_barang')
-             ->where('id', $id)->update([
+        // return redirect()->route('edit_jenis_barang')->with('message', 'Jenis Barang berhasil dihapus');
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'nama_jenis_barang' => 'required',
+            'deskripsi' => 'required',
+        ]);
+        DB::table('mst_jenis_barang')
+            ->where('id', $id)->update([
                 'nama' => $request->nama_jenis_barang,
                 'deskripsi' => $request->deskripsi,
                 'update_by' => 1,
                 'update_at' => \Carbon\carbon::now(),
             ]);
 
-            return redirect()->route('jenis_barang')->with('message','jenis barang berhasil di update');
-        }
+        return redirect()->route('jenis_barang')->with('message', 'jenis barang berhasil di update');
+    }
 
-    public function destroy($id) {
+    public function destroy($id)
+    {
         DB::table('mst_jenis_barang')->where('id', $id)->delete();
 
         return redirect()->route('jenis_barang')->with('message', 'Jenis Barang berhasil dihapus');
