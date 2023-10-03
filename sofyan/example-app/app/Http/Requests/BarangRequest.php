@@ -27,6 +27,7 @@ class BarangRequest extends FormRequest
             'jenis_barang' => 'required',
             'nama_barang' => 'required', // Tambahkan aturan validasi ini
             'harga' => 'required',
+            'kode_barang' => 'required|unique:_m_s_t__barang',
             'satuan' => 'required',
             'deskripsi' => 'required',
             'stok' => 'required',
@@ -41,6 +42,8 @@ class BarangRequest extends FormRequest
             'harga.required' => 'Bidang Harga wajib diisi.',
             'satuan.required' => 'Bidang Satuan wajib diisi.',
             'deskripsi.required' => 'Bidang Deskripsi wajib diisi.',
+            'kode_barang.required' => 'Bidang Kode barang wajib diisi.',
+            'kode_barang.unique' => 'Bidang Kode barang sudah ada yang menggunakan.',
             'stok.required' => 'Bidang Stok wajib diisi.',
             'image.image' => 'File yang diunggah harus berupa gambar.',
             'image.mimes' => 'File gambar hanya boleh dalam format: jpeg, png, jpg, gif.',
