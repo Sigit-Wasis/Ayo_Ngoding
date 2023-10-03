@@ -60,7 +60,7 @@
                     <input type="text" class="form-control" value="{{$editusers->email}}"id="email" name="email" placeholder="">
                 </div>
                 <div class="form-group">
-                    <label for="password_confirmation">Email</label>
+                    <label for="password_confirmation">Password Confirmation</label>
                     <input type="password" class="form-control" valeu="" id="password_confirmation" name="password_confirmation" placeholder="">
                 </div>
             </div>

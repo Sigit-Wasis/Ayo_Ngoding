@@ -50,7 +50,7 @@
                                 <td>{{ $user->email }}</td>
                                 <td>
                                     <a href="{{ route('edit_user', $user->id) }}" class="btn btn-primary">Edit</a>
-                                    <a href="{{ route('delete_user', ['id' => $user->id]) }}" class="btn btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus pengguna ini?')">Hapus</a>
+                                    <a href="{{ route('delete_user', ['id' => $user->id]) }}" class="btn btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus pengguna ini?')">Delete</a>
 
                                 </td>
                             </tr>

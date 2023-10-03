@@ -20,7 +20,7 @@ class UserSeeder extends Seeder
             'alamat' => 'Blitarejo',
             'no_telephone' => '088276257481',
             'email' => 'dhitahumdana16@gmail.com',
-            'password' => Hash::make('1234567890'),
+            'password' => Hash::make('1234567890'), //password terbaru : 11223344
 
         ]);
     }
