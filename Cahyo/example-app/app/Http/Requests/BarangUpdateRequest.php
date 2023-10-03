@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class BarangStoreRequest extends FormRequest
+class BarangUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,7 +25,7 @@ class BarangStoreRequest extends FormRequest
     {
         return [
             'id_jenis_barang' => 'required',
-            'kode_barang' => 'required|unique:mst_barang',
+            'kode_barang' => 'required',
             'nama_barang' => 'required|max:255',
             'harga' => 'required',
             'satuan' => 'required',
@@ -42,7 +42,6 @@ class BarangStoreRequest extends FormRequest
             'nama_barang.required' => 'Nama  Barang Harus Diisi Alias Wajibe',
             'nama_barang.max' => 'Nama Barang Aja Dawa Dawa Cok',
             'kode_barang.required' => 'Kode Barang Harus Diisi Alias Wajibe',
-            'kode_barang.unique' => 'Kode Barang sudah ada',
             'satuan.required' => 'Satuan Barang Harus Diisi Alias Wajibe',
             'stok_barang.required' => 'Stok Barang Harus Diisi Alias Wajibe',
             'deskripsi.required' => 'Deskripsi Barang Harus Diisi Alias Wajibe',
@@ -51,5 +50,6 @@ class BarangStoreRequest extends FormRequest
             'gambar.max' => 'Gambar Barang Maximal 2 MB',
             'harga.required' => 'Harga Barang Harus Diisi Alias Wajibe'
         ];
+
     }
 }
