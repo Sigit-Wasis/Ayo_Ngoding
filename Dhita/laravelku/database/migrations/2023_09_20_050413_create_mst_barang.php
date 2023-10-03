@@ -16,9 +16,11 @@ return new class extends Migration
             $table->foreignId('id_jenis_barang')->notNull()->references('id')->on('mst_jenis_barang')->onUpdate('cascade')->onDelete('cascade');
             $table->string('kode_barang');
             $table->string('nama_barang');
-            $table->string('harga');
-            $table->string('deskripsi');
-            $table->string('stok');
+            $table->integer('harga');
+            $table->string('satuan')->comment('misalkan kardus, botol, pcs');
+            $table->text('deskripsi');
+            $table->string('gambar');
+            $table->string('stok_barang');
             $table->foreignId('created_by')->notNull()->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('updated_by')->notNull()->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
