@@ -57,5 +57,12 @@ class JenisBarangController extends Controller
         DB::table('mst_jenis_barang')->where('id', $id)->delete();
 
         return redirect()->route('jenis_barang')->with('message', 'Jenis Barang Berhasil Dihapus' );
+        
     }
+
+    public function show()
+{
+
+}
+
 }

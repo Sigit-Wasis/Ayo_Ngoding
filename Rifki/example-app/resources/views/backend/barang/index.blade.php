@@ -49,7 +49,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse($barang as $barang)
+                        @forelse($barangs as $barang)
                         <tr>
                             <td>{{ $barang->id }}</td>
                             <td>{{ $barang->kode_barang }}</td>
@@ -60,9 +60,11 @@
                             <td><img src="{{ $barang->gambar }}" alt="{{ $barang->nama_barang }}" width="50"></td>
                             <td>{{ $barang->stok_barang }}</td>
                             <td>
+                                <a href="{{ route('Show_barang', $barang->id) }}" class="btn btn-info">Show</a>
                                 <a href="{{ route('barang.edit', $barang->id) }}" class="btn btn-primary">Edit</a>
                                 <a href="{{ route('delete_barang', $barang->id) }}" onclick="return confirm('Are you sure')" class="btn btn-sm btn-danger">Delete</a>
                             </td>
+
                         </tr>
                         @empty
                         <tr>
@@ -74,7 +76,8 @@
                     </tbody>
                 </table>
 
-                {{ $barang->links() }}
+                {{ $barangs->links() }}
+
             </div>
         </div>
     </section>

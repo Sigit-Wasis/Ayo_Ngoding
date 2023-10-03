@@ -46,8 +46,8 @@
                 </div>
                 <div class=" form-group">
                     <label for="kode_barang">Kode Barang</label>
-                    <input type="text" class="form-control" id="kode_barang" name="kode_barang"
-                        placeholder="Kode Barang">
+                    <input type="text" class="form-control" value="{{$rand_8_char }}" id="kode_barang"
+                        name="kode_barang" readonly>
                 </div>
                 <div class="form-group">
                     <label for="nama_barang">Nama Barang</label>

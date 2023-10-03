@@ -26,7 +26,7 @@ class BarangStoreRequest extends FormRequest
         return [
             'nama_barang' => 'required|max:255',
             'id_jenis_barang' => 'required',
-            'kode_barang' => 'required',
+            'kode_barang' => 'required|unique:mst_barang',
             'harga' => 'required',
             'satuan' => 'required',
             'deskripsi' => 'required',
@@ -41,7 +41,7 @@ class BarangStoreRequest extends FormRequest
             'nama_barang.required' => 'Nama Jenis Barang Harus Diisi Alias Wajib',
             'nama_barang.max' => 'Nama Barang Tidak Boleh Melebihi 255 Karakter',
             'id_jenis_barang.max' => 'Nama Jenis Barang Tidak Boleh Melbihi 255 Karakter',
-            'kode_barang.required' => 'Kode barang harus di isi alias wajib',
+            'kode_barang.unique' => 'Kode barang sudah ada sebelumnya',
             'nama_barang.required' => 'Nama barang harus di isi alias wajib',
             'harga_barang.required'=> 'harga barang harus di isi alias wajib',
             'satuan_barang.required'=> 'Satuan barang harus di isi alias wajib',

@@ -16,11 +16,13 @@ return new class extends Migration
         Schema::create('_m_s_t__barang', function (Blueprint $table) {
             $table->id();
             $table->foreignId('Id_jenis_barang')->notNull()->references('id')->on('_m_s_t__jenis__barang')->onUpdate('cascade')->onDelete('cascade');
-            $table->integer('kode_barang');
+            $table->string('kode_barang');
             $table->string('nama_barang');
             $table->string('harga');
+            $table->string('satuan');
             $table->string('deskripsi');
             $table->string('stok');
+            $table->string('image');
             $table->foreignId('created_by')->notNull()->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('updated_by')->notNull()->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
