@@ -11,8 +11,8 @@ class JenisBarangController extends Controller
 {
     public function index() {
         //query ini untuk mengambil data jenis barang secara keseluruhan dengan id secara discending
-        $jenisBarang = DB::table('jenis_barang')->select('jenis_barang.*','username as craeted_by')->orderBy('jenis_barang.id','DESC')
-        ->join('users', 'users.id', 'jenis_barang.craeted_by')
+        $jenisBarang = DB::table('jenis_barang')->select('jenis_barang.*','username as created_by')->orderBy('jenis_barang.id','DESC')
+        ->join('users', 'users.id', 'jenis_barang.created_by')
         ->paginate(5);
 
         // dd($jenisBarang);
@@ -36,7 +36,7 @@ class JenisBarangController extends Controller
         DB::table('jenis_barang')->insert([
             'nama_jenis_barang' => $request->nama_jenis_barang,
             'deskripsi_barang' =>$request->deskripsi_barang,
-            'craeted_by' => 1,
+            'created_by' => 1,
             'updated_by' => 1,
             'created_at' => \Carbon\Carbon::now(),
             'updated_at' => \Carbon\Carbon::now(),
@@ -73,5 +73,5 @@ public function update(JenisBarangRequest $request, $id){
             DB::table('jenis_barang')->where('id',$id)->delete();
 
             return redirect()->route('jenis_barang')->with('message', 'Jenis Barang Berhasil dihapus');
-        }
+        } 
 }

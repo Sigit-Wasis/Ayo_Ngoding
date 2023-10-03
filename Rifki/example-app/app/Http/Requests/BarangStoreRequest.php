@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 class BarangStoreRequest extends FormRequest
+
 {
     public function authorize()
     {
@@ -14,7 +15,7 @@ class BarangStoreRequest extends FormRequest
         return [
             'nama_barang' => 'required|max:255',
             'id_jenis_barang' => 'required',
-            'kode_barang' => 'required',
+            'kode_barang' => 'required|unique:mst_barang',
             'satuan_barang' => 'required',
             'stok_barang' => 'required',
             'deskripsi_barang' => 'required',

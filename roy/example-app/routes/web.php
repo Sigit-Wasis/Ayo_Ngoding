@@ -42,6 +42,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function() {
     Route::get('/tambah-barang', 'Backend\DataBarangController@create')->name('tambah_barang');
     Route::post('/store-barang', 'Backend\DataBarangController@store')->name('store_barang');
     Route::get('delete-barang/{id}', 'Backend\DataBarangController@destroy')->name('delete_barang');
+    Route::get('show-barang/{id}', 'Backend\DataBarangController@show')->name('show_barang');
     Route::get('edit-barang/{id}', 'Backend\DataBarangController@edit')->name('edit_barang');
     Route::post('/update-barang/{id}', 'Backend\DataBarangController@update')->name('update_barang');
 });
