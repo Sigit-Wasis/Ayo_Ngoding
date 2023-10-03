@@ -53,7 +53,7 @@
 
         <div class="form-group">
             <label for="kode_barang">Kode Barang</label>
-            <input type="text" class="form-control" value ="{{ old('kode_barang')}}" id="kode_barang" name="kode_barang" placeholder="masukan deskripsi barang">
+            <input type="text" class="form-control" value ="{{ $rand_8_char}}" id="kode_barang" name="kode_barang" readonly="">
         </div>
 
         <div class="form-group">

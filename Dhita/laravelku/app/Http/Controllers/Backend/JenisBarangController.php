@@ -75,8 +75,8 @@ class JenisBarangController extends Controller
             ->where('id', $id)->update([
                 'nama' => $request->nama_jenis_barang,
                 'deskripsi' => $request->deskripsi,
-                'update_by' => 1,
-                'update_at' => \Carbon\carbon::now(),
+                'updated_by' => 1,
+                'updated_at' => \Carbon\carbon::now(),
             ]);
 
         return redirect()->route('jenis_barang')->with('message', 'jenis barang berhasil di update');

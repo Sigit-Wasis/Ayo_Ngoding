@@ -24,7 +24,7 @@ class BarangStoreRequest extends FormRequest
         return [
             'nama_barang' => 'required |max:255',
             'id_jenis_barang' => 'required',
-            'kode_barang' =>   'required',         
+            'kode_barang' =>   'required |unique:mst_barang' ,         
             'harga' =>'required',
             'satuan' =>'required',
             'deskripsi' =>'required',
