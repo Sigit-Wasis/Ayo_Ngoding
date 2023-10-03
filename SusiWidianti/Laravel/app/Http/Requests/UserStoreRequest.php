@@ -23,7 +23,8 @@ class UserStoreRequest extends FormRequest
     {
         return [
             'username' =>'required|max:255',
-            'email' =>'required|email',
+            'nama_lengkap' => 'required|max:255',
+            'email' =>'required|email|unique:users',
             'password' => 'required|max:10|min:6|confirmed'
         ];
     }

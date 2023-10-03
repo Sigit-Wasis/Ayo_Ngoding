@@ -40,6 +40,7 @@
             <label for="nama_jenis_barang">Nama Jenis Barang</label>
             <input type="text" class="form-control" id="nama_jenis_barang" name="nama_jenis_barang" placeholder="masukan nama jenis barang">
         </div>
+        
         <div class="form-group">
             <label for="exampleInputPassword1">Deskripsi Jenis Barang</label>
             <input type="text" class="form-control" id="deskripsi" name="deskripsi" placeholder="masukan deskripsi">

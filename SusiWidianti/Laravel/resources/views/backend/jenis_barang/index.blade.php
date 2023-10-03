@@ -57,7 +57,7 @@
               <td>{{ $jenis->nama_jenis_barang}}</td>
               <td>{{ $jenis->deskripsi_barang}}</td>
               <td>{{ $jenis->created_at ?? \Carbon\Carbon::now() }}</td>
-              <td>{{ $jenis->craeted_by}} </td>
+              <td>{{ $jenis->created_by}} </td>
               <td>
 
                 <a href="{{ route('edit_jenis_barang',$jenis->id)}}" class="btn btn-sm btn-primary">edit</a>
