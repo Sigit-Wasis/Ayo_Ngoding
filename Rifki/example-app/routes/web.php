@@ -38,6 +38,8 @@ Route::get('/', function () {
     Route::post('update-user/{id}', 'Backend\UserController@update')->name('update_user');
 
     Route::get('/barang', 'Backend\BarangController@index')->name('barang.index');
+    // Route::get('/show_barang', 'JenisBarangController@show')->name('Show_barang');
+    Route::get('/show_barang/{id}','Backend\BarangController@show')->name('Show_barang');
     Route::get('/tambah_barang', 'Backend\BarangController@create')->name('tambah_barang');
     Route::post('/store_data_barang', 'Backend\BarangController@store')->name('store_barang');
     Route::get('barang/edit/{id}', 'Backend\BarangController@edit')->name('barang.edit');
