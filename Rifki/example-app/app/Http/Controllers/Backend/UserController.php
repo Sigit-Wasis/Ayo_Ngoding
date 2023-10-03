@@ -24,9 +24,9 @@ class UserController extends Controller
     public function store(UserRequest $request)
     {
         DB::table('users')->insert([
-            'name' => $request->nama,
+            'name' => $request->name,
             'email' => $request->email,
-            'password' => $request->password,
+            'password' => bcrypt($request->password),
             'created_at' => now(),
             'updated_at' => now(),
         ]);
@@ -46,7 +46,8 @@ class UserController extends Controller
         DB::table('users')->where('id', $id)->update([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => $request->password,
+            'password' => bcrypt($request->password),
+
             'updated_at' => now(),
         ]);
     } else {

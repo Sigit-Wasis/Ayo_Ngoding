@@ -38,19 +38,19 @@
             <div class="card-body">
                 <div class="form-group">
                     <label for="nama">Nama</label>
-                    <input type="text" class="form-control" value="{{old('name')}}" id="nama" name="nama" placeholder="Nama Pengguna">
+                    <input type="text" class="form-control" value="{{old('name')}}" id="nama" name="name" placeholder="Nama Pengguna">
                 </div>
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="email" class="form-control" value="" id="email" name="email" placeholder="Alamat Email">
+                    <input type="email" class="form-control" value="{{old('email')}}" id="email" name="email" placeholder="Alamat Email">
                 </div>
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input type="password" class="form-control" value="" id="password" name="password" placeholder="Password">
+                    <input type="password" class="form-control" value="{{old('password')}}" id="password" name="password" placeholder="Password">
                 </div>
                 <div class="form-group">
                     <label for="password">Konfirmasi Password:</label>
-                    <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                    <input type="password" class="form-control" id="password" name="password_confirmation" placeholder="Password">
                 </div>
                 <div class="card-footer">
                     <button type="submit" class="btn btn-primary">Simpan Pengguna</button>

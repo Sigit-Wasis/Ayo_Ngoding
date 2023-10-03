@@ -38,6 +38,18 @@
                         </p>
                     </a>
                 </li>
+
+                <li class="nav-item">
+                    <a href="{{route('barang.index') }}" class="nav-link">
+                        <i class="nav-icon fas fa-th"></i>
+
+                        <p>
+                            Data Barang
+
+                        </p>
+                    </a>
+                </li>
+
                 <li class="nav-item">
                     <a href="{{route('user') }}" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
