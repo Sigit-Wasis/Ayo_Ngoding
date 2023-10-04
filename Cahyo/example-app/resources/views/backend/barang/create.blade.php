@@ -20,14 +20,14 @@
     </section>
 
     <section class="content">
-    @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
+        @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
         @endif
         <div class="card">
             <div class="card-body">
@@ -37,14 +37,14 @@
                         <label for="id_jenis_barang">Jenis Barang</label>
                         <select name="id_jenis_barang" class="form-control">
                             <option value="">--pilih jenis barang --</option>
-                            @foreach ($jenisBarang as $jenis)
+                            @foreach ($createBarang as $jenis)
                             <option value="{{ $jenis->id }}">{{ $jenis->nama_jenis_barang }}</option>
                             @endforeach
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="kode_barang">Kode Barang</label>
-                        <input type="text" class="form-control" value="{{ old('kode_barang')}}" id="kode_barang" name="kode_barang" placeholder="">
+                        <input type="text" class="form-control" value="{{ $rand_8_char }}" id="kode_barang" name="kode_barang" readonly>
                     </div>
                     <div class="form-group">
                         <label for="nama_barang">Nama Barang</label>

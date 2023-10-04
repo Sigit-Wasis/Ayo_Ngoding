@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\BarangRequest;
+use App\Http\Requests\BarangUpdateRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB as FacadesDB;
 class BarangController extends Controller
@@ -29,8 +30,13 @@ class BarangController extends Controller
      */
     public function create()
     {
-        $jenisBarang = FacadesDB::table('jenis_barang')->get();
-        return view ('backend.barang.create', compact('jenisBarang'));
+        $jenisBarang = FacadesDB::table('jenis_barang')->select('id','nama_jenis_barang')->get();
+        
+        $uniqid = uniqid();
+        $rand_star = rand(1,5);
+        $rand_8_char = substr ($uniqid, $rand_star, 8);
+        
+        return view ('backend.barang.create', compact('jenisBarang','rand_8_char'));
     }
 
     /**
@@ -65,7 +71,13 @@ class BarangController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $detailBarang = FacadesDB::table('barang')->select('barang.*','name as created_by','nama_jenis_barang')
+        ->where('barang.id',$id)
+        ->join('jenis_barang', 'jenis_barang.id', 'barang.id_jenis_barang')
+        ->join('users','users.id','jenis_barang.created_by')
+        ->first();
+
+        return view ('backend.barang.show', compact('detailBarang'));
     }
 
     /**
@@ -73,31 +85,58 @@ class BarangController extends Controller
      */
     public function edit(string $id)
     {
-        $jenisBarang = FacadesDB::table('jenis_barang')->get();
-        return view ('backend.barang.create', compact('jenisBarang'));
+        $editBarang = FacadesDB::table('barang')->select('*')->where('id', $id)->first();
+        $jenisBarang = FacadesDB::table('jenis_barang')->select('id', 'nama_jenis_barang')->get(); 
+        
+        return view('backend.barang.edit', compact('editBarang', 'jenisBarang'));
     }
+    
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(BarangRequest $request, $id)
+    public function update(BarangUpdateRequest $request, $id)
     {
-        FacadesDB::table('barang')->where ('id',$id)->update([
-            'id_jenis_barang' =>$request->id_jenis_barang,
-            'kode_barang' =>$request->kode_barang,
-            'nama_barang' =>$request->nama_barang,
-            'harga' =>$request->harga,
-            'satuan' =>$request->satuan,
-            'deskripsi' =>$request->deskripsi,
-            'gambar' =>$request->gambar,
-            'stok' =>$request->stok,
-            'updated_by' => 1,
-            'updated_at' => \Carbon\Carbon::now(),
+        if ($request->gambar) {
+            // Simpan File Gambar di dalam folder public/assets/image
+            $imageName = time().'.'.$request->gambar->extension();
+            $request->gambar->move(public_path('asset/image/'), $imageName);
 
+            $file = FacadesDB::table('barang')->select('gambar')->where('id', $id)->first();
 
-        ]);
+            if (file_exists(public_path($file->gambar))) {
+                unlink(public_path($file->gambar));
+            }
 
-        return redirect()->route('barang')->with('message','Jenis Barang Berhasil Diupdate');
+            // Query insert Data Barang
+            FacadesDB::table('barang')->where('id', $id)->update([
+                'id_jenis_barang' => $request->id_jenis_barang,
+                'nama_barang' => $request->nama_barang,
+                'kode_barang' => $request->kode_barang,
+                'stok' => $request->stok,
+                'harga' => $request->harga,
+                'satuan' => $request->satuan,
+                'deskripsi' => $request->deskripsi,
+                'gambar' => 'asset/image/'. $imageName,
+                'updated_by' => Auth::user()->id,
+                'updated_at' => \Carbon\Carbon::now(),
+            ]);
+        } else {
+            // Query insert Data Barang
+            FacadesDB::table('barang')->where('id', $id)->update([
+                'id_jenis_barang' => $request->id_jenis_barang,
+                'nama_barang' => $request->nama_barang,
+                'kode_barang' => $request->kode_barang,
+                'stok' => $request->stok,
+                'harga' => $request->harga,
+                'satuan' => $request->satuan,
+                'deskripsi' => $request->deskripsi,
+                'updated_by' => Auth::user()->id,
+                'updated_at' => \Carbon\Carbon::now(),
+            ]);
+        }
+
+        return redirect()->route('barang')->with('messages', 'Data Barang Berhasil Diupdate');
     }
 
     /**
@@ -105,8 +144,18 @@ class BarangController extends Controller
      */
     public function destroy(string $id)
     {
-            FacadesDB::table('barang')->where('id', $id)->delete();
+            if ($id) {
+                $file = FacadesDB::table('barang')->select('gambar')->where('id', $id)->first();
     
-            return redirect()->route('barang')->with('message','Jenis Barang Berhasil Dihapus');
+                if ($file->gambar != "") {
+                    if (file_exists(public_path($file->gambar))) {
+                        unlink(public_path($file->gambar));
+                    }
+                }
+    
+                FacadesDB::table('barang')->where('id', $id)->delete();
+        
+                return redirect()->route('barang')->with('messages', 'Sukses');
+            }
+        }
     }
-}

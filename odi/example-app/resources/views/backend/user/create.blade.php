@@ -74,6 +74,17 @@
                     <input type="email" class="form-control" value="{{ old ('email') }}" id="email" name="email"
                         placeholder="Email">
                 </div>
+                <div class="md-12">
+                    <div class="form-group">
+                        <label>Role User <strong style="color: red;">*</strong></label>
+                        <select class="form-control select2-with-bg" id="bg-multiple" multiple="multiple"
+                            data-bgcolor="light-info" style="width: 100%; height: 50px;" name="roles[]">
+                            @foreach ($roles as $role)
+                            <option value="{{ $role }}">{{ $role }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
             </div>
 
             <div class="card-footer">

@@ -1,5 +1,5 @@
 @extends('backend.app')
-
+@section('title','Data Barang')
 @section('content')
 
 <div class="content-wrapper">

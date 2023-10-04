@@ -44,11 +44,7 @@
                             <th scope="col">Jenis Barang</th>
                             <th scope="col">Kode Barang</th>
                             <th scope="col">Nama Barang</th>
-                            <th scope="col">Harga</th>
-                            <th scope="col">Satuan</th>
-                            <th scope="col">Deskripsi</th>
-                            <th scope="col">Gambar</th>
-                            <th scope="col">Stok Barang</th>
+                            
                             <th scope="col">Aksi</th>
                         </tr>
                     </thead>
@@ -56,16 +52,13 @@
                         @forelse($Barang as $barang)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
-                            <td>{{ $barang->nama_barang }}</td>
+                            <td>{{ $barang->nama_jenis_barang }}</td>
                             <td>{{ $barang->kode_barang }}</td>
-                            <td>{{ $barang->harga }}</td>
-                            <td>{{ $barang->harga }}</td>
-                            <td>{{ $barang->satuan }}</td>
-                            <td>{{ $barang->deskripsi }}</td>
-                            <td>{{ $barang->gambar }}</td>
-                            <td>{{ $barang->stok_barang }}</td>
+                            <td>{{ $barang->nama_barang }}</td>
+                            
                             <td>
-                                <a href="{{ route('edit_barang', ['id' => $barang->id]) }}" class="btn btn-sm btn-primary">Edit</a>
+                                <a href="{{ route('show_barang', $barang->id) }}" class="btn btn-sm btn-info">Show</a>
+                                <a href="{{ route('edit_barang', $barang->id) }}" class="btn btn-sm btn-primary">Edit</a>
                                 <a href="{{ route('delete_barang', $barang->id)}}" onclick="return confirm('Are you sure?')" class="btn btn-sm btn-danger">Delete</a>
                             </td>
                         </tr>

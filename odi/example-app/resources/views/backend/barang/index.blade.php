@@ -1,5 +1,5 @@
 @extends('backend.app')
-
+@section('title','Barang')
 @section('content')
 
 <div class="content-wrapper">
@@ -37,20 +37,13 @@
                 </div>
                 @endif
 
-                <table class="table">
+                <table class="table table-bordered table-striped">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Nama Jenis Barang</th>
                             <th scope="col">Kode Barang</th>
                             <th scope="col">Nama Barang</th>
-                            <th scope="col">Harga</th>
-                            <th scope="col">Satuan</th>
-                            <th scope="col">Deskripsi</th>
-                            <th scope="col">Gambar</th>
-                            <th scope="col">Stok</th>
-                            <th scope="col">Dibuat Pada</th>
-                            <th scope="col">Diupdate Pada</th>
                             <th scope="col">Dibuat Oleh</th>
                             <th scope="col">Aksi</th>
                         </tr>
@@ -63,17 +56,11 @@
                             <td>{{ $barang->nama_jenis_barang }}</td>
                             <td>{{ $barang->kode_barang }}</td>
                             <td>{{ $barang->nama_barang }}</td>
-                            <td>{{ $barang->harga }}</td>
-                            <td>{{ $barang->satuan }}</td>
-                            <td>{{ $barang->deskripsi }}</td>
-                            <td>{{ $barang->gambar }}</td>
-                            <td>{{ $barang->stok }}</td>
-                            <td>{{ $barang->created_at ?? \Carbon\Carbon::now() }}</td>
-                            <td>{{ $barang->updated_at ?? \Carbon\Carbon::now() }}</td>
                             <td>{{ $barang->created_by }}</td>
                             <td>
-                                <a href="{{ route('edit_barang', $barang->id) }}"
-                                    class="btn btn-sm btn-warning">Edit</a>
+                                <a href="{{ route('show_barang', $barang->id) }}"
+                                    class="btn btn-sm btn-primary">Detail</a>
+                                <a href="{{ route('edit_barang', $barang->id) }}" class="btn btn-sm btn-info">Edit</a>
                                 <a href="{{ route('delete_barang', $barang->id) }}"
                                     onclick="return confirm('Apa kamu yakin')" class="btn btn-sm btn-danger">Hapus</a>
                             </td>

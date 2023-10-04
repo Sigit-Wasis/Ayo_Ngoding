@@ -41,13 +41,6 @@
                             <th scope="col">Jenis Barang</th>
                             <th scope="col">Kode Barang</th>
                             <th scope="col">Nama Barang</th>
-                            <th scope="col">Harga</th>
-                            <th scope="col">Satuan</th>
-                            <th scope="col">Deskripsi</th>
-                            <th scope="col">Stok</th>
-                            <th scope="col">Image</th>
-                            <th scope="col">Di Buat Pada</th>
-                            <th scope="col">Di Buat Oleh</th>
                             <th scope="col">Aksi</th>
                         </tr>
                     </thead>
@@ -63,22 +56,10 @@
                             <td>{{$data->jenis_barang}}</td>
                             <td>{{$data->kode_barang}}</td>
                             <td>{{$data->nama_barang}}</td>
-                            <td>{{$data->harga}}</td>
-                            <td>{{$data->satuan}}</td>
-                            <td>{{$data->deskripsi}}</td>
-                            <td>{{$data->stok}}</td>
                             <td>
-                                @if(!empty($data->image))
-                                <img src="{{ asset('assets/dist/img/' . $data->image) }}" alt="" class="img-thumbnail" width="100">
-                                @else
-                                No Image
-                                @endif
-                            </td>
-                            <td>{{$data->created_at ?? \Carbon\Carbon::now() }}</td>
-                            <td>{{$data->created_by}}</td>
-                            <td>
-                                <a href="" class="btn btn-sm btn-primary">Edit</a>
-                                <a href="{{ route('delete_barang', ['id' => $data->id]) }}" onclick="return confirm('are you sure?')" class="btn btn-sm btn-danger">Delete</a>
+                                <a href="{{ route('detail_barang', $data->id) }}" class="btn btn-sm btn-info">Detail</a>
+                                <a href="{{ route('edit_barang', $data->id) }}" class="btn btn-sm btn-primary">Edit</a>
+                                <a href="{{route('delete_barang',$data->id)}}" onclick="return confirm('are you sure?')" class="btn btn-sm btn-danger">Delete</a>
                             </td>
                         </tr>
                         @empty
