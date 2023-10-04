@@ -10,7 +10,11 @@
                 <img src="{{ url('assets/dist/img/user2-160x160.jpg') }}" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-                <a href="#" class="d-block">Sofyan Hadi</a>
+                @auth
+                <a href="#" class="d-block">{{ auth()->user()->name }}</a>
+                @else
+                <a href="#" class="d-block">Guest User</a> <!-- You can customize the guest user's name here -->
+                @endauth
             </div>
         </div>
 
@@ -58,6 +62,15 @@
                         <i class="nav-icon fas fa-user"></i>
                         <p>
                             Users
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{{route('roles.index')}}" class="nav-link">
+                        <i class="nav-icon fas fa-user"></i>
+                        <p>
+                            Roles
                         </p>
                     </a>
                 </li>
