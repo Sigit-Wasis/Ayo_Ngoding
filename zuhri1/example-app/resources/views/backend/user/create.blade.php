@@ -45,19 +45,19 @@
                 </div>
                 <div class="form-group">
                     <label for="username">username</label>
-                    <input text="text" class="form-control"value="{{old('name')}}" id="deskripsi" name="username" placeholder="">
+                    <input type="text" class="form-control"value="{{old('name')}}" id="deskripsi" name="username" placeholder="">
                 </div>
                 <div class="form-group">
                     <label for="email">email</label>
-                    <input text="text" class="form-control"value="{{old('name')}}" id="email" name="email" placeholder="">
+                    <input type="text" class="form-control"value="{{old('name')}}" id="email" name="email" placeholder="">
                 </div>
                 <div class="form-group">
                     <label for="password">password</label>
-                    <input text="password" class="form-control" id="password" name="password" placeholder="">
+                    <input type="password" class="form-control" id="password" name="password" placeholder="">
                 </div>
                 <div class="form-group">
                     <label for="password_confirmation">confirmasi password</label>
-                    <input text="password" class="form-control" id="password_confirmation" name="password_confirmation" placeholder="">
+                    <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" placeholder="">
                 </div>
                 
 

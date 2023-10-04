@@ -40,7 +40,7 @@ class UserController extends Controller
             'name' => $request->name,
             // 'deskripsi' =>$request->deskripsi,
             'username' => $request->username,
-            'password' => $request->password,
+            'password' => bcrypt($request->password),
             'email' => $request->email,
             'created_at' => \Carbon\Carbon::now(),
             'updated_at' => \Carbon\Carbon::now(),

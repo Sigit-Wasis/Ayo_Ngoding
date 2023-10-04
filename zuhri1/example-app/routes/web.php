@@ -34,6 +34,15 @@ Route::get('/', function () {
     Route::get('/edit-user/{id}', 'Backend\UserController@edit')->name('edit_user');
     Route::post('/update-user/{id}', 'Backend\userController@update')->name('update_user');
 
+    //Data Barang
+
+    Route::get('/DataBarang','Backend\DataBarangController@index')->name('DataBarang');
+    Route::get('/tambah-DataBarang','Backend\DataBarangController@create')->name('tambah_DataBarang');
+    Route::post('/store-DataBarang','Backend\DataBarangController@store')->name('store_DataBarang');
+    Route::get('/delete-DataBarang/{id}', 'Backend\DataBarangController@destroy')->name('delete_DataBarang');
+    Route::get('/edit-DataBarang/{id}', 'Backend\DataBarangController@edit')->name('edit_DataBarang');
+    Route::post('/update-DataBarang/{id}', 'Backend\DataBarangController@update')->name('update_DataBarang');
+    Route::get('/show-DataBarang/{id}', 'Backend\DataBarangController@show')->name('show_DataBarang');
   });
 
 
