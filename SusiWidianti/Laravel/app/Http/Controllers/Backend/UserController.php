@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\UserStoreRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Models\User;
+use Spatie\Permission\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
@@ -25,7 +26,9 @@ class UserController extends Controller
 
     public function create()
     {
-        return view('backend.users.create');
+        $roles =Role::pluck('name')->all();
+
+        return view('backend.users.create', compact('roles'));
     }
 
     public function store(UserStoreRequest $request)
@@ -34,16 +37,20 @@ class UserController extends Controller
 
         // Memeriksa apakah 'username' ada dalam request
         // Data pengguna baru disimpan dalam tabel 'users'
-        DB::table('users')->insert([
-            'username' => $request->username,
-            'password' => bcrypt($request->password),
-            'nama_lengkap' => $request->nama_lengkap,
-            'alamat' => $request->alamat,
-            'nomor_telepon' => $request->nomor_telepon,
-            'email' => $request->email,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now(),
-        ]);
+        // DB::table('users')->insert([
+        //     'username' => $request->username,
+        //     'password' => bcrypt($request->password),
+        //     'nama_lengkap' => $request->nama_lengkap,
+        //     'alamat' => $request->alamat,
+        //     'nomor_telepon' => $request->nomor_telepon,
+        //     'email' => $request->email,
+        //     'created_at' => Carbon::now(),
+        //     'updated_at' => Carbon::now(),
+        //]);
+
+        $input =$request->all();        //mengambil semua value dari form created user
+        $user=User::create($input);
+        $user->assignRole($request->input('roles'));
 
         return redirect()->route('users')->with('message', 'User berhasil disimpan');
     }
