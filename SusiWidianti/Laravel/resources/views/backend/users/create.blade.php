@@ -37,7 +37,7 @@
             <div class="card-body">
                 <div class="form-group">
                     <label for="username">Username</label>
-                    <input type="text" class="form-control" value="{{old('username') }}"  id="username" name="username" placeholder="">
+                    <input type="text" class="form-control" value="{{old('username') }}" id="username" name="username" placeholder="">
                 </div>
                 <div class="form-group">
                     <label for="password">Password</label>
@@ -45,7 +45,7 @@
                 </div>
                 <div class="form-group">
                     <label for="nama_lengkap">Nama Lengkap</label>
-                    <input type="text" class="form-control" value="{{old('nama_lengkap') }}"  id="nama_lengkap" name="nama_lengkap" placeholder="">
+                    <input type="text" class="form-control" value="{{old('nama_lengkap') }}" id="nama_lengkap" name="nama_lengkap" placeholder="">
                 </div>
                 <div class="form-group">
                     <label for="alamat">Alamat</label>
@@ -63,13 +63,20 @@
                     <label for="password_confirmation">Konfirmasi Password</label>
                     <input type="password" class="form-control" value="" id="password_confirmation" name="password_confirmation" placeholder="">
                 </div>
-                
-            </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Role User <strong style="color: red;">*</strong></label>
+                        <select class="form-control select2-with-bg" id="bg-multiple" multiple="multiple" data-bgcolor="light-info" style="width: 100%; height: 50px;" name="roles[]">
+                            @foreach ($roles as $role)
+                            <option value="{{ $role}}">{{ $role }}</option>
+                            @endforeach
+                        </select>
+                    </div>
 
-            <div class="card-footer">
-                <button type="submit" class="btn btn-primary">Simpan User</button>
-                <a href="{{ route('users') }}" class="btn btn-info">Kembali</a>
-            </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-primary">Simpan User</button>
+                        <a href="{{ route('users') }}" class="btn btn-info">Kembali</a>
+                    </div>
         </form>
     </section>
 </div>

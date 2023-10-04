@@ -1,5 +1,5 @@
 @extends('backend.app')
-@section('title','users')
+@section('title','Data Role')
 
 @section('content')
 
@@ -11,7 +11,7 @@
     <section class="content">
         <!--BUTTON TAMBAH User-->
         <div class="col-md-2 mb-2">
-            <a href="{{ route('tambah_users') }}" class="btn btn-sm btn-block btn-success"> Tambah User</a>
+            <a href="{{ route('tambah_users') }}" class="btn btn-sm btn-block btn-success"> Tambah Role</a>
         </div>
         <!-- END BUTTON TAMBAH JENIS BARANG-->
 
@@ -32,29 +32,28 @@
                     <thead>
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">username</th>
-                            <th scope="col">nama_lengkap</th>
-                            <th scope="col">email</th>
+                            <th scope="col">Nama Role</th>
+                            <th scope="col">Dibuat Pada</th>
                             <th scope="col">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($users as $user)
+                        @foreach($roles as $role)
                         <tr>
-                            <td>{{ $users->firstItem() + $loop->index }}</td>
-                            <td>{{ $user->username }}</td>
-                            <td>{{ $user->nama_lengkap }}</td>
-                            <td>{{ $user->email }}</td>
+                            <td>{{ $roles->firstItem() + $loop->index }}</td>
+                            <td>{{ $role->name}}</td>
+                            <td>{{ $role->created_at}} </td>
                             <td>
-                                <a href="{{ route('edit_users', $user->id) }}" class="btn btn-sm btn-primary">edit</a>
-                                <a href="{{ route('delete_users', $user->id) }}" onclick="return confirm('Are You Sure?')" class="btn btn-sm btn-danger">Delete</a>
+                                <a href="{{ route('roles.show', $role->id) }}" class="btn btn-sm btn-primary">show</a>
+                                <a href="{{ route('roles.edit', $role->id) }}" class="btn btn-sm btn-primary">edit</a>
+                                <a href="{{ route('roles.destroy', $role->id) }}" onclick="return confirm('Are You Sure?')" class="btn btn-sm btn-danger">Delete</a>
                             </td>
                         </tr>
                         @endforeach
                     </tbody>
                 </table>
 
-                {{ $users->links() }}
+                {{ $roles->links() }}
 
             </div>
         </div>
