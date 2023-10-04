@@ -7,7 +7,7 @@ use App\Http\Requests\UserUpdateRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
+use App\Models\User;
 
 
 class UserController extends Controller
@@ -25,7 +25,10 @@ class UserController extends Controller
 
     public function createUser()
     {
-        return view('backend.users.create');
+       // $roles = Role::pluck('roles')->all(); //data yang di akses dakam sekala kecil
+        $roles = DB::table('roles')->get(); // data yang di akses dalam sekala besar lebih stabil
+        // dd($roles);
+        return view('backend.users.create', compact('roles'));
     }
     //tipe data request adalah object
     //DD (die dump untuk memeriksa apakah ada value atau record di dalam variabel $request yang di amabil dari form imputan)
@@ -33,14 +36,17 @@ class UserController extends Controller
 
     public function userAdd(UsersRequest $request)
     {
-        DB::table('users')->insert([
-            'name' => $request->name,
-            'email' => $request->email,
-            'username' => $request->username,
-            'password' => bcrypt($request->password),
-            'created_at' => \Carbon\Carbon::now(),
-            'updated_at' => \Carbon\Carbon::now(),
-        ]);
+        // DB::table('users')->insert([
+        //     'name' => $request->name,
+        //     'email' => $request->email,
+        //     'username' => $request->username,
+        //     'password' => bcrypt($request->password),
+        //     'created_at' => \Carbon\Carbon::now(),
+        //     'updated_at' => \Carbon\Carbon::now(),
+        // ]);
+        $input = $request->all();
+        $user = User::create($input);
+        $user->assignRole($request->input('roles'));
         return redirect()->route('user')->with('message', 'Users Berhasil Disimpan!');
     }
 
