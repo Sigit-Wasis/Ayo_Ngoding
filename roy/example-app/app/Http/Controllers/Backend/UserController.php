@@ -4,10 +4,11 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\UserRequest;
 use App\Http\Requests\UserUpdateRequest;
-
+use App\Models\User;
 
 class UserController extends Controller
 {
@@ -19,18 +20,24 @@ class UserController extends Controller
     }
 
     public function create() {
-        return view('backend.user.create');
+        $roles = Role::pluck('name')->all();
+        return view('backend.user.create', compact('roles'));
     }
-
+        
     public function store(UserRequest $request) {
-        DB::table('users')->insert([
-            'name' => $request->name,
-            'user_name' => $request->user_name,
-            'email' => $request->email,
-            'password' => $request->password,
-            'created_at' => \Carbon\Carbon::now(),
-            'created_at' => \Carbon\Carbon::now(),
-        ]);
+        // DB::table('users')->insert([
+        //     'name' => $request->name,
+        //     'user_name' => $request->user_name,
+        //     'email' => $request->email,
+        //     'password' => bcrypt ($request->password), // ini buat enkripsi pasword
+        //     'created_at' => \Carbon\Carbon::now(),
+        //     'created_at' => \Carbon\Carbon::now(),
+        // ]);
+
+        $input = $request->all(); // mengmabil semua value dari from create user
+        $user = User::create($input); // menyimpan data user ke dalam database
+        $user->assignRole($request->input('roles')); // menghubungkan antara user dangan role dan input
+
         return redirect()->route('user')->with('message', 'User Berhasil di Simpan');
     }
     public function edit($id) {
