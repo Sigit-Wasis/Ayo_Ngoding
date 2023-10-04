@@ -61,8 +61,6 @@
                     <input type="text" class="form-control" value="{{ $editUser->email }}" id="email" name="email" placeholder="masukan email">
                 </div>
             
-
-            
                 <div class="form-group">
                     <label for="exampleInputPassword1">Password</label>
                     <input type="password" class="form-control" id="password" name="password" placeholder="masukan password">

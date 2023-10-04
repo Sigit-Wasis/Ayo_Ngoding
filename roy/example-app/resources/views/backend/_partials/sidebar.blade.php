@@ -10,7 +10,7 @@
             <img src="{{ url('assets//dist/img/user2-160x160.jpg') }}" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-            <a href="#" class="d-block">Roy Priandana</a>
+            <a href="#" class="d-block">{{ Auth::user()->name }}</a>
         </div>
     </div>
 
@@ -52,6 +52,17 @@
                     </p>
                 </a>
             </li>
+
+            <li class="nav-item">
+                <a href="{{ route('roles.index') }}" class="nav-link">
+                    <i class="nav-icon fas fa-th"></i>
+                    <p>
+                        Data Role
+                        <span class="right badge badge-danger"></span>
+                    </p>
+                </a>
+            </li>
+
             <li class="nav-item">
                 <a href="{{ route('logout') }}"
                             onclick="event.preventDefault();

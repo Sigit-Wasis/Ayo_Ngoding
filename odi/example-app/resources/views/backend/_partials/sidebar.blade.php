@@ -12,7 +12,7 @@
                 <img src="{{url('assets/dist/img/user2-160x160.jpg')}}" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-                <a href="#" class="d-block">Alexander Odi Pithers</a>
+                <a href="#" class="d-block">{{ Auth::user()->name }}</a>
             </div>
         </div>
 
@@ -28,15 +28,23 @@
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('user')}}" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
+                        <i class="nav-icon fas fa-user-circle"></i>
                         <p>
                             User
                         </p>
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a href="{{ route('roles.index')}}" class="nav-link">
+                        <i class="nav-icon fas fa-code"></i>
+                        <p>
+                            Role
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="{{ route('jenis_barang')}}" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
+                        <i class="nav-icon fas fa-cubes "></i>
                         <p>
                             Jenis Barang
                         </p>
@@ -44,7 +52,7 @@
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('barang')}}" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
+                        <i class="nav-icon fas fa-cube"></i>
                         <p>
                             Barang
                         </p>
@@ -53,7 +61,7 @@
                 <li class="nav-item">
                     <a href="{{ route('logout') }}" onclick="event.preventDefault();
                         document.getElementById('logout-form').submit();" class="nav-link">
-                        <i class="nav-icon fas fa-sign-out-alt"></i>
+                        <i class="nav-icon fas fa-reply"></i>
                         <p>
                             Logout
                         </p>

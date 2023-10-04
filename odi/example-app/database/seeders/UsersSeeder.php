@@ -6,6 +6,8 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
+
 
 class UsersSeeder extends Seeder
 {
@@ -23,5 +25,7 @@ class UsersSeeder extends Seeder
             'nomor_telpon' => '082278890881',
             'email' => 'adrian@gmail.com',
         ]);
+
     }
+    
 }
