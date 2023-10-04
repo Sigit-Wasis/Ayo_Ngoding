@@ -1,5 +1,5 @@
 @extends('backend.app')
-
+@section('title','Barang')
 @section('content')
 
 <div class="content-wrapper">
@@ -37,7 +37,7 @@
                 </div>
                 @endif
 
-                <table class="table">
+                <table class="table table-bordered table-striped">
                     <thead>
                         <tr>
                             <th scope="col">#</th>

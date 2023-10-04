@@ -12,8 +12,8 @@
                 <img src="{{ url('assets/dist/img/user2-160x160.jpg') }}" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-                <a href="#" class="d-block">Susi Widianti</a>
-            </div>
+            <a href="#" class="d-block">{{ Auth::user()->nama_lengkap }}</a>
+</div>
         </div>
 
         <nav class="mt-2">
@@ -48,6 +48,15 @@
                         <i class="nav-icon fas fa-th"></i>
                         <p>
                             Data User
+                            <p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{{ route('roles.index') }} " class="nav-link">
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>
+                            Data Role
                             <p>
                     </a>
                 </li>

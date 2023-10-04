@@ -1,4 +1,5 @@
 @extends('backend.app')
+@section('title','jenis_barang')
 
 @section('content')
 

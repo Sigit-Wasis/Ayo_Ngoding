@@ -8,18 +8,18 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Tambah Jenis Barang</h1>
+                    <h1>Data Barang</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">jenis_barang</li>
+                        <li class="breadcrumb-item active">DataBarang</li>
                     </ol>
                 </div>
             </div>
         </div>
     </section>
-    <!--KONTEN TAMBAH JENIS BARANG -->
+    <!--KONTEN TAMBAH Data BARANG -->
     <section class="content">
 
         @if ($errors->any())
@@ -35,7 +35,7 @@
             @csrf
             <div class="card-body">
                 <div class="form-group">
-                    <label for="nama_jenis_baranga">Nama Jenis Barang</label>
+                    <label for="nama_Data_Barang">Nama Data Barang 2</label>
                     <input type="text" class="form-control" id="nama_jenis_barang" name="nama_jenis_barang" placeholder="">
                 </div>
                 <div class="form-group">
