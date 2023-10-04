@@ -87,44 +87,72 @@ class DataBarangController extends Controller
         return redirect()->route('data_barang')->with('message', 'User Berhasil Dihapus!');
     }
 
-    public function edit($id)
+    public function editBarang($id)
     {
-        // Mengambil data jenis barang yang akan diedit berdasarkan ID
+        // Mengambil data barang yang akan diedit berdasarkan ID
         $editBarang = DB::table('_m_s_t__barang')->where('id', $id)->first();
 
         if (!$editBarang) {
-            return redirect()->route('jenis-barang')->with('error', 'Jenis Barang tidak ditemukan.');
+            return redirect()->route('data_barang')->with('error', 'Barang tidak ditemukan.');
         }
 
-        // Simpan data jenis barang ke dalam sesi
+        // Ambil data jenis barang untuk dropdown
+        $jenisBarang = DB::table('_m_s_t__jenis__barang')->get();
+
+        // Simpan data barang dan jenis barang ke dalam sesi
         session(['edit_barang' => $editBarang]);
 
-        // Arahkan ke halaman create
-        return view('backend.data_barang.edit', compact('editBarang'));
+        // Arahkan ke halaman edit dengan membawa data jenis barang
+        return view('backend.data_barang.edit', compact('editBarang', 'jenisBarang'));
     }
 
-
-    public function update(BarangUpdateRequest $request, $id)
+    public function updateBarang(BarangUpdateRequest $request, $id)
     {
-        // jika menggunakan Request saja maka kode ini di aktifkan
-        // // Validasi data yang dikirimkan oleh formulir
-        // $request->validate([
-        //     'nama_jenis_barang' => 'required',
-        //     'deskripsi' => 'required',
+        // Ambil data dari request
+        $data = [
+            'Id_jenis_barang' => $request->jenis_barang,
+            'nama_barang' => $request->nama_barang,
+            'harga' => $request->harga,
+            'satuan' => $request->satuan,
+            'deskripsi' => $request->deskripsi,
+            'stok' => $request->stok,
+        ];
 
-        // ]);
-        // Lakukan pembaruan data di database berdasarkan $id
+        // Lakukan pembaruan data di database berdasarkan ID
         DB::table('_m_s_t__barang')
             ->where('id', $id)
-            ->update([
-                'nama' => $request->nama_jenis_barang,
-                'deskripsi' => $request->deskripsi,
-                'updated_by' => 1,
-                'updated_at' => \Carbon\Carbon::now(),
+            ->update($data);
 
-            ]);
+        // Jika ada file gambar yang diunggah, proses dan simpan ke dalam direktori
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('assets/dist/img'), $imageName);
 
-        return redirect()->route('jenis-barang')->with('message', 'Jenis Barang berhasil diperbarui!');
+            // Simpan nama gambar ke dalam database jika perlu
+            DB::table('_m_s_t__barang')
+                ->where('id', $id)
+                ->update(['image' => $imageName]);
+        }
+
+        return redirect()->route('data_barang')->with('message', 'Barang berhasil diperbarui!');
     }
 
+    public function detailBarang($id)
+    {
+        $detailBarang = DB::table('_m_s_t__barang')
+            ->select(
+                '_m_s_t__barang.*',
+                'users.name as created_by',
+                'users.name as updated_by',
+                '_m_s_t__jenis__barang.nama as jenis_barang' // Ubah menjadi 'nama' sesuai dengan alias yang Anda berikan
+            )
+            ->join('users', 'users.id', '_m_s_t__barang.created_by')
+            ->join('_m_s_t__jenis__barang', '_m_s_t__jenis__barang.id', '_m_s_t__barang.Id_jenis_barang')
+            ->where('_m_s_t__barang.id', $id) // Filter berdasarkan ID yang diberikan
+            ->first(); // Ambil hasil pertama saja
+
+        //dd($detailBarang);
+        return view('backend.data_barang.detail_barang', compact('detailBarang'));
+    }
 }

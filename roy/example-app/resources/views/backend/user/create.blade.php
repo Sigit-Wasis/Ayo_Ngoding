@@ -55,6 +55,15 @@
                     <label for="pasword_confirmation">Konfirmasi Password</label>
                     <input type="password" class="form-control" name="password confirmation" id="password confirmation" required>
                 </div>
+                <div class="col-md-4">                                <div class="form-group">
+                                    <label>Role User <strong style="color: red;">*</strong></label>
+                                    <select class="form-control select2-with-bg" id="bg-multiple" multiple="multiple" data-bgcolor="light-info" style="width: 100%; height: 50px;" name="roles[]">
+                                        @foreach ($roles as $role)
+                                            <option value="{{ $role }}">{{ $role }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
                 <div class="card-footer">
                     <button type="submit" class="btn btn-primary">Simpan User</button>
                     <a href="{{ route('user') }}" class="btn btn-info">Kembali</a>

@@ -23,8 +23,8 @@ class UserRequest extends FormRequest
     {
         return [
             'name' => 'required|max:255',
-            'password' => 'required|string|confirmed',
-            'email' => 'required|email',
+            'password' => 'required|string|confirmed|min:6|max:10',
+            'email' => 'required|email|unique:users',
         ];
     }
     public function messages()
@@ -35,6 +35,9 @@ class UserRequest extends FormRequest
             'password.confirmed' => 'Konfirmasi password harus sama dengan Password',
             'email.required' => 'email harus diisi alias wajib',
             'email.email' => 'email tidak valid',
+            'email.unique:users' => 'email sudah di gunakan',
+            'password.min' => 'password harus lebih dari 6 digit',
+            'password.max' => 'password maxsimal 10 digit',
         ];
     }
 }
