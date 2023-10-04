@@ -27,7 +27,7 @@
                         <tbody>
                             <tr>
                                 <th scope="row">Gambar</th>
-                                <td><img src="{{ url($detailbarang->gambar) }}" width="200" height="200" alt=""></td>            </tr>
+                                <td><img src="{{ url($detailbarang->gambar) }}" width="400" height="250" alt=""></td>            </tr>
                             <tr>
                                 <th scope="row">Nama Barang</th>
                                 <td>{{ $detailbarang->nama_barang }}</td>
