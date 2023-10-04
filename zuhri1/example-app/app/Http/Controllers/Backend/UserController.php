@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
+use Spatie\Permission\Models\Role;
 use App\Http\Requests\UserUpdateRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB as FacadesDB;
+use App\Models\User;
 //<-tambahkan DB
 
 class UserController extends Controller
@@ -28,7 +30,9 @@ class UserController extends Controller
     public function create()
 
     {
-        return view('backend.user.create');
+        $roles = Role::pluck('name')->all();
+
+        return view('backend.user.create',compact('roles'));
     }
 
     /**
@@ -36,15 +40,19 @@ class UserController extends Controller
      */
     public function store(UserRequest $request)
     {
-        FacadesDB::table('users')->insert([
-            'name' => $request->name,
-            // 'deskripsi' =>$request->deskripsi,
-            'username' => $request->username,
-            'password' => bcrypt($request->password),
-            'email' => $request->email,
-            'created_at' => \Carbon\Carbon::now(),
-            'updated_at' => \Carbon\Carbon::now(),
-        ]);
+        // FacadesDB::table('users')->insert([
+        //     'name' => $request->name,
+        //     // 'deskripsi' =>$request->deskripsi,
+        //     'username' => $request->username,
+        //     'password' => bcrypt($request->password),
+        //     'email' => $request->email,
+        //     'created_at' => \Carbon\Carbon::now(),
+        //     'updated_at' => \Carbon\Carbon::now(),
+
+            $input = $request->all(); //mengambil semua value dari from create user
+            $User = User::create($input);//menyimpan data user ke dalam database
+            $User->assignRole($request->input('roles')); //menghubungkan antara user dengan role dari inputan
+       
         return redirect()->route('user')->with('message', 'User Berhasil Disimpan!');
     }
 
