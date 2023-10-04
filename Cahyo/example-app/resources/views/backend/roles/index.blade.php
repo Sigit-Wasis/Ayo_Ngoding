@@ -1,6 +1,6 @@
 @extends('backend.app')
 
-@section('title', 'Data User')
+@section('title', 'Roles')
 
 @section('content')
 
@@ -9,12 +9,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>User</h1>
+                    <h1>Role</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">User</li>
+                        <li class="breadcrumb-item active">Role</li>
                     </ol>
                 </div>
             </div>
@@ -23,7 +23,7 @@
 
     <section class="content">
         <div class="col-md-2 mb-2">
-            <a href="{{ route('tambah_user') }}" class="btn btn-sm btn-block btn-success">Tambah User</a>
+            <a href="{{ route('roles.create') }}" class="btn btn-sm btn-block btn-success">Tambah Role</a>
         </div>
 
         <div class="card">
@@ -43,30 +43,29 @@
                     <thead>
                         <tr>
                             <th scope="col">No</th>
-                            <th scope="col">Nama</th>
-                            <th scope="col">Username</th>
-                            <th scope="col">Email</th>
+                            <th scope="col">Nama Role</th>
+                            <th scope="col">Dibuat Pada</th>
                             <th scope="col">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($users as $user)
+                        @foreach($roles as $role)
                         <tr>
                             <!-- <th scope="row">{{ $loop->iteration }}</th> -->
-                            <td>{{ $users->firstItem() + $loop->index}}</td>
-                            <td>{{ $user->name }}</td>
-                            <td>{{ $user->username }}</td>
-                            <td>{{ $user->email }}</td>
+                            <td>{{ $roles->firstItem() + $loop->index}}</td>
+                            <td>{{ $role->name }}</td>
+                            <td>{{ $role->created_at }}</td>
                             <td>
-                                <a href="{{ route('edit_user', $user->id) }}" class="btn btn-sm btn-primary">Edit</a>
-                                <a href="{{ route('delete_user', $user->id)}}" onclick="return confirm('Are you sure?')" class="btn btn-sm btn-danger">Delete</a>
+                                <a href="{{ route('roles.show', $role->id) }}" class="btn btn-sm btn-info">Show</a>
+                                <a href="{{ route('roles.edit', $role->id) }}" class="btn btn-sm btn-primary">Edit</a>
+                                <a href="{{ route('roles.destroy', $role->id)}}" onclick="return confirm('Are you sure?')" class="btn btn-sm btn-danger">Delete</a>
                             </td>
                         </tr>
                         @endforeach
                     </tbody>
                 </table>
 
-                {{ $users->links() }}
+                {{ $roles->links() }}
             </div>
         </div>
     </section>
