@@ -1,5 +1,5 @@
 @extends('backend.app')
-
+@section('title','User')
 @section('content')
 
 <div class="content-wrapper">
@@ -37,13 +37,12 @@
                 </div>
                 @endif
 
-                <table class="table table-responsive no-wap">
+                <table class="table table-bordered table-striped">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Name</th>
                             <th scope="col">Username</th>
-
                             <th scope="col">Nama Lengkap</th>
                             <th scope="col">Alamat</th>
                             <th scope="col">Nomor Telpon</th>
@@ -58,7 +57,6 @@
                             <td>{{ $users->firstItem() + $loop->index }}</td>
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->username }}</td>
-
                             <td>{{ $user->nama_lengkap }}</td>
                             <td>{{ $user->alamat }}</td>
                             <td>{{ $user->nomor_telpon }}</td>
