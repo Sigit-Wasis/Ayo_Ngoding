@@ -21,7 +21,7 @@
 
     <section class="content">
         <div class="col-md-2 mb-2">
-            <a href="{{ route('tambah_user') }}" class="btn btn-sm btn-block btn-success">Tambah User</a>
+            <a href="{{ route('roles.create') }}" class="btn btn-sm btn-block btn-success">Tambah User</a>
         </div>
         <div class="card">
             <div class="card-body">
@@ -37,20 +37,21 @@
                     <thead>
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">Name</th>
-                            <th scope="col">Email</th>
+                            <th scope="col">Nama Role</th>
+                            <th scope="col">Dibuat Pada</th>
                             <th scope="col">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($users as $user)
+                        @foreach($roles as $role)
                             <tr>
-                                <td>{{ $users->firstItem() + $loop->index }}</td>
-                                <td>{{ $user->name }}</td>
-                                <td>{{ $user->email }}</td>
+                                <td>{{ $roles->firstItem() + $loop->index }}</td>
+                                <td>{{ $role->name }}</td>
+                                <td>{{ $role->created_at }}</td>
                                 <td>
-                                    <a href="{{ route('edit_user', $user->id) }}" class="btn btn-primary">Edit</a>
-                                    <a href="{{ route('delete_user', ['id' => $user->id]) }}" class="btn btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus pengguna ini?')">Delete</a>
+                                    <a href="{{ route('roles.show', $role->id) }}" class="btn btn-info">Show</a>
+                                    <a href="{{ route('roles.edit', $role->id) }}" class="btn btn-primary">Edit</a>
+                                    <a href="{{ route('roles.destroy', $role->id) }}" class="btn btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus pengguna ini?')">Delete</a>
 
                                 </td>
                             </tr>
@@ -58,7 +59,7 @@
                     </tbody>
                 </table>
 
-                {{ $users->links() }}
+                {{ $roles->links() }}
             </div>
         </div>
     </section>
