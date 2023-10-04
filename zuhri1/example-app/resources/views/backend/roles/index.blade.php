@@ -9,7 +9,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>User</h1>
+                    <h1>Role</h1>
                 </div>
 
                 <div class="col-sm-6">
@@ -24,9 +24,9 @@
     </section>
 
     <section class="content">
-        <!-- BUTTON TAMBAH User -->
+        <!-- BUTTON TAMBAH Role -->
         <div class="col-md-2 mb-2">
-            <a href="{{ route('tambah_user') }}" class="btn btn-sm btn-block btn-primary">Tambah User</a>
+            <a href="{{ route('roles.create') }}" class="btn btn-sm btn-block btn-success">Tambah Role</a>
         </div>
 
         <!-- END BUTTON TAMBAH User -->
@@ -53,27 +53,25 @@
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">name</th>
-                                <th scope="col">username</th>
-                                <th scope="col">email</th>
+                                <th scope="col">Nama Role</th>
+                                <th scope="col">Dibuat pada</th>
                                 <th scope="col">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php $i = 1; ?>
 
-                            @foreach($users as $user)
+                            @foreach($roles as $role)
                             <tr>
                                 <!--<th scope="row">{{$loop->iteration }}</th>-->
-                                <th>{{$users->firstItem() +$loop->index }}</td>
-                                <td>{{ $user->name }}</td>
-                                <td>{{ $user->username }}</td>
-                                <td>{{ $user->email}}</td>
+                                <th>{{$roles->firstItem() +$loop->index }}</td>
+                                <td>{{ $role->name }}</td>
+                                <td>{{ $role->created_at }}</td>
                                 <td>
 
-                                    <a href="{{route('edit_user',$user->id)}}"class="btn btn-sm btn-danger">Edit</a>
-                                    <a href=" {{route('delete_user',$user->id)}}"  
-                                    onclick="return confirm('Apa kamu yakin')" class="btn btn-sm btn-danger">Delete</a>
+                                    <a href="{{route('roles.show',$role->id)}}"class="btn btn-sm btn-info">Show</a>
+                                    <a href=" {{route('roles.edit',$role->id)}}" class="btn btn-sm btn-primary">edit</a> 
+                                    <a href=" {{route('roles.destroy',$role->id)}}"onclick="return confirm('Apa kamu yakin')" class="btn btn-sm btn-danger">Delete</a>
                                 </td>
                             </tr>
 
@@ -82,7 +80,7 @@
                         </tbody>
                     </table>
 
-                    {{ $users->links() }}
+                    {{ $roles->links() }}
 
                 </div>
 

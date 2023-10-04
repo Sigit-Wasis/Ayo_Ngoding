@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use \App\Http\Controllers\Backend\RoleController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,6 +19,7 @@ Route::get('/', function () {
      return view('auth.login'); // ini diarahin ke halaman login
 });
  Route::group(['namespace' => 'App\Http\Controllers'], function(){
+  Route::group(['middleware' => ['auth']], function() {
    Route::get('/home', 'Backend\BerandaController@index')->name('beranda');
 
     Route::get('/jenis-barang','Backend\JenisBarangController@index')->name('jenis_barang');
@@ -43,8 +45,11 @@ Route::get('/', function () {
     Route::get('/edit-DataBarang/{id}', 'Backend\DataBarangController@edit')->name('edit_DataBarang');
     Route::post('/update-DataBarang/{id}', 'Backend\DataBarangController@update')->name('update_DataBarang');
     Route::get('/show-DataBarang/{id}', 'Backend\DataBarangController@show')->name('show_DataBarang');
-  });
 
+    Route::resource('roles', RoleController::class);
+
+  });
+});
 
 Auth::routes();
 
