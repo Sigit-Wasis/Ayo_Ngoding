@@ -34,19 +34,19 @@ class jenis_barangSeeder extends Seeder
         [
             'nama_jenis_barang' => 'Laravel 2',
             'deskripsi_barang' =>'Buku',
-            'craeted_by' => $idTerakhir->id, // mengambil id terakhir
+            'created_by' => $idTerakhir->id, // mengambil id terakhir
             'updated_by' => $idTerakhir->id, // mengambil id terakhir
         ],
         [
             'nama_jenis_barang' => 'Laravel 3',
             'deskripsi_barang' =>'Pensil',
-             'craeted_by' => 1,
+             'created_by' => 1,
              'updated_by' => 1,
         ],
         [
             'nama_jenis_barang' => 'Laravel 4',
             'deskripsi_barang' =>'Penggaris',
-            'craeted_by' => 1,
+            'created_by' => 1,
             'updated_by' => 1,
         ],
     ];

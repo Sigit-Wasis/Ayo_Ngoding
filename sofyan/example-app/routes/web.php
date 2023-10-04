@@ -47,6 +47,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
     Route::get('/delete_barang/{id}', 'Backend\DataBarangController@deleteBarang')->name('delete_barang');
     Route::get('/edit_barang/{id}', 'Backend\DataBarangController@editBarang')->name('edit_barang');
     Route::put('/update_barang/{id}', 'Backend\DataBarangController@updateBarang')->name('update_barang');
+    Route::get('/detail_barang/{id}', 'Backend\DataBarangController@detailBarang')->name('detail_barang');
 
 });
 

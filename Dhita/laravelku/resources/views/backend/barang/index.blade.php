@@ -34,7 +34,7 @@
         <div class="card">
             <div class="card-body">
 
-              @if(Session::has('message'))
+              @if(Session::has('messages'))
             <div class="alert alert-success alert-dismissible">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
              <h5>
@@ -80,10 +80,11 @@
       <td>{{ $barang->created_at ?? \Carbon\Carbon::now() }}</td>
       <td>{{ $barang->created_by }}</td>
 
+      
     <td>
-    <!-- <a href=" "class="btn btn-sm btn-primary">Edit</a> -->
-    <a href="" class="btn btn-sm btn-primary">Edit</a>
-    <a href="" onclick="return confirm('Apakah Kamu Ingin Menghapus ini?')" class="btn btn-sm btn-danger">Hapus</a>
+    <a href="{{ route('show_barang',$barang->id) }}" class="btn btn-sm btn-info">Show</a>
+    <a href="{{ route('edit_barang',$barang->id) }}" class="btn btn-sm btn-primary">Edit</a>
+    <a href="{{ route('delete_barang',$barang->id) }}" onclick="return confirm('Apakah Kamu Ingin Menghapus ini?')" class="btn btn-sm btn-danger">Hapus</a>
     </td>
     </tr>
     @empty
