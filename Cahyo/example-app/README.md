@@ -134,4 +134,210 @@
         </a>
     </li>
     ```
-   
+
+## Role and Permissions
+Laravel 9 User Roles and Permissions
+
+1.  Buat controller di terminal dengan perintah
+    ```
+    composer require spatie/laravel-permission
+    ``` 
+
+2.  Buat controller di terminal dengan perintah
+    ```
+    php artisan vendor:publish --provider="Spatie\Permission\PermissionServiceProvider"
+    ``` 
+
+3.  Buat controller di terminal dengan perintah
+    ```
+    php artisan migrate
+    ``` 
+
+4.  menambahkan creat model di APP/Models/User.php
+    ```
+    use Spatie\Permission\Traits\HasRoles;
+
+    class User extends Authenticatable
+    {
+    use HasApiTokens, HasFactory, Notifiable, HasRoles;
+    }
+    ```
+
+5.  Add Middleware, di app/Http/Kernel.php
+    ```'
+    'role' => \Spatie\Permission\Middlewares\RoleMiddleware::class,
+    'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
+    'role_or_permission' => \Spatie\Permission\Middlewares\RoleOrPermissionMiddleware::class,
+    ```
+
+6.  Create Routes di routes/web.php
+    ```
+    Route::resource('roles', RoleController::class);
+    ```
+
+7.  Buat controller di terminal dengan perintah
+    ```
+    php artisan make:controller Backend/RoleController
+    ```
+
+8.  web.php
+    ```
+    use App\Http\Controllers\Backend\RoleController;
+    ```
+
+9.  app/Http/Controllers/RoleController.php
+    ```
+        <?php
+
+    namespace App\Http\Controllers\Backend;
+
+    use App\Http\Controllers\Controller;
+    use Illuminate\Http\Request;
+    use Spatie\Permission\Models\Role;
+    use Spatie\Permission\Models\Permission;
+    use Illuminate\Support\Facades\DB;
+
+    class RoleController extends Controller
+    {
+        //**
+        * Display a listing of the resource.
+        *
+        * @return \Illuminate\Http\Response
+        */
+    function __construct()
+    {
+            $this->middleware('permission:role-list|role-create|role-edit|role-delete', ['only' => ['index','store']]);
+            $this->middleware('permission:role-create', ['only' => ['create','store']]);
+            $this->middleware('permission:role-edit', ['only' => ['edit','update']]);
+            $this->middleware('permission:role-delete', ['only' => ['destroy']]);
+    }
+    
+    /**
+        * Display a listing of the resource.
+        *
+        * @return \Illuminate\Http\Response
+        */
+    public function index(Request $request)
+    {
+        $roles = Role::orderBy('id','DESC')->paginate(5);
+        return view('roles.index',compact('roles'))
+            ->with('i', ($request->input('page', 1) - 1) * 5);
+    }
+    
+    /**
+        * Show the form for creating a new resource.
+        *
+        * @return \Illuminate\Http\Response
+        */
+    public function create()
+    {
+        $permission = Permission::get();
+        return view('roles.create',compact('permission'));
+    }
+    
+    /**
+        * Store a newly created resource in storage.
+        *
+        * @param  \Illuminate\Http\Request  $request
+        * @return \Illuminate\Http\Response
+        */
+    public function store(Request $request)
+    {
+        $this->validate($request, [
+            'name' => 'required|unique:roles,name',
+            'permission' => 'required',
+        ]);
+    
+        $role = Role::create(['name' => $request->input('name')]);
+        $role->syncPermissions($request->input('permission'));
+    
+        return redirect()->route('roles.index')
+                        ->with('success','Role created successfully');
+    }
+    /**
+        * Display the specified resource.
+        *
+        * @param  int  $id
+        * @return \Illuminate\Http\Response
+        */
+    public function show($id)
+    {
+        $role = Role::find($id);
+        $rolePermissions = Permission::join("role_has_permissions","role_has_permissions.permission_id","=","permissions.id")
+            ->where("role_has_permissions.role_id",$id)
+            ->get();
+    
+        return view('roles.show',compact('role','rolePermissions'));
+    }
+    
+    /**
+        * Show the form for editing the specified resource.
+        *
+        * @param  int  $id
+        * @return \Illuminate\Http\Response
+        */
+    public function edit($id)
+    {
+        $role = Role::find($id);
+        $permission = Permission::get();
+        $rolePermissions = DB::table("role_has_permissions")->where("role_has_permissions.role_id",$id)
+            ->pluck('role_has_permissions.permission_id','role_has_permissions.permission_id')
+            ->all();
+    
+        return view('roles.edit',compact('role','permission','rolePermissions'));
+    }
+    
+    /**
+        * Update the specified resource in storage.
+        *
+        * @param  \Illuminate\Http\Request  $request
+        * @param  int  $id
+        * @return \Illuminate\Http\Response
+        */
+    public function update(Request $request, $id)
+    {
+        $this->validate($request, [
+            'name' => 'required',
+            'permission' => 'required',
+        ]);
+    
+        $role = Role::find($id);
+        $role->name = $request->input('name');
+        $role->save();
+    
+        $role->syncPermissions($request->input('permission'));
+    
+        return redirect()->route('roles.index')
+                        ->with('success','Role updated successfully');
+    }
+    /**
+        * Remove the specified resource from storage.
+        *
+        * @param  int  $id
+        * @return \Illuminate\Http\Response
+        */
+    public function destroy($id)
+    {
+        DB::table("roles")->where('id',$id)->delete();
+        return redirect()->route('roles.index')
+                        ->with('success','Role deleted successfully');
+    }
+    }
+
+    ```
+
+10. buat folder role di view/backend/roles
+11. kemudian buat file index.blade.php di dalam folder roles
+    ```
+    ```
+
+12. Create Seeder For Permissions and AdminUser
+    database/seeders/PermissionTableSeeder.php
+
+13. php artisan make:seeder PermissionTableSeeder
+
+14. php artisan db:seed --class=PermissionTableSeeder
+
+15. php artisan make:seeder CreateAdminUserSeeder
+
+16. 

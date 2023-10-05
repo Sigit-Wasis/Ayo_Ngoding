@@ -10,6 +10,8 @@ use Spatie\Permission\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Arr;
 
 class UserController extends Controller
 {
@@ -59,24 +61,25 @@ class UserController extends Controller
     {
         //apa tipe data dari $id ?
         //menggunakan first karena kita mau mengambel hanya satu data yang sesuai dengan id
-        $editusers = DB::table('users')->where('id', $id)->first();
+        // $editusers = DB::table('users')->where('id', $id)->first();
+        $editusers= User::find($id);
+        $roles =Role::pluck('name')->all();
+        $userRole = $editusers->roles->pluck('name')->all();
 
-        return view('backend.users.edit', compact('editusers'));
+        return view('backend.users.edit', compact('editusers', 'roles', 'userRole'));
     }
 
     public function update(UserUpdateRequest $request, $id)
     {
-        
-        DB::table('users')
-            ->where('id', $id)->update([
-                'username' => $request->username,
-                'password' => bcrypt($request->password),
-                'nama_lengkap' => $request->nama_lengkap,
-                'alamat' => $request->alamat,
-                'nomor_telepon' => $request->nomor_telepon,
-                'email' => $request->email,
-                'updated_at' => Carbon::now(),
-            ]);
+        $input = $request->all();
+        if(!empty($input['password'])){$input['password'] = Hash::make($input['password']);
+        }else{
+             $input = Arr::except($input,array('password'));
+        }
+        $user = User::find($id);
+        $user->update($input);
+        DB::table('model_has_roles')->where('model_id',$id)->delete();
+        $user->assignRole($request->input('roles'));
 
         return redirect()->route('users')->with('message', 'users Berhasil disimpan');
     }

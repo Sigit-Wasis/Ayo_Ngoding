@@ -11,7 +11,7 @@
     <section class="content">
         <!--BUTTON TAMBAH User-->
         <div class="col-md-2 mb-2">
-            <a href="{{ route('tambah_users') }}" class="btn btn-sm btn-block btn-success"> Tambah Role</a>
+            <a href="{{ route('roles.create') }}" class="btn btn-sm btn-block btn-success"> Tambah Role</a>
         </div>
         <!-- END BUTTON TAMBAH JENIS BARANG-->
 

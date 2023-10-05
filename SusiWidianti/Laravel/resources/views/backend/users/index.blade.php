@@ -35,6 +35,9 @@
                             <th scope="col">username</th>
                             <th scope="col">nama_lengkap</th>
                             <th scope="col">email</th>
+                            <th scope="col">alamat</th>
+                            <th scope="col">nomor_telepon</th>
+                            <th scope="col">Update Pada</th>
                             <th scope="col">Aksi</th>
                         </tr>
                     </thead>
@@ -45,6 +48,9 @@
                             <td>{{ $user->username }}</td>
                             <td>{{ $user->nama_lengkap }}</td>
                             <td>{{ $user->email }}</td>
+                            <td>{{ $user->alamat }}</td>
+                            <td>{{ $user->nomor_telepon }}</td>
+                            <td>{{ $user->created_at ?? \Carbon\Carbon::now()}}</td>
                             <td>
                                 <a href="{{ route('edit_users', $user->id) }}" class="btn btn-sm btn-primary">edit</a>
                                 <a href="{{ route('delete_users', $user->id) }}" onclick="return confirm('Are You Sure?')" class="btn btn-sm btn-danger">Delete</a>
