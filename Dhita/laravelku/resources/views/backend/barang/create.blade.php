@@ -42,7 +42,7 @@
         </div>
 
         <div class="form-group">
-            <label for="id_jenis_barang">ID Jenis Barang</label>
+            <label for="id_jenis_barang">Jenis Barang</label>
             <select name="id_jenis_barang" class="form-control">
                 <option value="">--pilih jenis barang --</option>
                 @foreach($jenisBarang as $jenis)

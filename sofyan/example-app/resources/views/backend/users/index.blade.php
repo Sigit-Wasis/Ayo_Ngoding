@@ -1,4 +1,5 @@
 @extends('backend.app')
+@section('title', 'Users')
 @section('content')
 
 <div class="content-wrapper">
@@ -39,6 +40,7 @@
                         <tr>
                             <th scope="col">NO</th>
                             <th scope="col">name</th>
+                            <th scope="col">roles</th>
                             <th scope="col">Username</th>
                             <th scope="col">email</th>
                             <th scope="col">Update_at</th>
@@ -55,6 +57,9 @@
                         <tr>
                             <td scope="row">{{ $rowNumber++ }}</td>
                             <td>{{$user->name}}</td>
+                            <td>
+                                <small class="badge badge-success">{{ $user->role_name }}</small>
+                            </td>
                             <td>{{$user->username}}</td>
                             <td>{{$user->email}}</td>
                             <td>{{$user->updated_at ?? \Carbon\Carbon::now() }}</td>

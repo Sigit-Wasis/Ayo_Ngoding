@@ -10,10 +10,9 @@
                 <img src="{{ url('assets/dist/img/user3-128x128.jpg') }}" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-                <a href="#" class="d-block">Cahyo Anom</a>
+                <a href="#" class="d-block">{{ Auth::user()->name }}</a>
             </div>
         </div>
-
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <li class="nav-item">
@@ -37,6 +36,14 @@
                         <i class="nav-icon fas fa-th"></i>
                         <p>
                             Data Barang
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route ('roles.index') }}" class="nav-link">
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>
+                            Data Role
                         </p>
                     </a>
                 </li>
