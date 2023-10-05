@@ -1,4 +1,5 @@
 @extends('backend.app')
+@section('title', 'Data Barang')
 @section('content')
 
 <div class="content-wrapper">
@@ -57,7 +58,7 @@
                             <td>{{$data->kode_barang}}</td>
                             <td>{{$data->nama_barang}}</td>
                             <td>
-                                <a href="{{ route('detail_barang', $data->id) }}" class="btn btn-sm btn-info">Detail</a>
+                                <a href="{{ route('detail_barang', $data->id) }}" class="btn btn-sm btn-info">Show</a>
                                 <a href="{{ route('edit_barang', $data->id) }}" class="btn btn-sm btn-primary">Edit</a>
                                 <a href="{{route('delete_barang',$data->id)}}" onclick="return confirm('are you sure?')" class="btn btn-sm btn-danger">Delete</a>
                             </td>

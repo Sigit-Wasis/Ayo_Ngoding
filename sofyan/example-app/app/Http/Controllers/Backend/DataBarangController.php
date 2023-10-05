@@ -83,8 +83,21 @@ class DataBarangController extends Controller
 
     public function deleteBarang($id)
     {
+        // Ambil nama file gambar yang akan dihapus
+        $imageName = DB::table('_m_s_t__barang')->where('id', $id)->value('image');
+
+        // Hapus gambar dari direktori jika ada
+        if ($imageName) {
+            $imagePath = public_path('assets/dist/img') . '/' . $imageName;
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
+        }
+
+        // Hapus data barang dari database
         DB::table('_m_s_t__barang')->where('id', $id)->delete();
-        return redirect()->route('data_barang')->with('message', 'User Berhasil Dihapus!');
+
+        return redirect()->route('data_barang')->with('message', 'Barang berhasil dihapus!');
     }
 
     public function editBarang($id)
@@ -118,22 +131,31 @@ class DataBarangController extends Controller
             'stok' => $request->stok,
         ];
 
-        // Lakukan pembaruan data di database berdasarkan ID
-        DB::table('_m_s_t__barang')
-            ->where('id', $id)
-            ->update($data);
-
         // Jika ada file gambar yang diunggah, proses dan simpan ke dalam direktori
         if ($request->hasFile('image')) {
+            // Ambil nama file gambar lama (jika ada)
+            $oldImageName = DB::table('_m_s_t__barang')->where('id', $id)->value('image');
+
             $image = $request->file('image');
             $imageName = time() . '.' . $image->getClientOriginalExtension();
             $image->move(public_path('assets/dist/img'), $imageName);
 
-            // Simpan nama gambar ke dalam database jika perlu
-            DB::table('_m_s_t__barang')
-                ->where('id', $id)
-                ->update(['image' => $imageName]);
+            // Hapus gambar lama jika ada
+            if ($oldImageName) {
+                $oldImagePath = public_path('assets/dist/img') . '/' . $oldImageName;
+                if (file_exists($oldImagePath)) {
+                    unlink($oldImagePath);
+                }
+            }
+
+            // Simpan nama gambar ke dalam database
+            $data['image'] = $imageName;
         }
+
+        // Lakukan pembaruan data di database berdasarkan ID
+        DB::table('_m_s_t__barang')
+        ->where('id', $id)
+            ->update($data);
 
         return redirect()->route('data_barang')->with('message', 'Barang berhasil diperbarui!');
     }
