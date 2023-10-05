@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Requests\UserRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Arr;
 
 class UserController extends Controller
 {
@@ -44,23 +46,29 @@ class UserController extends Controller
         // apa tipe data dari $id ? tipe datanya string dengan value integer, example "8"
         // Menggunakan first karena kita mau ngambil data hanya 1 yang sesuai dengan ID
 
-        $editUser =DB::table('users')->where('id', $id)->first();
+        // $editUser =DB::table('users')->where('id', $id)->first();
+        $editUser = User::find($id);
+        $roles = Role::pluck('name')->all();
+        $userRole = $editUser->roles->pluck('name')->all();
 
-        return view('backend.User.edit', compact('editUser'));
+        return view('backend.User.edit', compact('editUser','roles', 'userRole'));
     }
 
     public function update(UserUpdateRequest $request,$id)
      {
-        if ($request->password) {
-        DB::table('users')->where('id',$id)->update([
-            'name' => $request->name,
-            'user_name' => $request->user_name,
-            'email' => $request->email,
-            'password' => bcrypt($request->password), // ini buat enkripsi pasword
-            'updated_at' => \Carbon\Carbon::now(),
-        ]);
-    } else {
-    }
+        $input = $request->all();
+        if(!empty($input['password'])){                
+    $input['password'] = Hash::make($input['password']);
+            }else{
+                $input = Arr::except($input,array('password'));
+            }
+
+            $user = User::find($id);
+            $user->update($input);
+            DB::table('model_has_roles')->where('model_id',$id)->delete();
+
+            $user->assignRole($request->input('roles'));
+
         return redirect()->route('user')->with('message', 'User Berhasil di Update');      
 
     }

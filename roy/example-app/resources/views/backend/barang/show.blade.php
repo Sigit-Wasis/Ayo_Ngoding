@@ -38,7 +38,7 @@
                         </tr>
                         </tr>  
                             <th scope="col">Harga</th>
-                            <th>{{ $detailbarang->harga }}</th>
+                            <th>{{ "Rp".number_format($detailbarang->harga,2,',','.') }}</th>
                         </tr>
                         </tr>
                             <th scope="col">Satuan</th>

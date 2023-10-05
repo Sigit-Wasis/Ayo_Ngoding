@@ -20,7 +20,7 @@ class DataBarangController extends Controller
     public function index()
     {
         // Queri ini untuk mengambil data jenis barang secara keseluruhan dengan id secara discending
-        $barangs = DB::table('mst_barang')->select('mst_barang.*', 'name as created_by', 'mst_barang.nama_barang as nama_jenis_barang')
+        $barangs = DB::table('mst_barang')->select('mst_barang.*', 'name as created_by', 'jenis_barang.nama_barang as nama_jenis_barang')
         ->orderBy('mst_barang.id', 'DESC')
         ->join('jenis_barang', 'jenis_barang.id', 'mst_barang.id_jenis_barang')
         ->join('users', 'users.id', 'mst_barang.created_by')    
@@ -110,7 +110,7 @@ public function edit($id)
 
 public function update(BarangUpdateRequest $request, $id)
     {
-        if ($request->gambar) {
+        if ($request->gambar_barang) {
             // Simpan File Gambar di dalam folder public/assets/image
             $imageName = time().'.'.$request->gambar_barang->extension();
             $request->gambar_barang->move(public_path('assets/image/'), $imageName);

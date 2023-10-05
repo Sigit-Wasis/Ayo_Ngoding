@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\JenisBarangRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+// use auth;
 
 class JenisBarangController extends Controller
 {
@@ -32,8 +34,8 @@ class JenisBarangController extends Controller
         DB::table('jenis_barang')->insert([
             'nama_barang' => $request->nama_jenis_barang,
             'deskripsi' => $request->deskripsi,
-            'created_by' => 1,
-            'updated_by' => 1,
+            'created_by' => Auth::user()->id,
+            'updated_by' => Auth::user()->id,
             'created_at' => \Carbon\Carbon::now(),
             'updated_at' => \Carbon\Carbon::now(),
         ]);
