@@ -1,5 +1,5 @@
 @extends('backend.app')
-
+@section('title','User')
 @section('content')
 
 <div class="content-wrapper">
@@ -76,7 +76,7 @@
                 </div>
                 <div class="md-12">
                     <div class="form-group">
-                        <label>Role User <strong style="color: red;">*</strong></label>
+                        <label>Role User</label>
                         <select class="form-control select2-with-bg" id="bg-multiple" multiple="multiple"
                             data-bgcolor="light-info" style="width: 100%; height: 50px;" name="roles[]">
                             @foreach ($roles as $role)
@@ -86,7 +86,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="card-footer">
                 <button type="submit" class="btn btn-primary">Simpan</button>
                 <a href="{{ route('user') }}" class="btn btn-info">Kembali</a>

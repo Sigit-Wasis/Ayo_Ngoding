@@ -33,7 +33,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
         Route::put('/update_jenis_barang/{id}', 'Backend\JenisBarangController@update')->name('update_jenis_barang');
         Route::get('/delete_jenis_barang/{id}', 'Backend\JenisBarangController@destroy')->name('delete_jenis_barang');
 
-        //USERR
+        //USER
         Route::get('/user', 'Backend\UserController@index')->name('user');
         Route::get('/tambah-user', 'Backend\UserController@createUser')->name('tambah-user');
         Route::post('/userAdd', 'Backend\UserController@userAdd')->name('userAdd');

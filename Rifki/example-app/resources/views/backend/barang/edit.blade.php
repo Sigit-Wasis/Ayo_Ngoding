@@ -41,7 +41,7 @@
                         <select name="id_jenis_barang" class="form-control">
                             <option value="">--Pilih jenis barang-- </option>
                             @foreach($jenisBarang as $jenis)
-                            <option value="{{$jenis->id}}" {{ $barang->id_jenis_barang == $jenis->id ? 'selected' : '' }}>{{$jenis->nama_barang}}</option>
+                            <option value="{{$jenis->id}}" {{ $jenis->id == $jenis->id ? 'selected' : '' }}>{{$jenis->nama_barang}}</option>
                             @endforeach
                         </select>
                     </div>
@@ -67,9 +67,11 @@
                     </div>
                     <div class="form-group">
                         <label for="gambar_barang">Gambar</label>
-                        <input type="file" class="form-control" id="gambar_barang" name="gambar_barang">
-                        <img src="{{ asset($barang->gambar) }}" alt="Gambar Barang" width="100">
+                        <input type="file" class="form-control" id="gambar_barang" name="gambar_barang" onchange="showPreview(this)">
+                        <img src="{{ asset($barang->gambar) }}" alt="Gambar Barang" id="gambar-preview" width="100">
                     </div>
+
+
                     <div class="form-group">
                         <label for="stok_barang">Stok Barang</label>
                         <input type="number" class="form-control" value="{{ $barang->stok_barang }}" id="stok_barang" name="stok_barang" placeholder="Stok Barang">
@@ -82,5 +84,22 @@
         </div>
     </section>
 </div>
+<script>
+    function showPreview(input) {
+        var imgPreview = document.getElementById('gambar-preview');
+
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function(e) {
+                imgPreview.src = e.target.result;
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
+
+
 
 @endsection

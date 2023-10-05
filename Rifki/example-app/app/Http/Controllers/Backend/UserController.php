@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Controllers\Backend;
-
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Arr;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\UserRequest;
@@ -44,27 +45,29 @@ class UserController extends Controller
 
     public function edit($id)
     {
-        $edituser = DB::table('users')->where('id', $id)->first();
-        return view('backend.user.edit', compact('edituser'));
+        $edituser = User::find($id);
+        
+        $roles = Role::pluck('name')->all();
+        $userRole = $edituser->roles->pluck('name')->all();
+
+        return view('backend.user.edit', compact('edituser','roles','userRole'));
     }
 
     public function update(UserUpdateRequest $request, $id)
     {
-        if ($request->password){
-        DB::table('users')->where('id', $id)->update([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => bcrypt($request->password),
-
-            'updated_at' => now(),
-        ]);
-    } else {
-        DB::table('users')->where('id', $id)->update([
-            'name' => $request->name,
-            'email' => $request->email,
-            'updated_at' => \Carbon\Carbon::now(),
-        ]);
-    }
+        $input = $request->all();
+        if(!empty($input['password'])){                
+            $input['password'] = Hash::make($input['password']);
+                    }else{
+                        $input = Arr::except($input,array('password'));
+                    }
+        
+                    $user = User::find($id);
+                    $user->update($input);
+                    DB::table('model_has_roles')->where('model_id',$id)->delete();
+        
+                    $user->assignRole($request->input('roles'));
+        
         return redirect()->route('user')->with('message', 'Pengguna berhasil diupdate');
     }
 

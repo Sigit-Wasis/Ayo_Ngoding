@@ -36,8 +36,8 @@ class JenisBarangController extends Controller
         DB::table('_m_s_t__jenis__barang')->insert([
             'nama' => $request->nama_jenis_barang,
             'deskripsi' => $request->deskripsi,
-            'created_by' => 1,
-            'updated_by' => 1,
+            'created_by' => auth()->user()->id,
+            'updated_by' => auth()->user()->id,
             'created_at' => \Carbon\Carbon::now(),
             'updated_at' => \Carbon\Carbon::now(),
         ]);
@@ -82,7 +82,7 @@ class JenisBarangController extends Controller
             ->update([
                 'nama' => $request->nama_jenis_barang,
                 'deskripsi' => $request->deskripsi,
-                'updated_by' => 1,
+                'updated_by'=> auth()->user()->id,
                 'updated_at' => \Carbon\Carbon::now(),
 
             ]);
