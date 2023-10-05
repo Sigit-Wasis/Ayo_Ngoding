@@ -1,5 +1,7 @@
 @extends('backend.app')
 
+@section('title', 'Edit User')
+
 @section('content')
 
 <div class="content-wrapper">
@@ -11,7 +13,7 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item"><a href="#">User</a></li>
                         <li class="breadcrumb-item active">Edit User</li>
                     </ol>
                 </div>
@@ -55,13 +57,22 @@
                     <label for="password_corfinmation">Komfirmasi Password</label>
                     <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" placeholder="">
                 </div>
-
-                <div class="card-footer">
-                    <button type="submit" class="btn btn-primary">Simpan</button>
-                    <a href="{{ route('user') }}" class="btn btn-info">Kembali</a>
+                <div class="form-group">
+                    <label>Role User</label>
+                    <select class="form-control select2-with-bg" id="bg-multiple" multiple="multiple" data-bgcolor="light-info" style="width: 100%; height: 50px;" name="roles[]">
+                        @foreach ($roles as $role)
+                        <option value="{{ $role }}" @if (in_array($role, $userRole)){{'selected'}} @endif>{{ $role }}</option>
+                        @endforeach
+                    </select>
                 </div>
             </div>
-        </form>
+
+            <div class="card-footer">
+                <button type="submit" class="btn btn-primary">Simpan</button>
+                <a href="{{ route('user') }}" class="btn btn-info">Kembali</a>
+            </div>
+</div>
+</form>
 </div>
 </section>
 </div>

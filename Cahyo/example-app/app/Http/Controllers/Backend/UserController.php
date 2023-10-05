@@ -9,6 +9,8 @@ use App\Http\Requests\UserRequest;
 use App\Http\Requests\UserUpdateRequest;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Arr;
 
 class UserController extends Controller
 {
@@ -47,36 +49,32 @@ class UserController extends Controller
 
     public function edit($id)
     {
-        $editUser = DB::table('users')->where('id', $id)->first();
+        // $editUser = DB::table('users')->where('id', $id)->first();
+        $editUser = User::find($id);
+        $roles = Role::pluck('name')->all();
+        $userRole = $editUser->roles->pluck('name')->all();
 
-        return view('backend.user.edit', compact('editUser'));
+        return view('backend.user.edit', compact('editUser', 'roles', 'userRole'));
     }
     public function update(UserUpdateRequest $request, $id)
     {
 
-        if ($request->password) {
-            DB::table('users')
-                ->where('id', $id)
-                ->update([
-                    'name' => $request->name,
-                    'username' => $request->username,
-                    'email' => $request->email,
-                    'password' => bcrypt($request->password),
-                ]);
+        $input = $request->all();
+        if (!empty($input['password'])) {
+            $input['password'] = Hash::make($input['password']);
         } else {
-            DB::table('users')
-                ->where('id', $id)
-                ->update([
-                    'name' => $request->name,
-                    'username' => $request->username,
-                    'email' => $request->email,
-                ]);
+            $input = Arr::except($input, array('password'));
         }
+
+        $user = User::find($id);
+        $user->update($input);
+        DB::table('model_has_roles')->where('model_id', $id)->delete();
+
+        $user->assignRole($request->input('roles'));
 
 
         return redirect()->route('user')->with('message', 'User Berhasil Diperbarui');
     }
-
 
     public function destroy($id)
     {
