@@ -32,17 +32,22 @@
         </div>
         @endif
 
-        <form method="POST" action="{{ route('update_barang', ['id' => $editBarang->id]) }}">
+        <form method="POST" action="{{ route('update_barang', ['id' => $editBarang->id]) }}" enctype="multipart/form-data">
             @csrf
 
             <div class="form-group">
                     <label for="nama_barang">Nama Barang</label>
                     <input type="text" class="form-control" value="{{ $editBarang->nama_barang}}" id="nama_barang" name="nama_barang" placeholder="masukan nama_barang">
                 </div>
-            
+
                 <div class="form-group">
-                    <label for="id_jenis_barang">ID Jenis Barang</label>
-                    <input type="text" class="form-control" value="{{ $editBarang->id_jenis_barang }}" id="id_jenis_barang" name="id_jenis_barang" placeholder="masukan id_jenis_barang">
+                    <label for="id_jenis_barang">Jenis Barang</label>
+                    <select name="id_jenis_barang" class="form-control">
+                <option value="">--pilih jenis barang --</option>
+                @foreach($jenisBarang as $jenis)
+                <option value="{{$jenis->id}}"{{ $jenis->id == $editBarang->id_jenis_barang ? 'selected' : ''}}>{{ $jenis->nama}}</option>
+                @endforeach
+            </select>
                 </div>
             
                 <div class="form-group">
@@ -70,7 +75,7 @@
                 </div>
                 <div class="form-group">
                     <label for="gambar">Gambar</label>
-                    <input type="file" class="form-control"  id="image" name="image" accept="image/*">
+                    <input type="file" class="form-control"  id="image" name="gambar_barang" accept="image/*">
                 </div>
 
             <div class="card-footer">
