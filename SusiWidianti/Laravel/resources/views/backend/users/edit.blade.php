@@ -31,7 +31,7 @@
             </ul>
         </div>
         @endif
-        
+
         <form method="POST" action="{{ route('update_users',$editusers->id) }}">
             @csrf
             <div class="card-body">
@@ -41,34 +41,42 @@
                 </div>
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input type="text" class="form-control"id="password" name="password" placeholder="">
+                    <input type="text" class="form-control" id="password" name="password" placeholder="">
                 </div>
                 <div class="form-group">
                     <label for="nama_lengkap">Nama Lengkap</label>
-                    <input type="text" class="form-control" value="{{$editusers->nama_lengkap }}"id="nama_lengkap" name="nama_lengkap" placeholder="">
+                    <input type="text" class="form-control" value="{{$editusers->nama_lengkap }}" id="nama_lengkap" name="nama_lengkap" placeholder="">
                 </div>
                 <div class="form-group">
                     <label for="alamat">Alamat</label>
-                    <input type="text" class="form-control" value="{{$editusers->alamat}}"id="alamat" name="alamat" placeholder="">
+                    <input type="text" class="form-control" value="{{$editusers->alamat}}" id="alamat" name="alamat" placeholder="">
                 </div>
                 <div class="form-group">
                     <label for="nomor_telepon">Nomor Telepon</label>
-                    <input type="text" class="form-control"value="{{$editusers->nomor_telepon}}" id="nomor_telepon" name="nomor_telepon" placeholder="">
+                    <input type="text" class="form-control" value="{{$editusers->nomor_telepon}}" id="nomor_telepon" name="nomor_telepon" placeholder="">
                 </div>
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="text" class="form-control" value="{{$editusers->email}}"id="email" name="email" placeholder="">
+                    <input type="text" class="form-control" value="{{$editusers->email}}" id="email" name="email" placeholder="">
                 </div>
                 <div class="form-group">
                     <label for="password_confirmation">Password Confirmation</label>
                     <input type="password" class="form-control" valeu="" id="password_confirmation" name="password_confirmation" placeholder="">
                 </div>
-            </div>
-
-            <div class="card-footer">
-                <button type="submit" class="btn btn-primary">Simpan User</button>
-                <a href="{{ route('users') }}" class="btn btn-info">Kembali</a>
-            </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Role User <strong style="color: red;">*</strong></label>
+                        <div class="selectgroup selectgroup-pilss">
+                            <select class="form-control select2-with-bg" id="bg-multiple" multiple="multiple" data-bgcolor="light-info" style="width: 100%; height: 50px;" name="roles[]">
+                                @foreach ($roles as $role)
+                                <option value="{{ $role}}"@if (in_array($role,$userRole)){{'selected'}} @endif>{{ $role }}</option>
+                                @endforeach
+                            </select>
+                            </div>
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-primary">Simpan User</button>
+                                <a href="{{ route('users') }}" class="btn btn-info">Kembali</a>
+                            </div>
         </form>
     </section>
 </div>

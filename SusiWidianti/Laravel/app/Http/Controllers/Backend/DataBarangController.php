@@ -84,8 +84,9 @@ class DataBarangController extends Controller
     public function edit($id)
     {
         $editbarang = DB::table('mts_barang')->where('id', $id)->first();
+        $jenisBarang = DB::table('jenis_barang')->select('id', 'nama_jenis_barang')->get();
 
-        return view('backend.barang.edit', compact('editbarang'));
+        return view('backend.barang.edit', compact('editbarang','jenisBarang'));
     }
 
 
@@ -93,10 +94,10 @@ class DataBarangController extends Controller
 
     public function update(UpdateBarangRequest $request, $id)
     {
-        if ($request->gambar) {
+        if ($request->gambar_barang) {
             // Simpan File Gambar di dalam folder public/assets/image
             $imageName = time() . '.' . $request->gambar_barang->extension();
-            $request->gambar->move(public_path('assets/image/'), $imageName);
+            $request->gambar_barang->move(public_path('assets/image/'), $imageName);
 
             $file = DB::table('mts_barang')->select('gambar')->where('id', $id)->first();
 
