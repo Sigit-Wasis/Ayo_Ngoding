@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Requests\UserRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserUpdateRequest;
+use App\Models\User;
+use Spatie\Permission\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB; // <- TAMBAHKAN DB
 
@@ -18,8 +20,11 @@ class UserController extends Controller
         return view('backend.user.index', compact('users'));
     }
 
-    public function create() {
-        return view('backend.user.create');
+    public function create() 
+    {
+        $roles = Role::pluck('name')->all();
+
+        return view('backend.user.create', compact('roles'));
     }
 
     public function store(UserUpdateRequest $request)
@@ -29,16 +34,20 @@ class UserController extends Controller
         // DD (die dump untuk memeriksa apakahvalue atau rcord didalam variabel $request yang diambil dari form inputan)
         // dd($request->all());
 
-        DB::table('users')->insert([
-            'nama_lengkap' => $request->nama_lengkap,
-            'alamat' => $request->alamat,
-            'no_telephone' => $request->no_telephone,
-            'email' => $request->email,
-            'username' => $request->username,
-            'password' => $request->password,
-            'created_at' => \Carbon\Carbon::now(),
-            'Updated_at' => \Carbon\Carbon::now(),
-        ]);
+        // DB::table('users')->insert([
+        //     'nama_lengkap' => $request->nama_lengkap,
+        //     'alamat' => $request->alamat,
+        //     'no_telephone' => $request->no_telephone,
+        //     'email' => $request->email,
+        //     'username' => $request->username,
+        //     'password' => bcrypt($request->password),
+        //     'created_at' => \Carbon\Carbon::now(),
+        //     'Updated_at' => \Carbon\Carbon::now(),
+        // ]);
+
+        $input = $request->all(); //mengambil semua value dari form create user
+        $user = User::create($input); //menyimpan data user ke dalam database
+        $user->assignRole($request->input('roles')); //menghubungkan antara user ddengan role dari inputan
 
         return redirect()->route('user')->with('message', 'User berhasil di Simpan!');
     }

@@ -109,8 +109,8 @@ class DataBarangController extends Controller
     {
         if ($request->gambar) {
             // Simpan File Gambar di dalam folder public/assets/image
-            $imageName = time().'.'.$request->gambar_barang->extension();
-            $request->gambar_barang->move(public_path('assets/image/'), $imageName);
+            $imageName = time().'.'.$request->gambar->extension();
+            $request->gambar->move(public_path('assets/image/'), $imageName);
 
             $file = DB::table('mst_barang')->select('gambar')->where('id', $id)->first();
 
@@ -124,9 +124,9 @@ class DataBarangController extends Controller
                 'nama_barang' => $request->nama_barang,
                 'kode_barang' => $request->kode_barang,
                 'stok_barang' => $request->stok_barang,
-                'harga' => $request->harga_barang,
-                'satuan' => $request->satuan_barang,
-                'deskripsi' => $request->nama_barang,
+                'harga' => $request->harga,
+                'satuan' => $request->satuan,
+                'deskripsi' => $request->deskripsi,
                 'gambar' => 'assets/image/'. $imageName,
                 'updated_by' => Auth::user()->id,
                 'updated_at' => \Carbon\Carbon::now(),
@@ -138,9 +138,9 @@ class DataBarangController extends Controller
                 'nama_barang' => $request->nama_barang,
                 'kode_barang' => $request->kode_barang,
                 'stok_barang' => $request->stok_barang,
-                'harga' => $request->harga_barang,
-                'satuan' => $request->satuan_barang,
-                'deskripsi' => $request->nama_barang,
+                'harga' => $request->harga,
+                'satuan' => $request->satuan,
+                'deskripsi' => $request->deskripsi,
                 'updated_by' => Auth::user()->id,
                 'updated_at' => \Carbon\Carbon::now(),
             ]);

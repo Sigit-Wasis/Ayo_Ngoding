@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 use App\Http\Requests\UserRequest;
 use App\Http\Requests\UserUpdateRequest;
 use Illuminate\Support\Facades\DB;
+use App\Models\User;
 
 class UserController extends Controller
 {
@@ -21,19 +23,24 @@ class UserController extends Controller
 
     public function create()
     {
+        $roles = Role::pluck('name')->all();
 
-        return view('backend.user.create');
+        return view('backend.user.create', compact('roles'));
     }
 
     public function store(UserRequest $request)
     {
 
-        DB::table('users')->insert([
-            'name' => $request->name,
-            'username' => $request->username,
-            'email' => $request->email,
-            'password' => bcrypt($request->password),
-        ]);
+        // DB::table('users')->insert([
+        //     'name' => $request->name,
+        //     'username' => $request->username,
+        //     'email' => $request->email,
+        //     'password' => bcrypt($request->password),
+        // ]);
+
+        $input = $request->all();   // mengambil semua value dari form create user
+        $user = User::create($input); //menyimpan data user ke dalam database
+        $user->assignRole($request->input('roles')); // menghubungkan antara user dengan role dari inputan
 
         return redirect()->route('user')->with('message', 'User berhasil ditambahkan.');
     }
