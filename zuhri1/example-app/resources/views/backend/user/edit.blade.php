@@ -55,10 +55,16 @@
                     <label for="email">email</label>
                     <input type="text" class="form-control" value="{{old( 'email', $edituser->email)}}" id="email" name="email" placeholder="">
                 </div>
-        
-
+                <div class="form-group">
+                            <label>Role User <strong style="color: red;">*</strong></label>
+                            <select class="form-control select2-with-bg" id="bg-multiple" multiple="multiple"
+                                data-bgcolor="light-info" style="width: 100%; height: 50px;" name="roles[]">
+                                @foreach ($roles as $role)
+                                <option value="{{ $role }}" @if (in_array($role,$userRole)){{'selected'}} @endif>{{ $role }}</option>
+                                @endforeach
+                            </select>
+                        </div>
             </div>
-
             <div class="card-footer">
                 <button type="submit" class="btn btn-primary">Simpan user</button>
                 <a href="{{ route('user')}}" class="btn btn-info">kembali</a>
