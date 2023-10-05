@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Spatie\Permission\Commands\CreatePermission;
 
 class DatabaseSeeder extends Seeder
 {
@@ -22,6 +23,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             UsersSeeder::class,
             JenisBarangSeeder::class,
+            PermissionTableSeeder::class,
+            CreateAdminUserSeeder::class,
         ]);
     }
 }

@@ -74,14 +74,30 @@
                     <input type="email" class="form-control" value="{{$edituser->email}}" id="email" name="email"
                         placeholder="Email">
                 </div>
-            </div>
-
-            <div class="card-footer">
-                <button type="submit" class="btn btn-primary">Simpan</button>
-                <a href="{{ route('user') }}" class="btn btn-info">Kembali</a>
-            </div>
+                <div class="form-group">
+                    <label>Role User</label>
+                    <select class="form-control select2-with-bg" id="bg-multiple" multiple="multiple"
+                        data-bgcolor="light-info" style="width: 100%; height: 50px;" name="roles[]">
+                        @foreach ($roles as $role)
+                        <option value="{{ $role }}" @if(in_array($role,$userRole)) {{'selected'}} @endif>{{ $role }}
+                        </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                    <a href="{{ route('user') }}" class="btn btn-info">Kembali</a>
+                </div>
         </form>
-    </section>
+</div>
+</div>
+
+<div class="card-footer">
+    <button type="submit" class="btn btn-primary">Simpan</button>
+    <a href="{{ route('user') }}" class="btn btn-info">Kembali</a>
+</div>
+</form>
+</section>
 </div>
 
 @endsection
