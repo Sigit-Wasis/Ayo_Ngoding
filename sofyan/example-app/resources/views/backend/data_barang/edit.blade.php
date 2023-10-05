@@ -41,10 +41,11 @@
                         <select class="form-control" id="jenis_barang" name="jenis_barang">
                             <option value="" disabled>Pilih Jenis Barang</option>
                             @foreach ($jenisBarang as $jenis)
-                            <option value="{{ $jenis->id }}" {{ $editBarang->Id_jenis_barang == $jenis->id ? 'selected' : '' }}>{{ $jenis->nama}}</option>
+                            <option value="{{ $jenis->id }}" {{ $jenis->id == $editBarang->Id_jenis_barang ? 'selected' : '' }}>{{ $jenis->nama}}</option>
                             @endforeach
                         </select>
                     </div>
+
 
                     <div class="form-group">
                         <label for="nama_barang">Nama Barang</label>

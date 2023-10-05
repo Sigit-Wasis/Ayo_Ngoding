@@ -1,5 +1,5 @@
 @extends('backend.app')
-
+@section('title','barang')
 @section('content')
 
 <div class="content-wrapper">
@@ -69,9 +69,9 @@
     <tr>
       <!-- <th scope="row">{{ $loop->iteration}}</th> -->
       <td>{{ $dataBarang ->firstItem() + $loop->index }}</td>
-      <td>{{ $barang->id_jenis_barang }}</td>
-      <td>{{ $barang->nama_barang }}</td>
+      <td>{{ $barang->nama }}</td>
       <td>{{ $barang->kode_barang }}</td>
+      <td>{{ $barang->nama_barang }}</td>
       <td>{{ $barang->harga }}</td>
       <td>{{ $barang->satuan }}</td>
       <td>{{ $barang->deskripsi }}</td>

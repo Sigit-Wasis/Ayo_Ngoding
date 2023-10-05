@@ -1,11 +1,16 @@
 <?php
 
 namespace App\Http\Controllers\Backend;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Arr;
 use App\Http\Requests\UserRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserUpdateRequest;
+use App\Models\User;
+use Spatie\Permission\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB; // <- TAMBAHKAN DB
+use Spatie\Permission\Contracts\Permission;
 
 class UserController extends Controller
 {
@@ -18,8 +23,11 @@ class UserController extends Controller
         return view('backend.user.index', compact('users'));
     }
 
-    public function create() {
-        return view('backend.user.create');
+    public function create() 
+    {
+        $roles = Role::pluck('name')->all();
+
+        return view('backend.user.create', compact('roles'));
     }
 
     public function store(UserUpdateRequest $request)
@@ -29,16 +37,20 @@ class UserController extends Controller
         // DD (die dump untuk memeriksa apakahvalue atau rcord didalam variabel $request yang diambil dari form inputan)
         // dd($request->all());
 
-        DB::table('users')->insert([
-            'nama_lengkap' => $request->nama_lengkap,
-            'alamat' => $request->alamat,
-            'no_telephone' => $request->no_telephone,
-            'email' => $request->email,
-            'username' => $request->username,
-            'password' => $request->password,
-            'created_at' => \Carbon\Carbon::now(),
-            'Updated_at' => \Carbon\Carbon::now(),
-        ]);
+        // DB::table('users')->insert([
+        //     'nama_lengkap' => $request->nama_lengkap,
+        //     'alamat' => $request->alamat,
+        //     'no_telephone' => $request->no_telephone,
+        //     'email' => $request->email,
+        //     'username' => $request->username,
+        //     'password' => bcrypt($request->password),
+        //     'created_at' => \Carbon\Carbon::now(),
+        //     'Updated_at' => \Carbon\Carbon::now(),
+        // ]);
+
+        $input = $request->all(); //mengambil semua value dari form create user
+        $user = User::create($input); //menyimpan data user ke dalam database
+        $user->assignRole($request->input('roles')); //menghubungkan antara user ddengan role dari inputan
 
         return redirect()->route('user')->with('message', 'User berhasil di Simpan!');
     }
@@ -48,17 +60,36 @@ class UserController extends Controller
         // apa tipe data dari $id? STRING
         // Menggunakan first karena kita mau mengambil data hanya 1 yang sesuai dengan ID
 
-        $editUser = DB::table('users')->where('id', $id)->first();
+        $editUser = User::find($id);
+        $roles = Role::pluck('name')->all();
+        $userRole = $editUser->roles->pluck('name')->all();
 
-        session(['edit_user' => $editUser]);
+        // session(['edit_user' => $editUser]);
 
-        return view('backend.user.edit', compact('editUser'));
+        return view('backend.user.edit', compact('editUser','roles', 'userRole'));
 
         // return redirect()->route('edit_jenis_barang')->with('message', 'Jenis Barang berhasil dihapus');
     }
 
     public function update(UserUpdateRequest $request, $id)
     {
+        $input = $request->all();
+        if(!empty($input['password'])){                
+             $input['password'] = Hash::make($input['password']);
+        }else{
+                $input = Arr::except($input,array('password'));
+            }
+
+            $user = User::find($id);
+            $user->update($input);
+            DB::table('model_has_roles')->where('model_id',$id)->delete();
+
+            $user->assignRole($request->input('roles'));
+
+            return redirect()->route('user')->with('message', 'user berhasil di update');
+        }
+    
+        
         // $request->validate([
         //     'username' => 'required',
         //     'nama_lengkap' => 'required',
@@ -68,19 +99,16 @@ class UserController extends Controller
         //     'password' => 'required',
         // ]);
 
-        DB::table('users')
-            ->where('id', $id)->update([
-                'username' => $request->username,
-                'nama_lengkap' => $request->nama_lengkap,
-                'alamat' => $request->alamat,
-                'no_telephone' => $request->no_telephone,
-                'email' => $request->email,
-                'password' => bcrypt($request->password), // ini buat enkripsi password
-                'updated_at' => \Carbon\carbon::now(),
-            ]);
-
-        return redirect()->route('user')->with('message', 'user berhasil di update');
-    }
+        // DB::table('users')
+        //     ->where('id', $id)->update([
+        //         'username' => $request->username,
+        //         'nama_lengkap' => $request->nama_lengkap,
+        //         'alamat' => $request->alamat,
+        //         'no_telephone' => $request->no_telephone,
+        //         'email' => $request->email,
+        //         'password' => bcrypt($request->password), // ini buat enkripsi password
+        //         'updated_at' => \Carbon\carbon::now(),
+        //     ]);
 
     public function destroy($id)
     {

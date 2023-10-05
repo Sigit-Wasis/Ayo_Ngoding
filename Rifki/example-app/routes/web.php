@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Backend\RoleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +22,7 @@ Route::get('/', function () {
 
 // ROUTING ATAU URL UNTUK JENIS BARANG
     Route::group(['namespace' => 'App\Http\Controllers'], function(){
+    Route::group(['middleware' => ['auth']], function(){
     Route::get('/home', 'Backend\BerandaController@index')->name('beranda');
     Route::get('/jenis-barang','Backend\JenisBarangController@index')->name('jenis_barang');
     Route::get('/tambah_jenis_barang', 'Backend\JenisBarangController@create')->name('tambah_jenis_barang');
@@ -46,11 +48,15 @@ Route::get('/', function () {
     Route::put('/barang/update/{id}', 'Backend\BarangController@update')->name('barang.update');
     Route::get('delete_barang/{id}', 'Backend\BarangController@delete')->name('delete_barang');
 
+    Route::resource('roles', RoleController::class);
+
+
 
        
         
     
     
+});
 });
 
 Auth::routes();

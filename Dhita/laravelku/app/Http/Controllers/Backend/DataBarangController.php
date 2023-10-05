@@ -15,7 +15,8 @@ class DataBarangController extends Controller
     public function index()
     {
         // query ini untuk mengambil data jenis barang secara keseluruhan dengan id secara discending
-        $dataBarang = DB::table('mst_barang')->select('mst_barang.*', 'nama_barang as created_by')->orderBy('mst_barang.id', 'DESC')
+        $dataBarang = DB::table('mst_barang')->select('mst_barang.*', 'nama_lengkap as created_by','nama')
+        ->orderBy('mst_barang.id', 'DESC')
             ->join('mst_jenis_barang', 'mst_jenis_barang.id', 'mst_barang.id_jenis_barang')
             ->join('users','users.id','mst_barang.created_by')
             ->paginate(5);
@@ -89,10 +90,9 @@ class DataBarangController extends Controller
         // Menggunakan first karena kita mau mengambil data hanya 1 yang sesuai dengan ID
 
         $editBarang = DB::table('mst_barang')->where('id', $id)->first();
+        $jenisBarang = DB::table('mst_jenis_barang')->select('id', 'nama')->get();
 
-        session(['edit_barang' => $editBarang]);
-
-        return view('backend.barang.edit', compact('editBarang'));
+        return view('backend.barang.edit', compact('editBarang','jenisBarang'));
 
         // return redirect()->route('edit_barang')->with('message', 'Barang berhasil diedit');
     }
@@ -100,7 +100,7 @@ class DataBarangController extends Controller
 
     public function update(BarangUpdateRequest $request, $id)
     {
-        if ($request->gambar) {
+        if ($request->gambar_barang) {
             // Simpan File Gambar di dalam folder public/assets/image
             $imageName = time().'.'.$request->gambar_barang->extension();
             $request->gambar_barang->move(public_path('assets/image/'), $imageName);
