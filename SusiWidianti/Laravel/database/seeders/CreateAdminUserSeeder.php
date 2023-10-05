@@ -32,4 +32,6 @@ class CreateAdminUserSeeder extends Seeder
          
         $user->assignRole([$role->id]);
     }
+
+   
 }

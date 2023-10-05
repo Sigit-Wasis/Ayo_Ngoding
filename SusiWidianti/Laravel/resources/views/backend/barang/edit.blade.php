@@ -1,4 +1,3 @@
-
 @extends('backend.app')
 
 @section('content')
@@ -33,36 +32,41 @@
         </div>
         @endif
 
-        <form method="POST" action="{{ route('update_barang',$editbarang->id) }}">
+        <form method="POST" action="{{ route('update_barang',$editbarang->id) }}" enctype="multipart/form-data">
             @csrf
             <div class="card-body">
                 <div class="form-group">
-                    <label for="exampleInputEmail1">id Jenis Barang</label>
-                    <input type="text" class="form-control" value="{{$editbarang ->id_jenis_barang}}" id="id_jenis_barang" name="id_jenis_barang" placeholder="">
-                    </div>
-                    <div class="form-group">
+                    <label for="id_jenis_barang">Id Jenis Barang</label>
+                    <select name="id_jenis_barang" class="form-control">
+                        <option value="">--pilih jenis barang --</option>
+                        @foreach($jenisBarang as $barang)
+                        <option value="{{ $barang->id }}" {{ $barang->id == $editbarang->id_jenis_barang ? 'selected' : ''}}>{{$barang->nama_jenis_barang}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group">
                     <label for="exampleInputEmail1">Kode Barang</label>
-                    <input type="text" class="form-control" value="{{$editbarang ->kode_barang}}" id ="kode_barang" name="kode_barang" placeholder="">
+                    <input type="text" class="form-control" value="{{$editbarang ->kode_barang}}" id="kode_barang" name="kode_barang" placeholder="">
                 </div>
                 <div class="form-group">
                     <label for="exampleInputEmail1">Nama Barang</label>
-                    <input type="text" class="form-control" value="{{$editbarang ->nama_barang}}" id ="nama_barang" name="nama_barang" placeholder="">
+                    <input type="text" class="form-control" value="{{$editbarang ->nama_barang}}" id="nama_barang" name="nama_barang" placeholder="">
                 </div>
                 <div class="form-group">
                     <label for="exampleInputEmail1">Harga</label>
-                    <input type="number" class="form-control"value="{{$editbarang ->harga}}" id="harga" name="harga" placeholder="">
+                    <input type="number" class="form-control" value="{{$editbarang ->harga}}" id="harga" name="harga" placeholder="">
                 </div>
                 <div class="form-group">
                     <label for="satuan">Satuan</label>
-                    <input type="text" class="form-control" value="{{$editbarang ->satuan}}"id="satuan" name="satuan" placeholder="">
+                    <input type="text" class="form-control" value="{{$editbarang ->satuan}}" id="satuan" name="satuan" placeholder="">
                 </div>
                 <div class="form-group">
                     <label for="exampleInputPassword1">Deskripsi</label>
-                    <input type="text" class="form-control" value="{{$editbarang ->deskripsi }}"id="deskripsi" name="deskripsi" placeholder="">
+                    <input type="text" class="form-control" value="{{$editbarang ->deskripsi }}" id="deskripsi" name="deskripsi" placeholder="">
                 </div>
                 <div class="form-group">
                     <label for="gambar">Gambar</label>
-                    <input type="file" class="form-control" value="{{$editbarang ->gambar}}"id="image" name="image" placeholder="">
+                    <input type="file" class="form-control" value="{{$editbarang ->gambar}}" id="image" name="gambar_barang" placeholder="">
                 </div>
                 <div class="form-group">
                     <label for="exampleInputPassword1">stok</label>
@@ -79,4 +83,3 @@
 </div>
 
 @endsection
-

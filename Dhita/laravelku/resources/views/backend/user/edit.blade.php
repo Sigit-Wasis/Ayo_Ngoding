@@ -35,42 +35,50 @@
 
         <form method="POST" action="{{ route('update_user', $editUser->id) }}">
             @csrf
-            
-                <div class="form-group">
-                    <label for="username">Username</label>
-                    <input type="text" class="form-control" value="{{ $editUser->username }}" id="username" name="username" placeholder="masukan username">
-                </div>
-            
-                <div class="form-group">
-                    <label for="nama_lengkap">Nama Lengkap</label>
-                    <input type="text" class="form-control" value="{{ $editUser->nama_lengkap }}" id="nama_lengkap" name="nama_lengkap" placeholder="masukan nama_lengkap">
-                </div>
-            
-                <div class="form-group">
-                    <label for="alamat">Alamat</label>
-                    <input type="text" class="form-control" value="{{ $editUser->alamat }}" id="alamat" name="alamat" placeholder="masukan alamat">
-                </div>
-            
-                <div class="form-group">
-                    <label for="no_telephone">No Telephone</label>
-                    <input type="text" class="form-control" value="{{ $editUser->no_telephone }}" id="no_telephone" name="no_telephone" placeholder="masukan no telephone">
-                </div>
-            
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="text" class="form-control" value="{{ $editUser->email }}" id="email" name="email" placeholder="masukan email">
-                </div>
-            
-                <div class="form-group">
-                    <label for="exampleInputPassword1">Password</label>
-                    <input type="password" class="form-control" id="password" name="password" placeholder="masukan password">
-                </div>
-            
-                <div class="form-group">
-                    <label for="password_confirmation">Konfirmasi Password</label>
-                    <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" placeholder="masukan password">
-                </div>
-            
+
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" class="form-control" value="{{ $editUser->username }}" id="username" name="username" placeholder="masukan username">
+            </div>
+
+            <div class="form-group">
+                <label for="nama_lengkap">Nama Lengkap</label>
+                <input type="text" class="form-control" value="{{ $editUser->nama_lengkap }}" id="nama_lengkap" name="nama_lengkap" placeholder="masukan nama_lengkap">
+            </div>
+
+            <div class="form-group">
+                <label for="alamat">Alamat</label>
+                <input type="text" class="form-control" value="{{ $editUser->alamat }}" id="alamat" name="alamat" placeholder="masukan alamat">
+            </div>
+
+            <div class="form-group">
+                <label for="no_telephone">No Telephone</label>
+                <input type="text" class="form-control" value="{{ $editUser->no_telephone }}" id="no_telephone" name="no_telephone" placeholder="masukan no telephone">
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="text" class="form-control" value="{{ $editUser->email }}" id="email" name="email" placeholder="masukan email">
+            </div>
+
+            <div class="form-group">
+                <label for="exampleInputPassword1">Password</label>
+                <input type="password" class="form-control" id="password" name="password" placeholder="masukan password">
+            </div>
+
+            <div class="form-group">
+                <label for="password_confirmation">Konfirmasi Password</label>
+                <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" placeholder="masukan password">
+            </div>
+
+            <div class="form-group">
+                <label>Role User <strong style="color: red;">*</strong></label>
+                <select class="form-control select2-with-bg" id="bg-multiple" multiple="multiple" data-bgcolor="light-info" style="width: 100%; height: 50px;" name="roles[]">
+                    @foreach ($roles as $role)
+                    <option value="{{ $role }}" @if (in_array($role, $userRole)) {{'selected'}} @endif>{{ $role }}</option>
+                    @endforeach
+                </select>
+            </div>
             <div class="card-footer">
                 <button type="submit" class="btn btn-primary">Simpan User</button>
                 <a href="{{ route('user') }}" class="btn btn-info">Kembali</a>

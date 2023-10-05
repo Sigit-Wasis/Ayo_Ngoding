@@ -61,6 +61,21 @@
                         <input type="password" name="password_confirmation" id="password_confirmation" class="form-control">
                     </div>
 
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Role User <strong style="color: red;">*</strong></label>
+                            <select class="form-control select2-with-bg" id="bg-multiple" style="width: 100%; height: 50px;" name="roles[]">
+                                @foreach ($roles as $roleId => $roleName)
+                                <option value="{{ $roleId }}" {{ in_array($roleId, $userRole) ? 'selected' : '' }}>
+                                    {{ $roleName }}
+                                </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
+
+
                     <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
                 </form>
             </div>
