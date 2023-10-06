@@ -10,12 +10,19 @@ use Illuminate\Support\Facades\DB;
 
 class JenisBarangController extends Controller
 {
+    function __construct()
+    {
+        $this->middleware('permission:jenis-barang-list|jenis-barang-create|jenis-barang-edit|jenis-barang-delete', ['only' => ['index', 'store']]);
+        $this->middleware('permission:jenis-barang-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:jenis-barang-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:jenis-barang-delete', ['only' => ['destroy']]);
+    }
     public function index()
     {
 
         $jenisBarang = DB::table('mst_jenis_barang')->select('mst_jenis_barang.*', 'name as created_by')->orderBy('mst_jenis_barang.id', 'DESC')
             ->join('users', 'users.id', 'mst_jenis_barang.created_by')
-            ->paginate(10);
+            ->paginate(5);
 
         // dd($jenisBarang);
 

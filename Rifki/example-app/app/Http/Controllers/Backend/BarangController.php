@@ -14,6 +14,13 @@ use function Laravel\Prompts\select;
 
 class BarangController extends Controller
 {
+    function __construct()
+    {
+        $this->middleware('permission:barang-list|barang-create|barang-edit|barang-delete', ['only' => ['index', 'store']]);
+        $this->middleware('permission:barang-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:barang-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:barang-delete', ['only' => ['destroy']]);
+    }
     public function index()
     {
         $barangs = DB::table('mst_barang')
@@ -54,9 +61,9 @@ class BarangController extends Controller
             'stok_barang' => $request->stok_barang,
             'id_jenis_barang' => $request->id_jenis_barang,
             'created_by' => Auth::user()->id,
-            'updated_by' => Auth::user()->id,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now(),
+            'upadated_by' => Auth::user()->id,
+            'created_at' => \Carbon\Carbon::now(),
+            'updated_at' => \Carbon\Carbon::now()
         ]);
         return redirect()->route('barang.index')->with('message', 'Barang Berhasil Disimpan');
     }
@@ -98,6 +105,7 @@ class BarangController extends Controller
     }
     public function update(Request $request, $id)
     {
+        
         $request->validate([
             'id_jenis_barang' => 'required',
             'kode_barang' => 'required|unique:mst_barang,kode_barang,' . $id,

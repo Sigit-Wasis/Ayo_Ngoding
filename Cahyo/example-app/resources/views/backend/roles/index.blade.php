@@ -1,6 +1,6 @@
 @extends('backend.app')
 
-@section('title', 'Roles')
+@section('title', 'Role')
 
 @section('content')
 
@@ -58,7 +58,11 @@
                             <td>
                                 <a href="{{ route('roles.show', $role->id) }}" class="btn btn-sm btn-info">Show</a>
                                 <a href="{{ route('roles.edit', $role->id) }}" class="btn btn-sm btn-primary">Edit</a>
-                                <a href="{{ route('roles.destroy', $role->id)}}" onclick="return confirm('Are you sure?')" class="btn btn-sm btn-danger">Delete</a>
+                                <form method="POST" action="{{ route('roles.destroy', $role->id) }}">
+                                    {{ csrf_field() }}
+                                    {{ method_field('DELETE') }}
+                                    <button onclick="return confirm('Are you sure?')" class="btn btn-sm btn-danger">Delete</button>
+                                </form>
                             </td>
                         </tr>
                         @endforeach

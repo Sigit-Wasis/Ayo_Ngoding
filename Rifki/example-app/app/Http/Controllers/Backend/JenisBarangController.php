@@ -11,6 +11,13 @@ use Carbon\Carbon;
 
 class JenisBarangController extends Controller
 {
+    function __construct()
+    {
+        $this->middleware('permission:jenisbarang-list|jenisbarang-create|jenisbarang-edit|jenisbarang-delete', ['only' => ['index', 'store']]);
+        $this->middleware('permission:jenisbarang-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:jenisbarang-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:jenisbarang-delete', ['only' => ['destroy']]);
+    }
     public function index() {
         $jenisbarang = DB::table('mst_jenis_barang')
             ->select('mst_jenis_barang.*', 'name as created_by')

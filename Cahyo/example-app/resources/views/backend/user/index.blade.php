@@ -44,6 +44,7 @@
                         <tr>
                             <th scope="col">No</th>
                             <th scope="col">Nama</th>
+                            <th>Role</th>
                             <th scope="col">Username</th>
                             <th scope="col">Email</th>
                             <th scope="col">Aksi</th>
@@ -55,6 +56,12 @@
                             <!-- <th scope="row">{{ $loop->iteration }}</th> -->
                             <td>{{ $users->firstItem() + $loop->index}}</td>
                             <td>{{ $user->name }}</td>
+                            <!-- <td>{{ Auth::user()->roles->pluck('name') [0] ?? ''}}</td> -->
+                            <td>
+                                @foreach($user->roles as $role)
+                                    <span class="badge badge-primary">{{ $role->name}}</span>
+                                @endforeach
+                            </td>
                             <td>{{ $user->username }}</td>
                             <td>{{ $user->email }}</td>
                             <td>
