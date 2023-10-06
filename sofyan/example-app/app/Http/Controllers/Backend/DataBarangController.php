@@ -10,6 +10,13 @@ use Illuminate\Support\Facades\DB;
 
 class DataBarangController extends Controller
 {
+    function __construct()
+    {
+        $this->middleware('permission:data_barang-list|data_barang-create|data_barang-edit|data_barang-delete', ['only' => ['index', 'store']]);
+        $this->middleware('permission:data_barang-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:data_barang-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:data_barang-delete', ['only' => ['destroy']]);
+    }
     public function index()
     {
         $dataBarang = DB::table('_m_s_t__barang')

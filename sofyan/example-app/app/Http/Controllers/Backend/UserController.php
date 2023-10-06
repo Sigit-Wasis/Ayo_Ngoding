@@ -13,18 +13,40 @@ use App\Models\User;
 
 class UserController extends Controller
 {
+
+    function __construct()
+    {
+        $this->middleware('permission:user-list|user-create|user-edit|user-delete', ['only' => ['index', 'store']]);
+        $this->middleware('permission:user-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:user-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:user-delete', ['only' => ['destroy']]);
+    }
+    // public function index()
+    // {
+    //     // Query ini untuk mengambil data pengguna dengan informasi roles
+    //     // $userS = DB::table('users')
+    //     // ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
+    //     // ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
+    //     // ->select('users.*', 'users.name as created_by', 'roles.name as role_name')
+    //     // ->orderBy('users.id', 'DESC');
+
+    //     $userS = User::with('roles')->paginate(5);
+
+    //     return view('backend.users.index', compact('userS'));
+    // }
     public function index()
     {
-        // Query ini untuk mengambil data pengguna dengan informasi roles
-        $userS = DB::table('users')
-        ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
-        ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
-        ->select('users.*', 'users.name as created_by', 'roles.name as role_name')
-        ->orderBy('users.id', 'DESC')
-        ->paginate(5);
+        $userS = User::with('roles')->paginate(5);
+
+        // Menggunakan metode map untuk membuat alias role_name
+        $userS->map(function ($user) {
+            $user->role_name = $user->roles->pluck('name')->implode(', ');
+            return $user;
+        });
 
         return view('backend.users.index', compact('userS'));
     }
+
 
 
     public function createUser()
