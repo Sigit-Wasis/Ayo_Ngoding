@@ -17,6 +17,15 @@ class DataBarangController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+     function __construct()
+    {
+         $this->middleware('permission:barang-list|barang-create|barang-edit|barang-delete', ['only' => ['index','store']]);
+         $this->middleware('permission:barang-create', ['only' => ['create','store']]);
+         $this->middleware('permission:barang-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:barang-delete', ['only' => ['destroy']]);
+    }
+
     public function index()
     {
         // Queri ini untuk mengambil data jenis barang secara keseluruhan dengan id secara discending
