@@ -42,6 +42,7 @@
                         <tr>
                             <th scope="col">N0</th>
                             <th scope="col">name</th>
+                            <th>Role</th>
                             <th scope="col">username</th>
                             <th scope="col">email</th>
                             <th scope="col">Aksi</th>
@@ -53,6 +54,10 @@
                             <!-- <th scope="row">{{ $loop->iteration }}</th> -->
                             <td>{{ $users->firstItem() + $loop->index }}</td>
                             <td>{{ $user->name }}</td>
+                            <td>
+                                @foreach($user->roles as $role)
+                                <span class="badge badge-primary"> {{ $role->name }} </span>
+                            @endforeach
                             <td>{{ $user->user_name }}</td>
                             <td>{{ $user->email }}</td>
                             <td>

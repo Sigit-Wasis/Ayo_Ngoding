@@ -33,7 +33,7 @@
 
         <div class="card card-primary">
             <div class="card-header">
-                <h3 class="card-title">Tambah Users</h3>
+                <h3 class="card-title">Tambah Role</h3>
             </div>
 
             <form method="POST" action="{{route('roles.store')}}">

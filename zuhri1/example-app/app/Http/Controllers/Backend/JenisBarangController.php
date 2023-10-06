@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\JenisBarangRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class JenisBarangController extends Controller
@@ -29,8 +30,8 @@ class JenisBarangController extends Controller
             'nama_jenis_barang' => $request->nama_jenis_barang,
             // 'deskripsi' =>$request->deskripsi,
             'deskripsi' => $request->deskripsi,
-            'created_by' => 1,
-            'updated_by' => 1,
+            'created_by' => Auth::user()->id,
+            'updated_by' => Auth::user()->id,
             'created_at' => \Carbon\Carbon::now(),
             'updated_at' => \Carbon\Carbon::now(),
             

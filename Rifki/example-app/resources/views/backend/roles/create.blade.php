@@ -40,6 +40,7 @@
                     <label for="nama">Nama Role</label>
                     <input type="text" class="form-control" value="{{old('name')}}" id="nama" name="name" placeholder="Nama Pengguna">
                 </div>
+                
                 <div class="form-group">
                     <label for="permission">Permission</label>
                     <div class="select-group selectgroup-pills">
