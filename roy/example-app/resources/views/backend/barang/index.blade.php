@@ -40,7 +40,7 @@
                     <thead>
                         <tr>
                             <th scope="col">N0</th>
-                            <th scope="col">Jenis Barang</th>
+                            <th scope="col">Nama Jenis Barang</th>
                             <th scope="col">Kode Barang</th>
                             <th scope="col">Nama Barang</th>
                             <th scope="col">Dibuat Pada</th>                           

@@ -93,7 +93,7 @@ class DataBarangController extends Controller
 
             DB::table('mst_barang')->where('id', $id)->delete();
     
-            return redirect()->route('barang')->with('messages', 'Sukses');
+            return redirect()->route('barang')->with('message', 'Sukses');
         }
     }
 
@@ -146,7 +146,7 @@ class DataBarangController extends Controller
             ]);
         }
 
-        return redirect()->route('barang')->with('messages', 'Data Barang Berhasil Diupdate');
+        return redirect()->route('barang')->with('message', 'Data Barang Berhasil Diupdate');
     }
 
 

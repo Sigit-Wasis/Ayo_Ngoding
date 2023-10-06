@@ -1,26 +1,25 @@
 @extends('backend.app')
-@section('title','Jenis Barang')
+@section('title', 'Tambah Role')
 @section('content')
 
 <div class="content-wrapper">
-
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Tambah Jenis Barang</h1>
+                    <h1>Tambah Pengguna</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Tambah Jenis Barang</li>
+                        <li class="breadcrumb-item active">Tambah Pengguna</li>
                     </ol>
                 </div>
             </div>
         </div>
     </section>
 
-    <!--kontek tambah jenis barang -->
+    <!-- TAMBAH PENGGUNA -->
 
     <section class="content">
         @if ($errors->any())
@@ -32,23 +31,32 @@
             </ul>
         </div>
         @endif
-        <form method="POST" action="{{ route('store_jenis_barang') }}">
+
+        <form method="POST" action="{{ route('roles.store') }}">
             @csrf
+
             <div class="card-body">
                 <div class="form-group">
-                    <label for="nama_jenis_barang">Nama Jenis Barang</label>
-                    <input type="text" class="form-control" id="nama_jenis_barang" name="nama_jenis_barang"
-                        placeholder="Nama Jenis Barang">
+                    <label for="nama">Nama Role</label>
+                    <input type="text" class="form-control" value="{{old('name')}}" id="nama" name="name" placeholder="Nama Pengguna">
                 </div>
                 <div class="form-group">
-                    <label for="deskripsi">Deskripsi</label>
-                    <input type="text" class="form-control" id="deskripsi" name="deskripsi" placeholder="Deskripsi">
+                    <label for="permission">Permission</label>
+                    <div class="select-group selectgroup-pills">
+                        @foreach($permission as $value)
+                        <div class="form-check form-check-inline">
+                            <input type="checkbox" class="form-check-input" name="permission[]" value="{{$value->id}}">
+                            <label>
+                                {{$value->name}}
+                            </label>
+                        </div>
+                        @endforeach
+                    </div>
                 </div>
             </div>
-
             <div class="card-footer">
                 <button type="submit" class="btn btn-primary">Simpan</button>
-                <a href="{{ route('jenis_barang') }}" class="btn btn-info">Kembali</a>
+                <a href="{{ route('user') }}" class="btn btn-primary">Kembali</a>
             </div>
         </form>
     </section>

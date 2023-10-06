@@ -1,5 +1,5 @@
 @extends('backend.app')
-
+@section('title','Barang')
 @section('content')
 
 <div class="content-wrapper">
@@ -38,7 +38,7 @@
                         </tr>
                         <tr>
                             <th scope="col">Harga</th>
-                            <th>{{ $detailBarang->harga }}</th>
+                            <th>{{ "Rp".number_format($detailBarang->harga,0,',','.') }}</th>
                         </tr>
                         <tr>
                             <th scope="col">Satuan</th>
