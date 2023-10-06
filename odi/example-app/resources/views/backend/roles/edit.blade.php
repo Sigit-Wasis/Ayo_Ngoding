@@ -1,8 +1,9 @@
 @extends('backend.app')
-@section('title', 'Edit Role')
+@section('title','Role')
 @section('content')
 
 <div class="content-wrapper">
+
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
@@ -19,6 +20,7 @@
         </div>
     </section>
 
+    <!--kontek tambah jenis barang -->
 
     <section class="content">
         @if ($errors->any())
@@ -30,34 +32,33 @@
             </ul>
         </div>
         @endif
-
-        <form method="POST" action="{{ route('roles.update', $role->id) }}">
+        <form method="POST" action="{{ route('roles.update', $role) }}">
             @csrf
-            @method('PUT')
-
+            {{ method_field('PUT') }}
             <div class="card-body">
                 <div class="form-group">
-                    <label for="nama">Nama Role</label>
-                    <input type="text" class="form-control" value="{{ old('name', $role->name) }}" id="nama" name="name" placeholder="Nama Role">
+                    <label for="name">Nama Role</label>
+                    <input type="text" class="form-control" value="{{ old ('name', $role->name) }}" id=" name"
+                        name="name" placeholder="Name">
                 </div>
-                
                 <div class="form-group">
-                    <label for="permission">Permission</label>
-                    <div class="select-group selectgroup-pills">
-                        @foreach($permission as $value)
-                        <div class="form-check form-check-inline">
-                            <input type="checkbox" class="form-check-input" name="permission[]" value="{{ $value->id }}" {{ in_array($value->id, $rolePermissions) ? 'checked' : '' }}>
+                    <label>Permission</label>
+                    <div class="selectgroup selectgroup-pills">
+                        @foreach ($permission as $value)
+                        <div class=" form-check form-check-inline">
+                            <input type="checkbox" {{ in_array($value->id, $rolePermissions) ? 'checked' : '' }}
+                                class="form-check-input" name=" permission[]" value="{{ $value->id}}">
                             <label>
-                                {{ $value->name }}
+                                {{$value->name }}
                             </label>
                         </div>
                         @endforeach
                     </div>
                 </div>
             </div>
-            <div class="card-footer">
+            <div class=" card-footer">
                 <button type="submit" class="btn btn-primary">Simpan</button>
-                <a href="{{ route('roles.index') }}" class="btn btn-primary">Kembali</a>
+                <a href="{{ route('roles.index') }}" class="btn btn-info">Kembali</a>
             </div>
         </form>
     </section>

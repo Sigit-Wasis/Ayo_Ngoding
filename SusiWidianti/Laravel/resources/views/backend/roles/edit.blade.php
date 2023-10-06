@@ -1,5 +1,5 @@
 @extends('backend.app')
-@section('title', 'Edit Role')
+
 @section('content')
 
 <div class="content-wrapper">
@@ -19,8 +19,9 @@
         </div>
     </section>
 
-
+    <!-- KONTEN TAMBAH USER -->
     <section class="content">
+
         @if ($errors->any())
         <div class="alert alert-danger">
             <ul>
@@ -31,36 +32,31 @@
         </div>
         @endif
 
-        <form method="POST" action="{{ route('roles.update', $role->id) }}">
+        <form method="POST" action="{{ route('roles.update', $role) }}">
             @csrf
-            @method('PUT')
-
+            {{ method_field('PUT')}}
             <div class="card-body">
                 <div class="form-group">
-                    <label for="nama">Nama Role</label>
-                    <input type="text" class="form-control" value="{{ old('name', $role->name) }}" id="nama" name="name" placeholder="Nama Role">
+                    <label for="name">Nama Role</label>
+                    <input type="text" class="form-control" value="{{old('name', $role->name) }}" id="name" name="name" placeholder="">
                 </div>
-                
                 <div class="form-group">
                     <label for="permission">Permission</label>
-                    <div class="select-group selectgroup-pills">
+                    <div class="selectgroup selectgroup-pilss">
                         @foreach($permission as $value)
                         <div class="form-check form-check-inline">
-                            <input type="checkbox" class="form-check-input" name="permission[]" value="{{ $value->id }}" {{ in_array($value->id, $rolePermissions) ? 'checked' : '' }}>
+                            <input type="checkbox" {{in_array($value->id, $rolePermissions) ? 'checked' : ''}} class="form-check-input" name="permission[]" value="{{$value->id}}">
                             <label>
-                                {{ $value->name }}
+                                {{$value->name}}
                             </label>
                         </div>
                         @endforeach
                     </div>
-                </div>
-            </div>
-            <div class="card-footer">
-                <button type="submit" class="btn btn-primary">Simpan</button>
-                <a href="{{ route('roles.index') }}" class="btn btn-primary">Kembali</a>
-            </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-primary">Simpan Role</button>
+                        <a href="{{ route('users') }}" class="btn btn-info">Kembali</a>
+                    </div>
         </form>
     </section>
 </div>
-
 @endsection

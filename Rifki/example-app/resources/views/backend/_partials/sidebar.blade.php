@@ -1,3 +1,5 @@
+
+
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <a href="../../index3.html" class="brand-link">
         <img src="{{ url('assets/dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
@@ -22,31 +24,37 @@
                         <p>Beranda</p>
                     </a>
                 </li>
+                @can('jenis-barang-list')
                 <li class="nav-item">
                     <a href="{{ route('jenis_barang') }}" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
                         <p>Jenis Barang</p>
                     </a>
                 </li>
+                @endcan
+                @can('barang-list')
                 <li class="nav-item">
                     <a href="{{ route('barang.index') }}" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
                         <p>Data Barang</p>
                     </a>
                 </li>
+                @endcan
+                @can('user-list')
                 <li class="nav-item">
                     <a href="{{ route('user') }}" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
                         <p>Data User</p>
                     </a>
-
+                    @endcan
+                    @can('role-list')
                     <li class="nav-item">
                     <a href="{{ route('roles.index') }}" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
                         <p>Data Role</p>
                     </a>
-
                 </li>
+                @endcan
                 <li class="nav-item">
                     <a href="{{ route('jenis_barang') }}" class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                         <i class="nav-icon fas fa-sign-out-alt"></i>
