@@ -23,6 +23,7 @@
                         </p>
                     </a>
                 </li>  
+                @can('jenis-barang-list')
                 <li class="nav-item">
                     <a href="{{ route ('jenis_barang') }}" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
@@ -31,6 +32,8 @@
                         </p>
                     </a>
                 </li>
+                @endcan
+                @can('barang-list')
                 <li class="nav-item">
                     <a href="{{ route ('barang') }}" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
@@ -39,6 +42,8 @@
                         </p>
                     </a>
                 </li>
+                @endcan
+                @can('role-list')
                 <li class="nav-item">
                     <a href="{{ route ('roles.index') }}" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
@@ -47,6 +52,8 @@
                         </p>
                     </a>
                 </li>
+                @endcan
+                @can('user-list')
                 <li class="nav-item">
                     <a href="{{ route ('user') }}" class="nav-link">
                         <i class="nav-icon fa fa-user"></i>
@@ -55,6 +62,7 @@
                         </p>
                     </a>
                 </li>
+                @endcan
                 <li class="nav-item">
                     <a  href="{{ route('logout') }}"
                             onclick="event.preventDefault();

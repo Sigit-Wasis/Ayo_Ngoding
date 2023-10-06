@@ -1,6 +1,6 @@
 @extends('backend.app')
 
-@section('title', 'Detail Barang')
+@section('title', 'Detail Role')
 
 @section('content')
 
