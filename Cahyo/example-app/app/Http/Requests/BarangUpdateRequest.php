@@ -30,7 +30,7 @@ class BarangUpdateRequest extends FormRequest
             'harga' => 'required',
             'satuan' => 'required',
             'deskripsi' => 'required',
-            'gambar' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+            'gambar' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             'stok_barang' => 'required',
 
         ];

@@ -1,5 +1,7 @@
 @extends('backend.app')
 
+@section('title', 'Edit Jenis Barang')
+
 @section('content')
 
 <div class="content-wrapper">
@@ -11,7 +13,7 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item"><a href="#">Jenis Barang</a></li>
                         <li class="breadcrumb-item active">Edit Jenis Barang</li>
                     </ol>
                 </div>

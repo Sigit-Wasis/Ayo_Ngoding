@@ -40,7 +40,10 @@
                     <select name="id_jenis_barang" class="form-control">
                         <option value="">*** pilih jenis barang *** </option>
                         @foreach ($jenisBarang as $jenis)
-                        <option value="{{ $jenis->id}}">{{ $jenis->nama_jenis_barang}}</option>
+                        <option value="{{ $jenis->id}}"
+                            {{ $jenis->id == $editBarang->id_jenis_barang ? 'selected' : '' }}>
+                            {{ $jenis->nama_jenis_barang}}
+                        </option>
                         @endforeach
                     </select>
                 </div>
