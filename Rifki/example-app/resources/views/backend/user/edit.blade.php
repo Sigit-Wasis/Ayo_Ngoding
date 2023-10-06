@@ -65,7 +65,7 @@
                     </select>
                 </div>
                 <div class="card-footer">
-                    <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                    <button type="submit" class="btn btn-primary">Simpan</button>
                     <a href="{{ route('user') }}" class="btn btn-info">Kembali</a>
                 </div>
             </form>
