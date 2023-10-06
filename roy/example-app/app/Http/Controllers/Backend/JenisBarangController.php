@@ -6,9 +6,19 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\JenisBarangRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+// use auth;
 
 class JenisBarangController extends Controller
 {
+
+    function __construct()
+    {
+         $this->middleware('permission:jenis-barang-list|jenis-barang-create|jenis-barang-edit|jenis-barang-delete', ['only' => ['index','store']]);
+         $this->middleware('permission:jenis-barang-create', ['only' => ['create','store']]);
+         $this->middleware('permission:jenis-barang-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:jenis-barang-delete', ['only' => ['destroy']]);
+    }
     public function index() {
             // Queri ini untuk mengambil data jenis barang secara keseluruhan dengan id secara discending
             $jenisbarang = DB::table('jenis_barang')->select('jenis_barang.*', 'name as created_by')->orderBy('jenis_barang.id', 'DESC')
@@ -32,8 +42,8 @@ class JenisBarangController extends Controller
         DB::table('jenis_barang')->insert([
             'nama_barang' => $request->nama_jenis_barang,
             'deskripsi' => $request->deskripsi,
-            'created_by' => 1,
-            'updated_by' => 1,
+            'created_by' => Auth::user()->id,
+            'updated_by' => Auth::user()->id,
             'created_at' => \Carbon\Carbon::now(),
             'updated_at' => \Carbon\Carbon::now(),
         ]);
@@ -46,9 +56,9 @@ class JenisBarangController extends Controller
         // apa tipe data dari $id ? tipe datanya string dengan value integer, example "8"
         // Menggunakan first karena kita mau ngambil data hanya 1 yang sesuai dengan ID
 
-        $editJenisBarang =DB::table('data_barang')->where('id', $id)->first();
+        $editJenisBarang =DB::table('jenis_barang')->where('id', $id)->first();
 
-        return view('backend.data_barang.edit', compact('editDataBarang'));
+        return view('backend.jenis_barang.edit', compact('editJenisBarang'));
     }
 
     public function update(JenisBarangRequest $request,$id) {
