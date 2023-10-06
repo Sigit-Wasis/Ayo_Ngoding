@@ -56,8 +56,12 @@
                             <td>
                                 <a href="{{ route('roles.show', $role->id) }}" class="btn btn-sm btn-info">Detail</a>
                                 <a href="{{ route('roles.edit', $role->id) }}" class="btn btn-sm btn-primary">Edit</a>
-                                <a href="{{ route('roles.destroy', $role->id) }}"
-                                    onclick="return confirm('Apa kamu yakin')" class="btn btn-sm btn-danger">Hapus</a>
+                                <form method="POST" action="{{ route('roles.destroy', $role->id) }}">
+                                    {{ csrf_field() }}
+                                    {{method_field('DELETE') }}
+                                    <button onclick="return confirm ('Apa kamu yakin?')" type="submit"
+                                        class="btn btn-sm btn-danger">Hapus</button>
+                                </form>
                             </td>
                         </tr>
                         @endforeach

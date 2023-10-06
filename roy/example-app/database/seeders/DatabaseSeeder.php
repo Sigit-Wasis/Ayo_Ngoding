@@ -22,6 +22,8 @@ class DatabaseSeeder extends Seeder
        $this->call([
         UsersSeeder::class,
         jenisbarangseeder::class,
+        PermissionTableSeeder::class,
+        CreateAdminUserSeeder::class
        ]);
     }
 
