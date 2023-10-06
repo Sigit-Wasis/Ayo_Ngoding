@@ -19,7 +19,7 @@
         </div>
     </section>
 
-    
+
     <section class="content">
 
         <div class="col-md-2 mb-2">
@@ -60,9 +60,17 @@
                             <td>{{$role->created_at}}</td>
                             <td>
 
-                                <a href="{{ route('roles.show', $role->id) }}" class="btn btn-sm btn-info">show</a>
-                                <a href="{{ route('roles.edit', $role->id) }}" class="btn btn-sm btn-primary">Edit</a>
-                                <a href="{{ route('roles.destroy',  $role->id) }}" onclick="return confirm('are you sure?')" class="btn btn-sm btn-danger">Delete</a>
+                                <div class="btn-group">
+                                    <a href="{{ route('roles.show', $role->id) }}" class="btn btn-sm btn-info mr-1" data-toggle="tooltip" title="Show">Show</a>
+                                    <a href="{{ route('roles.edit', $role->id) }}" class="btn btn-sm btn-primary mr-1" data-toggle="tooltip" title="Edit">Edit</a>
+                                    <form method="POST" action="{{ route('roles.destroy', $role->id) }}" onsubmit="return confirm('Are you sure you want to delete this role?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-danger" data-toggle="tooltip" title="Delete">Delete</button>
+                                    </form>
+                                </div>
+
+                            </td>
                         </tr>
                         @endforeach
                     </tbody>

@@ -6,12 +6,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Tambah Roles</h1>
+                    <h1>Update Roles</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Roles</a></li>
-                        <li class="breadcrumb-item active">Tambah Roles</li>
+                        <li class="breadcrumb-item active">Update Roles</li>
                     </ol>
                 </div>
             </div>
@@ -33,25 +33,27 @@
 
         <div class="card card-primary">
             <div class="card-header">
-                <h3 class="card-title">Tambah Role</h3>
+                <h3 class="card-title">Update Roles</h3>
             </div>
 
-            <form method="POST" action="{{route('roles.store')}}">
+            <form method="POST" action="{{route('roles.update',$role)}}">
+
                 @csrf
+                {{method_field('PUT')}}
                 <div class="card-body">
                     <div class="form-group">
-                        <label for="nama">Nama Lengkap</label>
-                        <input type="text" class="form-control" id="name" name="name" placeholder="">
+                        <label for="name">Nama Role</label>
+                        <input type="text" class="form-control" id="name" name="name" value="{{ old('name', $role->name) }}" placeholder="">
                     </div>
 
                     <div class="form-group">
                         <label for="permission">Permission</label>
                         <div class="selectgrup selectgrup-pills">
-                            @foreach ($permission as $value)
+                            @foreach ($permissions as $permission)
                             <div class="form-check form-check-inline">
-                                <input type="checkbox" name="permission[]" value="{{$value->id}}">
+                                <input type="checkbox" name="permission[]" value="{{ $permission->id }}" {{ in_array($permission->id, old('permission', $rolePermissions)) ? 'checked' : '' }}>
                                 <label>
-                                    {{ $value->name}}
+                                    {{ $permission->name }}
                                 </label>
                             </div>
                             @endforeach
@@ -60,7 +62,7 @@
 
                     <div class="card-footer">
                         <button type="submit" class="btn btn-primary">Simpan</button>
-                        <a href="{{route('user')}}" class="btn btn-info">kembali</a>
+                        <a href="{{route('roles.index')}}" class="btn btn-info">kembali</a>
                     </div>
             </form>
         </div>

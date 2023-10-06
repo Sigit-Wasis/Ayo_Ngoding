@@ -33,6 +33,7 @@
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">username</th>
+                            <th>Role</th>
                             <th scope="col">nama_lengkap</th>
                             <th scope="col">email</th>
                             <th scope="col">alamat</th>
@@ -46,6 +47,11 @@
                         <tr>
                             <td>{{ $users->firstItem() + $loop->index }}</td>
                             <td>{{ $user->username }}</td>
+                            <td>
+                                @foreach($user->roles as $role)
+                            <span class="badge badge-primary"> {{$role->name}}</span>
+                                @endforeach
+                            </td>
                             <td>{{ $user->nama_lengkap }}</td>
                             <td>{{ $user->email }}</td>
                             <td>{{ $user->alamat }}</td>
