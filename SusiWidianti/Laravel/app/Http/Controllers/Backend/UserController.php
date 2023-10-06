@@ -15,13 +15,23 @@ use Illuminate\Support\Arr;
 
 class UserController extends Controller
 {
+
+    function __construct()
+    {
+         $this->middleware('permission:user-list|user-create|user-edit|user-delete', ['only' => ['index','store']]);
+         $this->middleware('permission:user-create', ['only' => ['create','store']]);
+         $this->middleware('permission:user-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:user-delete', ['only' => ['destroy']]);
+    }
+
     public function index()
     {
         // Query untuk mengambil data user secara keseluruhan dengan ID secara descending (dari yang terbesar ke yang terkecil)
-        $users = DB::table('users')
-            ->select('users.*', 'nama_lengkap as created_by')
-            ->orderBy('users.id', 'DESC')
-            ->paginate(5);
+        // $users = DB::table('users')
+        //     ->select('users.*', 'nama_lengkap as created_by')
+        //     ->orderBy('users.id', 'DESC')
+        //     ->paginate(5);
+        $users = User::with('roles')->paginate(5);
 
         return view('backend.users.index', compact('users'));
     }
