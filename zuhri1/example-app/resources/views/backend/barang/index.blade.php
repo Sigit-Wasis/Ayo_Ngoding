@@ -46,7 +46,7 @@
             <thead>
               <tr>
                 <th scope="col">#</th>
-                <th scope="col">id_jenis_barang</th>
+                <th scope="col">jenis_barang</th>
                 <th scope="col">kode_barang</th>
                 <th scope="col">nama_barang</th>
                

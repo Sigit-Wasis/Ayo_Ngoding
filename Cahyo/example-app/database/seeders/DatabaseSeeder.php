@@ -24,6 +24,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             UserSeeder::class,
             JenisBarangSeeder::class,
+            PermissionTableSeeder::class,
+            CreateAdminUserSeeder::class
         ]);
     }
 }

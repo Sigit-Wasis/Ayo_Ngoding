@@ -7,6 +7,8 @@ use Spatie\Permission\Models\Role;
 use App\Http\Requests\UserStoreRequest;
 use App\Http\Requests\UserUpdateRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB as FacadesDB;
 use App\Models\User;
 
@@ -70,9 +72,12 @@ class UsersController extends Controller
      */
     public function edit($id)
     {
-        $edituser = FacadesDB::table('users')->where('id', $id)->first();
-
-        return view('backend.user.edit', compact('edituser'));
+        // $editUser = FacadesDB::table('users')->where('id', $id)->first();
+        $edituser = User::find($id);
+        $roles = Role::pluck('name')->all();
+        $userRole = $edituser->roles->pluck('name')->all();
+        
+        return view('backend.user.edit', compact('edituser','roles','userRole'));
     }
 
     /**
@@ -80,29 +85,20 @@ class UsersController extends Controller
      */
     public function update(UserUpdateRequest $request, $id)
     {
-        if($request->password) {
-        FacadesDB::table('users')->where ('id',$id)->update([
-            'name' =>$request->name,
-            'username' =>$request->username,
-            'password' =>bcrypt($request->password),
-            'nama_lengkap' =>$request->nama_lengkap,
-            'alamat' =>$request->alamat,
-            'nomor_telpon' =>$request->nomor_telpon,
-            'email' =>$request->email,
-            'updated_at' => \Carbon\Carbon::now(),
-        ]);
-        }else{
-            FacadesDB::table('users')->where ('id',$id)->update([
-                'name' =>$request->name,
-                'username' =>$request->username,
-                'nama_lengkap' =>$request->nama_lengkap,
-                'alamat' =>$request->alamat,
-                'nomor_telpon' =>$request->nomor_telpon,
-                'email' =>$request->email,
-                'updated_at' => \Carbon\Carbon::now(),
-        
-        ]);
-    }
+        $input = $request->all();
+            if(!empty($input['password'])){                
+            $input['password'] = Hash::make($input['password']);
+            
+            }else{
+                $input = Arr::except($input,array('password'));
+            }
+
+            $user = User::find($id);
+            $user->update($input);
+            FacadesDB::table('model_has_roles')->where('model_id',$id)->delete();
+
+            $user->assignRole($request->input('roles'));
+            
         return redirect()->route('user')->with('message','User Berhasil Diupdate');
     }
 

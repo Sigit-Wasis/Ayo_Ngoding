@@ -5,10 +5,13 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
 use Spatie\Permission\Models\Role;
+use App\Http\Requests\UserStoreRequest;
 use App\Http\Requests\UserUpdateRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB as FacadesDB;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Arr;
 //<-tambahkan DB
 
 class UserController extends Controller
@@ -32,7 +35,7 @@ class UserController extends Controller
     {
         $roles = Role::pluck('name')->all();
 
-        return view('backend.user.create',compact('roles'));
+        return view('backend.user.create', compact('roles'));
     }
 
     /**
@@ -49,10 +52,10 @@ class UserController extends Controller
         //     'created_at' => \Carbon\Carbon::now(),
         //     'updated_at' => \Carbon\Carbon::now(),
 
-            $input = $request->all(); //mengambil semua value dari from create user
-            $User = User::create($input);//menyimpan data user ke dalam database
-            $User->assignRole($request->input('roles')); //menghubungkan antara user dengan role dari inputan
-       
+        $input = $request->all(); //mengambil semua value dari from create user
+        $User = User::create($input); //menyimpan data user ke dalam database
+        $User->assignRole($request->input('roles')); //menghubungkan antara user dengan role dari inputan
+
         return redirect()->route('user')->with('message', 'User Berhasil Disimpan!');
     }
 
@@ -69,9 +72,12 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $edituser = FacadesDB::table('users')->where('id', $id)->first();
+        // $edituser = FacadesDB::table('users')->where('id', $id)->first();
+        $edituser = User::find($id);
+        $roles = Role::pluck('name')->all();
+        $userRole = $edituser->roles->pluck('name')->all();
 
-        return view('backend.user.edit', compact('edituser'));
+        return view('backend.user.edit', compact('edituser', 'roles', 'userRole'));
     }
 
     /**
@@ -79,25 +85,18 @@ class UserController extends Controller
      */
     public function update(UserUpdateRequest $request, string $id)
     {
-        if ($request->password) {
-
-            FacadesDB::table('users')->where('id', $id)->update([
-                'name' => $request->name,
-                'username' => $request->username,
-                'password' => bcrypt($request->password),
-                'email' => $request->email,
-                'updated_at' => \Carbon\Carbon::now(),
-
-            ]);
+        $input = $request->all();
+        if (!empty($input['password'])) {
+            $input['password'] = Hash::make($input['password']);
         } else {
-            FacadesDB::table('users')->where('id', $id)->update([
-                'name' => $request->name,
-                'username' => $request->username,
-                'email' => $request->email,
-                'updated_at' => \Carbon\Carbon::now(),
-
-            ]);
+            $input = Arr::except($input, array('password'));
         }
+
+        $user = User::find($id);
+        $user->update($input);
+        FacadesDB::table('model_has_roles')->where('model_id', $id)->delete();
+
+        $user->assignRole($request->input('roles'));
         return redirect()->route('user')->with('message', 'User Berhasil Disimpan!');
     }
 

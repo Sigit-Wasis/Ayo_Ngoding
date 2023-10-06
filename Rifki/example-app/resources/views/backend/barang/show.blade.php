@@ -42,7 +42,7 @@
                             </tr>
                             <tr>
                                 <th scope="row">Harga</th>
-                                <td>{{ $detailbarang->harga }}</td>
+                                <td>{{"Rp".number_format( $detailbarang->harga,2,',','.') }}</td>
                             </tr>
                             <tr>
                                 <th scope="row">Satuan</th>

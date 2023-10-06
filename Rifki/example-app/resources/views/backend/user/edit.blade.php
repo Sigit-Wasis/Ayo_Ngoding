@@ -35,11 +35,11 @@
         <div class="container">
             <h1>Edit Pengguna</h1>
 
-            
+
             <form method="POST" action="{{ route('update_user', $edituser->id) }}">
                 @csrf
 
-                
+
                 <div class="form-group">
                     <label for="nama">Nama Pengguna:</label>
                     <input type="text" class="form-control" value="{{old('name', $edituser->name)}}" id="name" name="name">
@@ -56,8 +56,14 @@
                     <label for="password">Konfirmasi Password:</label>
                     <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" placeholder="Password">
                 </div>
-
-                
+                <div class="form-group">
+                    <label>Role User <strong style="color: red;">*</strong></label>
+                    <select class="form-control select2-with-bg" id="bg-multiple" multiple="multiple" data-bgcolor="light-info" style="width: 100%; height: 50px;" name="roles[]">
+                        @foreach ($roles as $role)
+                        <option value="{{ $role }}"@if (in_array($role, $userRole)){{'selected'}} @endif>{{ $role }}</option>
+                        @endforeach
+                    </select>
+                </div>
                 <div class="card-footer">
                     <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
                     <a href="{{ route('user') }}" class="btn btn-info">Kembali</a>
