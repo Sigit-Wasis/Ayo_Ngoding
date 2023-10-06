@@ -27,7 +27,7 @@ class UserUpdateRequest extends FormRequest
             'name' => 'required|string|max:255',
             'username' => 'required|string|max:255',
             'email' => 'required|string|email', // Validasi email dan memastikan email unik
-            'password' => 'required|string|min:8|max:10|confirmed', // Validasi password dan konfirmasi password
+            'password' => 'nullable|string|min:8|max:10|confirmed', // Validasi password dan konfirmasi password
         ];
     }
     public function messages()
@@ -39,7 +39,7 @@ class UserUpdateRequest extends FormRequest
             'username.max' => 'Username terlalu panjang.',
             'email.required' => 'Kolom email harus diisi.',
             'email.email' => 'Email harus berformat email yang valid.',
-            'password.required' => 'Kolom password harus diisi.',
+            'password.nullable' => 'Kolom password harus diisi.',
             'password.min' => 'Password terlalu pendek.',
             'password.max' => 'Password terlalu panjang.',
             'password.confirmed' => 'Konfirmasi password tidak sesuai dengan password.',
