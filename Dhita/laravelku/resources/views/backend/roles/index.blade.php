@@ -23,7 +23,7 @@
 <section class="content">
   <!-- BUTTON TAMBAH JENIS BARANG -->
   <div class="col-md-2 mb-2">
-          <a href="{{ route('roles.create') }}" class="btn btn-sm btn-block btn-success">Tambah User</a>
+          <a href="{{ route('roles.create') }}" class="btn btn-sm btn-block btn-success">Tambah Role</a>
     </div>
     <!-- END BUTTON TAMBAH JENIS BARANG -->
 
@@ -67,12 +67,14 @@
     <!-- <a href=" "class="btn btn-sm btn-primary">Edit</a> -->
     <a href="{{ route('roles.show',$role->id) }}" class="btn btn-sm btn-info">Show</a>
     <a href="{{ route('roles.edit',$role->id) }}" class="btn btn-sm btn-primary">Edit</a>
-    <a href="{{ route('roles.destroy',$role->id) }}" onclick="return confirm('Apakah Kamu Ingin Menghapus ini?')" class="btn btn-sm btn-danger">Hapus</a>
+    <form method="POST" action="{{route('roles.destroy', $role->id) }}">
+  {{ csrf_field() }}
+  {{ method_field('DELETE') }}
+  <button onclick="return confirm('Apakah kamu ingin menghapus ini?')" type="submit" class="btn btn-sm btn-danger">Delete</button>
+</form>
     </td>
 
     </tr>
-
-
     @endforeach
   </tbody>
 </table>
