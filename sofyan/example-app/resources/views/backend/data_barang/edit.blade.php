@@ -46,6 +46,18 @@
                         </select>
                     </div>
 
+                    <div class="form-group">
+                        <label for="vendor_id">Nama Perusahaan</label>
+                        <select class="form-control" id="vendor_id" name="vendor_id">
+                            <option value="" disabled>Pilih Nama Perusahaan</option>
+                            @foreach ($vendorNames as $vendor)
+                            <option value="{{ $vendor->id }}" {{ $vendor->id == $editBarang->vendor_id ? 'selected' : '' }}>
+                                {{ $vendor->nama }}
+                            </option>
+                            @endforeach
+                        </select>
+                    </div>
+
 
                     <div class="form-group">
                         <label for="nama_barang">Nama Barang</label>
