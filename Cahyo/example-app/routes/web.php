@@ -49,6 +49,8 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
         Route::get('/show_barang/{id}', 'Backend\dataBarangController@show')->name('show_barang');
 
         Route::resource('roles', RoleController::class);
+        Route::get('/roles/delete/{id}', 'RoleController@destroy')->name('delete_role');
+
     });
 });
 

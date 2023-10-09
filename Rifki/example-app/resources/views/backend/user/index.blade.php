@@ -38,6 +38,7 @@
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Name</th>
+                            <th scope="col">Role</th>
                             <th scope="col">Email</th>
                             <th scope="col">Aksi</th>
                         </tr>
@@ -47,6 +48,12 @@
                             <tr>
                                 <td>{{ $users->firstItem() + $loop->index }}</td>
                                 <td>{{ $user->name }}</td>
+                                <!-- <td>{{Auth::user()->roles->pluck('name') [0] ?? ''}}</td> -->
+                                <td>
+                                @foreach ($user->roles as $role)
+                                <span class="badge badge-primary"> {{ $role->name}} </span>
+                                @endforeach
+                                </td>
                                 <td>{{ $user->email }}</td>
                                 <td>
                                     <a href="{{ route('edit_user', $user->id) }}" class="btn btn-primary">Edit</a>
