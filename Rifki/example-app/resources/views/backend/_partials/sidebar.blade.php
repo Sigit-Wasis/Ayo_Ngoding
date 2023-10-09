@@ -1,5 +1,3 @@
-
-
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <a href="../../index3.html" class="brand-link">
         <img src="{{ url('assets/dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
@@ -40,15 +38,29 @@
                     </a>
                 </li>
                 @endcan
+                <li class="nav-item">
+                    <a href="{{ route('pengajuan.index') }}" class="nav-link">
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>Transaksi Pengajuan</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('vendor.index') }}" class="nav-link">
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>Vendor</p>
+                    </a>
+                </li>
+                
                 @can('user-list')
                 <li class="nav-item">
                     <a href="{{ route('user') }}" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
                         <p>Data User</p>
                     </a>
-                    @endcan
-                    @can('role-list')
-                    <li class="nav-item">
+                </li>
+                @endcan
+                @can('role-list')
+                <li class="nav-item">
                     <a href="{{ route('roles.index') }}" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
                         <p>Data Role</p>
