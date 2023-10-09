@@ -42,10 +42,8 @@
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Name</th>
+                            <th scope="col">Role</th>
                             <th scope="col">Username</th>
-                            <th scope="col">Nama Lengkap</th>
-                            <th scope="col">Alamat</th>
-                            <th scope="col">Nomor Telpon</th>
                             <th scope="col">Email</th>
                             <th scope="col">Aksi</th>
                         </tr>
@@ -56,14 +54,17 @@
                             <!-- <th scope="row">{{ $loop->iteration }}</th> -->
                             <td>{{ $users->firstItem() + $loop->index }}</td>
                             <td>{{ $user->name }}</td>
+                            <!-- <td>{{ Auth::user()->roles->pluck('name') [0] ?? '' }}</td> -->
+                            <td>
+                                @foreach($user->roles as $role)
+                                <span class="badge badge-primary"> {{ $role->name }} </span>
+                                @endforeach
+                            </td>
                             <td>{{ $user->username }}</td>
-                            <td>{{ $user->nama_lengkap }}</td>
-                            <td>{{ $user->alamat }}</td>
-                            <td>{{ $user->nomor_telpon }}</td>
                             <td>{{ $user->email }}</td>
 
                             <td>
-                                <a href="{{ route('edit_user', $user->id) }}" class="btn btn-sm btn-warning">Edit</a>
+                                <a href=" {{ route('edit_user', $user->id) }}" class="btn btn-sm btn-warning">Edit</a>
                                 <a href="{{ route('delete_user', $user->id) }}"
                                     onclick="return confirm('Apa kamu yakin')" class="btn btn-sm btn-danger">Hapus</a>
                             </td>

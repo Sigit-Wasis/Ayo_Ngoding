@@ -9,7 +9,15 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class JenisBarangController extends Controller
+
 {
+    function __construct()
+    {
+         $this->middleware('permission:jenis-barang-list|jenis-barang-create|jenis-barang-edit|jenis-barang-delete', ['only' => ['index','store']]);
+         $this->middleware('permission:jenis-barang-create', ['only' => ['create','store']]);
+         $this->middleware('permission:jenis-barang-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:jenis-barang-delete', ['only' => ['destroy']]);
+    }
     public function index() {
 //query ini untuk mengambil data jenis barang secara keseluruhan dengan id secara discending
         $jenisBarang = DB::table('jenis_barang')->select('jenis_barang.*', 'name as created_by')->orderBy('jenis_barang.id','DESC')

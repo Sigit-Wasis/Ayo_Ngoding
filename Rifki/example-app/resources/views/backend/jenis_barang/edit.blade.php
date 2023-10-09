@@ -52,7 +52,7 @@
 
                 <!-- Tombol "Edit" -->
                 <div class="card-footer">
-                    <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                    <button type="submit" class="btn btn-primary">Simpan</button>
                     <a href="{{ route('jenis_barang') }}" class="btn btn-info">Kembali</a>
                 </div>
             </form>

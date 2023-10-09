@@ -56,11 +56,28 @@
                 </div>
             </div>
             <div class="card-footer">
+            <div class="form-group">
+                <label>Pilih Semua Izin</label>
+                <div class="form-check">
+                    <input type="checkbox" id="select-all-permissions">
+                    <label for="select-all-permissions">Pilih Semua</label>
+                </div>
+            </div>
                 <button type="submit" class="btn btn-primary">Simpan</button>
                 <a href="{{ route('roles.index') }}" class="btn btn-info">Kembali</a>
-            </div>
+            </div>        
         </div>
     </form>
+<script>
+    // Event listener untuk tombol "Pilih Semua Izin"
+    document.getElementById('select-all-permissions').addEventListener('change', function() {
+        let permissions = document.querySelectorAll('input[name="permission[]"]');
+        for (let i = 0; i < permissions.length; i++) {
+            permissions[i].checked = this.checked;
+        }
+    });
+</script>
+
 </div>
 </section>
 </div>
