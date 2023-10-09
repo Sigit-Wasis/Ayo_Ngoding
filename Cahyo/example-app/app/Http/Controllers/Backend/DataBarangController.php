@@ -11,6 +11,14 @@ use Illuminate\Support\Facades\DB;
 
 class DataBarangController extends Controller
 {
+    function __construct()
+    {
+        $this->middleware('permission:barang-list|barang-create|barang-edit|barang-delete', ['only' => ['index', 'store']]);
+        $this->middleware('permission:barang-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:barang-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:barang-delete', ['only' => ['destroy']]);
+    }
+
     public function index()
     {
 
@@ -92,7 +100,7 @@ class DataBarangController extends Controller
             }
 
             DB::table('mst_barang')->where('id', $id)->delete();
-    
+
             return redirect()->route('barang')->with('message', 'Sukses');
         }
     }
@@ -101,7 +109,7 @@ class DataBarangController extends Controller
     public function edit($id)
     {
         $editBarang = DB::table('mst_barang')->select('*')->where('id', $id)->first();
-        $jenisBarang = DB::table('mst_jenis_barang')->select('id', 'nama_jenis_barang')->get(); 
+        $jenisBarang = DB::table('mst_jenis_barang')->select('id', 'nama_jenis_barang')->get();
 
         return view('backend.barang.edit', compact('editBarang', 'jenisBarang'));
     }
@@ -109,7 +117,7 @@ class DataBarangController extends Controller
     {
         if ($request->gambar) {
             // Simpan File Gambar di dalam folder public/assets/image
-            $imageName = time().'.'.$request->gambar->extension();
+            $imageName = time() . '.' . $request->gambar->extension();
             $request->gambar->move(public_path('assets/image/'), $imageName);
 
             $file = DB::table('mst_barang')->select('gambar')->where('id', $id)->first();
@@ -127,7 +135,7 @@ class DataBarangController extends Controller
                 'harga' => $request->harga,
                 'satuan' => $request->satuan,
                 'deskripsi' => $request->deskripsi,
-                'gambar' => 'assets/image/'. $imageName,
+                'gambar' => 'assets/image/' . $imageName,
                 'updated_by' => Auth::user()->id,
                 'updated_at' => \Carbon\Carbon::now(),
             ]);

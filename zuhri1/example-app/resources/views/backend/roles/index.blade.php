@@ -69,14 +69,17 @@
                                 <td>{{ $role->created_at }}</td>
                                 <td>
 
-                                    <a href="{{route('roles.show',$role->id)}}"class="btn btn-sm btn-info">Show</a>
-                                    <a href=" {{route('roles.edit',$role->id)}}" class="btn btn-sm btn-primary">edit</a> 
-                                    <a href=" {{route('roles.destroy',$role->id)}}"onclick="return confirm('Apa kamu yakin')" class="btn btn-sm btn-danger">Delete</a>
+                                    <a href="{{route('roles.show',$role->id)}}" class="btn btn-sm btn-info">Show</a>
+                                    <a href=" {{route('roles.edit',$role->id)}}" class="btn btn-sm btn-primary">edit</a>
+                                    <form method="POST" action="{{route('roles.destroy',$role->id) }}">
+                                        {{csrf_field() }}
+                                        {{method_field ('DELETE') }}
+                                        <button onclick="return confirm('Are You sure?')" type="submit" class="btn btn-sa btn-danger">DELETE</button>
+                                    </form>
                                 </td>
                             </tr>
 
                             @endforeach
-
                         </tbody>
                     </table>
 

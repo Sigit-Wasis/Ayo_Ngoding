@@ -16,13 +16,21 @@ use Illuminate\Support\Arr;
 
 class UserController extends Controller
 {
+    function __construct()
+    {
+         $this->middleware('permission:user-list|user-create|user-edit|user-delete', ['only' => ['index','store']]);
+         $this->middleware('permission:user-create', ['only' => ['create','store']]);
+         $this->middleware('permission:user-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:user-delete', ['only' => ['destroy']]);
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         //query ini untuk mengambil data users secara keseluruhan dengan id secara discending (dari id terbesar ke terkecil)
-        $users = FacadesDB::table('users')->select('users.*')->orderBy('users.id', 'DESC')->paginate(3);
+        // $users = FacadesDB::table('users')->select('users.*')->orderBy('users.id', 'DESC')->paginate(3);
+        $users = User::with('roles')->paginate(5);
 
         return view('backend.user.index', compact('users'));
     }

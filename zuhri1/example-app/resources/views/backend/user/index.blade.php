@@ -54,6 +54,7 @@
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">name</th>
+                                <th scope="col">Role</th>
                                 <th scope="col">username</th>
                                 <th scope="col">email</th>
                                 <th scope="col">Aksi</th>
@@ -67,13 +68,19 @@
                                 <!--<th scope="row">{{$loop->iteration }}</th>-->
                                 <th>{{$users->firstItem() +$loop->index }}</td>
                                 <td>{{ $user->name }}</td>
+                                <td>
+                                    @foreach($user->roles as $role)
+                                    <span class="badge badge-primary"> {{ $role-> name }}</span>
+                                    @endforeach
+                                </td>
                                 <td>{{ $user->username }}</td>
                                 <td>{{ $user->email}}</td>
                                 <td>
 
-                                    <a href="{{route('edit_user',$user->id)}}"class="btn btn-sm btn-danger">Edit</a>
-                                    <a href=" {{route('delete_user',$user->id)}}"  
-                                    onclick="return confirm('Apa kamu yakin')" class="btn btn-sm btn-danger">Delete</a>
+                                    <a href="{{route('edit_user',$user->id)}}" class="btn btn-sm btn-danger">Edit</a>
+                                    <a href=" {{route('delete_user',$user->id)}}"
+                                        onclick="return confirm('Apa kamu yakin')"
+                                        class="btn btn-sm btn-danger">Delete</a>
                                 </td>
                             </tr>
 
