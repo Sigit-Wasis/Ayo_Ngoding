@@ -66,7 +66,7 @@
                     <a href="{{route('user')}}" class="nav-link">
                         <i class="nav-icon fas fa-user"></i>
                         <p>
-                            Users
+                            USERS
                         </p>
                     </a>
                 </li>
