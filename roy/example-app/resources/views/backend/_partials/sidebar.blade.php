@@ -25,6 +25,15 @@
                     </p>
                 </a>
             </li>
+            <li class="nav-item">
+                <a href="{{ route('vendor') }}" class="nav-link">
+                    <i class="nav-icon fas fa-university"></i>
+                    <p>
+                        Vendor
+                        <span class="right badge badge-danger"></span>
+                    </p>
+                </a>
+            </li>
             @can('jenis-barang-list')
             <li class="nav-item">
                 <a href="{{ route('jenis_barang') }}" class="nav-link">
@@ -42,6 +51,17 @@
                     <i class="nav-icon fas fa-th"></i>
                     <p>
                         Data Barang
+                        <span class="right badge badge-danger"></span>
+                    </p>
+                </a> 
+            </li>
+            @endcan
+            @can ('barang-list')
+                <li class="nav-item">
+                <a href="{{ route('pengajuan') }}" class="nav-link">
+                    <i class="nav-icon fas fa-th"></i>
+                    <p>
+                        Detail Pengajuan
                         <span class="right badge badge-danger"></span>
                     </p>
                 </a> 

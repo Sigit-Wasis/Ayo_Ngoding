@@ -50,6 +50,24 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('show-barang/{id}', 'Backend\DataBarangController@show')->name('show_barang');
         Route::get('edit-barang/{id}', 'Backend\DataBarangController@edit')->name('edit_barang');
         Route::post('/update-barang/{id}', 'Backend\DataBarangController@update')->name('update_barang');
+
+        Route::get('/pengajuan', 'Backend\PengajuanController@index')->name('pengajuan');
+        Route::get('/tambah-pengajuan', 'Backend\PengajuanController@create')->name('tambah_pengajuan');
+        Route::post('/store-pengajuan', 'Backend\PengajuanController@store')->name('store_pengajuan');
+        Route::get('delete-pengajuan/{id}', 'Backend\PengajuanController@destroy')->name('delete_pengajuan');
+        Route::get('show-pengajuan/{id}', 'Backend\PengajuanController@show')->name('show_pengajuan');
+        Route::get('edit-pengajuan/{id}', 'Backend\PengajuanController@edit')->name('edit_pengajuan');
+        Route::post('/update-pengajuan/{id}', 'Backend\PengajuanController@update')->name('update_pengajuan');
+
+        Route::get('/vendor', 'Backend\vendorController@index')->name('vendor');
+        Route::get('/tambah-vendor', 'Backend\vendorController@create')->name('tambah_vendor');
+        Route::post('/store-vendor', 'Backend\vendorController@store')->name('store_vendor');
+        Route::get('delete-vendor/{id}', 'Backend\vendorController@destory')->name('delete_vendor');
+        Route::get('edit-vendor/{id}', 'Backend\vendorController@edit')->name('edit_vendor');
+        Route::post('/update-vendor/{id}', 'Backend\vendorController@update')->name('update_vendor');
+
+
+        Route::resource('roles', RoleController::class);
     });
 });
 

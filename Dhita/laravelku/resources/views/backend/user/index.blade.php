@@ -50,6 +50,7 @@
           <tr>
       <th scope="col">#</th>
       <th scope="col">Nama Lengkap</th>
+      <th scope="col">Role</th>
       <th scope="col">Alamat</th>
       <th scope="col">No Telephone</th>
       <th scope="col">Username</th>
@@ -66,6 +67,13 @@
       <!-- <th scope="row">{{ $loop->iteration}}</th> -->
       <td>{{ $users->firstItem() + $loop->index }}</td>
       <td>{{ $user->nama_lengkap }}</td>
+
+      <td>
+        @foreach($user->roles as $role)
+        <span class="badge badge-primary"> {{$role->name}} </span>
+        @endforeach
+      </td>
+
       <td>{{ $user->alamat }}</td>
       <td>{{ $user->no_telephone }}</td>
       <td>{{ $user->username }}</td>
