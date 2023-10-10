@@ -24,6 +24,11 @@ class PermissionTableSeeder extends Seeder
             'barang-edit',
             'barang-delete',
 
+            'pengajuan-list',
+            
+            'vendor-list',
+
+
             'jenis_barang-list',
             'jenis_barang-create',
             'jenis_barang-edit',

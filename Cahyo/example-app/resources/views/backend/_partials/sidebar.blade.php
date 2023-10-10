@@ -43,6 +43,26 @@
                     </a>
                 </li>
                 @endcan
+                @can('barang-list')
+                <li class="nav-item">
+                    <a href="{{ route ('transaksi_pengajuan') }}" class="nav-link">
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>
+                            Transaksi Pengajuan
+                        </p>
+                    </a>
+                </li>
+                @endcan
+                @can('barang-list')
+                <li class="nav-item">
+                    <a href="{{ route ('vendor.index') }}" class="nav-link">
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>
+                            Vendor
+                        </p>
+                    </a>
+                </li>
+                @endcan
                 @can('role-list')
                 <li class="nav-item">
                     <a href="{{ route ('roles.index') }}" class="nav-link">

@@ -13,17 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('_m_s_t__barang', function (Blueprint $table) {
+        Schema::create('vendors', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('Id_jenis_barang')->notNull()->references('id')->on('_m_s_t__jenis__barang')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('Id_vendor')->notNull()->references('id')->on('vendors')->onUpdate('cascade')->onDelete('cascade');
-            $table->string('kode_barang');
-            $table->string('nama_barang');
-            $table->string('harga');
-            $table->string('satuan');
-            $table->string('deskripsi');
-            $table->string('stok');
-            $table->string('image');
+            $table->string('nama');
+            $table->string('alamat');
+            $table->string('telphone');
+            $table->string('email')->unique();
+            $table->string('kepemilikan');
+            $table->string('tahun_berdiri');
             $table->foreignId('created_by')->notNull()->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('updated_by')->notNull()->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
@@ -37,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('_m_s_t__barang');
+        Schema::dropIfExists('vendors');
     }
 };
