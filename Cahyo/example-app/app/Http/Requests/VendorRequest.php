@@ -14,7 +14,7 @@ class VendorRequest extends FormRequest
     public function rules()
     {
         return [
-            'nama' => 'required|string|max:255',
+            'nama_vendor' => 'required|string|max:255',
             'alamat' => 'required|string|max:255',
             'telphone' => 'required|string|max:15',
             'email' => 'required|email|unique:vendors,email',
@@ -26,8 +26,8 @@ class VendorRequest extends FormRequest
     public function messages()
     {
         return [
-            'nama.required' => 'Nama tidak boleh kosong',
-            'nama.max' => 'Nama maksimal 255 karakter',
+            'nama_vendor.required' => 'Nama tidak boleh kosong',
+            'nama_vendor.max' => 'Nama maksimal 255 karakter',
             'alamat.required' => 'Alamat tidak boleh kosong',
             'alamat.max' => 'Alamat maksimal 255 karakter',
             'telphone.required' => 'Nomor telepon tidak boleh kosong',
