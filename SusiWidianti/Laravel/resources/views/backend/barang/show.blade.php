@@ -37,6 +37,10 @@
                             <th>{{ $detailBarang->nama_barang }}</th>
                         </tr>
                         <tr>
+                            <th scope="col">Nama Vendor</th>
+                            <th>{{ $detailBarang->nama_perusahaan}}</th>
+                        </tr>
+                        <tr>
                             <th scope="col">Harga</th>
                             <th>{{"Rp " . number_format($detailBarang->harga,2,',','.')}}</th>
                         </tr>
