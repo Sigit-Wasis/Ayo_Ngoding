@@ -62,7 +62,11 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
 
         Route::get('/vendor', 'Backend\VendorController@index')->name('vendor.index');
         Route::get('/vendor_create', 'Backend\VendorController@create')->name('vendor.create');
-        Route::post('/vendor_store', 'Backend\VendorController@store')->name('vendor.store');
+        Route::get('/vendor_store', 'Backend\VendorController@store')->name('vendor.store');
+        Route::get('/vendor_edit/{id}', 'Backend\VendorController@edit')->name('vendor.edit');
+        Route::put('/vendor_update/{id}', 'Backend\VendorController@update')->name('vendor.update');
+        Route::delete('/vendor-destroy/{id}', 'Backend\VendorController@destroy')->name('vendor.destroy');
+
 
 
     });

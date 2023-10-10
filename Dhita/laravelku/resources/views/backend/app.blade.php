@@ -30,6 +30,5 @@
 
 <script src="{{ url('assets/dist/js/adminlte.min.js') }}"></script>
 
-<script src="{{ url('assets/dist/js/demo.js') }}"></script>
 </body>
 </html>

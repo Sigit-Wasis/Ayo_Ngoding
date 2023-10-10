@@ -41,7 +41,7 @@
                     <label for="nama_barang">Nama Barang</label>
                     <input type="text" class="form-control" id="nama_barang" name="nama_barang" placeholder="Nama Barang">
                 </div>
-
+                
                 <div class="form-group">
                     <label for="jumlah">Jumlah</label>
                     <input type="text" class="form-control" id="jumlah" name="jumlah" placeholder="Jumlah">

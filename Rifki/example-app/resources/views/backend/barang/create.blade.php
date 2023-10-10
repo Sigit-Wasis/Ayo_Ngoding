@@ -52,6 +52,16 @@
                         <input type="text" class="form-control" id="nama_barang" name="nama_barang" placeholder="Nama Barang">
                     </div>
                     <div class="form-group">
+                        <label for="vendor">Nama Vendor</label>
+                        <select class="form-control" id="vendor" name="vendor">
+                            <option value="" disabled selected>Pilih Vendor</option>
+                            @foreach ($vendors as $vendor)
+                            <option value="{{ $vendor->id }}">{{ $vendor->nama_perusahaan }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="form-group">
                         <label for="harga">Harga</label>
                         <input type="number" class="form-control" id="harga" name="harga_barang" placeholder="Harga">
                     </div>

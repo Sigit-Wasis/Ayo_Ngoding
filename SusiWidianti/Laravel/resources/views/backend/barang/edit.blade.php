@@ -45,6 +45,15 @@
                     </select>
                 </div>
                 <div class="form-group">
+                    <label for="id_vendors">Nama Vendor</label>
+                    <select name="id_vendors" class="form-control">
+                        <option value="">--pilih nama vendor --</option>
+                        @foreach($vendors as $data_vendors)
+                        <option value="{{ $data_vendors->id }}" {{ $data_vendors->id == $editbarang->id_vendors ? 'selected' : '' }}>{{$data_vendors->nama}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group">
                     <label for="exampleInputEmail1">Kode Barang</label>
                     <input type="text" class="form-control" value="{{$editbarang ->kode_barang}}" id="kode_barang" name="kode_barang" placeholder="">
                 </div>
