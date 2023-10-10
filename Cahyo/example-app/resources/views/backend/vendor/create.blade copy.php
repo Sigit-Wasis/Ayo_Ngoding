@@ -69,8 +69,8 @@
             </div>
 
             <div class="card-footer">
-                <button type="submit" class="btn btn-primary">Simpan</button>
-                <a href="{{ route('vendor.index') }}" class="btn btn-info">Batal</a>
+                <button type="submit" class="btn btn-primary">Simpan Vendor</button>
+                <a href="{{ route('vendor.index') }}" class="btn btn-secondary">Batal</a>
             </div>
         </form>
     </section>

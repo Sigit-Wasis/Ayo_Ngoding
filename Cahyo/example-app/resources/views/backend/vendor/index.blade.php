@@ -37,7 +37,7 @@
                 <table class="table table-bordered">
                     <thead>
                         <tr>
-                            <th>#</th>
+                            <th>No</th>
                             <th>Nama</th>
                             <th>Alamat</th>
                             <th>Telepon</th>
@@ -59,11 +59,12 @@
                             <td>{{ $vendor->tahun_berdiri }}</td>
                             <td>
                                 <a href="{{ route('vendor.edit', $vendor->id) }}" class="btn btn-primary btn-sm">Edit</a>
-                                <form action="{{ route('vendor.destroy', $vendor->id) }}" method="POST" style="display: inline-block;">
+                                <!-- <form action="{{ route('vendor.destroy', $vendor->id) }}" method="POST" style="display: inline-block;">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus vendor ini?')">Hapus</button>
-                                </form>
+                                </form> -->
+                                <a href="{{ route('vendor.destroy', $vendor->id)}}" onclick="return confirm('Are you sure?')" class="btn btn-sm btn-danger">Delete</a>
                             </td>
                         </tr>
                         @endforeach
