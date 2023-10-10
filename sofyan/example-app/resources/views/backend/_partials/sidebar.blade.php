@@ -39,6 +39,17 @@
                         </p>
                     </a>
                 </li>
+
+                <li class="nav-item">
+                    <a href="{{route('vendors')}}" class="nav-link">
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>
+                            Vendors
+                        </p>
+                    </a>
+                </li>
+
+
                 @can('jenis_barang-list')
                 <li class="nav-item">
                     <a href="{{route('jenis-barang')}}" class="nav-link">
@@ -66,11 +77,20 @@
                     <a href="{{route('user')}}" class="nav-link">
                         <i class="nav-icon fas fa-user"></i>
                         <p>
-                            Users
+                            USERS
                         </p>
                     </a>
                 </li>
                 @endcan
+
+                <li class="nav-item">
+                    <a href="{{route('tr_pengajuan')}}" class="nav-link">
+                        <i class="nav-icon fas fa-user"></i>
+                        <p>
+                            Pengajuan
+                        </p>
+                    </a>
+                </li>
 
                 @can('role-list')
                 <li class="nav-item">

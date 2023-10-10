@@ -14,10 +14,17 @@ use function Laravel\Prompts\select;
 
 class BarangController extends Controller
 {
+    function __construct()
+    {
+        $this->middleware('permission:barang-list|barang-create|barang-edit|barang-delete', ['only' => ['index', 'store']]);
+        $this->middleware('permission:barang-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:barang-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:barang-delete', ['only' => ['destroy']]);
+    }
     public function index()
     {
         $barangs = DB::table('mst_barang')
-            ->select('mst_barang.*', 'name as created_by', 'mst_jenis_barang.nama_barang')
+            ->select('mst_barang.*', 'name as created_by', 'mst_jenis_barang.nama_barang as nama_jenis_barang')
             ->orderBy('mst_barang.id', 'DESC')
             ->join('mst_jenis_barang', 'mst_jenis_barang.id', 'mst_barang.id_jenis_barang')
             ->join('users', 'users.id', 'mst_barang.created_by')
@@ -29,13 +36,17 @@ class BarangController extends Controller
     public function create()
     {
         $jenisBarang = DB::table('mst_jenis_barang')->select('id', 'nama_barang')->get();
-
+    
         $uniqid = uniqid();
         $rand_start = rand(1, 5);
         $rand_8_char = substr($uniqid, $rand_start, 8);
-
-        return view('backend.barang.create', compact('jenisBarang', 'rand_8_char'));
+    
+       
+        $vendors = DB::table('vendors')->select('id', 'nama')->get();
+    
+        return view('backend.barang.create', compact('jenisBarang', 'rand_8_char', 'vendors',));
     }
+    
 
     public function store(BarangStoreRequest $request)
     {
@@ -51,12 +62,13 @@ class BarangController extends Controller
             'satuan' => $request->satuan_barang,
             'deskripsi' => $request->deskripsi_barang,
             'gambar' => 'assets/image/' . $imageName,
+            'id_vendor' => $request->vendor,
             'stok_barang' => $request->stok_barang,
             'id_jenis_barang' => $request->id_jenis_barang,
             'created_by' => Auth::user()->id,
             'updated_by' => Auth::user()->id,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now(),
+            'created_at' => \Carbon\Carbon::now(),
+            'updated_at' => \Carbon\Carbon::now()
         ]);
         return redirect()->route('barang.index')->with('message', 'Barang Berhasil Disimpan');
     }
@@ -64,14 +76,16 @@ class BarangController extends Controller
     public function show($id)
     {
         $detailbarang = DB::table('mst_barang')
-            ->select('mst_barang.*', 'name as created_by', 'mst_jenis_barang.nama_barang')
+            ->select('mst_barang.*', 'name as created_by', 'mst_jenis_barang.nama_barang', 'vendors.nama as nama_perusahaan')
             ->where('mst_barang.id', $id)
             ->join('mst_jenis_barang', 'mst_jenis_barang.id', 'mst_barang.id_jenis_barang')
+            ->join('vendors', 'vendors.id', 'mst_barang.id_vendor')
             ->join('users', 'users.id', 'mst_barang.created_by')
             ->first();
-
+    
         return view('backend.barang.show', compact('detailbarang'));
     }
+    
     public function delete($id)
     {
 
@@ -93,11 +107,12 @@ class BarangController extends Controller
         }
 
         $jenisBarang = DB::table('mst_jenis_barang')->select('id', 'nama_barang')->get();
-
-        return view('backend.barang.edit', compact('barang', 'jenisBarang'));
+        $vendors = DB::table('vendors')->select('id', 'nama')->get();
+        return view('backend.barang.edit', compact('barang', 'jenisBarang', 'vendors'));
     }
     public function update(Request $request, $id)
     {
+        
         $request->validate([
             'id_jenis_barang' => 'required',
             'kode_barang' => 'required|unique:mst_barang,kode_barang,' . $id,
@@ -105,6 +120,7 @@ class BarangController extends Controller
             'harga_barang' => 'required|numeric',
             'satuan_barang' => 'required',
             'deskripsi_barang' => 'required',
+            'id_vendor' => 'required',
             'gambar_barang' => 'image|mimes:jpeg,png,jpg,gif|max:2048', 
             'stok_barang' => 'required|numeric',
         ]);
@@ -132,6 +148,7 @@ class BarangController extends Controller
             'satuan' => $request->satuan_barang,
             'deskripsi' => $request->deskripsi_barang,
             'gambar' => $gambarPath,
+            'id_vendor' => $request->id_vendor,
             'stok_barang' => $request->stok_barang,
             'updated_at' => now(),
         ]);

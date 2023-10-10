@@ -8,15 +8,22 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Requests\UserRequest;
 use Spatie\Permission\Models\Role;
 use App\Http\Requests\UserUpdateRequest;
-use App\Models\user;
+use App\Models\User;
 
 
 class UserController extends Controller
 {
+    function __construct()
+    {
+        $this->middleware('permission:user-list|user-create|user-edit|user-delete', ['only' => ['index', 'store']]);
+        $this->middleware('permission:user-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:user-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:user-delete', ['only' => ['destroy']]);
+    }
     public function index()
     {
-        $users = DB::table('users')->select('users.*')->orderBy('users.id', 'DESC')->paginate(5);
-
+        // $users = DB::table('users')->select('users.*')->orderBy('users.id', 'DESC')->paginate(5);
+        $users= User::with('roles')->paginate(5);
         return view('backend.user.index', compact('users'));
     }
 

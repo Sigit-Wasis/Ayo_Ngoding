@@ -11,6 +11,14 @@ use Illuminate\Support\Facades\DB as FacadesDB;
 
 class JenisBarangController extends Controller
 {
+    function __construct()
+    {
+         $this->middleware('permission:jenis_barang-list|jenis_barang-create|jenis_barang-edit|jenis_barang-delete', ['only' => ['index','store']]);
+         $this->middleware('permission:jenis_barang-create', ['only' => ['create','store']]);
+         $this->middleware('permission:jenis_barang-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:jenis-barang-delete', ['only' => ['destroy']]);
+    }
+    
     public function index() {
         
         $jenisBarang = FacadesDB::table('jenis_barang')->select('jenis_barang.*','name as created_by')->orderBy('jenis_barang.id', 'DESC')

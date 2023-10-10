@@ -22,31 +22,52 @@
                         <p>Beranda</p>
                     </a>
                 </li>
+                @can('jenis-barang-list')
                 <li class="nav-item">
                     <a href="{{ route('jenis_barang') }}" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
+                        <i class="nav-icon fas fa-box"></i>
                         <p>Jenis Barang</p>
                     </a>
                 </li>
+                @endcan
+                @can('barang-list')
                 <li class="nav-item">
                     <a href="{{ route('barang.index') }}" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
+                        <i class="nav-icon fas fa-archive"></i>
                         <p>Data Barang</p>
                     </a>
                 </li>
+                @endcan
+                <li class="nav-item">
+                    <a href="{{ route('pengajuan.index') }}" class="nav-link">
+                        <i class="nav-icon fas fa-shopping-cart"></i>
+                        <p>Transaksi Pengajuan</p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{{ route('vendor.index') }}" class="nav-link">
+                        <i class="nav-icon fas fa-truck"></i>
+                        <p>Data Vendor</p>
+                    </a>
+                </li>
+
+                @can('user-list')
                 <li class="nav-item">
                     <a href="{{ route('user') }}" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
+                        <i class="nav-icon fas fa-users"></i>
                         <p>Data User</p>
                     </a>
-
-                    <li class="nav-item">
+                </li>
+                @endcan
+                @can('role-list')
+                <li class="nav-item">
                     <a href="{{ route('roles.index') }}" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
+                        <i class="nav-icon fas fa-user-lock"></i>
                         <p>Data Role</p>
                     </a>
-
                 </li>
+                @endcan
                 <li class="nav-item">
                     <a href="{{ route('jenis_barang') }}" class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                         <i class="nav-icon fas fa-sign-out-alt"></i>

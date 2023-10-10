@@ -17,11 +17,18 @@ class UsersController extends Controller
     /**
      * Display a listing of the resource.
      */
+    function __construct()
+    {
+         $this->middleware('permission:user-list|user-create|user-edit|user-delete', ['only' => ['index','store']]);
+         $this->middleware('permission:user-create', ['only' => ['create','store']]);
+         $this->middleware('permission:user-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:user-delete', ['only' => ['destroy']]);
+    }
+    
     public function index()
     {
-        $users = FacadesDB::table('users')->select('users.*')->orderBy('users.id', 'DESC')
-        ->paginate(5);
-
+        // $users = FacadesDB::table('users')->select('users.*')->orderBy('users.id', 'DESC')->paginate(5);
+        $users = User::with('roles')->paginate(5);
         // dd($jenisBarang);
 
         return view ('backend.user.index', compact('users'));

@@ -10,9 +10,9 @@ use Spatie\Permission\Models\Permission;
 class PermissionTableSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * @return void
      */
-    public function run(): void
+    public function run()
     {
         $permissions = [
             'role-list',
@@ -23,7 +23,9 @@ class PermissionTableSeeder extends Seeder
             'barang-list',
             'barang-create',
             'barang-edit',
+            'barang-show',
             'barang-delete',
+            
 
             'jenis-barang-list',
             'jenis-barang-create',
