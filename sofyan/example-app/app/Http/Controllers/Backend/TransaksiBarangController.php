@@ -18,9 +18,11 @@ class TransaksiBarangController extends Controller
             ->select(
                 '_t_r__pengajuan.*',
                 'users.name as created_by',
-                '_m_s_t__jenis__barang.nama as jenis_barang' // Ubah menjadi 'nama' sesuai dengan alias yang Anda berikan
+                '_detail__pengajuan.total_per_barang as total',
+                
             )
             ->orderBy('_t_r__pengajuan.id', 'DESC')
+            ->join('_detail__pengajuan', '_detail__pengajuan.id_tr_pengajuan', '_t_r__pengajuan.id')
             ->join('users', 'users.id', '_t_r__pengajuan.created_by')
             ->paginate(5);
 
@@ -29,49 +31,84 @@ class TransaksiBarangController extends Controller
 
     public function createPengajuan()
     {
+        // Ambil daftar vendor
         $vendors = DB::table('vendors')->get();
 
-        return view('backend.tr_pengajuan.create', compact('vendors'));
+        // Ambil daftar barang yang sesuai dengan vendor yang dipilih
+        $barangPerVendor = [];
+
+        foreach ($vendors as $vendor) {
+            $barang = DB::table('_m_s_t__barang')
+                ->where('vendor_id', $vendor->id)
+                ->get();
+
+            $barangPerVendor[$vendor->id] = $barang;
+        }
+
+        // Mengambil data harga dan satuan untuk setiap barang
+        $dataHargaSatuan = [];
+
+        foreach ($barangPerVendor as $vendorId => $barangList) {
+            foreach ($barangList as $barang) {
+                $barangData = DB::table('_m_s_t__barang')
+                    ->select('harga', 'stok')
+                    ->where('id', $barang->id)
+                    ->first();
+
+                $dataHargaSatuan[$vendorId][$barang->id] = [
+                    'harga' => $barangData->harga,
+                    'stok' => $barangData->stok,
+                ];
+            }
+        }
+
+        return view('backend.tr_pengajuan.create', compact('vendors', 'barangPerVendor', 'dataHargaSatuan'));
     }
+
+
+
     //tipe data request adalah object
     //DD (die dump untuk memeriksa apakah ada value atau record di dalam variabel $request yang di amabil dari form imputan)
     //dd($request->all());
 
-    // public function barangAdd(TrPengajuanRequest $request)
-    // {
-    //     // dd($request->all());
-    //     // Menghitung jumlah total barang yang ada
-    //     $totalBarang = DB::table('_m_s_t__barang')->count();
 
-    //     // Membuat kode barang otomatis dengan format 'BRG-0001', 'BRG-0002', dst.
-    //     $kodeBarang = 'BRG-' . str_pad($totalBarang + 1, 4, '0', STR_PAD_LEFT);
+    public function storePengajuan(TrPengajuanRequest $request)
+    {
+        // Menghitung total per barang berdasarkan jumlah dan harga
+        $totalPerBarang = $request->jumlah * $request->harga;
 
-    //     // Inisialisasi variabel untuk menyimpan nama file gambar
-    //     $imageName = null;
+        // Menghitung grand total berdasarkan total per barang
+        $grandTotal = $totalPerBarang;
 
-    //     // Store the uploaded image in the public folder
-    //     if ($request->hasFile('image')) {
-    //         $image = $request->file('image');
-    //         $imageName = time() . '.' . $image->getClientOriginalExtension();
-    //         $image->move(public_path('assets/dist/img'), $imageName); // Update the destination path to 'public'
-    //     }
+        // Menyimpan data pengajuan ke dalam tabel _t_r__pengajuan
+        $trPengajuanId = DB::table('_t_r__pengajuan')->insertGetId([
+            'tanggal_pengajuan' => $request->tanggal_pengajuan,
+            'grand_total' => $grandTotal, // Menyimpan grand total
+            'status_pengajuan_ap' =>1, //$request->status_pengajuan_ap,
+            'keterangan_ditolak_ap' =>'', //$request->keterangan_ditolak_ap,
+            'status_pengajuan_vendor' => 0,//$request->status_pengajuan_vendor,
+            'keterangan_ditolak_vendor' => '',//$request->keterangan_ditolak_vendor,
+            'created_by' => auth()->user()->id,
+            'updated_by' => auth()->user()->id,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
 
-    //     // Menyimpan data barang dengan kode barang otomatis
-    //     DB::table('_m_s_t__barang')->insert([
-    //         'Id_jenis_barang' => $request->jenis_barang, // Gunakan jenis_barang sesuai dengan form input
-    //         'kode_barang' => $kodeBarang, // Gunakan kode barang otomatis
-    //         'nama_barang' => $request->nama_barang,
-    //         'harga' => $request->harga,
-    //         'satuan' => $request->satuan,
-    //         'deskripsi' => $request->deskripsi,
-    //         'stok' => $request->stok,
-    //         'image' => $imageName, // Simpan nama gambar ke database
-    //         'created_by' => auth()->user()->id, // Menggunakan ID pengguna yang sedang login
-    //         'updated_by' => auth()->user()->id, // Menggunakan ID pengguna yang sedang login
-    //         'created_at' => \Carbon\Carbon::now(),
-    //         'updated_at' => \Carbon\Carbon::now(),
-    //     ]);
+        // Insert data ke dalam tabel _detail__pengajuan
+        DB::table('_detail__pengajuan')->insert([
+            'id_barang' => $trPengajuanId, // ID pengajuan yang baru saja disimpan
+            'jumlah' => $request->jumlah,
+            'total_per_barang' => $totalPerBarang, // Simpan total per barang
+            'id_tr_pengajuan' => $trPengajuanId,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
 
-    //     return redirect()->route('data_barang')->with('message', 'Barang Berhasil Disimpan!');
-    // }
+        // Update stok barang yang sesuai
+        DB::table('_m_s_t__barang')
+            ->where('id', $request->id_barang)
+            ->decrement('stok', $request->jumlah); // Pengurangan jumlah stok berdasarkan jumlah yang dipesan
+
+        return redirect()->route('tr_pengajuan')->with('message', 'Pengajuan Barang Berhasil Disimpan!');
+    }
 }
