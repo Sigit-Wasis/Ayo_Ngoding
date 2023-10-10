@@ -28,7 +28,7 @@ class UsersController extends Controller
     public function index()
     {
         // $users = FacadesDB::table('users')->select('users.*')->orderBy('users.id', 'DESC')->paginate(5);
-$users = User::with('roles')->paginate(5);
+        $users = User::with('roles')->paginate(5);
         // dd($jenisBarang);
 
         return view ('backend.user.index', compact('users'));
