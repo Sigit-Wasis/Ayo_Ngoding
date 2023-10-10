@@ -53,10 +53,7 @@
                 <div class="form-group">
                     <label for="tahun_berdiri">tahun_berdiri</label>
                     <input text="text" class="form-control" id="tahun_berdiri" name="tahun_berdiri" placeholder="">
-                </div>  <div class="form-group">
-                    <label for="kepemilikan">kepemilikan</label>
-                    <input text="text" class="form-control" id="kepemilikan" name="kepemilikan" placeholder="">
-                </div>
+                </div> 
             </div>
             <div class="card-footer">
                 <button type="submit" class="btn btn-primary">Simpan</button>

@@ -58,7 +58,7 @@
                 <!-- <li class="nav-item"> -->
                 <li class="nav-item">
                     <a href="{{ route('pengajuan_barang') }}" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
+                        <i class="nav-icon fas fa-shopping-cart"></i>
                         <p>
                             Pengajuan Barang
                             <span class="right badge badge-danger"></span>

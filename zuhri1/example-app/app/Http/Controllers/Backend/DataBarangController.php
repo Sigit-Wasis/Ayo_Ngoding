@@ -14,10 +14,10 @@ class DataBarangController extends Controller
 {
     function __construct()
     {
-         $this->middleware('permission:barang-list|barang-create|barang-edit|barang-delete', ['only' => ['index','store']]);
-         $this->middleware('permission:barang-create', ['only' => ['create','store']]);
-         $this->middleware('permission:barang-edit', ['only' => ['edit','update']]);
-         $this->middleware('permission:barang-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:barang-list|barang-create|barang-edit|barang-delete', ['only' => ['index', 'store']]);
+        $this->middleware('permission:barang-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:barang-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:barang-delete', ['only' => ['destroy']]);
     }
     public function index()
     {
@@ -26,7 +26,7 @@ class DataBarangController extends Controller
             ->join('jenis_barang', 'jenis_barang.id', 'barang.id_jenis_barang')
             ->paginate(3);
 
-            // dd($DataBarang);
+        // dd($DataBarang);
 
         return view('backend.barang.index', compact('DataBarang'));
     }
@@ -34,33 +34,36 @@ class DataBarangController extends Controller
     {
         //Query ini fungsinnya untuk mengambil jenis barang yang nantinnya akan di looping pada view create.blade.php
         $jenisBarang = DB::table('jenis_barang')->get();
-
+        $vendors = DB::table('vendor')->select('id', 'nama_perusahaan')->get();
+       
         //Generate kode barang
         $uniqid = uniqid();
-        $rand_start = rand(1,5);
-        $rand_8_char = substr($uniqid,$rand_start,8);
+        $rand_start = rand(1, 5);
+        $rand_8_char = substr($uniqid, $rand_start, 8);
 
-        return view('backend.barang.create', compact('jenisBarang','rand_8_char'));
+        return view('backend.barang.create', compact('jenisBarang', 'rand_8_char', 'vendors'));
     }
 
-    public function edit($id){
-        
-        $editBarang = DB::table('barang')->where('id',$id)->first();
+    public function edit($id)
+    {
+
+        $editBarang = DB::table('barang')->where('id', $id)->first();
         $jenisBarang = DB::table('jenis_barang')->get();
+        $vendors = DB::table('vendor')->select('id', 'nama_perusahaan')->get();
 
         //Generate kode barang
         $uniqid = uniqid();
-        $rand_start = rand(1,5);
-        $rand_8_char = substr($uniqid,$rand_start,8);
+        $rand_start = rand(1, 5);
+        $rand_8_char = substr($uniqid, $rand_start, 8);
 
-        return view('backend.barang.editt',compact('editBarang', 'jenisBarang','rand_8_char'));
+        return view('backend.barang.editt', compact('editBarang', 'jenisBarang', 'rand_8_char','vendors'));
     }
 
     public function update(BarangUpdateRequest $request, $id)
     {
         if ($request->gambar) {
             // Simpan File Gambar di dalam folder public/assets/image
-            $imageName = time().'.'.$request->gambar->extension();
+            $imageName = time() . '.' . $request->gambar->extension();
             $request->gambar->move(public_path('assets/image/'), $imageName);
 
             $file = DB::table('barang')->select('gambar')->where('id', $id)->first();
@@ -78,7 +81,8 @@ class DataBarangController extends Controller
                 'harga' => $request->harga,
                 'satuan' => $request->satuan,
                 'deskripsi' => $request->deskripsi,
-                'gambar' => 'assets/image/'. $imageName,
+                'gambar' => 'assets/image/' . $imageName,
+                'id_vendor' => $request->id_vendor,
                 'updated_by' => Auth::user()->id,
                 'updated_at' => \Carbon\Carbon::now(),
             ]);
@@ -92,6 +96,7 @@ class DataBarangController extends Controller
                 'harga' => $request->harga,
                 'satuan' => $request->satuan,
                 'deskripsi' => $request->deskripsi,
+                'id_vendor' => $request->id_vendor,
                 'updated_by' => Auth::user()->id,
                 'updated_at' => \Carbon\Carbon::now(),
             ]);
@@ -117,34 +122,33 @@ class DataBarangController extends Controller
             'kode_barang' => $request->kode_barang,
             'satuan' => $request->satuan,
             'deskripsi' => $request->deskripsi,
-            'gambar' =>'assets/image/' .$imageName,
+            'gambar' => 'assets/image/' . $imageName,
+            'id_vendor' =>$request->id_vendor,
             'stok' => $request->stok,
             'created_by' => Auth::user()->id,
-            'updated_by' =>Auth::user()->id,
+            'updated_by' => Auth::user()->id,
             'created_at' => \Carbon\Carbon::now(),
             'updated_at' => \Carbon\Carbon::now(),
-    
+
 
         ]);
 
         return redirect()->route('DataBarang')->with('message', 'Barang Berhasil Disimpan!');
-        
-        
     }
     public function show($id)
     {
-    $detailBarang = DB::table('barang')->select('barang.*', 'name as created_by', 'nama_jenis_barang')
-    ->where('barang.id', $id)//tambahin where dimana id barang itu sesuai dengan yang dipilih
-    ->join('users', 'users.id', 'barang.created_by')
-    ->join('jenis_barang', 'jenis_barang.id', 'barang.id_jenis_barang')
-    ->first();
+        $detailBarang = DB::table('barang')->select('barang.*', 'name as created_by', 'nama_jenis_barang','nama_perusahaan')
+            ->where('barang.id', $id) //tambahin where dimana id barang itu sesuai dengan yang dipilih
+            ->join('users', 'users.id', 'barang.created_by')
+            ->join('jenis_barang', 'jenis_barang.id', 'barang.id_jenis_barang')
+            ->join('vendor', 'vendor.id', 'barang.id_vendor')
+            ->first();
 
-    
-    
-    return view('backend.barang.show', compact('detailBarang'));
 
-}
-public function destroy($id)
+
+        return view('backend.barang.show', compact('detailBarang'));
+    }
+    public function destroy($id)
     {
         if ($id) {
             $file = DB::table('barang')->select('gambar')->where('id', $id)->first();
@@ -156,7 +160,7 @@ public function destroy($id)
             }
 
             DB::table('barang')->where('id', $id)->delete();
-    
+
             return redirect()->route('DataBarang')->with('messages', 'Sukses');
         }
     }

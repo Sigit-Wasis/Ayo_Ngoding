@@ -59,7 +59,6 @@
               <tr>
                 <!--<th scope="row">{{$loop->iteration }}</th>-->
                 <td>{{$vendors->firstItem() +$loop->index }}</td>
-                <td>{{ $vendor->id }}</td>
                 <td>{{ $vendor->nama_perusahaan }}</td>
                 <td>{{ $vendor->email }}</td>
                 <td>{{ $vendor->nomot_telepon }}</td>

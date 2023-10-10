@@ -50,7 +50,11 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
     //PENGAJUAN BARANG
     Route::get('/pengajuan-barang', 'Backend\Pengajuan_barangController@index')->name('pengajuan_barang');
     Route::get('/tambah-pengajuan-barang', 'Backend\Pengajuan_barangController@create')->name('tambah_pengajuan_barang');
-
+    Route::post('/store-pengajuan-barang', 'Backend\Pengajuan_barangController@store')->name('store_pengajuan_barang');
+    Route::get('/delete-pengajuan-barang/{id}', 'Backend\Pengajuan_barangController@destroy')->name('delete_pengajuan_barang');
+    Route::get('/edit-pengajuan-barang/{id}', 'Backend\Pengajuan_barangController@edit')->name('edit_pengajuan_barang');
+    Route::post('/update-pengajuan-barang/{id}', 'Backend\Pengajuan_barangController@update')->name('update_pengajuan_barang');
+    Route::get('/show-pengajuan-barang/{id}', 'Backend\Pengajuan_barangController@show')->name('show_pengajuan_barang');
     //vendor
     Route::get('/vendor', 'Backend\vendorController@index')->name('vendor');
     Route::get('/tambah-vendor', 'Backend\vendorController@create')->name('tambah_vendor');

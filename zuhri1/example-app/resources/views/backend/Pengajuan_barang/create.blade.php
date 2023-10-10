@@ -31,30 +31,28 @@
             </ul>
         </div>
         @endif
-        <form method="POST" action="{{ route('pengajuan_barang') }}">
+        <form method="POST" action="{{ route('pengajuan_barang') }}" enctype="multipart/form-data">
             @csrf
             <div class="card-body">
                 <div class="form-group">
-                    <label for="id">id_user</label>
-                    <input type="text" class="form-control" id="id_user" name="id_user" placeholder="">
+                    <label for="vendors">user</label>
+                    <select name="vendors" class="form-control">
+                        <option value="">*** pilih vendor ***</option>
+                        @foreach ($pengajuan as $vendor)
+                        <option value="{{ $vendor }}">{{ $vendor }}</option>
+                        @endforeach
+                    </select>
                 </div>
-                <div class="form-group">
-                    <label for="tanggal_pengajuan">Tanggal Pengajuan</label>
-                    <input text="text" class="form-control" id="tanggal_pengajuan" name="tanggal_pengajuan" placeholder="">
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="nama_barang">Nama Barang 2</label>
+                        <input type="text" class="form-control" id="nama_barang" name="nama_barang" placeholder="">
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="grand_total">Grand Total</label>
-                    <input text="text" class="form-control" id="grand_total" name="grand_total" placeholder="">
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                    <a href="{{ route('pengajuan_barang')}}" class="btn btn-info">kembali</a>
                 </div>
-                <div class="form-group">
-                    <label for="aksi">aksi</label>
-                    <input text="text" class="form-control" id="aksi" name="aksi" placeholder="">
-                </div>
-            </div>
-            <div class="card-footer">
-                <button type="submit" class="btn btn-primary">Simpan</button>
-                <a href="{{ route('pengajuan_barang')}}" class="btn btn-info">kembali</a>
-            </div>
         </form>
     </section>
 </div>

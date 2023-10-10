@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Spatie\Permission\Contracts\Permission;
 
 class Pengajuan_barangController extends Controller
 {
@@ -17,4 +18,11 @@ class Pengajuan_barangController extends Controller
 
         return view('backend.pengajuan_barang.index',compact('pengajuan_barang'));
     }
+    public function create () {
+       $pengajuan = DB::table('_t_r__pengajuan')->select('id','tanggal_pengajuan')->get();
+  
+
+       return view('backend.pengajuan_barang.create', compact('pengajuan'));
+}
+
 }
