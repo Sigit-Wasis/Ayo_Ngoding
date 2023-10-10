@@ -181,7 +181,7 @@ class DataBarangController extends Controller
                 '_m_s_t__barang.*',
                 'users.name as created_by',
                 'users.name as updated_by',
-                'vendors.nama as vendor_id',
+                'vendors.nama as vendor_nama',
                 '_m_s_t__jenis__barang.nama as jenis_barang' // Ubah menjadi 'nama' sesuai dengan alias yang Anda berikan
             )
             ->join('users', 'users.id', '_m_s_t__barang.created_by')
