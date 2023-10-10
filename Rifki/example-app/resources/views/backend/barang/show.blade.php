@@ -30,31 +30,35 @@
                                 <td><img src="{{ url($detailbarang->gambar) }}" width="400" height="250" alt=""></td>            </tr>
                             <tr>
                                 <th scope="row">Nama Barang</th>
-                                <td>{{ $detailbarang->nama_barang }}</td>
+                                <th>{{ $detailbarang->nama_barang }}</th>
                             </tr>
                             <tr>
                                 <th scope="row">Kode Barang</th>
-                                <td>{{ $detailbarang->kode_barang }}</td>
+                                <th>{{ $detailbarang->kode_barang }}</th>
                             </tr>
                             <tr>
                                 <th scope="row">Nama Barang</th>
-                                <td>{{ $detailbarang->nama_barang }}</td>
+                                <th>{{ $detailbarang->nama_barang }}</th>
                             </tr>
                             <tr>
                                 <th scope="row">Harga</th>
-                                <td>{{"Rp".number_format( $detailbarang->harga,2,',','.') }}</td>
+                                <th>{{"Rp".number_format( $detailbarang->harga,2,',','.') }}</th>
                             </tr>
                             <tr>
                                 <th scope="row">Satuan</th>
-                                <td>{{ $detailbarang->satuan }}</td>
+                                <th>{{ $detailbarang->satuan }}</th>
                             </tr>
                             <tr>
                                 <th scope="row">Deskripsi</th>
-                                <td>{{ $detailbarang->deskripsi }}</td>
+                                <th>{{ $detailbarang->deskripsi }}</th>
                             </tr>
                             <tr>
                                 <th scope="row">Stok Barang</th>
-                                <td>{{ $detailbarang->stok_barang }}</td>
+                                <th>{{ $detailbarang->stok_barang }}</th>
+                            </tr>
+                            <tr>
+                                <th scope="row">Nama Vendor</th>
+                                <th>{{ $detailbarang->nama_perusahaan }}</th>
                             </tr>
                         </tbody>
                     </table>
