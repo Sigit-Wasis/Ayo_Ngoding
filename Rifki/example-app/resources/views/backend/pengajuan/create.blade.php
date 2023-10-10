@@ -43,7 +43,7 @@
                         <label for="jenis_barang">Nama Vendor</label>
                         <select class="form-control" id="jenis_barang" name="jenis_barang">
                             <option value="" disabled selected>Pilih Vendor</option>
-                            @foreach ($vendors as $jenis)
+                            @foreach ($vendor as $jenis)
                             <option value="{{ $jenis->id }}">{{ $jenis->name}}</option>
                             @endforeach
                         </select>
