@@ -50,6 +50,19 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
         Route::put('/update_barang/{id}', 'Backend\DataBarangController@updateBarang')->name('update_barang');
         Route::get('/detail_barang/{id}', 'Backend\DataBarangController@detailBarang')->name('detail_barang');
 
+        //Pengajuan
+        Route::get('/tr_pengajuan', 'Backend\TransaksiBarangController@index')->name('tr_pengajuan');
+        Route::get('/tambah_pengajuan', 'Backend\TransaksiBarangController@createPengajuan')->name('tambah_pengajuan');
+        Route::post('/store_pengajuan', 'Backend\TransaksiBarangController@storePengajuan')->name('store_pengajuan');
+
+        //Vendor
+        Route::get('/vendors', 'Backend\VendorController@index')->name('vendors');
+        Route::get('/tambah_vendor', 'Backend\VendorController@createvendor')->name('tambah_vendor');
+        Route::post('/store_vendor', 'Backend\VendorController@storevendor')->name('store_vendor');
+        Route::get('/delete_vendor/{id}', 'Backend\VendorController@deletevendor')->name('delete_vendor');
+        Route::get('/edit_vendor/{id}', 'Backend\VendorController@editvendor')->name('edit_vendor');
+        Route::put('/update_vendor/{id}', 'Backend\VendorController@updatevendor')->name('update_vendor');
+
         Route::resource('roles', RoleController::class);
     });
 });

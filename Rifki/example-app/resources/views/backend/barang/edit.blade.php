@@ -41,9 +41,18 @@
                         <select name="id_jenis_barang" class="form-control">
                             <option value="">--Pilih jenis barang-- </option>
                             @foreach($jenisBarang as $jenis)
-                            <option value="{{$jenis->id}}" {{ $jenis->id == $jenis->id ? 'selected' : '' }}>{{$jenis->nama_barang}}</option>
+                            <option value="{{$jenis->id}}" {{ $jenis->id == $barang->id ? 'selected' : '' }}>{{$jenis->nama_barang}}</option>
                             @endforeach
                         </select>
+                        <div class="form-group">
+                        <label for="id_vendor">Nama Vendor</label>
+                        <select class="form-control"  name="id_vendor">
+                            <option value="" disabled selected>Pilih Vendor</option>
+                            @foreach ($vendors as $vendor)
+                            <option value="{{ $vendor->id }}"{{ $vendor->id == $barang->id_vendor ? 'selected' : '' }}>{{$vendor->nama}}</option>
+                            @endforeach
+                        </select>
+                    </div>
                     </div>
                     <div class="form-group">
                         <label for="kode_barang">Kode Barang</label>
