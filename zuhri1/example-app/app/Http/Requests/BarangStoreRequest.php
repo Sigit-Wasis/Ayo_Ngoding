@@ -31,6 +31,7 @@ class BarangStoreRequest extends FormRequest
             'deskripsi'=>'required',
             'gambar' =>'required |image|mimes:jpg,jpeg,png|max:2048',
             'harga'=>'required',
+            'id_vendor'=>'required',
 
         ];
     }
@@ -48,6 +49,7 @@ class BarangStoreRequest extends FormRequest
             'gambar.mimes' => 'gambar harus diisi alias wajib',
             'gambar.max' => 'gambar barang harus diisi alias wajib',
             'harga.required' => 'harga harus diisi alias wajib',
+            'id_vendor.required' => ' Id vendor harga harus diisi alias wajib',
         ];
     }
 }
