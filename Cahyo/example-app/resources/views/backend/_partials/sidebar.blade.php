@@ -26,7 +26,7 @@
                 @can('jenis-barang-list')
                 <li class="nav-item">
                     <a href="{{ route ('jenis_barang') }}" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
+                        <i class="nav-icon fas fa-tags"></i>
                         <p>
                             Jenis Barang
                         </p>
@@ -36,9 +36,29 @@
                 @can('barang-list')
                 <li class="nav-item">
                     <a href="{{ route ('barang') }}" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
+                        <i class="nav-icon fas fa-database"></i>
                         <p>
                             Data Barang
+                        </p>
+                    </a>
+                </li>
+                @endcan
+                @can('barang-list')
+                <li class="nav-item">
+                    <a href="{{ route ('transaksi_pengajuan') }}" class="nav-link">
+                        <i class="nav-icon fas fa-exchange-alt"></i>
+                        <p>
+                            Transaksi Pengajuan
+                        </p>
+                    </a>
+                </li>
+                @endcan
+                @can('barang-list')
+                <li class="nav-item">
+                    <a href="{{ route ('vendor.index') }}" class="nav-link">
+                        <i class="nav-icon fas fa-industry"></i>
+                        <p>
+                            Vendor
                         </p>
                     </a>
                 </li>
@@ -46,7 +66,7 @@
                 @can('role-list')
                 <li class="nav-item">
                     <a href="{{ route ('roles.index') }}" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
+                        <i class="nav-icon fas fa-user-cog"></i>
                         <p>
                             Data Role
                         </p>
@@ -56,7 +76,7 @@
                 @can('user-list')
                 <li class="nav-item">
                     <a href="{{ route ('user') }}" class="nav-link">
-                        <i class="nav-icon fa fa-user"></i>
+                        <i class="nav-icon fa fa-users"></i>
                         <p>
                             Data User
                         </p>

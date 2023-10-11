@@ -30,7 +30,7 @@
 <script src="{{ url('assets/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
 <script src="{{ url('assets/dist/js/adminlte.min.js?v=3.2.0') }}"></script>
+@yield('script')
 
-<script src="{{ url('assets/dist/js/demo.js') }}"></script>
 </body>
 </html>

@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('_m_s_t__barang', function (Blueprint $table) {
             $table->id();
             $table->foreignId('Id_jenis_barang')->notNull()->references('id')->on('_m_s_t__jenis__barang')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('Id_vendor')->notNull()->references('id')->on('vendors')->onUpdate('cascade')->onDelete('cascade');
             $table->string('kode_barang');
             $table->string('nama_barang');
             $table->string('harga');

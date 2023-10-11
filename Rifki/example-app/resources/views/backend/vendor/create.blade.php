@@ -64,7 +64,7 @@
 
                 <div class="form-group">
                     <label for="tahun_berdiri">Tahun Berdiri</label>
-                    <input type="text" class="form-control" id="tahun_berdiri" name="tahun_berdiri" placeholder="Tahun Berdiri" value="{{ old('tahun_berdiri') }}" required>
+                    <input type="date" class="form-control" id="tahun_berdiri" name="tahun_berdiri" placeholder="Tahun Berdiri" value="{{ old('tahun_berdiri') }}" required>
                 </div>
             </div>
 

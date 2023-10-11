@@ -32,6 +32,7 @@ class BarangUpdateRequest extends FormRequest
             'deskripsi' => 'required',
             'gambar' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             'stok_barang' => 'required',
+            'id_vendor' => 'required',
 
         ];
     }
@@ -48,7 +49,8 @@ class BarangUpdateRequest extends FormRequest
             'gambar.required' => 'Gambar Barang Harus Diisi Alias Wajibe',
             'gambar.mimes' => 'Gambar Barang Format Harus png, jpg, jpeg',
             'gambar.max' => 'Gambar Barang Maximal 2 MB',
-            'harga.required' => 'Harga Barang Harus Diisi Alias Wajibe'
+            'harga.required' => 'Harga Barang Harus Diisi Alias Wajibe',
+            'id_vendor' => 'Harga Barang Harus Diisi Alias Wajibe',
         ];
 
     }

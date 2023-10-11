@@ -31,10 +31,10 @@ class VendorController extends Controller
         return view('backend.vendor.create');
     }
 
-    public function storevendor(VendorRequest $request)
+    public function store(VendorRequest $request)
     {
         DB::table('vendors')->insert([
-            'nama' => $request->nama_vendor,
+            'nama' => $request->nama,
             'alamat' => $request->alamat,
             'telphone' => $request->telphone,
             'email' => $request->email,
@@ -45,33 +45,33 @@ class VendorController extends Controller
             'created_at' => \Carbon\Carbon::now(),
             'updated_at' => \Carbon\Carbon::now(),
         ]);
-        return redirect()->route('vendors')->with('message', 'Vendor Berhasil Disimpan!');
+        return redirect()->route('vendor.index')->with('message', 'Vendor Berhasil Disimpan!');
     }
 
     public function destroy($id)
     {
         DB::table('vendors')->where('id', $id)->delete();
-        return redirect()->route('vendors')->with('message', 'Jenis Barang Berhasil Dihapus!');
+        return redirect()->route('vendor.index')->with('message', 'Vendor Berhasil Dihapus!');
     }
-    public function editVendor($id)
+
+    public function edit($id)
     {
         $editVendor = DB::table('vendors')->where('id', $id)->first();
 
         if (!$editVendor) {
-            return redirect()->route('vendors')->with('error', 'Vendor tidak ditemukan.');
+            return redirect()->route('vendor.index')->with('error', 'Vendor tidak ditemukan.');
         }
-
-        session(['edit_vendor' => $editVendor]);
+        session (['edit => $editVendor']);
 
         return view('backend.vendor.edit', compact('editVendor'));
     }
 
-    public function updateVendor(VendorUpdateRequest $request, $id)
+    public function update(VendorUpdateRequest $request, $id)
     {
         DB::table('vendors')
             ->where('id', $id)
             ->update([
-                'nama' => $request->nama_vendor,
+                'nama' => $request->nama,
                 'alamat' => $request->alamat,
                 'telphone' => $request->telphone,
                 'email' => $request->email,
@@ -81,8 +81,6 @@ class VendorController extends Controller
                 'updated_at' => \Carbon\Carbon::now(),
             ]);
 
-        return redirect()->route('vendors')->with('message', 'Vendor berhasil diperbarui!');
+        return redirect()->route('vendor.index')->with('message', 'Vendor berhasil diperbarui!');
     }
-
-
 }
