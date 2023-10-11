@@ -54,9 +54,9 @@
                         @forelse($trPengajuan as $pengajuan)
                         <tr>
                             <td scope="row">{{ $rowNumber++ }}</td>
-                            <td>{{$pengajuan->jenis_barang}}</td>
-                            <td>{{$pengajuan->kode_barang}}</td>
-                            <td>{{$pengajuan->nama_barang}}</td>
+                            <td>{{$pengajuan->created_by}}</td>
+                            <td>{{$pengajuan->tanggal_pengajuan}}</td>
+                            <td>{{$pengajuan->total}}</td>
                             <td>
                                 <a href="{{ route('detail_barang', $pengajuan->id) }}" class="btn btn-sm btn-info">Show</a>
                                 <a href="{{ route('edit_barang', $pengajuan->id) }}" class="btn btn-sm btn-primary">Edit</a>

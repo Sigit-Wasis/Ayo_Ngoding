@@ -15,10 +15,11 @@ class CreateTrPengajuanTable extends Migration
     {
         Schema::create('tr_pengajuan', function (Blueprint $table) {
             $table->id();
-            $table->integer('tanggal_pengajuan');
+            $table->date('tanggal_pengajuan');
             $table->integer('grand_total');
             $table->string('status_pengajuan_ap');
             $table->string('keterangan_ditolak_ap');
+            // $table->text('keterangan_ditolak_ap'); // harusnya pake yang ini
             $table->string('status_pengajuan_vendor');
             $table->string('keterangan_ditolak_vendor');
             $table->foreignId('created_by')->notNull()->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
