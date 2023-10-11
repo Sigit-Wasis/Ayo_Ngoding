@@ -15,12 +15,12 @@ return new class extends Migration
     {
         Schema::create('tr_pengajuan', function (Blueprint $table) {
             $table->id();
-            $table->string('tanggal_pengajuan');
-            $table->string('grand_total');
-            $table->string('status_pengajuan_ap');
-            $table->string('keterangan_ditolak_ap');
-            $table->string('status_pengajuan_vendor');
-            $table->string('keterangan_ditolak_vendor');
+            $table->date('tanggal_pengajuan');
+            $table->integer('grand_total');
+            $table->smallInteger('status_pengajuan_ap');
+            $table->text('keterangan_ditolak_ap');
+            $table->smallInteger('status_pengajuan_vendor');
+            $table->text('keterangan_ditolak_vendor');
             $table->timestamps();
             $table->foreignId('created_by')->notNull()->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('updated_by')->notNull()->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
