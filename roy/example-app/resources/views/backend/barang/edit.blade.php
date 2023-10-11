@@ -53,9 +53,19 @@
                 <input type="text" class="form-control" value="{{ $editBarang->nama_barang }}" id="nama_barang" name="nama_barang" placeholder="">
             </div>
             <div class="form-group">
+                        <label for="id_vendor">Nama Vendor</label>
+                        <select name="id_vendor" class="form-control">
+                            <option value="">--pilih vendor --</option>
+                            @foreach ($vendors as $vendor)
+                            <option value="{{ $vendor->id }}" {{ $vendor->id == $editBarang->id_vendor ? 'selected' : '' }}> {{ $vendor->nama_perusahaan }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+            <div class="form-group">
                 <label for="harga">Harga Barang</label>
                 <input type="text" class="form-control" value="{{ $editBarang->harga }}" name="harga" placeholder="">
             </div>
+
             <div class="form-group">
                 <label for="satuan">Satuan Barang</label>
                 <input type="text" class="form-control" value="{{ $editBarang->satuan }}" name="satuan" placeholder="">

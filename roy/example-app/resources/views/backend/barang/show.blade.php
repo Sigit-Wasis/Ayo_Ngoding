@@ -76,7 +76,10 @@
                         <th scope="col">Di Buat Oleh</th>
                             <th>{{ $detailbarang->created_by  }}</th>
                         </tr>
-                        </tr>   
+                        </tr> 
+                        <th scope="col">Nama Vendor</th>
+                        <th>{{ $detailbarang->nama_perusahaan }}</th>
+                        </tr>  
                     </thead>
                 </table>         
             </div>

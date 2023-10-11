@@ -19,16 +19,25 @@ class PengajuanController extends Controller
     public function index()
     {
             // Queri ini untuk mengambil data jenis barang secara keseluruhan dengan id secara discending
-            $Pengajuan = FacadesDB::table('tr_pengajuan')->select('tr_pengajuan.*', 'name as created_by')->orderBy('tr_pengajuan.id', 'DESC')
+            $Pengajuan = FacadesDB::table('tr_pengajuan')->select('tr_pengajuan.*', 'name as created_by')
+            ->orderBy('.id', 'DESC')
                 ->join('users', 'users.id', 'tr_pengajuan.created_by')
                 ->paginate(5);
             // dd($jenisbarang);
+       
 
         return view('backend.pengajuan.index', compact('Pengajuan'));
 
 
     }
+        public function getBarangById(Request $request)
+        {
+            $dataBarang = FacadesDB::table('mst_barang')->select('id', 'nama_barang')
+            ->where('id_vendor', (int) $request->id_vendor)
+            ->get();
 
+            return response()->json($dataBarang);
+        }
     /**
      * Show the form for creating a new resource.
      *
@@ -36,15 +45,19 @@ class PengajuanController extends Controller
      */
     public function create()
     {
-        return view('backend.pengajuan.create');
+        $vendors = FacadesDB::table('vendor')->select('id', 'nama_perusahaan')->get();
+        return view('backend.pengajuan.create', compact('vendors'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    public function getHargaStokBarangById(Request $request)
+    {
+        $hargaStokBarang = FacadesDB::table('mst_barang')->select('stok_barang', 'harga')
+        ->where('id', $request->id_barang)
+        ->first();
+
+        return response()->json($hargaStokBarang);
+    }
+     
     public function store(Request $request)
     {
         //
