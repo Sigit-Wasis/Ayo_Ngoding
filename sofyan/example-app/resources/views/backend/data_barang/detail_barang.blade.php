@@ -35,6 +35,10 @@
 
                     </tr>
                     <tr>
+                        <th scope="row">Nama Perusahaan</th>
+                        <td>{{ $detailBarang->vendor_nama }}</td>
+                    </tr>
+                    <tr>
                         <th scope="row">Nama Barang</th>
                         <td>{{ $detailBarang->nama_barang }}</td>
                     </tr>

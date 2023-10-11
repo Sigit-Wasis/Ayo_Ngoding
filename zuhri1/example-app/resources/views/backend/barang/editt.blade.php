@@ -34,6 +34,15 @@
         <form method="POST" action="{{ route('update_DataBarang', $editBarang->id) }}" enctype="multipart/form-data">
             @csrf
             <div class="card-body">
+            <div class="form-group">
+                    <label for="id_vendor">Nama vendor</label>
+                    <select name="id_vendor" class="form-control">
+                        <option value="">-- pilih vendor--</option>
+                        @foreach($vendors as $vendor)
+                        <option value="{{ $vendor->id }}"{{ $vendor->id == $editBarang->id_vendor ? 'selected':''}}>{{ $vendor->nama_perusahaan}}</option>
+                        @endforeach
+                    </select>
+            </div>
                 <div class="form-group">
                     <label for="jenis_barang">Nama Jenis Barang</label>
                     <select name="id_jenis_barang"class="form-control">
