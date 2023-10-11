@@ -7,12 +7,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Tambah Data Barang</h1>
+                    <h1>Tambah Barang Barang</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Tambah Data Barang</li>
+                        <li class="breadcrumb-item active">Tambah Barang Barang</li>
                     </ol>
                 </div>
             </div>
@@ -36,14 +36,24 @@
             @csrf
             <div class="card-body">
             <div class="form-group">
-                    <label for="id_jenis_barang">Id Jenis Barang</label>
-                    <select name="id_jenis_barang" class ="form-control">
-                        <option value="">--pilih jenis barang --</option>
-                        @foreach($DataBarang as $barang)
-                        <option value="{{ $barang->id }}">{{ $barang->nama_jenis_barang}}</option>
+                    <label for="id_vendors">Nama Vendor</label>
+                    <select name="id_vendors" class ="form-control">
+                        <option value="">--pilih nama vendor --</option>
+                        @foreach($vendors as $data_vendors)
+                        <option value="{{ $data_vendors->id }}">{{ $data_vendors->nama}}</option>
                         @endforeach
             </select>
             </div>
+            <div class="form-group">
+                    <label for="id_jenis_barang">Jenis Barang</label>
+                    <select name="id_jenis_barang" class ="form-control">
+                        <option value="">--Id Jenis Barang --</option>
+                        @foreach($jenis_barang as $jenis)
+                        <option value="{{ $jenis->id }}">{{ $jenis->nama_jenis_barang }}</option>
+                        @endforeach
+            </select>
+            </div>
+
                 <div class="form-group">
                     <label for="exampleInputEmail1">Kode Barang</label>
                     <input type="text" class="form-control"value="{{ $rand_8_char}}" id="kode_barang" name="kode_barang" readonly="">

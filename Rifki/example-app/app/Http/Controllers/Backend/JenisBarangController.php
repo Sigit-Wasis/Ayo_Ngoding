@@ -13,10 +13,10 @@ class JenisBarangController extends Controller
 {
     function __construct()
     {
-        $this->middleware('permission:jenisbarang-list|jenisbarang-create|jenisbarang-edit|jenisbarang-delete', ['only' => ['index', 'store']]);
-        $this->middleware('permission:jenisbarang-create', ['only' => ['create', 'store']]);
-        $this->middleware('permission:jenisbarang-edit', ['only' => ['edit', 'update']]);
-        $this->middleware('permission:jenisbarang-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:jenis-barang-list|jenis-barang-create|jenis-barang-edit|jenis-barang-delete', ['only' => ['index', 'store']]);
+        $this->middleware('permission:jenis-barang-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:jenis-barang-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:jenis-barang-delete', ['only' => ['destroy']]);
     }
     public function index() {
         $jenisbarang = DB::table('mst_jenis_barang')

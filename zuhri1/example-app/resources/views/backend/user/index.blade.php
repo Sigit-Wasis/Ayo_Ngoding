@@ -78,9 +78,7 @@
                                 <td>
 
                                     <a href="{{route('edit_user',$user->id)}}" class="btn btn-sm btn-danger">Edit</a>
-                                    <a href=" {{route('delete_user',$user->id)}}"
-                                        onclick="return confirm('Apa kamu yakin')"
-                                        class="btn btn-sm btn-danger">Delete</a>
+                                    <a href=" {{route('delete_user',$user->id)}}" onclick="return confirm('Apa kamu yakin')" class="btn btn-sm btn-danger">Delete</a>
                                 </td>
                             </tr>
 
