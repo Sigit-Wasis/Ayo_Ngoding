@@ -57,7 +57,7 @@
 </div>
 <div class="card-footer">
 <button type="submit" class="btn btn-primary">Simpan Vendor</button>
-<a href="{{ route('jenis_barang') }}" class="btn btn-info">Kembali</a>
+<a href="{{ route('vendor') }}" class="btn btn-info">Kembali</a>
 
 </div>
 </form>
