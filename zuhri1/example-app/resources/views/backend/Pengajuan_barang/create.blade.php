@@ -34,27 +34,90 @@
         <form method="POST" action="{{ route('pengajuan_barang') }}" enctype="multipart/form-data">
             @csrf
             <div class="card-body">
+                        <div class="form-group">
+                            <label for="tanggal_pengajuan">Tanggal Pengajuan</label>
+                            <input type="date" id="tanggal_pengajuan" class="form-control"value="<?php echo date('y-m-d')?>"name="tanggal_pengajuan">
+                        </div>
                 <div class="form-group">
-                    <label for="vendors">user</label>
-                    <select name="vendors" class="form-control">
-                        <option value="">*** pilih vendor ***</option>
-                        @foreach ($pengajuan as $vendor)
-                        <option value="{{ $vendor }}">{{ $vendor }}</option>
+                    <label for="id_vendor">Nama vendor</label>
+                    <select name="id_vendor" class="form-control" onchange="selectBarangByVendor(this.value)">
+                        <option value="">-- pilih vendor--</option>
+                        @foreach($vendors as $vendor)
+                        <option value="{{ $vendor->id }}">{{ $vendor->nama_perusahaan}}</option>
                         @endforeach
                     </select>
                 </div>
-                <div class="card-body">
-                    <div class="form-group">
-                        <label for="nama_barang">Nama Barang 2</label>
-                        <input type="text" class="form-control" id="nama_barang" name="nama_barang" placeholder="">
+                <div class="form-group">
+                    <label for="nama_barang">Nama Barang</label>
+                    <select name="nama_barang" id="nama_barang" onchange="selecteHargaDanStokBarang(this.value)" class="form-control" readonly>
+                    </select>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="nama_barang">Harga Barang</label>
+                            <input type="text" class="form-control" readonly id="harga_barang" name="harga_barang">
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="stok_barang">Stok Barang</label>
+                            <input type="text" class="form-control" readonly id="stok_barang" name="stok_barang">
+                        </div>
                     </div>
                 </div>
                 <div class="card-footer">
-                    <button type="submit" class="btn btn-primary">Simpan</button>
+                    <button type="submit" class="btn btn-primary">Ajukan</button>
                     <a href="{{ route('pengajuan_barang')}}" class="btn btn-info">kembali</a>
                 </div>
+            </div>
         </form>
     </section>
 </div>
 
+@endsection
+@section('script')
+<script>
+    function selectBarangByVendor(id_vendor) {
+        $.ajax({
+            type: 'GET',
+            url: window.location.origin + '/pengajuan/barang',
+            dataType: 'json',
+            data: {
+                "id_vendor": id_vendor
+            },
+            success: function(textStatus) {
+                if (textStatus.length > 0) {
+                    var htmlBarang = '';
+                    htmlBarang += '<option selected disabled> --pilih --</option>';
+                    for (let i = 0; i < textStatus.length; i++) {
+                        htmlBarang += '<option value="' + textStatus[i].id + '">' + textStatus[i].nama_barang + '</option>';
+                    }
+                    $('#nama_barang').attr('readonly', false);
+                    $('#nama_barang').html(htmlBarang);
+
+                } else {
+                    $('#nama_barang').html('<option selected disabled> -- data tidak ditemukan -- </option>');
+                }
+            }
+
+        });
+    }
+    function selecteHargaDanStokBarang(id_barang) {
+        $.ajax({
+            type: 'GET',
+            url: window.location.origin + '/barang/harga/stok',
+            dataType: 'json',
+            data: {
+                "id_barang": id_barang
+            },
+            success: function(textStatus) {
+            $('#stok_barang').val(textStatus.stok);
+            $('#harga_barang').val(textStatus.harga);
+            }
+
+        });
+    }
+</script>
 @endsection
