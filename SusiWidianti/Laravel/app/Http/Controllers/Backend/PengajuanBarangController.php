@@ -5,7 +5,7 @@
     use App\Http\Controllers\Controller;
     //use App\Http\Requests\UpdateBarangRequest;
     use App\Http\Requests\PengajuanBarangRequest;
-    use App\Http\Requests\Request;
+    use Illuminate\Http\Request;
     use Illuminate\Support\Facades\Auth;
     use Illuminate\Support\Facades\DB;
     
@@ -35,125 +35,34 @@
     
         public function create()
         {
-            $Vendors = DB::table('tr_pengajuan')->get();
+            // Ambil daftar vendor
+            $vendors = DB::table('vendors')->select('id','nama')->get();
+    
         
-            // Mengambil daftar pengguna yang memiliki peran (roles) yang sesuai
-            $barangPervendor = [];
-        
-            foreach ($Vendors as $vendor) {
-                $barang = DB::table('mts_barang')
-                    ->where('vendor_id', $vendor->id)
-                    ->get();
-        
-                $barangPervendor[$vendor->id] = $barang;
-            }
-            return view('backend.pengajuan.create', compact('Vendors', 'barangPervendor'));
+    
+            return view('backend.pengajuan.create', compact('vendors'));
         }
-        
-        // public function store(DataBarangRequest $request)
-        // {
+
+        public function getBarangById(Request $request)
+        {
+            $databarang = DB::table('mts_barang')->select('id', 'nama_barang')
+                ->where('id_vendors', (int) $request->id_vendors)
+                ->get();
+                
+                return response()->json($databarang);
+        }
+    
+        public function getHargaStokBarangById(Request $request)
+        {
+
+        $hargaStokBarang = DB::table('mts_barang')->select('Stok', 'harga')
+        ->where('id', $request->id_barang)
+        ->first();
+
+        return response()->json($hargaStokBarang);
+
+        }
     
     
-//             //DD (die dump untuk memeriksa apakah ada value atau record di dalam variabel $request yang di ambik dari form input)
-//             //  dd($request->all());
-    
-//             // Simpan file Gambar
-//             $imageName = time() . '.' . $request->image->extension();
-//             $request->image->move(public_path('assets/image/'), $imageName);
-    
-//             //Query insert data Barang
-//             DB::table('mts_barang')->insert([
-//                 'id_jenis_barang' => $request->id_jenis_barang,
-//                 'kode_barang' => $request->kode_barang,
-//                 'nama_barang' => $request->nama_barang,
-//                 'harga' => $request->harga,
-//                 'satuan' => $request->satuan,
-//                 'deskripsi' => $request->deskripsi,
-//                 'gambar' => 'assets/image/' . $imageName,
-//                 'stok' => $request->stok,
-//                 'created_by' => Auth::user()->id,
-//                 'updated_by' => Auth::user()->id,
-//                 'created_at' => \Carbon\Carbon::now(),
-//                 'updated_at' => \Carbon\Carbon::now(),
-    
-//             ]);
-    
-//             return redirect()->route('data_barang')->with('message', ' Barang Berhasil disimpan');
-//         }
-    
-    
-    
-//         public function show($id)
-//         {
-//             $detailBarang = DB::table('mts_barang')->select('mts_barang.*', 'username as created_by', 'nama_jenis_barang')
-//                 ->where('mts_barang.id', $id) //tambahin where dimana id barang itu sesuai dengan yang dipilih
-//                 ->join('jenis_barang', 'jenis_barang.id', 'mts_barang.id_jenis_barang')
-//                 ->join('users', 'users.id', 'mts_barang.created_by')
-//                 ->first(); //dari paginate ganti jadi firsh()
-    
-//             return view('backend.barang.show', compact('detailBarang'));
-//         }
-//         public function edit($id)
-//         {
-//             $editbarang = DB::table('mts_barang')->where('id', $id)->first();
-//             $jenisBarang = DB::table('jenis_barang')->select('id', 'nama_jenis_barang')->get();
-    
-//             return view('backend.barang.edit', compact('editbarang','jenisBarang'));
-//         }
-    
-    
-    
-    
-//         public function update(UpdateBarangRequest $request, $id)
-//         {
-//             if ($request->gambar_barang) {
-//                 // Simpan File Gambar di dalam folder public/assets/image
-//                 $imageName = time() . '.' . $request->gambar_barang->extension();
-//                 $request->gambar_barang->move(public_path('assets/image/'), $imageName);
-    
-//                 $file = DB::table('mts_barang')->select('gambar')->where('id', $id)->first();
-    
-//                 if (file_exists(public_path($file->gambar))) {
-//                     unlink(public_path($file->gambar));
-//                 }
-    
-//                 // Query insert Data Barang
-//                 DB::table('mts_barang')->where('id', $id)->update([
-//                     'id_jenis_barang' => $request->id_jenis_barang,
-//                     'kode_barang' => $request->kode_barang,
-//                     'nama_barang' => $request->nama_barang,
-//                     'harga' => $request->harga,
-//                     'satuan' => $request->satuan,
-//                     'deskripsi' => $request->deskripsi,
-//                     'gambar' => 'assets/image/' . $imageName,
-//                     'stok' => $request->stok,
-//                     'updated_by' => Auth::user()->id,
-//                     'updated_at' => \Carbon\Carbon::now(),
-//                 ]);
-//             } else {
-//                 // Query insert Data Barang
-//                 DB::table('mts_barang')->where('id', $id)->update([
-//                     'id_jenis_barang' => $request->id_jenis_barang,
-//                     'kode_barang' => $request->kode_barang,
-//                     'nama_barang' => $request->nama_barang,
-//                     'harga' => $request->harga,
-//                     'satuan' => $request->satuan,
-//                     'deskripsi' => $request->deskripsi,
-//                     'stok' => $request->stok
-//                     ,
-//                     'updated_by' => Auth::user()->id,
-//                     'updated_at' => \Carbon\Carbon::now(),
-//                 ]);
-//             }
-    
-//             return redirect()->route('data_barang')->with('messages', 'Data Barang Berhasil Diupdate');
-//         }
-    
-//         public function destroy($id)
-//         {
-//             DB::table('mts_barang')->where('id', $id)->delete();
-    
-//             return redirect()->route('data_barang')->with('message', 'Barang Berhasil dihapus');
-//         }
-    
-}
+       
+    }

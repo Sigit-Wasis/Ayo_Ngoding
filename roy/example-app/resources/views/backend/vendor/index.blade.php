@@ -45,21 +45,21 @@
                             <th scope="col">Nomor Telpon</th>
                             <th scope="col">Kepemilikan</th>
                             <th scope="col">Tahun Berdiri</th>
+                            <th scope="col">Aksi</th>
                         
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($vendor as $vendor)
+                        @foreach($vendors as $vendor)
                         <tr>
                             <!-- <th scope="row">{{ $loop->iteration }}</th> -->
-                            <td>{{ $vendor->firstItem() + $loop->index }}</td>
+                            <td>{{ $vendors->firstItem() + $loop->index }}</td>
                             <td>{{ $vendor->nama_perusahaan }}</td>
                             <td>{{ $vendor->email }}</td>
                             <td>{{ $vendor->nomor_telpon }}</td>
                             <td>{{ $vendor->kepemilikan }}</td>
                             <td>{{ $vendor->tahun_berdiri }}</td>
-                            <td>{{ $vendor->created_at ?? \Carbon\Carbon::now() }}</td>
-                            <td>{{ $vendor->created_by }}</td>
+                         
                             <td>
                                 <a href=" {{ route('edit_vendor', $vendor->id) }}" class="btn btn-sm btn-primary">Edit</a>
                                 <a href=" {{ route('delete_vendor', $vendor->id) }}" onclick="return confirm('Are you sure?')" class="btn btn-sm btn-danger">Hapus</a>
@@ -71,7 +71,7 @@
                     </tbody>
                     </table>
 
-                    {{ $vendor->links() }}
+                    {{ $vendors->links() }}
             </div>
 
     </div>

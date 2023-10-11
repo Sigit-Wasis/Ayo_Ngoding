@@ -23,7 +23,7 @@
 
     <section class="content">
         <div class="col-md-2 mb-2">
-            <a href="{{ route('tambah_jenis_barang')}}" class="btn btn-sm btn-block btn-success">Tambah Transaksi Pengajuan </a>
+            <a href="{{ route('tambah_pengajuan')}}" class="btn btn-sm btn-block btn-success">Tambah Transaksi Pengajuan</a>
         </div>
 
         <div class="card">
@@ -31,48 +31,56 @@
 
                 @if(Session::has('message'))
                 <div class="alert alert-success alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                     <h5>
                         <i class="icon fas fa-check"></i> Sukses!
                     </h5>
-                    {{ Session('message') }}
+                    {{ Session('message')}}
                 </div>
                 @endif
 
-                <table class="table">
+                <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th>Tanggal Pengajuan</th>
-                            <th>Grand Total</th>
-                            <th>Status Pengajuan AP</th>
-                            <th>Keterangan Ditolak AP</th>
-                            <th>Status Pengajuan Vendor</th>
-                            <th>Keterangan Ditolak Vendor</th>
-                            <th>Dibuat Oleh</th>
-                            <th>Diperbarui Oleh</th>
+                            <th scope="col">NO</th>
+                            <th scope="col">User</th>
+                            <th scope="col">Tanggal Pengajuan</th>
+                            <th scope="col">Total Pengajuan</th>
+                            <th scope="col">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($transaksi_pengajuan as $index => $transaksi)
+                        {{-- Calculate the row number --}}
+                        @php
+                        $rowNumber = ($transaksiPengajuan->currentPage() - 1) * $transaksiPengajuan->perPage() + 1;
+                        @endphp
+
+                        @forelse($transaksiPengajuan as $transaksi)
                         <tr>
-                            <td>{{ $transaksi_pengajuan->tanggal_pengajuan }}</td>
-                            <td>{{ $transaksi_pengajuan->grand_total }}</td>
-                            <td>{{ $transaksi_pengajuan->status_pengajuan_ap }}</td>
-                            <td>{{ $transaksi_pengajuan->keterangan_ditolak_ap }}</td>
-                            <td>{{ $transaksi_pengajuan->status_pengajuan_vendor }}</td>
-                            <td>{{ $transaksi_pengajuan->keterangan_ditolak_vendor }}</td>
-                            <td>{{ $transaksi_pengajuan->created_by }}</td>
-                            <td>{{ $transaksi_pengajuan->updated_by }}</td>
+                            <td scope="row">{{ $rowNumber++ }}</td>
+                            <td>{{$transaksi->created_by}}</td>
+                            <td>{{$transaksi->tanggal_pengajuan}}</td>
+                            <td>{{$transaksi->total}}</td>
+                            <td>
+                                <a href="{{ route('detail_barang', $pengajuan->id) }}" class="btn btn-sm btn-info">Show</a>
+                                <a href="{{ route('edit_barang', $pengajuan->id) }}" class="btn btn-sm btn-primary">Edit</a>
+                                <a href="{{route('delete_barang',$pengajuan->id)}}" onclick="return confirm('are you sure?')" class="btn btn-sm btn-danger">Delete</a>
+                            </td>
                         </tr>
-                        <a href="{{ route('jenis_barang.edit', ['id' => $jenis->id]) }}" class="btn btn-sm btn-primary">Edit</a>
-                        <a href="{{ route('delete_jenis_barang', $jenis->id)}}" onclick="return confirm('Are you sure?')" class="btn btn-sm btn-danger">Delete</a>
-                        </td>
-                        </tr>
-                        @endforeach
+                        @empty
+                        <!-- Tidak ada Transaksi pengajuan -->
+                        @endforelse
                     </tbody>
                 </table>
 
-                {{ $transaksi_pengajuan->links() }}
+                @if($transaksiPengajuan->isEmpty())
+                <p class="text-center">Tidak Ada Transaksi pengajuan</p>
+                @endif
+
+                <div class="float-right">
+                    {{ $transaksiPengajuan->links() }}
+                </div>
+
             </div>
         </div>
     </section>

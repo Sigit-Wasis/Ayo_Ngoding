@@ -21,7 +21,7 @@
 
     <section class="content">
         <div class="col-md-2 mb-2">
-            <a href="{{ route('tambah_pengajuan') }}" class="btn btn-sm btn-block btn-success">Tambah Data</a>
+            <a href="{{ route('tambah_pengajuan') }}" class="btn btn-sm btn-block btn-success">Tambah Pengajuan</a>
 </div>
 <!--END BUTTON JENIS BARANG -->
 

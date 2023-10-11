@@ -76,6 +76,10 @@
                             <th scope="col">updated_at</th>
                             <th>{{ $detailBarang->updated_at }}</th>
                         </tr>
+                        <tr>
+                            <th scope="col">Nama Vendor</th>
+                            <th>{{ $detailBarang->nama_perusahaan}}</th>
+                        </tr>
                     </thead>
                 </table>         
             </div>

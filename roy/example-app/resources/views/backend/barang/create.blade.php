@@ -69,6 +69,15 @@
                 <input type="file" class="form-control" value="{{ old('image') }}" name="gambar_barang" placeholder="">
             </div>
             <div class="form-group">
+                        <label for="id_vendor">Nama Vendor</label>
+                        <select name="id_vendor" class="form-control">
+                            <option value="">--pilih vendor --</option>
+                            @foreach ($vendors as $vendor)
+                            <option value="{{ $vendor->id }}">{{ $vendor->nama_perusahaan }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+            <div class="form-group">
                 <label for="stok_barang">Stok Barang</label>
                 <input type="text" class="form-control" value="{{ old('stok_barang') }}" name="stok_barang" placeholder="">
             </div>

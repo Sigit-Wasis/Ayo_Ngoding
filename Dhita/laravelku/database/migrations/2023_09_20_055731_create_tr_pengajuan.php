@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('tr_pengajuan', function (Blueprint $table) {
             $table->id();
             $table->string('tanggal pengajuan');
+            // $table->date('tanggal pengajuan');
             $table->string('grand_total');
             $table->string('status_pengajuan_ap');
             $table->string('keterangan_ditolak_ap');

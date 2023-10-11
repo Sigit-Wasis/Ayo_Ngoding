@@ -31,7 +31,8 @@ class BarangStoreRequest extends FormRequest
             'satuan' => 'required',
             'deskripsi' => 'required',
             'gambar_barang' => 'required|image|mimes:jpg,jpeg,png|max:2048',
-            'stok_barang' => 'required'
+            'stok_barang' => 'required',
+            'id_vendor'=> 'required'
         ];
     }
 
@@ -48,6 +49,7 @@ class BarangStoreRequest extends FormRequest
             'deskripsi.required' => 'Deskripsi Barang Harus Diisi Alias Wajib',
             'gambar_barang.max' => 'Gambar Barang maksimal 2 MB',
             'stok_barang.required' => 'Stok Barang Harus Diisi Alias Wajib',
+            'id_vendor.required' => 'ID Vendor harus diisi alias wajib',
         ];
     }
 }

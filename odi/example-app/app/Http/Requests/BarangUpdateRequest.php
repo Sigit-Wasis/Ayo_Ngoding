@@ -29,7 +29,9 @@ class BarangUpdateRequest extends FormRequest
             'satuan' => 'required',
             'deskripsi' => 'required',
             // 'gambar' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-            'stok' => 'required'
+            'stok' => 'required',
+            'id_vendor' => 'required',
+
         ];
     }
 
@@ -46,6 +48,8 @@ class BarangUpdateRequest extends FormRequest
             'gambar.mimes' => 'Gambar Barang Harus Format jpg, jpeg, png',
             'gambar.max' => 'Gambar Barang minimal 2 MB',
             'stok.required' => 'Stok Barang Wajib Diisi',
+            'id_vendor.required' => 'Id Vendor Harga Wajib Diisi',
+
         ];
     
     }
