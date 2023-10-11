@@ -17,15 +17,15 @@ class PengajuanController extends Controller
      */
     public function index()
     {
-        $Pengajuan = FacadesDB::table('pengajuan')->select('pengajuan.*','name as created_by')
-        ->orderBy('pengajuan.id', 'DESC')
-        
-        ->join('users','users.id','pengajuan.created_by')
-        ->paginate(5);
+        $Pengajuans = FacadesDB::table('pengajuan')->select('*')
+        ->orderBy('id','DESC')->paginate(10);
+        // ->orderBy('pengajuan.id', 'DESC')
+        // ->join('users','users.id','pengajuan.created_by')
+        // ->paginate(5);
 
         //  dd($Barang);
 
-        return view ('backend.pengajuan.index', compact('Pengajuan'));
+        return view ('backend.pengajuan.index', compact('Pengajuans'));
     }
 
     /**
@@ -33,14 +33,31 @@ class PengajuanController extends Controller
      */
     public function create()
     {
-        $Pengajuan = FacadesDB::table('pengajuan')->select('id','tanggal_pengajuan')->get();
-        $vendor = Role::pluck('name')->all();
-        $permission = Permission::get();
+        // $Pengajuans = FacadesDB::table('pengajuan')->select('id','tanggal_pengajuan')->get();
+        $vendors = FacadesDB::table('vendor')->select('id','nama_perusahaan')->get();
+        // $permission = Permission::get();
        
         
-        return view ('backend.pengajuan.create', compact('Pengajuan','vendor','permission'));
+        return view ('backend.pengajuan.create', compact('vendors'));
     }
+    
+    public function getBarangById(Request $request)
+    {
+        $dataBarang = FacadesDB::table('barang')->select('id','nama_barang')
+        ->where ('id_vendor', (int) $request->id_vendor)
+        ->get();
 
+        return response()->json($dataBarang);
+
+    }
+    public function getHargaStokBarangById(Request $request)
+    {
+        $hargaStokBarang = FacadesDB::table('barang')->select('stok','harga')
+        ->where ('id', $request->id_barang)
+        ->first();
+
+        return response()->json($hargaStokBarang);
+    }
     /**
      * Store a newly created resource in storage.
      */

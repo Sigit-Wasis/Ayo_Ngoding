@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB as FacadesDB;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\VendorRequest;
 
 
 
@@ -36,14 +37,14 @@ class VendorController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(VendorRequest $request)
     {
         FacadesDB::table('vendor')->insert([
             'nama_perusahaan' =>$request->nama_perusahaan,
             'email' =>$request->email,
             'nomor_telpon' =>$request->nomor_telpon,
             'kepemilikan' =>$request->kepemilikan,
-            'tahun_berdiri' =>$request->tahun_dibuat,
+            'tahun_berdiri' =>$request->tahun_berdiri,
             'created_by' => Auth::user()->id,
             'updated_by' => Auth::user()->id,
             'created_at' => \Carbon\Carbon::now(),
@@ -82,7 +83,7 @@ class VendorController extends Controller
             'email' =>$request->email,
             'nomor_telpon' =>$request->nomor_telpon,
             'kepemilikan' =>$request->kepemilikan,
-            'tahun_berdiri' =>$request->tahun_dibuat,
+            'tahun_berdiri' =>$request->tahun_berdiri,
             
 
         ]);
