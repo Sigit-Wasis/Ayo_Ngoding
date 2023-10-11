@@ -42,6 +42,16 @@
         </div>
 
         <div class="form-group">
+            <label for="id_vendor">Nama Vendor</label>
+            <select name="id_vendor" class="form-control">
+                <option value="">--pilih Vendor --</option>
+                @foreach($vendors as $vendor)
+                <option value="{{$vendor->id}}">{{ $vendor->nama}}</option>
+                @endforeach
+            </select>
+        </div>
+
+        <div class="form-group">
             <label for="id_jenis_barang">Jenis Barang</label>
             <select name="id_jenis_barang" class="form-control">
                 <option value="">--pilih jenis barang --</option>
@@ -50,6 +60,7 @@
                 @endforeach
             </select>
         </div>
+
 
         <div class="form-group">
             <label for="kode_barang">Kode Barang</label>

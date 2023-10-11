@@ -37,13 +37,14 @@ class DataBarangController extends Controller
     {
         // Query ini fungsinya untuk mengambiljenis barang yang nantinya akan di looping pada view create.blade.php
         $createBarang = DB::table('mst_jenis_barang')->select('id', 'nama_jenis_barang')->get();
+        $vendors = DB::table('vendors')->select('id', 'nama')->get();
 
         // Generate kode barang
         $uniqid = uniqid();
         $rand_star = rand(1, 5);
         $rand_8_char = substr($uniqid, $rand_star, 8);
 
-        return view('backend.barang.create', compact('createBarang', 'rand_8_char'));
+        return view('backend.barang.create', compact('createBarang', 'rand_8_char', 'vendors'));
     }
 
     public function store(BarangStoreRequest $request)
@@ -66,6 +67,7 @@ class DataBarangController extends Controller
             'satuan' => $request->satuan,
             'deskripsi' => $request->deskripsi,
             'gambar' => 'assets/image/' . $imageName,
+            'id_vendor' => $request->vendor,
             'stok_barang' => $request->stok_barang,
             'created_by' => Auth::user()->id,
             'updated_by' => Auth::user()->id,
@@ -79,9 +81,10 @@ class DataBarangController extends Controller
     public function show($id)
     {
         $detailBarang = DB::table('mst_barang')
-            ->select('mst_barang.*', 'name as created_by', 'nama_jenis_barang')
+            ->select('mst_barang.*', 'name as created_by', 'nama_jenis_barang', 'vendors.nama as nama_perusahaan')
             ->where('mst_barang.id', $id) //Tambahin where dimana id barang itu sesuai barang yang dipilih
             ->join('mst_jenis_barang', 'mst_jenis_barang.id', 'mst_barang.id_jenis_barang')
+            ->join('vendors', 'vendors.id', 'mst_barang.id_vendor')
             ->join('users', 'users.id', 'mst_barang.created_by')
             ->first();
 
@@ -110,8 +113,9 @@ class DataBarangController extends Controller
     {
         $editBarang = DB::table('mst_barang')->select('*')->where('id', $id)->first();
         $jenisBarang = DB::table('mst_jenis_barang')->select('id', 'nama_jenis_barang')->get();
+        $vendors = DB::table('vendors')->select('id', 'nama')->get();
 
-        return view('backend.barang.edit', compact('editBarang', 'jenisBarang'));
+        return view('backend.barang.edit', compact('editBarang', 'jenisBarang', 'vendors'));
     }
     public function update(BarangUpdateRequest $request, $id)
     {
@@ -135,6 +139,7 @@ class DataBarangController extends Controller
                 'harga' => $request->harga,
                 'satuan' => $request->satuan,
                 'deskripsi' => $request->deskripsi,
+                'id_vendor' => $request->id_vendor,
                 'gambar' => 'assets/image/' . $imageName,
                 'updated_by' => Auth::user()->id,
                 'updated_at' => \Carbon\Carbon::now(),
@@ -149,6 +154,7 @@ class DataBarangController extends Controller
                 'harga' => $request->harga,
                 'satuan' => $request->satuan,
                 'deskripsi' => $request->deskripsi,
+                'id_vendor' => $request->id_vendor,
                 'updated_by' => Auth::user()->id,
                 'updated_at' => \Carbon\Carbon::now(),
             ]);

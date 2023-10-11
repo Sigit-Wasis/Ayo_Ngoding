@@ -39,7 +39,7 @@
             <div class="card-body">
                 <div class="form-group">
                     <label for="nama">Nama</label>
-                    <input type="text" class="form-control" id="nama" name="nama" placeholder="Nama Vendor" value="{{ old('nama') }}" required>
+                    <input type="text" class="form-control" id="nama_vendor" name="nama_vendor" placeholder="Nama Vendor" value="{{ old('nama') }}" required>
                 </div>
 
                 <div class="form-group">
@@ -64,13 +64,13 @@
 
                 <div class="form-group">
                     <label for="tahun_berdiri">Tahun Berdiri</label>
-                    <input type="text" class="form-control" id="tahun_berdiri" name="tahun_berdiri" placeholder="Tahun Berdiri" value="{{ old('tahun_berdiri') }}" required>
+                    <input type="date" class="form-control" id="tahun_berdiri" name="tahun_berdiri" placeholder="Tahun Berdiri" value="{{ old('tahun_berdiri') }}" required>
                 </div>
             </div>
 
             <div class="card-footer">
-                <button type="submit" class="btn btn-primary">Simpan Vendor</button>
-                <a href="{{ route('vendor.index') }}" class="btn btn-secondary">Batal</a>
+                <button type="submit" class="btn btn-primary">Simpan</button>
+                <a href="{{ route('vendor.index') }}" class="btn btn-info">Batal</a>
             </div>
         </form>
     </section>

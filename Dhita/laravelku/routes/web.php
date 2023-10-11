@@ -49,6 +49,27 @@ Route::group(['namespace' =>'App\Http\Controllers'], function() {
 
         Route::resource('roles', RoleController::class);
 
+        Route::get('/vendor', 'Backend\VendorController@index')->name('vendor.index');
+        Route::get('/tambah_vendor', 'Backend\VendorController@create')->name('tambah_vendor');
+        Route::get('/delete_vendor/{id}','Backend\VendorController@destroy')->name('delete_vendor');
+        Route::get('/edit_vendor/{id}','Backend\VendorController@edit')->name('edit_vendor');
+        Route::post('/update_vendor/{id}', 'Backend\VendorController@update')->name('update_vendor');
+        Route::get('/show_vendor/{id}', 'Backend\VendorController@show')->name('show_vendor');
+        Route::get('/vendor_create', 'Backend\VendorController@index')->name('vendor_create');
+        Route::post('/vendor_store', 'Backend\VendorController@store')->name('vendor_store');
+
+        Route::get('/pengajuan', 'Backend\PengajuanController@index')->name('pengajuan.index');
+        Route::get('/tambah_pengajuan', 'Backend\PengajuanController@create')->name('tambah_pengajuan');
+        Route::post('/store_pengajuan', 'Backend\PengajuanController@store')->name('store_pengajuan');
+        Route::get('/delete_pengajuan/{id}','Backend\PengajuanController@destroy')->name('delete_pengajuan');
+        Route::get('/edit_pengajuan/{id}','Backend\PengajuanController@edit')->name('edit_pengajuan');
+        Route::post('/update_pengajuan/{id}', 'Backend\PengajuanController@update')->name('update_pengajuan');
+        Route::get('/show_pengajuan/{id}', 'Backend\PengajuanController@show')->name('show_pengajuan');
+
+        Route::get('/pengajuan/barang', 'Backend\PengajuanController@getBarangById');
+        Route::get('/barang/harga/stok', 'Backend\PengajuanController@getHargaStokBarangById');
+
+
     });
 });
 

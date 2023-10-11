@@ -59,6 +59,10 @@
                                 <th scope="row">Stok Barang</th>
                                 <td>{{ $detailBarang->stok_barang }}</td>
                             </tr>
+                            <tr>
+                                <th scope="row">nama Vendor</th>
+                                <td>{{ $detailBarang->nama_perusahaan }}</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>

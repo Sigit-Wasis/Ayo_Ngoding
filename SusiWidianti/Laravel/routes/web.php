@@ -48,6 +48,28 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
         Route::post('update_barang/{id}', 'Backend\DataBarangController@update')->name('update_barang');
 
         Route::resource('roles', RoleController::class);
+
+        Route::get('/data_pengajuan', 'Backend\PengajuanBarangController@index')->name('pengajuan');
+        Route::get('/data_pengajuan/barang', 'Backend\PengajuanBarangController@getBarangById');
+        Route::get('/harga/stok/barang', 'Backend\PengajuanBarangController@getHargaStokBarangById');
+        Route::get('/tambah_pengajuan', 'Backend\PengajuanBarangController@create')->name('tambah_data_pengajuan');
+        Route::post('/store_data_pengajuan', 'Backend\PengajuanBarangController@store')->name('store_data_pengajuan');
+        Route::get('delete_data_pengajuan/{id}', 'Backend\PengajuanBarangController@destroy')->name('delete_data_pengajuan');
+        Route::get('edit_data_pengajuan/{id}', 'Backend\PengajuanBarangController@edit')->name('edit_data_pengajuan');
+        Route::get('show_data_pengajuan/{id}', 'Backend\PengajuanBarangController@show')->name('show_data_pengajuan');
+        Route::post('update_data_pengajuan/{id}', 'Backend\PengajuanBarangController@update')->name('update_data_pengajuan');
+
+
+        Route::get('/data_vendor', 'Backend\VendorController@index')->name('vendor');
+        Route::get('/tambah_Vendor', 'Backend\VendorController@create')->name('tambah_Vendor');
+        Route::post('/store_data_Vendor', 'Backend\VendorController@store')->name('store_data_Vendor');
+        Route::get('delete_data_Vendor/{id}', 'Backend\VendorController@destroy')->name('delete_data_Vendor');
+        Route::get('edit_data_Vendor/{id}', 'Backend\VendorController@edit')->name('edit_data_Vendor');
+        Route::get('show_data_Vendor/{id}', 'Backend\VendorController@show')->name('show_data_Vendor');
+        Route::post('update_data_Vendor/{id}', 'Backend\VendorController@update')->name('update_data_Vendor');
+
+
+
     });
 });
 Auth::routes();

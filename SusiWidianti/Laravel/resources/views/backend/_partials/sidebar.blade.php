@@ -12,8 +12,8 @@
                 <img src="{{ url('assets/dist/img/user2-160x160.jpg') }}" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-            <a href="#" class="d-block">{{ Auth::user()->nama_lengkap }}</a>
-</div>
+                <a href="#" class="d-block">{{ Auth::user()->nama_lengkap }}</a>
+            </div>
         </div>
 
         <nav class="mt-2">
@@ -29,7 +29,8 @@
                 @can('jenis-barang-list')
                 <li class="nav-item">
                     <a href="{{ route('jenis_barang') }} " class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
+                        <!-- <i class="nav-icon fas fa-th"></i> -->
+                        <i class="nav-icon fas fa-cart-plus"></i>
                         <p>
                             Jenis Barang
                             <p>
@@ -39,9 +40,21 @@
                 @can('barang-list')
                 <li class="nav-item">
                     <a href="{{ route('data_barang') }} " class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
+                        <!-- <i class="nav-icon fas fa-th"></i> -->
+                        <i class="nav-icon fas fa-server"></i>
                         <p>
                             Data Barang
+                            <p>
+                    </a>
+
+                </li>
+                @endcan
+                @can('barang-list')
+                <li class="nav-item">
+                    <a href="{{ route('pengajuan') }} " class="nav-link">
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>
+                            Transaksi Pengajuan
                             <p>
                     </a>
                 </li>
@@ -49,9 +62,20 @@
                 @can('user-list')
                 <li class="nav-item">
                     <a href="{{ route('users') }} " class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
+                        <!-- <i class="nav-icon fas fa-th"></i> -->
+                        <i class="nav-icon fas fa-users"></i>
                         <p>
                             Data User
+                            <p>
+                    </a>
+                    </li>
+                @endcan
+                @can('user-list')
+                <li class="nav-item">
+                    <a href="{{ route('vendor') }} " class="nav-link">
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>
+                            Vendor
                             <p>
                     </a>
                 </li>

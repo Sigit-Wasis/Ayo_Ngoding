@@ -9,6 +9,8 @@ use App\Http\Requests\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
+use function Laravel\Prompts\select;
+
 class DataBarangController extends Controller
 {
     function __construct()
@@ -34,14 +36,15 @@ class DataBarangController extends Controller
 
     public function create()
     {
-        $DataBarang = DB::table('jenis_barang')->select('id', 'nama_jenis_barang')->get();
+        $jenis_barang = DB::table('jenis_barang')->select('id', 'nama_jenis_barang')->get();
+        $vendors = DB::table('vendors')->select('id', 'nama')->get();
 
         //Generat Kode Barang
         $uniqid = uniqid();
         $rand_star = rand(1, 5);
         $rand_8_char = substr($uniqid, $rand_star, 8);
 
-        return view('backend.barang.create', compact('DataBarang', 'rand_8_char'));
+        return view('backend.barang.create', compact('jenis_barang', 'rand_8_char', 'vendors'));
     }
 
 
@@ -65,6 +68,7 @@ class DataBarangController extends Controller
             'satuan' => $request->satuan,
             'deskripsi' => $request->deskripsi,
             'gambar' => 'assets/image/' . $imageName,
+            'id_vendors' => $request->id_vendors,
             'stok' => $request->stok,
             'created_by' => Auth::user()->id,
             'updated_by' => Auth::user()->id,
@@ -80,9 +84,10 @@ class DataBarangController extends Controller
 
     public function show($id)
     {
-        $detailBarang = DB::table('mts_barang')->select('mts_barang.*', 'username as created_by', 'nama_jenis_barang')
+        $detailBarang = DB::table('mts_barang')->select('mts_barang.*', 'username as created_by', 'nama_jenis_barang', 'vendors.nama as nama_perusahaan')
             ->where('mts_barang.id', $id) //tambahin where dimana id barang itu sesuai dengan yang dipilih
             ->join('jenis_barang', 'jenis_barang.id', 'mts_barang.id_jenis_barang')
+            ->join('vendors', 'vendors.id', 'mts_barang.id_vendors')
             ->join('users', 'users.id', 'mts_barang.created_by')
             ->first(); //dari paginate ganti jadi firsh()
 
@@ -92,8 +97,9 @@ class DataBarangController extends Controller
     {
         $editbarang = DB::table('mts_barang')->where('id', $id)->first();
         $jenisBarang = DB::table('jenis_barang')->select('id', 'nama_jenis_barang')->get();
+        $vendors = DB::table('vendors')->select('id', 'nama')->get();
 
-        return view('backend.barang.edit', compact('editbarang','jenisBarang'));
+        return view('backend.barang.edit', compact('editbarang','jenisBarang', 'vendors'));
     }
 
 
@@ -121,6 +127,7 @@ class DataBarangController extends Controller
                 'satuan' => $request->satuan,
                 'deskripsi' => $request->deskripsi,
                 'gambar' => 'assets/image/' . $imageName,
+                'id_vendors' => $request->id_vendors,
                 'stok' => $request->stok,
                 'updated_by' => Auth::user()->id,
                 'updated_at' => \Carbon\Carbon::now(),
@@ -134,8 +141,8 @@ class DataBarangController extends Controller
                 'harga' => $request->harga,
                 'satuan' => $request->satuan,
                 'deskripsi' => $request->deskripsi,
-                'stok' => $request->stok
-                ,
+                'stok' => $request->stok,
+                'id_vendors' => $request->id_vendors,
                 'updated_by' => Auth::user()->id,
                 'updated_at' => \Carbon\Carbon::now(),
             ]);

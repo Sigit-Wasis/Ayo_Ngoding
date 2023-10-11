@@ -35,41 +35,50 @@
             @csrf
             <div class="card-body">
                 <div class="form-group">
-                    <label for="jenis_barang">Nama Jenis Barang 2</label>
-                    <select name="id_jenis_barang"class="form-control">
+                    <label for="id_vendor">Nama vendor</label>
+                    <select name="id_vendor" class="form-control">
+                        <option value="">-- pilih vendor--</option>
+                        @foreach($vendors as $vendor)
+                        <option value="{{ $vendor->id }}">{{ $vendor->nama_perusahaan}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="jenis_barang">Nama Jenis Barang </label>
+                    <select name="id_jenis_barang" class="form-control">
                         <option value="">-- pilih jenis barang--</option>
                         @foreach($jenisBarang as $jenis)
                         <option value="{{ $jenis->id }}">{{ $jenis->nama_jenis_barang}}</option>
                         @endforeach
                     </select>
-                 </div>
+                </div>
                 <div class="form-group">
                     <label for="kode_barang">Kode Barang</label>
-                    <input type="text" class="form-control" value= "{{ $rand_8_char }}"name="kode_barang" readonly="">
+                    <input type="text" class="form-control" value="{{ $rand_8_char }}" name="kode_barang" readonly="">
                 </div>
                 <div class="form-group">
                     <label for="nama_barang">Nama Barang</label>
-                    <input type="text" class="form-control" value= "{{ old('nama_barang') }}"id="nama_barang" name="nama_barang" placeholder="">
+                    <input type="text" class="form-control" value="{{ old('nama_barang') }}" id="nama_barang" name="nama_barang" placeholder="">
                 </div>
                 <div class="form-group">
                     <label for="harga">Harga</label>
-                    <input type="number" class="form-control"value= "{{ old('harga') }}" id="harga" name="harga" placeholder="">
+                    <input type="number" class="form-control" value="{{ old('harga') }}" id="harga" name="harga" placeholder="">
                 </div>
                 <div class="form-group">
                     <label for="satuan">Satuan</label>
-                    <input type="text" class="form-control"value= "{{ old('satuan') }}" id="satuan" name="satuan" placeholder="">
+                    <input type="text" class="form-control" value="{{ old('satuan') }}" id="satuan" name="satuan" placeholder="">
                 </div>
                 <div class="form-group">
                     <label for="deskripsi">Deskripsi</label>
-                    <input type="text" class="form-control"value= "{{ old('deskripsi') }}" id="deskripsi" name="deskripsi" placeholder="">
+                    <input type="text" class="form-control" value="{{ old('deskripsi') }}" id="deskripsi" name="deskripsi" placeholder="">
                 </div>
                 <div class="form-group">
                     <label for="gambar">Gambar</label>
-                    <input type="file" class="form-control"value= "{{ old('image') }}" id="gambar" name="gambar" placeholder="">
+                    <input type="file" class="form-control" value="{{ old('image') }}" id="gambar" name="gambar" placeholder="">
                 </div>
                 <div class="form-group">
                     <label for="stok">Stok</label>
-                    <input type="text" class="form-control" value= "{{ old('stok') }}"id="stok" name="stok" placeholder="">
+                    <input type="text" class="form-control" value="{{ old('stok') }}" id="stok" name="stok" placeholder="">
                 </div>
             </div>
 
