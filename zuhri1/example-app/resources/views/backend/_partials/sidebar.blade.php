@@ -55,6 +55,25 @@
                     </a>
                 </li>
                 @endcan
+                <!-- <li class="nav-item"> -->
+                <li class="nav-item">
+                    <a href="{{ route('pengajuan_barang') }}" class="nav-link">
+                        <i class="nav-icon fas fa-shopping-cart"></i>
+                        <p>
+                            Pengajuan Barang
+                            <span class="right badge badge-danger"></span>
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('vendor') }}" class="nav-link">
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>
+                            Vendor
+                            <span class="right badge badge-danger"></span>
+                        </p>
+                    </a>
+                </li>
                 @can('user-list')
                 <li class="nav-item">s
                     <a href="{{ route('user') }}" class="nav-link">
