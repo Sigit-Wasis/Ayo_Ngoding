@@ -12,7 +12,7 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item"><a href="{{ route('tr_pengajuan') }}">Transaksi</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('pengajuan') }}">Transaksi</a></li>
                         <li class="breadcrumb-item active">Detail</li>
                     </ol>
                 </div>
@@ -122,7 +122,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td><a href="{{ route('tr_pengajuan') }}" class="btn btn-secondary mt-3">Kembali ke Daftar Transaksi</a></td>
+                        <td><a href="{{ route('pengajuan') }}" class="btn btn-secondary mt-3">Kembali ke Daftar Transaksi</a></td>
                     </tr>
                 </tbody>
             </table>
@@ -142,7 +142,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="post" action="{{ route('tr_pengajuan', ['id' => $transaction->id]) }}">
+            <form method="post" action="{{ route('pengajuan', ['id' => $transaction->id]) }}">
                 @csrf
                 <div class="modal-body">
                     <textarea name="rejection_reason" class="form-control" rows="5" placeholder="Alasan Penolakan"></textarea>
