@@ -52,16 +52,19 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
 
         Route::get('/pengajuan', 'Backend\PengajuanController@index')->name('pengajuan.index');
         Route::get('/barang/add', 'Backend\PengajuanController@index')->name('barangAdd');
-        Route::get('/pengajuan/barang', 'Backend\PengajuanController@getBarangById');
+        Route::get('/pengajuan/barang', 'Backend\PengajuanController@getBarangById')->name('pengajuan-barang');
         Route::get('/barang/harga/stok', 'Backend\PengajuanController@getHargaStokBarangById');
         Route::get('pengajuan_barang', 'Backend\PengajuanController@create')->name('pengajuan_barang.create');
         Route::get('/tambah_pengajuan', 'Backend\PengajuanController@create')->name('tambah_pengajuan');
-
-        // Route::get('/show_barang/{id}', 'Backend\BarangController@show')->name('Show_barang');
         Route::post('/store_pengajuan', 'Backend\PengajuanController@store')->name('store_pengajuan');
-        // Route::get('barang/edit/{id}', 'Backend\BarangController@edit')->name('barang.edit');
-        // Route::put('/barang/update/{id}', 'Backend\BarangController@update')->name('barang.update');
-        // Route::get('delete_barang/{id}', 'Backend\BarangController@delete')->name('delete_barang');
+        Route::get('/edit-pengajuan/{id}', 'Backend\PengajuanController@edit')->name('edit_pengajuan');
+        Route::delete('/hapus-pengajuan/{id}', 'Backend\PengajuanController@destroy')->name('delete_pengajuan');
+
+        // // Route::get('/show_barang/{id}', 'Backend\BarangController@show')->name('Show_barang');
+        // Route::post('/store_pengajuan', 'Backend\PengajuanController@store')->name('store_pengajuan');
+        // // Route::get('barang/edit/{id}', 'Backend\BarangController@edit')->name('barang.edit');
+        // // Route::put('/barang/update/{id}', 'Backend\BarangController@update')->name('barang.update');
+        // // Route::get('delete_barang/{id}', 'Backend\BarangController@delete')->name('delete_barang');
 
         Route::get('/vendor', 'Backend\VendorController@index')->name('vendor.index');
         Route::get('/vendor_create', 'Backend\VendorController@create')->name('vendor.create');

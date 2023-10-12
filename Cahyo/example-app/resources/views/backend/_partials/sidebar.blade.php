@@ -23,6 +23,16 @@
                         </p>
                     </a>
                 </li>  
+                @can('barang-list')
+                <li class="nav-item">
+                    <a href="{{ route ('vendor.index') }}" class="nav-link">
+                        <i class="nav-icon fas fa-industry"></i>
+                        <p>
+                            Vendor
+                        </p>
+                    </a>
+                </li>
+                @endcan
                 @can('jenis-barang-list')
                 <li class="nav-item">
                     <a href="{{ route ('jenis_barang') }}" class="nav-link">
@@ -45,20 +55,10 @@
                 @endcan
                 @can('barang-list')
                 <li class="nav-item">
-                    <a href="{{ route ('transaksi_pengajuan') }}" class="nav-link">
+                    <a href="{{ route ('pengajuan') }}" class="nav-link">
                         <i class="nav-icon fas fa-exchange-alt"></i>
                         <p>
                             Transaksi Pengajuan
-                        </p>
-                    </a>
-                </li>
-                @endcan
-                @can('barang-list')
-                <li class="nav-item">
-                    <a href="{{ route ('vendor.index') }}" class="nav-link">
-                        <i class="nav-icon fas fa-industry"></i>
-                        <p>
-                            Vendor
                         </p>
                     </a>
                 </li>

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('jumlah');
             $table->foreignId('id_tr_pengajuan')->notNull()->references('id')->on('tr_pengajuan')->onUpdate('cascade')->onDelete('cascade');
             $table->integer('total_per_barang');
+            $table->timestamps();
         });
     }
 

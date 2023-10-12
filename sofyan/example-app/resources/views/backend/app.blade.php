@@ -34,6 +34,7 @@
 
     <script src="{{ url('assets/dist/js/adminlte.min.js?v=3.2.0') }}"></script>
 
+    @yield('script')
 </body>
 
 </html>
