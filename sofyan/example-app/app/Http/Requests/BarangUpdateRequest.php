@@ -32,6 +32,7 @@ class BarangUpdateRequest extends FormRequest
             'deskripsi' => 'required',
             'stok' => 'required|integer',
             'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'vendor_id' => 'required'
         ];
     }
     public function messages()
@@ -52,6 +53,7 @@ class BarangUpdateRequest extends FormRequest
             'image.image' => 'File yang diunggah harus berupa gambar.',
             'image.mimes' => 'File gambar harus berformat jpeg, png, jpg, atau gif.',
             'image.max' => 'Ukuran file gambar tidak boleh lebih dari 2MB.',
+            'vendor_id.required' => 'wajib memilih perusahaan'
         ];
     }
 }

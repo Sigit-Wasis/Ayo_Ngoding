@@ -52,8 +52,11 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
 
         Route::get('/pengajuan', 'Backend\PengajuanController@index')->name('pengajuan.index');
         Route::get('/barang/add', 'Backend\PengajuanController@index')->name('barangAdd');
+        Route::get('/pengajuan/barang', 'Backend\PengajuanController@getBarangById');
+        Route::get('/barang/harga/stok', 'Backend\PengajuanController@getHargaStokBarangById');
+        Route::get('pengajuan_barang', 'Backend\PengajuanController@create')->name('pengajuan_barang.create');
+        Route::get('/tambah_pengajuan', 'Backend\PengajuanController@create')->name('tambah_pengajuan');
 
-        Route::get('pengajuan_barang/create', 'Backend\PengajuanController@create')->name('pengajuan_barang.create');
         // Route::get('/show_barang/{id}', 'Backend\BarangController@show')->name('Show_barang');
         Route::post('/store_pengajuan', 'Backend\PengajuanController@store')->name('store_pengajuan');
         // Route::get('barang/edit/{id}', 'Backend\BarangController@edit')->name('barang.edit');
@@ -62,7 +65,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
 
         Route::get('/vendor', 'Backend\VendorController@index')->name('vendor.index');
         Route::get('/vendor_create', 'Backend\VendorController@create')->name('vendor.create');
-        Route::get('/vendor_store', 'Backend\VendorController@store')->name('vendor.store');
+        Route::post('/vendor_store', 'Backend\VendorController@store')->name('vendor.store');
         Route::get('/vendor_edit/{id}', 'Backend\VendorController@edit')->name('vendor.edit');
         Route::put('/vendor_update/{id}', 'Backend\VendorController@update')->name('vendor.update');
         Route::delete('/vendor-destroy/{id}', 'Backend\VendorController@destroy')->name('vendor.destroy');

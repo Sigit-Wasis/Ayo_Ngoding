@@ -38,13 +38,15 @@ class BarangController extends Controller
      */
     public function create()
     {
-        $jenisBarang = FacadesDB::table('jenis_barang')->select('id','nama_jenis_barang')->get();
-        
+        $jenisBarang = FacadesDB::table('jenis_barang')->get();
+        $vendors = FacadesDB::table('vendor')->select('id', 'nama_perusahaan')->get();
+
+        //Generate kode barang
         $uniqid = uniqid();
-        $rand_star = rand(1,5);
-        $rand_8_char = substr ($uniqid, $rand_star, 8);
-        
-        return view ('backend.barang.create', compact('jenisBarang','rand_8_char'));
+        $rand_start = rand(1,5);
+        $rand_8_char = substr($uniqid, $rand_start, 8);
+
+        return view('backend.barang.create', compact('jenisBarang', 'rand_8_char', 'vendors'));
     }
 
     /**
@@ -64,6 +66,7 @@ class BarangController extends Controller
             'deskripsi' =>$request->deskripsi,
             'gambar' =>'asset/image/'.$imageName,
             'stok' =>$request->stok,
+            'id_vendor' => $request->id_vendor,
             'created_by' => Auth::user()->id,
             'updated_by' => Auth::user()->id,
             'created_at' => \Carbon\Carbon::now(),
@@ -79,9 +82,11 @@ class BarangController extends Controller
      */
     public function show(string $id)
     {
-        $detailBarang = FacadesDB::table('barang')->select('barang.*','name as created_by','nama_jenis_barang')
+        $detailBarang = FacadesDB::table('barang')
         ->where('barang.id',$id)
+        ->select('barang.*', 'name as created_by', 'nama_jenis_barang','nama_perusahaan')
         ->join('jenis_barang', 'jenis_barang.id', 'barang.id_jenis_barang')
+        ->join('vendor', 'vendor.id', 'barang.id_vendor')
         ->join('users','users.id','jenis_barang.created_by')
         ->first();
 
@@ -95,8 +100,14 @@ class BarangController extends Controller
     {
         $editBarang = FacadesDB::table('barang')->select('*')->where('id', $id)->first();
         $jenisBarang = FacadesDB::table('jenis_barang')->select('id', 'nama_jenis_barang')->get(); 
-        
-        return view('backend.barang.edit', compact('editBarang', 'jenisBarang'));
+        $vendors = FacadesDB::table('vendor')->select('id', 'nama_perusahaan')->get();
+
+        //Generate kode barang
+        $uniqid = uniqid();
+        $rand_start = rand(1,5);
+        $rand_8_char = substr($uniqid, $rand_start, 8);
+
+        return view('backend.barang.edit', compact('editBarang', 'jenisBarang', 'rand_8_char','vendors'));
     }
     
 
@@ -124,6 +135,7 @@ class BarangController extends Controller
                 'stok' => $request->stok,
                 'harga' => $request->harga,
                 'satuan' => $request->satuan,
+                'id_vendor' => $request->id_vendor,
                 'deskripsi' => $request->deskripsi,
                 'gambar' => 'asset/image/'. $imageName,
                 'updated_by' => Auth::user()->id,

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class BarangUpdateRequest extends FormRequest
+class BarangStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -51,6 +51,5 @@ class BarangUpdateRequest extends FormRequest
             'id_vendor.required' => 'Id Vendor Harga Wajib Diisi',
 
         ];
-    
     }
 }
