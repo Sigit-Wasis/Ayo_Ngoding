@@ -52,7 +52,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/update-barang/{id}', 'Backend\DataBarangController@update')->name('update_barang');
 
         Route::get('/pengajuan', 'Backend\PengajuanController@index')->name('pengajuan');
-        Route::get('/pengajuan/barang', 'Backend\PengajuanController@getBarangById');
+        Route::get('/pengajuan/barang', 'Backend\PengajuanController@getBarangById')->name('pengajuan-barang');
         Route::get('/barang/harga/stok', 'Backend\PengajuanController@getHargaStokBarangById');
         Route::get('/tambah-pengajuan', 'Backend\PengajuanController@create')->name('tambah_pengajuan');
         Route::post('/store-pengajuan', 'Backend\PengajuanController@store')->name('store_pengajuan');

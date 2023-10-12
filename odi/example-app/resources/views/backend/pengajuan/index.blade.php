@@ -49,10 +49,10 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse($Pengajuan as $pengajuan)
+                        @forelse($Pengajuans as $pengajuan)
                         <tr>
                             <!-- <th scope="row">{{ $loop->iteration }}</th> -->
-                            <td>{{ $Pengajuan->firstItem() + $loop->index }}</td>
+                            <td>{{ $Pengajuans->firstItem() + $loop->index }}</td>
                             <td>{{ $pengajuan->tanggal_pengajuan }}</td>
                             <td>{{ $pengajuan->total }}</td>
                             <td>{{ $pengajuan->stok }}</td>
@@ -74,7 +74,7 @@
                         @endforelse
                     </tbody>
                 </table>
-                {{ $Pengajuan->render() }}
+                {{ $Pengajuans->render() }}
             </div>
         </div>
     </section>

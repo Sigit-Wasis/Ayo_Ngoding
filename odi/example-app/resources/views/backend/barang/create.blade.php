@@ -36,6 +36,15 @@
             @csrf
             <div class="card-body">
                 <div class="form-group">
+                    <label for="id_vendor">Nama Vendor</label>
+                    <select name="id_vendor" class="form-control">
+                        <option value="">*** pilih vendor *** </option>
+                        @foreach ($vendors as $vendor)
+                        <option value="{{ $vendor->id}}">{{ $vendor->nama_perusahaan}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group">
                     <label for="id_jenis_barang">Nama Jenis Barang</label>
                     <select name="id_jenis_barang" class="form-control">
                         <option value="">*** pilih jenis barang *** </option>

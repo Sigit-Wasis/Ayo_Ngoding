@@ -56,9 +56,10 @@
                             <td scope="row">{{ $rowNumber++ }}</td>
                             <td>{{$pengajuan->created_by}}</td>
                             <td>{{$pengajuan->tanggal_pengajuan}}</td>
-                            <td>{{$pengajuan->total}}</td>
+                            <td>{{ 'Rp ' . number_format($pengajuan->total, 0, ',', '.') }}</td>
+
                             <td>
-                                <a href="{{ route('detail_barang', $pengajuan->id) }}" class="btn btn-sm btn-info">Show</a>
+                                <a href="{{ route('detail_pengajuan', $pengajuan->id) }}" class="btn btn-sm btn-info">Show</a>
                                 <a href="{{ route('edit_barang', $pengajuan->id) }}" class="btn btn-sm btn-primary">Edit</a>
                                 <a href="{{route('delete_barang',$pengajuan->id)}}" onclick="return confirm('are you sure?')" class="btn btn-sm btn-danger">Delete</a>
                             </td>

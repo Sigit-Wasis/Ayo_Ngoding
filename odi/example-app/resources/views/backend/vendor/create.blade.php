@@ -36,9 +36,9 @@
             @csrf
             <div class="card-body">
                 <div class="form-group">
-                    <label for="name">Nama Perusahaan</label>
-                    <input type="text" class="form-control" value="{{ old ('name') }}" id=" name" name="nama_perusahaan"
-                        placeholder="Nama Perusahaan">
+                    <label for="nama_perusahaan">Nama Perusahaan</label>
+                    <input type="text" class="form-control" value="{{ old ('nama_perusahaan') }}" id="nama_perusahaan"
+                        name="nama_perusahaan" placeholder="Nama Perusahaan">
                 </div>
                 <div class="form-group">
                     <label for="email">Email</label>
@@ -58,7 +58,7 @@
                 <div class="form-group">
                     <label for="tahun_dibuat">Tahun Dibuat</label>
                     <input type="text" class="form-control" value="{{ old ('tahun_dibuat') }}" id="tahun_dibuat"
-                        name="tahun_dibuat" placeholder="Tahun Dibuat">
+                        name="tahun_berdiri" placeholder="Tahun Dibuat">
                 </div>
             </div>
             <div class="card-footer">

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('_t_r__pengajuan', function (Blueprint $table) {
             $table->id();
-            $table->string('tanggal_pengajuan');
+            $table->date('tanggal_pengajuan');
             $table->integer('grand_total');
             $table->string('status_pengajuan_ap');
             $table->string('keterangan_ditolak_ap');

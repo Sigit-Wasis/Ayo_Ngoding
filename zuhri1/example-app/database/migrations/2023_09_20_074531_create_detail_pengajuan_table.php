@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('detail_pengajuan', function (Blueprint $table) {
             $table->id();
             $table->foreignId('id_barang')->notNull()->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
-            $table->integer('jumlah');
+            $table->integer('jumlah')->comment('jumlah adalah total barang yang mau dipesan atau diajukan');
             $table->foreignId('id_tr_pengajuan')->notNull()->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
-            $table->integer('total_per_barang');
+            $table->integer('total_per_barang')->comment('menyimpan total dari harga barang dikali dengan jumlah');
             $table->timestamps();
         });
     }
