@@ -34,7 +34,7 @@
 
           @if(Session::has('message'))
           <div class="alert alert-success alert-dismissible">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true"></button>
             <h5>
               <i class="icon fas fa-check"></i> Sukses
             </h5>
@@ -46,7 +46,7 @@
             <thead>
               <tr>
                 <th scope="col">no</th>
-                <th scope="col">id_user</th>
+                
                 <th scope="col">tanggal_pengajuan</th>
                 <th scope="col">grand_total</th>
                 <th scope="col">aksi</th>
@@ -58,14 +58,13 @@
               <tr>
                 <!--<th scope="row">{{$loop->iteration }}</th>-->
                 <td>{{$pengajuan_barang->firstItem() +$loop->index }}</td>
-                <td>{{ $pengajuan->id_user }}</td>
                 <td>{{ $pengajuan->tanggal_pengajuan }}</td>
-                <td>{{ $pengajuan->aksi }}</td>
+                <td>{{ $pengajuan->grand_total }}</td>
 
                 <td>
 
-                  <a href="{{route('pengajuan_barang',$jenis->id)}}" oncklick="return confirm('you sure?')" class="btn btn-sm btn-danger">Edit</a>
-                  <a href=" {{route('pengajuan_barang',$jenis->id)}}" onclick="return confirm('Are you sure?')" class="btn btn-sm btn-danger">Delete</a>
+                  <a href="{{route('pengajuan_edit',$pengajuan->id)}}" class="btn btn-sm btn-danger">Edit</a>
+                  <a href=" {{route('pengajuan_delete',$pengajuan->id)}}" onclick="return confirm('Are you sure?')" class="btn btn-sm btn-danger">Delete</a>
                 </td>
               </tr>
               @endforeach
