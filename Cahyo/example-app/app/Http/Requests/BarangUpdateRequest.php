@@ -33,7 +33,6 @@ class BarangUpdateRequest extends FormRequest
             'gambar' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             'stok_barang' => 'required',
             'id_vendor' => 'required',
-
         ];
     }
     public function messages()

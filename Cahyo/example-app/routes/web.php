@@ -54,11 +54,19 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
         Route::get('/roles/delete/{id}', 'RoleController@destroy')->name('delete_role');
 
         // Route Transaksi Pengajuan
-        Route::get('/transaksi_pengajuan', 'Backend\TransaksiPengajuanController@index')->name('transaksi_pengajuan');
-        Route::get('/pengajuan/barang', 'Backend\TransaksiPengajuanController@getBarangById');
-        Route::get('/barang/harga/stok', 'Backend\TransaksiPengajuanController@getHargaStokBarangById');
-        Route::get('/tambah_pengajuan', 'Backend\TransaksiPengajuanController@createPengajuan')->name('tambah_pengajuan');
-        Route::post('/store_pengajuan', 'Backend\TransaksiPengajuanController@storePengajuan')->name('store_pengajuan');
+        Route::get('/pengajuan', 'Backend\TransaksiPengajuanController@index')->name('pengajuan'); 
+        Route::get('/pengajuan/barang', 'Backend\TransaksiPengajuanController@getBarangById')->name('pengajuan-barang'); 
+        Route::get('/barang/harga/stok', 'Backend\TransaksiPengajuanController@getHargaStokBarangById'); 
+        Route::get('/tambah-pengajuan', 'Backend\TransaksiPengajuanController@create')->name('tambah_pengajuan'); 
+        Route::post('/store-pengajuan', 'Backend\TransaksiPengajuanController@store')->name('store_pengajuan');
+        // Route::get('/transaksi_pengajuan', 'Backend\TransaksiPengajuanController@index')->name('transaksi_pengajuan');
+        // Route::get('/pengajuan/barang', 'Backend\TransaksiPengajuanController@getBarangById')->name('pengajuan-barang');
+        // Route::get('/barang/harga/stok', 'Backend\TransaksiPengajuanController@getHargaStokBarangById');
+        // Route::get('/tambah_pengajuan', 'Backend\TransaksiPengajuanController@createPengajuan')->name('tambah_pengajuan');
+        // Route::post('/store_pengajuan', 'Backend\TransaksiPengajuanController@storePengajuan')->name('store_pengajuan');
+        Route::get('/edit_pengajuan/{id}', 'Backend\TransaksiPengajuanController@edit')->name('edit_pengajuan');
+        Route::put('/update_pengajuan/{id}', 'Backend\TransaksiPengajuanController@update')->name('update_pengajuan');
+        Route::get('/delete_pengajuan/{id}', 'Backend\TransaksiPengajuanController@destroy')->name('delete_pengajuan');
         
         // Route vendor
         Route::get('/vendor', 'Backend\VendorController@index')->name('vendor.index');
