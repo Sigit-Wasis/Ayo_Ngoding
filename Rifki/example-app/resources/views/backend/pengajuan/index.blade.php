@@ -58,17 +58,17 @@
   <tbody>
 
 
-    @forelse($pengajuan as $pengajuan_tr)
+    @forelse($transaksiPengajuan as $pengajuan_tr)
     <tr>
-      <!-- <th scope="row">{{ $loop->iteration}}</th> -->
-      <td>{{ $pengajuan ->firstItem() + $loop->index }}</td>
+      <!-- <td>{{ $loop->index + 1}}</td> -->
+      <td>{{ $transaksiPengajuan ->firstItem() + $loop->index }}</td>
       <td>{{ $pengajuan_tr->created_by }}</td>
       <td>{{ $pengajuan_tr->tanggal_pengajuan }}</td>
       <td>{{ $pengajuan_tr->keterangan_ditolak_vendor }}</td>
     <td>
-    <!-- <a href="{{ route('show_vendor',$vendors->id) }}" class="btn btn-sm btn-info">Show</a> -->
-    <a href="{{ route('edit_pengajuan',$vendor_tr->id) }}" class="btn btn-sm btn-primary">Edit</a>
-    <a href="{{ route('delete_pengajuan',$vendor_tr->id) }}" onclick="return confirm('Apakah Kamu Ingin Menghapus ini?')" class="btn btn-sm btn-danger">Hapus</a>
+    
+    <a href="{{ route('edit_pengajuan',$pengajuan_tr->id) }}" class="btn btn-sm btn-primary">Edit</a>
+    <a href="{{ route('delete_pengajuan',$pengajuan_tr->id) }}" onclick="return confirm('Apakah Kamu Ingin Menghapus ini?')" class="btn btn-sm btn-danger">Hapus</a>
     </td>
     </tr>
     @empty
@@ -82,7 +82,7 @@
     @endforelse
   </tbody>
 </table>
-        {{$pengajuan->links() }}
+        {{$transaksiPengajuan->links() }}
             </div>
         </div>
     </section>

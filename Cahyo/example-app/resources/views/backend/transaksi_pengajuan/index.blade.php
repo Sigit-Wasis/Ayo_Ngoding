@@ -45,26 +45,22 @@
                             <th scope="col">NO</th>
                             <th scope="col">User</th>
                             <th scope="col">Tanggal Pengajuan</th>
-                            <th scope="col">Total Pengajuan</th>
+                            <th scope="col">Grand Total< /th>
                             <th scope="col">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {{-- Calculate the row number --}}
-                        @php
-                        $rowNumber = ($transaksiPengajuan->currentPage() - 1) * $transaksiPengajuan->perPage() + 1;
-                        @endphp
 
                         @forelse($transaksiPengajuan as $transaksi)
                         <tr>
-                            <td scope="row">{{ $rowNumber++ }}</td>
+                            <td>{{ $loop->index + 1 }}</td>
                             <td>{{$transaksi->created_by}}</td>
                             <td>{{$transaksi->tanggal_pengajuan}}</td>
-                            <td>{{$transaksi->total}}</td>
+                            <td>{{$transaksi->keterangan_ditolak_vendor}}</td>
                             <td>
-                                <a href="{{ route('detail_barang', $pengajuan->id) }}" class="btn btn-sm btn-info">Show</a>
-                                <a href="{{ route('edit_barang', $pengajuan->id) }}" class="btn btn-sm btn-primary">Edit</a>
-                                <a href="{{route('delete_barang',$pengajuan->id)}}" onclick="return confirm('are you sure?')" class="btn btn-sm btn-danger">Delete</a>
+                                
+                                <a href="{{ route('edit_pengajuan', $transaksi->id) }}" class="btn btn-sm btn-primary">Edit</a>
+                                <a href="{{route('delete_pengajuan',$transaksi->id)}}" onclick="return confirm('are you sure?')" class="btn btn-sm btn-danger">Delete</a>
                             </td>
                         </tr>
                         @empty
