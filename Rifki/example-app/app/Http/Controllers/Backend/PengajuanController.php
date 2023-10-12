@@ -3,137 +3,91 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\PengajuanRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Facades\Auth;
 
 class PengajuanController extends Controller
 {
     public function index()
     {
-        $pengajuan = DB::table('tr_pengajuan')
-            ->select(
-                'tr_pengajuan.*',
-                'users.name as created_by',
-                'detail_pengajuan.total_per_barang as total' // Ubah 'total' menjadi 'total_per_barang'
-            )
-            ->orderBy('tr_pengajuan.id', 'DESC')
-            ->join('users', 'users.id', 'tr_pengajuan.created_by')
-            ->join('detail_pengajuan', 'detail_pengajuan.id_tr_pengajuan', '=', 'tr_pengajuan.id') // Tambah join dengan pengajuan_barang
-            ->paginate(3);
+        $transaksiPengajuan = DB::table('tr_pengajuan')->select('*')->orderBy('id', 'DESC')->paginate(10);
 
-        return view('backend.pengajuan.index', compact('pengajuan'));
+        return view('backend.pengajuan.index', compact('transaksiPengajuan'));
     }
 
     public function create()
     {
-        // Ambil daftar vendor
-        $vendors = DB::table('vendors')->get();
+        $vendors = DB::table('vendors')->select('id', 'nama')->get();
 
-        // Ambil daftar barang yang sesuai dengan vendor yang dipilih
-        $barangPerVendor = [];
-
-        foreach ($vendors as $vendor) {
-            $barang = DB::table('mst_barang')
-                ->where('id_vendor', $vendor->id)
-                ->get();
-
-            $barangPerVendor[$vendor->id] = $barang;
-        }
-
-        // Mengambil data harga dan satuan untuk setiap barang
-        $dataHargaSatuan = [];
-
-        foreach ($barangPerVendor as $vendorId => $barangList) {
-            foreach ($barangList as $barang) {
-                $barangData = DB::table('mst_barang')
-                    ->select('harga', 'stok_barang')
-                    ->where('id', $barang->id)
-                    ->first();
-
-                    $dataHargaSatuan[$vendorId][$barang->id] = [
-                        'harga' => $barangData->harga,
-                        'stok_barang' => $barangData->stok_barang,
-                    ];
-                    
-            }
-        }
-
-        return view('backend.pengajuan.create', compact('vendors', 'barangPerVendor', 'dataHargaSatuan'));
+        return view('backend.pengajuan.create', compact('vendors'));
     }
-    public function getBarangById(Request $request){
+
+    public function getBarangById(Request $request)
+    {
         $dataBarang = DB::table('mst_barang')->select('id', 'nama_barang')
-        ->where('id_vendor', (int) $request->id_vendor)
-        ->get();
-        
+            ->where('id_vendor', (int) $request->id_vendor)
+            ->get();
+
         return response()->json($dataBarang);
     }
 
-    public function store(PengajuanRequest $request)
-    {
-        $totalPerBarang = $request->jumlah * $request->harga;
-
-        // Menghitung grand total berdasarkan total per barang
-        $grandTotal = $totalPerBarang;
-
-        // Menyimpan data pengajuan ke dalam tabel tr_pengajuan
-        $trPengajuanId = DB::table('tr_pengajuan')->insertGetId([
-            'tanggal_pengajuan' => $request->tanggal_pengajuan,
-            'grand_total' => $grandTotal,
-            'status_pengajuan_ap' => 1,
-            'keterangan_ditolak_ap' => '',
-            'status_pengajuan_vendor' => 0,
-            'keterangan_ditolak_vendor' => '',
-            'created_by' => auth()->user()->id,
-            'updated_by' => auth()->user()->id,
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-
-        // Insert data ke dalam tabel pengajuan_barang
-        DB::table('pengajuan_barang')->insert([
-            'id_barang' => $request->id_barang,
-            'jumlah' => $request->jumlah,
-            'total_per_barang' => $totalPerBarang,
-            'id_tr_pengajuan' => $trPengajuanId,
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-
-        // Kurangi jumlah stok berdasarkan jumlah yang dipesan
-        DB::table('mst_barang')
-            ->where('id', $request->id_barang)
-            ->decrement('stok', $request->jumlah);
-
-        return redirect()->route('pengajuan.index')->with('message', 'Pengajuan Barang Berhasil Disimpan!');    }
-
-        public function getHargaStokBarangById(Request $request)
+    public function getHargaStokBarangById(Request $request)
     {
         $hargaStokBarang = DB::table('mst_barang')->select('stok_barang', 'harga')
-        ->where('id', $request->id_barang)
-        ->first();
-        
+            ->where('id', $request->id_barang)
+            ->first();
+
         return response()->json($hargaStokBarang);
     }
 
-    public function show($id)
+    public function store(Request $request)
     {
-        // Your code for displaying a single Pengajuan
-    }
+        DB::beginTransaction();
 
-    public function edit($id)
-    {
-        // Your code for displaying the edit page for Pengajuan
-    }
+        try {
 
-    public function update(Request $request, $id)
-    {
-        // Your code for updating Pengajuan data
-    }
+            // Insert ke tr_pengajuan 
+            $id_tr_pengajuan = DB::table('tr_pengajuan')->insertGetId([
+                'tanggal_pengajuan' => $request->tanggal_pengajuan,
+                'grand_total' => 0,
+                'status_pengajuan_ap' => 0,
+                'keterangan_ditolak_ap' => '',
+                'status_pengajuan_vendor' => 0,
+                // 'keterangan_ditolak_vendor' => '',
+                'created_by' => Auth::user()->id,
+                'upadated_by' => Auth::user()->id,
+                'created_at' => \Carbon\Carbon::now(),
+                'updated_at' => \Carbon\Carbon::now(),
+            ]);
 
-    public function destroy($id)
-    {
-        // Your code for deleting a Pengajuan
+            $grandTotal = 0;
+
+            $countData = count($request->id_barang);
+            for ($i = 0; $i < $countData; $i++) {
+                DB::table('detail_pengajuan')->insert([
+                    'id_barang' => $request->id_barang[$i],
+                    'jumlah' => $request->jumlah_barang[$i],
+                    'id_tr_pengajuan' => $id_tr_pengajuan,
+                    'total_barang' => $request->jumlah_barang[$i] * $request->harga_barang[$i],
+                    'created_at' => \Carbon\Carbon::now(),
+                    'updated_at' => \Carbon\Carbon::now(),
+                ]);
+
+                $grandTotal += $request->jumlah_barang[$i] * $request->harga_barang[$i];
+            }
+
+            DB::table('tr_pengajuan')->where('id', $id_tr_pengajuan)->update([
+                'grand_total' => $grandTotal
+            ]);
+
+            DB::commit();
+
+            return redirect()->route('pengajuan.index')->with('message', 'Pengajuan Berhasil Diajukan');
+            // all good 
+        } catch (\Exception $e) {
+            DB::rollback();
+            // something went wrong 
+        }
     }
 }

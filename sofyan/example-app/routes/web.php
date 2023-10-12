@@ -54,7 +54,8 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
         Route::get('/tr_pengajuan', 'Backend\TransaksiBarangController@index')->name('tr_pengajuan');
         Route::get('/tambah_pengajuan', 'Backend\TransaksiBarangController@createPengajuan')->name('tambah_pengajuan');
         Route::post('/store_pengajuan', 'Backend\TransaksiBarangController@storePengajuan')->name('store_pengajuan');
-
+        Route::get('/detail_pengajuan/{id}', 'Backend\TransaksiBarangController@detailpengajuan')->name('detail_pengajuan');
+        
         //Vendor
         Route::get('/vendors', 'Backend\VendorController@index')->name('vendors');
         Route::get('/tambah_vendor', 'Backend\VendorController@createvendor')->name('tambah_vendor');
@@ -63,6 +64,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
         Route::get('/edit_vendor/{id}', 'Backend\VendorController@editvendor')->name('edit_vendor');
         Route::put('/update_vendor/{id}', 'Backend\VendorController@updatevendor')->name('update_vendor');
 
+        //roles
         Route::resource('roles', RoleController::class);
     });
 });

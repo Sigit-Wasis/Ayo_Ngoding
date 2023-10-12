@@ -51,17 +51,17 @@
                         @foreach($Pengajuan as $pengajuan)
                         <tr>
                             <!-- <th scope="row">{{ $loop->iteration }}</th> -->
-                            <td>{{ $pengajuan->firstItem() + $loop->index }}</td>
+                            <td>{{ $Pengajuan->firstItem() + $loop->index }}</td>
                             <td>{{ $pengajuan->tanggal_pengajuan }}</td>
                             <td>{{ $pengajuan->grand_total }}</td>
                             <td>{{ $pengajuan->status_pengajuan_ap }}</td>
                             <td>{{ $pengajuan->keterangan_ditolak_ap }}</td>
                             <td>{{ $pengajuan->status_pengajuan_vendor }}</td>
-                            <td>{{ $pengajuan->keterangan_pengajuan_vendor }}</td>
-                            <td>{{ $jenis->created_by }}</td>
+                            <td>{{ $pengajuan->keterangan_ditolak_vendor }}</td>
+                            <td>{{ $pengajuan->created_by }}</td>
                             <td>
-                                <a href=" {{ route('edit_pengajuan', $jenis->id) }}" class="btn btn-sm btn-primary">Edit</a>
-                                <a href=" {{ route('delete_pengajuan', $jenis->id) }}" onclick="return confirm('Are you sure?')" class="btn btn-sm btn-danger">Hapus</a>
+                                <a href=" {{ route('edit_pengajuan', $pengajuan->id) }}" class="btn btn-sm btn-primary">Edit</a>
+                                <a href=" {{ route('delete_pengajuan', $pengajuan->id) }}" onclick="return confirm('Are you sure?')" class="btn btn-sm btn-danger">Hapus</a>
                             <td>
 
                             </tr>
