@@ -21,6 +21,11 @@
         </div>
     </section>
 
+    <section class="content">
+        <div class="col-md-2 mb-2">
+            <a href="{{ route('vendor.create')}}" class="btn btn-sm btn-block btn-success">Tambah Vendor</a>
+        </div>
+
     <!-- Daftar Vendor -->
     <section class="content">
         @if (session('message'))
@@ -71,10 +76,6 @@
                     </tbody>
                 </table>
             </div>
-            <div class="card-footer">
-                <a href="{{ route('vendor.create') }}" class="btn btn-success">Tambah Vendor</a>
-            </div>
-        </div>
     </section>
 </div>
 @endsection

@@ -11,13 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('detail_pengajuan', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('id_barang')->notNull()->references('id')->on('mst_barang')->onUpdate('cascade')->onDelete('cascade');
-            $table->string('jumlah');
-            $table->string('total_barang');
+        Schema::table('detail_pengajuan', function (Blueprint $table) {
+            $table->integer('total_per_barang')->comment('menyimpan total dari harga barang dikali dengan jumlah');
             $table->foreignId('id_tr_pengajuan')->notNull()->references('id')->on('tr_pengajuan')->onUpdate('cascade')->onDelete('cascade');
-            $table->timestamps();
+    
         });
     }
 
@@ -26,6 +23,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('detail_pengajuan');
+        Schema::table('detail_pengajuan', function (Blueprint $table) {
+            //
+        });
     }
 };

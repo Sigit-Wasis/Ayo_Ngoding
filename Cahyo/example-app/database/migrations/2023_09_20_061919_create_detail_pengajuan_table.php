@@ -15,10 +15,10 @@ return new class extends Migration
     {
         Schema::create('detail_pengajuan', function (Blueprint $table) {
             $table->id();
-            $table->string('id_barang');
-            $table->string('jumlah');
-            $table->foreignId('created_by')->notNull()->references('id')->on('tr_pengajuan')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('updated_by')->notNull()->references('id')->on('tr_pengajuan')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('id_barang')->notNull()->references('id')->on('mst_barang')->onUpdate('cascade')->onDelete('cascade');
+            $table->integer('jumlah');
+            $table->foreignId('id_tr_pengajuan')->notNull()->references('id')->on('tr_pengajuan')->onUpdate('cascade')->onDelete('cascade');
+            $table->integer('total_per_barang');
         });
     }
 

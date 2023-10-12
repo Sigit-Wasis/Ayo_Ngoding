@@ -38,44 +38,56 @@
             <form method="POST" action="{{ route('store_pengajuan') }}" enctype="multipart/form-data">
                 @csrf
                 <div class="card-body">
-                    <div class="form-group">
-                        <label for="Tanggal">Tanggal</label>
-                        <input type="date" class="form-control" value="{{ old('Tanggal') }}" id="Tanggal" name="tanggal_pengajuan" placeholder="">
-                    </div>
-                    <div class="form-group">
-                        <label for="vendor">Nama Vendor</label>
-                        <select class="form-control" id="vendor" name="vendor_id">
-                            <option value="" disabled selected>Pilih Vendor</option>
-                            @foreach ($vendors as $vendor)
-                            <option value="{{ $vendor->id }}">{{ $vendor->nama }}</option>
-                            @endforeach
-                        </select>
-                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
 
-                    <div class="form-group">
-                        <label for="barang">Nama Barang</label>
-                        <select class="form-control" id="barang" name="barang_id">
-                            <option value="" disabled selected>Pilih Barang</option>
-                        </select>
-                    </div>
+                            <div class="form-group">
+                                <img id="image-preview" src="" alt="Gambar Barang" class="img-thumbnail" style="width: 150px; display: none;">
+                            </div>
 
-                    <!-- Menampilkan Harga dan Stok -->
-                    <div class="form-group">
-                        <label for="harga">Harga</label>
-                        <input type="text" class="form-control" id="harga" name="harga" readonly>
-                    </div>
+                            <!-- Kolom Kiri -->
+                            <div class="form-group">
+                                <label for="Tanggal">Tanggal</label>
+                                <input type="date" class="form-control" value="{{ old('Tanggal') }}" id="Tanggal" name="tanggal_pengajuan" placeholder="">
+                            </div>
 
-                    <div class="form-group">
-                        <label for="stok">Stok</label>
-                        <input type="text" class="form-control" id="stok" name="stok" readonly>
-                    </div>
+                            <div class="form-group">
+                                <label for="vendor">Nama Vendor</label>
+                                <select class="form-control" id="vendor" name="vendor_id">
+                                    <option value="" disabled selected>Pilih Vendor</option>
+                                    @foreach ($vendors as $vendor)
+                                    <option value="{{ $vendor->id }}">{{ $vendor->nama }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
 
-                    <div class="form-group">
-                        <label for="jumlah">Jumlah</label>
-                        <input type="number" class="form-control" value="{{ old('jumlah') }}" id="jumlah" name="jumlah" placeholder="">
-                    </div>
+                            <div class="form-group">
+                                <label for="jumlah">Jumlah</label>
+                                <input type="number" class="form-control" value="{{ old('jumlah') }}" id="jumlah" name="jumlah" placeholder="">
+                            </div>
+                        </div>
 
-                    <!-- Akhir Menampilkan Harga dan Stok -->
+                        <div class="col-md-6">
+                            <!-- Kolom Kanan -->
+                            <div class="form-group">
+                                <label for="barang">Nama Barang</label>
+                                <select class="form-control" id="barang" name="barang_id">
+                                    <option value="" disabled selected>Pilih Barang</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="harga">Harga</label>
+                                <input type="text" class="form-control" id="harga" name="harga" readonly>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="stok">Stok</label>
+                                <input type="text" class="form-control" id="stok" name="stok" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Akhir Kolom Kiri dan Kanan -->
 
                     <!-- Tambahkan elemen input lainnya sesuai kebutuhan -->
                 </div>
@@ -94,9 +106,10 @@
 
 <script>
     $(document).ready(function() {
-        var selectedVendor = ''; // Variabel selectedVendor diinisialisasi dengan nilai awal kosong
-        var harga = ''; // Variabel harga diinisialisasi dengan nilai awal kosong
-        var stok = ''; // Variabel stok diinisialisasi dengan nilai awal kosong
+        var selectedVendor = '';
+        var harga = '';
+        var stok = '';
+        var image = ''; // Tambahkan variabel untuk URL gambar
 
         $('#vendor').change(function() {
             selectedVendor = $(this).val();
@@ -127,10 +140,18 @@
                 if (selectedBarang in barangTerpilih[selectedVendor]) {
                     harga = barangTerpilih[selectedVendor][selectedBarang].harga;
                     stok = barangTerpilih[selectedVendor][selectedBarang].stok;
+                    image = barangTerpilih[selectedVendor][selectedBarang].image; // Mengambil URL gambar
 
-                    // Periksa nilai stok dengan console.log
+                    // Tampilkan gambar
+                    if (image) {
+                        $('#image-preview').attr('src', window.location.origin + '/assets/dist/img/' + image);
+                        $('#image-preview').show();
+                    } else {
+                        $('#image-preview').attr('src', '');
+                        $('#image-preview').hide();
+                    }
+
                     console.log('Nilai stok:', stok);
-
                     $('#harga').val(harga);
                     $('#stok').val(stok);
                 } else {
@@ -139,6 +160,8 @@
             } else {
                 $('#harga').val('');
                 $('#stok').val('');
+                $('#image-preview').attr('src', ''); // Menghapus URL gambar saat tidak ada barang yang dipilih
+                $('#image-preview').hide();
             }
         });
     });

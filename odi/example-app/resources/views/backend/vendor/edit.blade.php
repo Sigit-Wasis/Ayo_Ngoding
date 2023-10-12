@@ -1,5 +1,5 @@
 @extends('backend.app')
-
+@section('title','Vendor')
 @section('content')
 
 <div class="content-wrapper">
@@ -58,7 +58,7 @@
                 <div class="form-group">
                     <label for="tahun_dibuat">Tahun Dibuat</label>
                     <input type="text" class="form-control" value="{{$editvendor->tahun_berdiri}}" id="tahun_dibuat"
-                        name="tahun_dibuat" placeholder="Tahun Dibuat">
+                        name="tahun_berdiri" placeholder="Tahun Dibuat">
                 </div>
             </div>
 
