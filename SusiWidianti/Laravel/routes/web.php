@@ -50,7 +50,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
         Route::resource('roles', RoleController::class);
 
         Route::get('/data_pengajuan', 'Backend\PengajuanBarangController@index')->name('pengajuan');
-        Route::get('/data_pengajuan/barang', 'Backend\PengajuanBarangController@getBarangById');
+        Route::get('/data_pengajuan/barang', 'Backend\PengajuanBarangController@getBarangById')->name('pengajuan_barang');
         Route::get('/harga/stok/barang', 'Backend\PengajuanBarangController@getHargaStokBarangById');
         Route::get('/tambah_pengajuan', 'Backend\PengajuanBarangController@create')->name('tambah_data_pengajuan');
         Route::post('/store_data_pengajuan', 'Backend\PengajuanBarangController@store')->name('store_data_pengajuan');
