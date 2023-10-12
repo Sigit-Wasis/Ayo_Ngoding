@@ -19,7 +19,7 @@ class TransaksiBarangController extends Controller
                 '_t_r__pengajuan.*',
                 'users.name as created_by',
                 '_detail__pengajuan.total_per_barang as total',
-                
+
             )
             ->orderBy('_t_r__pengajuan.id', 'DESC')
             ->join('_detail__pengajuan', '_detail__pengajuan.id_tr_pengajuan', '_t_r__pengajuan.id')
@@ -51,13 +51,14 @@ class TransaksiBarangController extends Controller
         foreach ($barangPerVendor as $vendorId => $barangList) {
             foreach ($barangList as $barang) {
                 $barangData = DB::table('_m_s_t__barang')
-                    ->select('harga', 'stok')
+                    ->select('harga', 'stok', 'image')
                     ->where('id', $barang->id)
                     ->first();
 
                 $dataHargaSatuan[$vendorId][$barang->id] = [
                     'harga' => $barangData->harga,
                     'stok' => $barangData->stok,
+                    'image' => $barangData->image,
                 ];
             }
         }
@@ -74,6 +75,7 @@ class TransaksiBarangController extends Controller
 
     public function storePengajuan(TrPengajuanRequest $request)
     {
+
         // Menghitung total per barang berdasarkan jumlah dan harga
         $totalPerBarang = $request->jumlah * $request->harga;
 
@@ -84,10 +86,10 @@ class TransaksiBarangController extends Controller
         $trPengajuanId = DB::table('_t_r__pengajuan')->insertGetId([
             'tanggal_pengajuan' => $request->tanggal_pengajuan,
             'grand_total' => $grandTotal, // Menyimpan grand total
-            'status_pengajuan_ap' =>1, //$request->status_pengajuan_ap,
-            'keterangan_ditolak_ap' =>'', //$request->keterangan_ditolak_ap,
-            'status_pengajuan_vendor' => 0,//$request->status_pengajuan_vendor,
-            'keterangan_ditolak_vendor' => '',//$request->keterangan_ditolak_vendor,
+            'status_pengajuan_ap' => 1, //$request->status_pengajuan_ap,
+            'keterangan_ditolak_ap' => '', //$request->keterangan_ditolak_ap,
+            'status_pengajuan_vendor' => 0, //$request->status_pengajuan_vendor,
+            'keterangan_ditolak_vendor' => '', //$request->keterangan_ditolak_vendor,
             'created_by' => auth()->user()->id,
             'updated_by' => auth()->user()->id,
             'created_at' => now(),
@@ -106,9 +108,40 @@ class TransaksiBarangController extends Controller
 
         // Update stok barang yang sesuai
         DB::table('_m_s_t__barang')
-            ->where('id', $request->id_barang)
+            ->where('id', $request->barang_id)
             ->decrement('stok', $request->jumlah); // Pengurangan jumlah stok berdasarkan jumlah yang dipesan
 
         return redirect()->route('tr_pengajuan')->with('message', 'Pengajuan Barang Berhasil Disimpan!');
+    }
+
+    public function detailpengajuan($id)
+    {
+        $transaction = DB::table('_t_r__pengajuan')
+            ->select(
+                '_t_r__pengajuan.*',
+                'created.name as created_by',
+                'updated.name as updated_by',
+                'vendors.nama as vendor_nama', // Select the vendor name
+                '_m_s_t__barang.nama_barang',
+                '_m_s_t__barang.harga',
+                '_m_s_t__barang.satuan',
+                '_detail__pengajuan.jumlah',
+                '_detail__pengajuan.total_per_barang'
+            )
+            ->join('_detail__pengajuan', '_detail__pengajuan.id_tr_pengajuan', '_t_r__pengajuan.id')
+            ->join('users as created', 'created.id', '_t_r__pengajuan.created_by')
+            ->join('users as updated', 'updated.id', '_t_r__pengajuan.updated_by')
+            ->join('_m_s_t__barang', '_m_s_t__barang.id', '_detail__pengajuan.id_barang')
+            ->join('vendors', 'vendors.id', '_m_s_t__barang.vendor_id') // Join with 'vendors' to get vendor name
+            ->where('_t_r__pengajuan.id', $id)
+            ->first();
+
+
+
+        if (!$transaction) {
+            return redirect()->route('tr_pengajuan')->with('error', 'Transaction not found.');
+        }
+
+        return view('backend.tr_pengajuan.show', compact('transaction'));
     }
 }

@@ -11,7 +11,7 @@ class UpdatePengajuanRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return truephp;
+        return true;
     }
 
     /**

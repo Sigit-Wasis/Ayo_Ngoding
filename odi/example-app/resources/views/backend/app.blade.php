@@ -19,7 +19,7 @@
         @include('backend._partials.header')
         @include('backend._partials.sidebar')
         @yield('content')
-        @include('backend._partials.footer') @
+        @include('backend._partials.footer')
 
 
     </div>
@@ -29,6 +29,8 @@
     <script src="{{url('assets/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
     <script src="{{url('assets/dist/js/adminlte.min.js')}}"></script>
     <script src="{{url('assets/dist/js/demo.js')}}"></script>
+
+    @yield('script')
 </body>
 
 </html>

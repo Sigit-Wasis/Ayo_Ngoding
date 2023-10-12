@@ -50,6 +50,8 @@ Route::group(['namespace' => 'App\Http\Controllers'], function() {
         Route::post('/update-barang/{id}', 'Backend\BarangController@update')->name('update_barang');
         
         Route::get('/pengajuan', 'Backend\PengajuanController@index')-> name('pengajuan');
+        Route::get('/pengajuan/barang', 'Backend\PengajuanController@getBarangById'); 
+        Route::get('/barang/harga/stok', 'Backend\PengajuanController@getHargaStokBarangById'); 
         Route::get('/tambah-pengajuan', 'Backend\PengajuanController@create')->name('tambah_pengajuan');
         Route::POST('/store-pengajuan', 'Backend\pPengajuanController@store')->name('store_pengajuan');
         Route::get('/delete-pengajuan/{id}', 'Backend\PengajuanController@destroy')->name('delete_pengajuan');
@@ -57,7 +59,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function() {
         Route::get('/show-pengajuan/{id}', 'Backend\PengajuanController@show')->name('show_pengajuan');
         Route::post('/update-pengajuan/{id}', 'Backend\PengajuanController@update')->name('update_pengajuan');
         
-        Route::get('/vendor', 'Backend\VendorController@index')-> name('vendor');
+        Route::get('/vendor', 'Backend\VendorController@index')-> name('vendor');       
         Route::get('/tambah-vendor', 'Backend\VendorController@create')->name('tambah_vendor');
         Route::POST('/store-vendor', 'Backend\VendorController@store')->name('store_vendor');
         Route::get('/delete-vendor/{id}', 'Backend\VendorController@destroy')->name('delete_vendor');

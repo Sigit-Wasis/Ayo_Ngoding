@@ -48,12 +48,10 @@
             <table class="table">
             <thead>
           <tr>
+          <th scope="col">No</th>
+          <th scope="col">User</th>
       <th scope="col">Tanggal Pengajuan</th>
       <th scope="col">Grand Total</th>
-      <th scope="col">Status Pengajuan AP</th>
-      <th scope="col">Keterangan ditolak AP</th>
-      <th scope="col">Status Pengajuan Vendor</th>
-      <th scope="col">Keterangan ditolak Vendor</th>
       <th scope="col">Aksi</th>
     </tr>
   </thead>
@@ -63,12 +61,9 @@
     @forelse($pengajuan as $pengajuan_tr)
     <tr>
       <!-- <th scope="row">{{ $loop->iteration}}</th> -->
-      <td>{{ $vendor ->firstItem() + $loop->index }}</td>
+      <td>{{ $pengajuan ->firstItem() + $loop->index }}</td>
+      <td>{{ $pengajuan_tr->created_by }}</td>
       <td>{{ $pengajuan_tr->tanggal_pengajuan }}</td>
-      <td>{{ $pengajuan_tr->grand_total }}</td>
-      <td>{{ $pengajuan_tr->status_pengajuan_ap }}</td>
-      <td>{{ $pengajuan_tr->keterangan_ditolak_ap }}</td>
-      <td>{{ $pengajuan_tr->status_pengajuan_vendor }}</td>
       <td>{{ $pengajuan_tr->keterangan_ditolak_vendor }}</td>
     <td>
     <!-- <a href="{{ route('show_vendor',$vendors->id) }}" class="btn btn-sm btn-info">Show</a> -->
@@ -87,7 +82,7 @@
     @endforelse
   </tbody>
 </table>
-        {{$tr_ pengajuan->links() }}
+        {{$pengajuan->links() }}
             </div>
         </div>
     </section>
