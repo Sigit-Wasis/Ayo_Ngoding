@@ -41,9 +41,9 @@
                         <tr>
                             <th scope="col">N0</th>
                             <th scope="col">Tanggal Pengajuan</th>
-                            <th scope="col">Total</th>
-                            <th scope="col">Stok</th>
+                            <th scope="col">Grand Total</th>
                             <th scope="col">Dibuat Oleh</th>
+                            <th scope="col">Dibuat Pada</th>
                             <th scope="col">Aksi</th>
                         </tr>
                     </thead>
@@ -53,13 +53,11 @@
                             <!-- <th scope="row">{{ $loop->iteration }}</th> -->
                             <td>{{ $Pengajuan->firstItem() + $loop->index }}</td>
                             <td>{{ $pengajuan->tanggal_pengajuan }}</td>
-                            <td>{{ $pengajuan->grand_total }}</td>
-                            <td>{{ $pengajuan->status_pengajuan_ap }}</td>
-                            <td>{{ $pengajuan->keterangan_ditolak_ap }}</td>
-                            <td>{{ $pengajuan->status_pengajuan_vendor }}</td>
-                            <td>{{ $pengajuan->keterangan_ditolak_vendor }}</td>
+                            <td>{{ "Rp ". number_format($pengajuan->grand_total,2,',','.'); }}</td>
                             <td>{{ $pengajuan->created_by }}</td>
+                            <td>{{ $pengajuan->created_at ?? \Carbon\Carbon::now() }}</td>
                             <td>
+                                <a href=" {{ route('show_pengajuan', $pengajuan->id) }}" class="btn btn-sm btn-primary">show</a>
                                 <a href=" {{ route('edit_pengajuan', $pengajuan->id) }}" class="btn btn-sm btn-primary">Edit</a>
                                 <a href=" {{ route('delete_pengajuan', $pengajuan->id) }}" onclick="return confirm('Are you sure?')" class="btn btn-sm btn-danger">Hapus</a>
                             <td>
