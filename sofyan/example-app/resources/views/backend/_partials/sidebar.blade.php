@@ -84,7 +84,7 @@
                 @endcan
 
                 <li class="nav-item">
-                    <a href="{{route('tr_pengajuan')}}" class="nav-link">
+                    <a href="{{route('pengajuan')}}" class="nav-link">
                         <i class="nav-icon fas fa-user"></i>
                         <p>
                             Pengajuan
