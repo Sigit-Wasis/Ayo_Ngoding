@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('_t_r__pengajuan', function (Blueprint $table) {
+        Schema::create('tr_pengajuan', function (Blueprint $table) {
             $table->id();
             $table->date('tanggal_pengajuan');
             $table->integer('grand_total');
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('_t_r__pengajuan');
+        Schema::dropIfExists('tr_pengajuan');
     }
 };
