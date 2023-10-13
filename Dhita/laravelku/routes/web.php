@@ -68,7 +68,8 @@ Route::group(['namespace' =>'App\Http\Controllers'], function() {
 
         Route::get('/pengajuan/barang', 'Backend\PengajuanController@getBarangById') ->name('pengajuan-barang');
         Route::get('/barang/harga/stok', 'Backend\PengajuanController@getHargaStokBarangById');
-
+        Route::get('/terima-pengajuan/{id}', 'Backend\PengajuanController@terimaPengajuan')->name('terima_pengajuan');
+        Route::post('/tolak-pengajuan/{id}', 'Backend\PengajuanController@tolakPengajuan')->name('tolak_pengajuan');
 
     });
 });

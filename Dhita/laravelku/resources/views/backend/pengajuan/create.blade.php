@@ -39,16 +39,18 @@
                     <input type="date" id="tanggal_pengajuan" class="form-control" value="<?php echo date('Y-m-d') ?>" name="tanggal_pengajuan"> 
                 </div> 
                 <div class="form-group"> 
-                    <label for="id_vendor">Nama Vendor</label> 
+                    <label for="id_vendor">Pengajuan</label> 
                     <select name="id_vendor" class="form-control" id="id_vendor" onchange="selectBarangByVendor(this.value)"> 
                         <option value="">-- pilih vendor --</option> 
                         @foreach($vendors as $vendor) 
                             <option value="{{ $vendor->id }}">{{ $vendor->nama }}</option> 
                         @endforeach 
                     </select> 
-                </div> 
+                </div>  
+
  
                 <div class="form-group"> 
+                    
                     <table class="table table-bordered" id="dynamicAddForm"> 
                         <thead> 
                             <tr> 
@@ -84,7 +86,7 @@
  
                 <div class="card-footer"> 
                     <button type="submit" disabled id="ajukan" class="btn btn-primary">Ajukan</button> 
-                    <a href="{{ route('jenis_barang') }}" class="btn btn-info">Kembali</a> 
+                    <a href="{{ route('pengajuan.index') }}" class="btn btn-info">Kembali</a> 
                 </div> 
             </div> 
         </form> 
