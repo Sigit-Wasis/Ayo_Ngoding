@@ -28,11 +28,11 @@ Route::group(['namespace' => 'App\Http\Controllers'], function() {
         Route::get('/home', 'Backend\BerandaController@index')-> name('beranda');
 
         Route::get('/jenis-barang', 'Backend\JenisBarangController@index')-> name('jenis_barang');
-        Route::get('/tambah-jenis_barang', 'Backend\JenisBarangController@create')->name('tambah_jenis_barang');
-        Route::POST('/store-jenis_barang', 'Backend\JenisBarangController@store')->name('store_jenis_barang');
-        Route::get('/delete-jenis_barang/{id}', 'Backend\JenisBarangController@destroy')->name('delete_jenis_barang');
-        Route::get('/edit-jenis_barang/{id}', 'Backend\JenisBarangController@edit')->name('edit_jenis_barang');
-        Route::post('/update-jenis_barang/{id}', 'Backend\JenisBarangController@update')->name('update_jenis_barang');
+        Route::get('/tambah-jenis-barang', 'Backend\JenisBarangController@create')->name('tambah_jenis_barang');
+        Route::POST('/store-jenis-barang', 'Backend\JenisBarangController@store')->name('store_jenis_barang');
+        Route::get('/delete-jenis-barang/{id}', 'Backend\JenisBarangController@destroy')->name('delete_jenis_barang');
+        Route::get('/edit-jenis-barang/{id}', 'Backend\JenisBarangController@edit')->name('edit_jenis_barang');
+        Route::post('/update-jenis-barang/{id}', 'Backend\JenisBarangController@update')->name('update_jenis_barang');
         
         Route::get('/user', 'Backend\UsersController@index')-> name('user');
         Route::get('/tambah-user', 'Backend\UsersController@create')->name('tambah_user');
@@ -50,10 +50,10 @@ Route::group(['namespace' => 'App\Http\Controllers'], function() {
         Route::post('/update-barang/{id}', 'Backend\BarangController@update')->name('update_barang');
         
         Route::get('/pengajuan', 'Backend\PengajuanController@index')-> name('pengajuan');
-        Route::get('/pengajuan/barang', 'Backend\PengajuanController@getBarangById'); 
+        Route::get('/pengajuan/barang', 'Backend\PengajuanController@getBarangById')->name('pengajuan-barang'); 
         Route::get('/barang/harga/stok', 'Backend\PengajuanController@getHargaStokBarangById'); 
         Route::get('/tambah-pengajuan', 'Backend\PengajuanController@create')->name('tambah_pengajuan');
-        Route::POST('/store-pengajuan', 'Backend\pPengajuanController@store')->name('store_pengajuan');
+        Route::POST('/store-pengajuan', 'Backend\PengajuanController@store')->name('store_pengajuan');
         Route::get('/delete-pengajuan/{id}', 'Backend\PengajuanController@destroy')->name('delete_pengajuan');
         Route::get('/edit-pengajuan/{id}', 'Backend\PengajuanController@edit')->name('edit_pengajuan');
         Route::get('/show-pengajuan/{id}', 'Backend\PengajuanController@show')->name('show_pengajuan');
