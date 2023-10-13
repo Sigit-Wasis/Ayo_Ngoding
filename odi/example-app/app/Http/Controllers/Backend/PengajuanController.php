@@ -19,11 +19,11 @@ class PengajuanController extends Controller
      */
     public function index()
     {
-        $Pengajuans = FacadesDB::table('pengajuan')->select('*')
-        ->orderBy('id','DESC')->paginate(10);
-        // ->orderBy('pengajuan.id', 'DESC')
-        // ->join('users','users.id','pengajuan.created_by')
-        // ->paginate(5);
+        $Pengajuans = FacadesDB::table('pengajuan')->select('pengajuan.*','username as created_by')
+        // ->orderBy('id','DESC')->paginate(5)
+        ->orderBy('pengajuan.id', 'DESC')
+        ->join('users','users.id','pengajuan.created_by')
+        ->paginate(5);
 
         //  dd($Barang);
 
@@ -122,8 +122,25 @@ class PengajuanController extends Controller
      */
     public function show(string $id)
     {
-        //
-    }
+        // Query untuk mengambil data dari pengajuan berdasarkan id pengajuan
+        $Pengajuans = FacadesDB::table('pengajuan')
+        ->select('pengajuan.*','username as created_by')
+        ->where('pengajuan.id', $id)
+        ->join('users','users.id','pengajuan.created_by')
+        ->first();
+
+        // query untuk mengambil data dari detail pengajuan berdasarkan id pengajuan join ke table barang 
+        //dan barang join ke vendor
+        $detailBarang = FacadesDB::table('detail_pengajuan')
+            ->select('detail_pengajuan.*', 'nama_barang', 'harga', 'gambar', 'satuan', 'deskripsi', 'nama_perusahaan')
+            ->join('barang', 'barang.id', 'detail_pengajuan.id_barang')
+            ->join('vendor', 'vendor.id', 'barang.id_vendor')
+            ->where('detail_pengajuan.id_tr_pengajuan',$id)
+            ->get();
+    
+            return view ('backend.pengajuan.show', compact('detailBarang','Pengajuans'));
+        }
+    
 
     /**
      * Show the form for editing the specified resource.
@@ -149,5 +166,24 @@ class PengajuanController extends Controller
         FacadesDB::table('pengajuan')->where('id', $id)->delete();
 
         return redirect()->route('pengajuan')->with('message','Data Pengajuan Berhasil Dihapus');
+    }
+
+    public function terimapengajuan($id)
+    {
+        FacadesDB::table('pengajuan')->where('id', $id)->update([
+        'status_pengajuan_ap' => 1 //jika 1 maka diterima
+        ]);
+
+        return redirect()->route('show_pengajuan',$id)->with('message','Data Pengajuan Berhasil Diterima');
+    }
+
+    public function tolakpengajuan(Request $request, $id)
+    {
+        FacadesDB::table('pengajuan')->where('id', $id)->update([
+        'status_pengajuan_ap' => 2, //jika 2 maka ditolak
+        'keterangan_ditolak_ap' => $request->catatan, // catatan diambil dari name modal
+        ]);
+
+        return redirect()->route('show_pengajuan',$id)->with('message','Data Pengajuan Berhasil Ditolak');
     }
 }
