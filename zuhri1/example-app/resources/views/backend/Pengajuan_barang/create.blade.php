@@ -164,6 +164,7 @@
                 $('#id_barang' + i +'').append(htmlSelect); 
             } 
         }); 
+        
  
         var htmlForm = ''; 
  

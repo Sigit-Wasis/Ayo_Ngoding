@@ -94,4 +94,41 @@ class Pengajuan_barangController extends Controller
         //     // something went wrong 
         // } 
     }
+    public function show($id_tr_pengajuan)
+    {
+        //Query untuk mengambil data dari TR pengajuan berdasarkan id_pengajuan
+        $pengajuan = DB::table('tr_pengajuan')
+        ->select('tr_pengajuan.*','name as created_by')
+        ->join('users','users.id','tr_pengajuan.created_by')
+        ->where('tr_pengajuan.id',$id_tr_pengajuan)
+        ->first();
+        
+        //query untuk mengambil data dari detail pengajuan berdasarkan id_pengajuan join ke table barang
+        //dan barang joinke vendor
+        $detail_pengajuan = DB::table('detail_pengajuan')
+            ->select('detail_pengajuan.*', 'nama_barang','harga','gambar','satuan','deskripsi','nama_perusahaan')
+            ->join('barang', 'barang.id', 'detail_pengajuan.id_barang')
+            ->join('vendor', 'vendor.id', 'barang.id_vendor')
+            ->where('detail_pengajuan.id_tr_pengajuan',  $id_tr_pengajuan)
+            ->get();
+
+
+// Compact arahkan kedalam show.blade.php
+        return view('backend.pengajuan_barang.show', compact('pengajuan','detail_pengajuan'));
+    }
+    public function terimaPengajuan($id)
+    {
+        DB::table('tr_pengajuan')->where('id',$id)->update([
+            'status_pengajuan_ap'=> 1 // jika 1 maka status diterima
+        ]);
+        return redirect()->route('show_pengajuan', $id)->with('message','pengajuan berhasil diterima');
+    }
+    public function tolakpengajuan(Request $request,$id)
+    {
+    DB::table('tr_pengajuan')->where('id',$id)->update([
+        'status_pengajuan_ap'=> 2 ,// jika 1 maka status ditolak
+        'keterangan_ditolak_ap'=> $request->catatan, //panah catatan itu diambil
+    ]);
+    return redirect()->route('show_pengajuan', $id)->with('message', 'yahhh,,,,, pengajuan ditolak!');
+    }
 }

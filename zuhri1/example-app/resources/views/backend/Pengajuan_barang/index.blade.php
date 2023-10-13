@@ -46,11 +46,12 @@
             <thead>
               <tr>
                 <th scope="col">no</th>
-                
                 <th scope="col">tanggal_pengajuan</th>
                 <th scope="col">grand_total</th>
+                <th scope="col">Dibuat pada</th>
+                <th scope="col">Dibuat oleh</th>
                 <th scope="col">aksi</th>
-               
+
               </tr>
             </thead>
             <tbody>
@@ -59,10 +60,12 @@
                 <!--<th scope="row">{{$loop->iteration }}</th>-->
                 <td>{{$pengajuan_barang->firstItem() +$loop->index }}</td>
                 <td>{{ $pengajuan->tanggal_pengajuan }}</td>
-                <td>{{ $pengajuan->grand_total }}</td>
-
+                <td>{{"Rp".number_format($pengajuan->grand_total,2,',','.'); }}</td>
+                <td>{{ $pengajuan->created_by }}</td>
+                <td>{{ $pengajuan->created_at ??\Carbon\Carbon::now() }}</td>
                 <td>
 
+                  <a href="{{route('show_pengajuan',$pengajuan->id)}}" class="btn btn-sm btn-danger">Show</a>
                   <a href="{{route('pengajuan_edit',$pengajuan->id)}}" class="btn btn-sm btn-danger">Edit</a>
                   <a href=" {{route('pengajuan_delete',$pengajuan->id)}}" onclick="return confirm('Are you sure?')" class="btn btn-sm btn-danger">Delete</a>
                 </td>
