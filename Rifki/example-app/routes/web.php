@@ -58,7 +58,10 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
         Route::get('/tambah_pengajuan', 'Backend\PengajuanController@create')->name('tambah_pengajuan');
         Route::post('/store_pengajuan', 'Backend\PengajuanController@store')->name('store_pengajuan');
         Route::get('/edit-pengajuan/{id}', 'Backend\PengajuanController@edit')->name('edit_pengajuan');
-        Route::delete('/hapus-pengajuan/{id}', 'Backend\PengajuanController@destroy')->name('delete_pengajuan');
+        Route::get('/show_pengajuan/{id}', 'Backend\PengajuanController@show')->name('show_pengajuan');
+        Route::get('/hapus-pengajuan/{id}', 'Backend\PengajuanController@destroy')->name('delete_pengajuan');
+        Route::post('/tolak_pengajuan/{id}', 'Backend\PengajuanController@tolakpengajuan')->name('tolak_pengajuan');
+        Route::get('/terima_pengajuan/{id}', 'Backend\PengajuanController@terimapengajuan')->name('terima_pengajuan');
 
         // // Route::get('/show_barang/{id}', 'Backend\BarangController@show')->name('Show_barang');
         // Route::post('/store_pengajuan', 'Backend\PengajuanController@store')->name('store_pengajuan');

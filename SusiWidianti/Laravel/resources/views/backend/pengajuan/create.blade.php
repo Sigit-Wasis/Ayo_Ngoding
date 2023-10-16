@@ -143,6 +143,8 @@
             } 
         }); 
     } 
+
+
  
     var i = 0; 
     $('#dynamic-barang').click(function() { 
@@ -199,6 +201,7 @@
     $(document).on('click', '.remove-input-field', function() { 
         $(this).parents('tr').remove(); 
     }); 
- 
+
+    
 </script> 
 @endsection

@@ -48,15 +48,27 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
 
 
     //PENGAJUAN BARANG
-    Route::get('/pengajuan-barang', 'Backend\Pengajuan_barangController@index')->name('pengajuan_barang');
-    Route::get('/pengajuan/barang', 'Backend\Pengajuan_barangController@getBarangById');
-    Route::get('/barang/harga/stok', 'Backend\Pengajuan_barangController@getHargaBarangStokById');
-    Route::get('/tambah-pengajuan-barang', 'Backend\Pengajuan_barangController@create')->name('tambah_pengajuan_barang');
-    Route::post('/store-pengajuan-barang', 'Backend\Pengajuan_barangController@store')->name('store_pengajuan_barang');
-    Route::get('/delete-pengajuan-barang/{id}', 'Backend\Pengajuan_barangController@destroy')->name('delete_pengajuan_barang');
-    Route::get('/edit-pengajuan-barang/{id}', 'Backend\Pengajuan_barangController@edit')->name('edit_pengajuan_barang');
-    Route::post('/update-pengajuan-barang/{id}', 'Backend\Pengajuan_barangController@update')->name('update_pengajuan_barang');
-    Route::get('/show-pengajuan-barang/{id}', 'Backend\Pengajuan_barangController@show')->name('show_pengajuan_barang');
+    // Route::get('/pengajuan-barang', 'Backend\Pengajuan_barangController@index')->name('pengajuan_barang');
+    // Route::get('/pengajuan/barang', 'Backend\Pengajuan_barangController@getBarangById')->name('pengajuan-barang');
+    // Route::get('/barang/harga/stok', 'Backend\Pengajuan_barangController@getHargaBarangStokById');
+    // Route::get('/tambah-pengajuan-barang', 'Backend\Pengajuan_barangController@create')->name('tambah_pengajuan_barang');
+    // Route::post('/store-pengajuan-barang', 'Backend\Pengajuan_barangController@store')->name('store_pengajuan_barang');
+    // Route::get('/delete-pengajuan-barang/{id}', 'Backend\Pengajuan_barangController@destroy')->name('delete_pengajuan_barang');
+    // Route::get('/edit-pengajuan-barang/{id}', 'Backend\Pengajuan_barangController@edit')->name('edit_pengajuan_barang');
+    // Route::post('/update-pengajuan-barang/{id}', 'Backend\Pengajuan_barangController@update')->name('update_pengajuan_barang');
+    // Route::get('/show-pengajuan-barang/{id}', 'Backend\Pengajuan_barangController@show')->name('show_pengajuan_barang');
+
+    Route::get('/pengajuan', 'Backend\Pengajuan_barangController@index')->name('pengajuan'); 
+    Route::get('/pengajuan/barang', 'Backend\Pengajuan_barangController@getBarangById')->name('pengajuan-barang'); 
+    Route::get('/barang/harga/stok', 'Backend\Pengajuan_barangController@getHargaStokBarangById'); 
+    Route::get('/tambah-pengajuan', 'Backend\Pengajuan_barangController@create')->name('tambah_pengajuan_barang'); 
+    Route::post('/store-pengajuan', 'Backend\Pengajuan_barangController@store')->name('store_pengajuan');
+    Route::get('/edit-pengajuan/{id}', 'Backend\Pengajuan_barangController@edit')->name('pengajuan_edit');
+    Route::get('/delete-pengajuan/{id}', 'Backend\Pengajuan_barangController@destroy')->name('pengajuan_delete');
+    Route::get('/show-pengajuan/{id}', 'Backend\Pengajuan_barangController@show')->name('show_pengajuan');
+   
+    Route::get('/terima-pengajuan/{id}', 'Backend\Pengajuan_barangController@terimaPengajuan')->name('terima_pengajuan');
+    Route::post('/tolak-pengajuan/{id}', 'Backend\Pengajuan_barangController@tolakpengajuan')->name('tolak_pengajuan');
     
     //vendor
     Route::get('/vendor', 'Backend\vendorController@index')->name('vendor');
