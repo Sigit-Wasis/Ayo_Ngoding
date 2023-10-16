@@ -1,5 +1,5 @@
 @extends('backend.app')
-@section('title','barang')
+@section('title','pengajuan')
 @section('content')
 
 <div class="content-wrapper">
@@ -8,7 +8,7 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1>Vendor</h1>
+          <h1>Pengajuan</h1>
         </div>
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
@@ -34,7 +34,7 @@
         <div class="card">
           <div class="card-body">
 
-            @if(Session::has('messages'))
+            @if(Session::has('message'))
             <div class="alert alert-success alert-dismissible">
               <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
               <h5>
@@ -50,8 +50,9 @@
               <thead>
                 <tr>
                   <th scope="col">No</th>
-                  <th scope="col">User</th>
+                  <th scope="col">Di Buat Oleh</th>
                   <th scope="col">Tanggal Pengajuan</th>
+                  <th scope="col">Di Buat Pada</th>
                   <th scope="col">Grand Total</th>
                   <th scope="col">Aksi</th>
                 </tr>
@@ -65,9 +66,10 @@
                   <td>{{ $pengajuan ->firstItem() + $loop->index }}</td>
                   <td>{{ $pengajuan_tr->created_by }}</td>
                   <td>{{ $pengajuan_tr->tanggal_pengajuan }}</td>
-                  <td>{{ $pengajuan_tr->grand_total }}</td>
+                  <td>{{ $pengajuan_tr->created_at ?? \Carbon\Carbon::now }}</td>
+                  <td>{{ "Rp " . number_format($pengajuan_tr->grand_total,2,',','.'); }}</td>
                   <td>
-                    <!-- <a href="{{ route('show_vendor',$pengajuan_tr->id) }}" class="btn btn-sm btn-info">Show</a> -->
+                    <a href="{{ route('show_pengajuan',$pengajuan_tr->id) }}" class="btn btn-sm btn-info">Show</a>
                     <a href="{{ route('edit_pengajuan',$pengajuan_tr->id) }}" class="btn btn-sm btn-primary">Edit</a>
                     <a href="{{ route('delete_pengajuan',$pengajuan_tr->id) }}" onclick="return confirm('Apakah Kamu Ingin Menghapus ini?')" class="btn btn-sm btn-danger">Hapus</a>
                   </td>

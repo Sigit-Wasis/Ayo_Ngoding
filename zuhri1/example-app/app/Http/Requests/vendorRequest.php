@@ -24,7 +24,7 @@ class vendorRequest extends FormRequest
         return [
             'nama_perusahaan' => 'required|max:255',
             'email' => 'required|email',
-            'nomot_telepon' =>'required',
+            'nomor_telepon' =>'required',
             'kepemilikan' => 'required',
             'tahun_berdiri' =>'required',
         ];
@@ -34,7 +34,7 @@ class vendorRequest extends FormRequest
         return [
             'nama_perusahaan.required' => 'Nama perusahaan harus diisi alias wajib',
             'email.required' => 'email harus diisi alias wajib',
-            'nomot_telepon.required' => 'nomor telepon harus diisi alias wajib',
+            'nomor_telepon.required' => 'nomor telepon harus diisi alias wajib',
             'kepemilikan.required' => 'kepemilikan harus diisi alias wajib',
             'tahun_berdiri.required' => 'tahun berdiri harus diisi alias wajib',
           
