@@ -25,8 +25,8 @@
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th scope="col">Id Jenis Barang</th>
-                            <th>{{ $detailBarang->id_jenis_barang }}</th>
+                            <th scope="col"> Nama Jenis Barang</th>
+                            <th>{{ $detailBarang->nama_jenis_barang }}</th>
                         </tr>
                         <tr>
                             <th scope="col">kode barang</th>
