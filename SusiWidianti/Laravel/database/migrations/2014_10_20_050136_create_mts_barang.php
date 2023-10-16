@@ -21,6 +21,7 @@ return new class extends Migration
             $table->text('deskripsi');
             $table->string('gambar');
             $table->integer('Stok');
+            $table->foreignId('id_vendor')->nullable()->references('id')->on('vendors')->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('created_by')->nullable()->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('updated_by')->nullable()->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();  // Field created_at dan updated_at sudah otomatis di-generate di timestamps
