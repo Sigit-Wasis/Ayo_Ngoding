@@ -58,9 +58,8 @@
                         <td>{{"Rp ".number_format($pengajuan->grand_total,2,',','.');}}</td>
                          <td>{{$pengajuan->created_by}}</td>
                          <td>{{$pengajuan->created_at?? \Carbon\Carbon::now() }}</td>
-                        
-                            <td>{{$pengajuan->grand_total}}</td>
-                            <td>
+                        <td>
+
                                 <a href="{{ route('show_data_pengajuan', $pengajuan->id) }}" class="btn btn-sm btn-info">Show</a>
                                 <a href="{{ route('edit_data_pengajuan', $pengajuan->id) }}" class="btn btn-sm btn-primary">Edit</a>
                                 <a href="{{route('delete_data_pengajuan',$pengajuan->id)}}" onclick="return confirm('are you sure?')" class="btn btn-sm btn-danger">Delete</a>

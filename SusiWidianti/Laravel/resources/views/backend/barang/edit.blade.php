@@ -45,11 +45,11 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="id_vendors">Nama Vendor</label>
-                    <select name="id_vendors" class="form-control">
+                    <label for="id_vendor">Nama Vendor</label>
+                    <select name="id_vendor" class="form-control">
                         <option value="">--pilih nama vendor --</option>
                         @foreach($vendors as $data_vendors)
-                        <option value="{{ $data_vendors->id }}" {{ $data_vendors->id == $editbarang->id_vendors ? 'selected' : '' }}>{{$data_vendors->nama}}</option>
+                        <option value="{{ $data_vendors->id }}" {{ $data_vendors->id == $editbarang->id_vendor ? 'selected' : '' }}>{{$data_vendors->nama}}</option>
                         @endforeach
                     </select>
                 </div>
