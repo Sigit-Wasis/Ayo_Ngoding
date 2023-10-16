@@ -148,9 +148,42 @@ class PengajuanController extends Controller
   
      public function tolakPengajuan(Request $request, $id)
      {
+        $keteranganPenolakanAP = Db::table ('tr_pengajuan')->select('keterangan_ditolak_ap')->where('id', $id)->first();     
+        $array = [$request->catatan];
+
+        if ($keteranganPenolakanAP->keterangan_ditolak_ap !== "") {
+            if ($keteranganPenolakanAP->keterangan_ditolak_ap !== null || ! empty($keteranganPenolakanAP->keterangan_ditolak_ap)) {
+                $penolakan = array_merge(json_decode($keteranganPenolakanAP->keterangan_ditolak_ap), $array);
+            }
+        } else {
+            $penolakan = $array;
+        }
+
         DB::table('tr_pengajuan')->where('id', $id)->update([
-            'status_pengajuan_ap' => 2, //jika 1 maka status ditolak
-            'keterangan_ditolak_ap' => $request->catatan, // panah catatan itu diambil dari nama modal tolak
+            'status_pengajuan_ap' => 2, // Jika 2 maka status ditolak
+            'keterangan_ditolak_ap' => $penolakan, //panah catatan itu diambil dari nama modal tolal
+        ]);
+
+        // DB::table('tr_pengajuan')->where('id', $id)->update([
+        //     'status_pengajuan_ap' => 2, //jika 1 maka status ditolak
+        //     'keterangan_ditolak_ap' => $request->catatan, // panah catatan itu diambil dari nama modal tolak
+        // ]);
+            return redirect()->route('show_pengajuan', $id)->with('message', 'Maaf,,, Pengajuan Ditolak!');
+     }
+
+     public function terimaPengajuanVendor($id)
+     {
+        DB::table('tr_pengajuan')->where('id', $id)->update([
+            'status_pengajuan_vendor' => 1 //jika 1 maka status diterima
+        ]);
+        return redirect()->route('show_pengajuan', $id)->with('message', 'Pengajuan berhasil diterima');
+     }
+  
+     public function tolakPengajuanVendor(Request $request, $id)
+     {
+        DB::table('tr_pengajuan')->where('id', $id)->update([
+            'status_pengajuan_vendor' => 2, //jika 1 maka status ditolak
+            'keterangan_ditolak_vendor' => $request->catatan, // panah catatan itu diambil dari nama modal tolak
         ]);
             return redirect()->route('show_pengajuan', $id)->with('message', 'Maaf,,, Pengajuan Ditolak!');
      }
@@ -186,6 +219,8 @@ class PengajuanController extends Controller
      */
     public function destroy($id)
     {
-        //
+        DB::table('tr_pengajuan')->where('id', $id)->delete();
+
+        return redirect()->route('pengajuan')->with('message', 'Transaksi Berhasil dihapus');
     }
 }

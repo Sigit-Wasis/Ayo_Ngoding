@@ -93,6 +93,10 @@ class PengajuanBarangController extends Controller
                     'created_at' => \Carbon\Carbon::now(), 
                     'updated_at' => \Carbon\Carbon::now(), 
                 ]); 
+
+
+                //UPDATE STOK BARANG
+                DB::table('mts_barang')->where('id', $request->id_barang[$i])->decrement('Stok', $request->jumlah_barang);
  
                 $grandTotal += $request->jumlah_barang[$i] * $request->harga_barang[$i]; 
             } 
@@ -108,6 +112,55 @@ class PengajuanBarangController extends Controller
         } catch (\Exception $e) { 
             DB::rollback(); 
             // something went wrong 
-        } 
+
+            return $e->getMessage();
+    
+        }
     }
-}
+
+        public function show($id_pengajuan)
+        {
+            // Query untuk mengambil data dari TR_transaksi
+            $pengajuan = DB::table('tr_pengajuan')
+                ->select('tr_pengajuan')->select('tr_pengajuan.*', 'username as created_by', 'email')
+                ->join("users", "users.id", 'tr_pengajuan.created_by')
+                ->where('tr_pengajuan.id', $id_pengajuan)
+                ->first();
+
+            //Query untuk mengambil data dari detail pengajuan berdasarkan id_pengajuan join ke table barang
+            //dan barang join ke vander
+            $detailPengajuan = DB::table('detail_pengajuan')
+            ->select('detail_pengajuan.*', 'nama_barang', 'harga','satuan', 'gambar', 'deskripsi', 'nama')
+            ->join('mts_barang', 'mts_barang.id', 'detail_pengajuan.id_barang')
+            ->join('vendors', 'vendors.id', 'mts_barang.id_vendors')
+            ->where('detail_pengajuan.id_tr_pengajuan', $id_pengajuan)
+            ->get();
+
+            //Compact arahkan kedalam show.blade
+            return view('backend.pengajuan.show', compact('pengajuan','detailPengajuan'));
+        }
+
+
+            public function terimaPengajuan($id)
+            {
+                DB::table('tr_pengajuan')->where('id', $id)->update([
+                    'status_pengajuan_ap' =>1 //Jika satu maka status diterima
+                ]);
+
+                return redirect()->route('show_data_pengajuan',$id)->with('message', 'pengajuan berhasil diterima');
+        
+        }
+
+        public function tolakPengajuan(Request $request, $id)
+        {
+            DB::table('tr_pengajuan')->where('id', $id)->update([
+                'status_pengajuan_ap' =>2, //Jika satu maka status diterima
+                'Keterangan_ditolak_ap' =>$request->catatan, //panah catatan itu diambil dari nama modal
+            ]);
+
+            return redirect()->route('show_data_pengajuan',$id)->with('message', 'pengajuan di tolak');
+    
+    }
+        
+        }
+    

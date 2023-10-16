@@ -36,7 +36,7 @@
             @csrf
             <div class="card-body">
                 <div class="form-group">
-                    <label for="exampleInputEmail1">NamaJenis Barang</label>
+                    <label for="exampleInputEmail1">Nama Jenis Barang</label>
                     <input type="text" class="form-control" value="{{$editJenisBarang ->nama_jenis_barang}}" id="nama_jenis_barang" name="nama_jenis_barang" placeholder="">
                 </div>
                 <div class="form-group">
@@ -46,7 +46,7 @@
             </div>
 
             <div class="card-footer">
-                <button type="submit" class="btn btn-primary" fdprocessedid="gjaft">Simpan Jenis Barang</button>
+                <button type="submit" class="btn btn-primary">Simpan Jenis Barang</button>
                 <a href="{{ route('jenis_barang') }}" class="btn btn-info">Kembali</a>
             </div>
         </form>
