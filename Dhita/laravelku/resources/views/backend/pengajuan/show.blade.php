@@ -20,17 +20,22 @@
     </section>
 
     <section class="content">
-        <a href="{{ route('terima_pengajuan', $pengajuan->id) }}" class="btn btn-sm btn-success">Terima</a>
+        <a href="{{ route('terima_pengajuan', $pengajuan->id) }}" class="btn btn-sm btn-success">Terima Pengajuan</a>
         <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#exampleModal">
-            Tolak
+            Tolak Pengajuan
         </button>
 
-        <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <a href="{{ route('terima_vendor', $pengajuan->id) }}" class="btn btn-sm btn-success">Terima Vendor</a>
+        <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#exampleModalVendor">
+            Tolak Vendor
+        </button>
+
+        <!-- Modal Tolak Ap-->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModal" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Keterangan di Tolak</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Keterangan Pengajuan di Tolak</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -40,6 +45,33 @@
             @csrf 
             <div class="form-group">
                 <label for="catatan">Catatan Penolakan</label>
+                <textarea name="catatan" class="form-control" id="catatan" cols="30" rows="10" required></textarea>
+            </div>
+        </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Jangan di Tolak</button>
+        <button type="submit" class="btn btn-danger">Anda di TOLAK</button>
+      </div>
+      </form>
+  </div>
+</div>
+</div>
+
+ <!-- Modal Tolak Vendor-->
+<div class="modal fade" id="exampleModalVendor" tabindex="-1" role="dialog" aria-labelledby="exampleModalVendor" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Keterangan di Tolak Vendor</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="{{ route('tolak_vendor', $pengajuan->id)}}" method="POST">
+            @csrf 
+            <div class="form-group">
+                <label for="catatan">Catatan Penolakan Vendor</label>
                 <textarea name="catatan" class="form-control" id="catatan" cols="30" rows="10" required></textarea>
             </div>
         </div>
@@ -63,6 +95,7 @@
               {{ (Session('message')) }}
             </div>
             @endif
+
 
         <div class="row">
             <div class="col-md-6">
@@ -89,9 +122,10 @@
                             </td>
                         </tr>
                         <tr>
-                            <th> Di Buat Oleh</th>
-                            <td>{{ $pengajuan->created_by }} </td>
+                            <th> Keterangan di Tolak AP</th>
+                            <td>{{ $pengajuan->keterangan_ditolak_ap }} </td>
                         </tr>
+                       
 
                     </thead>
                 </table>
@@ -99,10 +133,6 @@
             <div class="col-md-6">
                 <table class="table table-striped">
                     <thead>
-                        <tr>
-                            <th> Keterangan di Tolak AP</th>
-                            <td>{{ $pengajuan->keterangan_ditolak_ap }} </td>
-                        </tr>
                         <tr>
                             <th> Status Pengajuan Vendor</th>
                             <td>
@@ -122,6 +152,10 @@
                         <tr>
                             <th> Di Buat Pada</th>
                             <td>{{ $pengajuan->created_at }} </td>
+                        </tr>
+                        <tr>
+                            <th> Di Buat Oleh</th>
+                            <td>{{ $pengajuan->created_by }} </td>
                         </tr>
                     </thead>
                 </table>
