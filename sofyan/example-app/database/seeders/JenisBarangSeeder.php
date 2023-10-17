@@ -35,22 +35,15 @@ class JenisBarangSeeder extends Seeder
         //ELEQUENT
         $data = [
             [
-                'nama' => 'Penggaris ',
-                'deskripsi' => 'alat pengukur dan alat bantu gambar untuk menggambar garis lurus',
+                'nama' => 'ATK ',
+                'deskripsi' => 'alat tulis kantor',
                 'created_by' => $inTerakhir->id,
                 'updated_by' => $inTerakhir->id,
 
             ],
             [
-                'nama' => 'Penggaris ',
-                'deskripsi' => 'alat pengukur dan alat bantu gambar untuk menggambar garis lurus',
-                'created_by' => 1,
-                'updated_by' => 1,
-
-            ],
-            [
-                'nama' => 'Penggaris ',
-                'deskripsi' => 'alat pengukur dan alat bantu gambar untuk menggambar garis lurus',
+                'nama' => 'Cetak ',
+                'deskripsi' => 'alat cetak',
                 'created_by' => 1,
                 'updated_by' => 1,
 

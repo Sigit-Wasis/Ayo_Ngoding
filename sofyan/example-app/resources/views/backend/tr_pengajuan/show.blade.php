@@ -22,9 +22,16 @@
 
     <div class="card-body">
         <section class="content">
-            <td><a href="{{ route('terima_pengajuan',$pengajuan->id) }}" class="btn btn-sm btn-success">Terima</a></td>
+
+            <td>
+                @can('approve_ap')
+                <a href="{{ route('terima_pengajuan',$pengajuan->id) }}" class="btn btn-sm btn-success">Terima</a>
+                @endcan
+            </td>
+            @can('tolak_ap')
             <button class="btn btn-sm btn-danger" data-toggle="modal" data-target="#keteranganModal">Tolak</button>
-            <!-- Modal for Keterangan Penolakan -->
+            @endcan
+            <!-- Modal for Keterangan Penolakan pengajuan-->
             <div class="modal fade" id="keteranganModal" tabindex="-1" role="dialog" aria-labelledby="keteranganModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -38,6 +45,39 @@
                             @csrf
                             <div class="modal-body">
                                 <textarea name="catatan" id="catatan" class="form-control" rows="5" placeholder="Alasan Penolakan" required></textarea>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-danger">Tolak</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal Tolak</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+            <td>
+                @can('approve_vendor')
+                <a href="{{ route('terima_vendor',$pengajuan->id) }}" class="btn btn-sm btn-success">Terima Vendor</a>
+                @endcan
+            </td>
+            @can('tolak_vendor')
+            <button class="btn btn-sm btn-danger" data-toggle="modal" data-target="#keteranganModalVendor">Tolak Vendor</button>
+            @endcan
+            <!-- Modal for Keterangan Penolakan vendor -->
+            <div class="modal fade" id="keteranganModalVendor" tabindex="-1" role="dialog" aria-labelledby="keteranganModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="keteranganModalLabel">Keterangan Penolakan</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form method="post" action="{{ route('tolak_vendor', ['id' => $pengajuan->id]) }}">
+                            @csrf
+                            <div class="modal-body">
+                                <textarea name="catatanVendor" id="catatanVendor" class="form-control" rows="5" placeholder="Alasan Penolakan" required></textarea>
                             </div>
                             <div class="modal-footer">
                                 <button type="submit" class="btn btn-danger">Tolak</button>
@@ -97,33 +137,55 @@
 
                             <tr>
                                 <th scope="row">Keterangan Pengajuan AP </th>
-                                <td>{{ $pengajuan->keterangan_ditolak_ap }}</td>
+                                <td>
+                                    @if (!empty($pengajuan->keterangan_ditolak_ap))
+                                    <ul>
+                                        @foreach(json_decode($pengajuan->keterangan_ditolak_ap) as $catatan)
+                                        <li>{{ $catatan }}</li>
+                                        @endforeach
+                                    </ul>
+                                    @else
+                                    Tidak ada catatan penolakan.
+                                    @endif
+                                </td>
                             </tr>
+
                             <tr>
-                                <th scope="row">Keterangan Pengajuan Vendor </th>
-                                <td>{{ $pengajuan->keterangan_ditolak_vendor }}</td>
+                                <th scope="row">Keterangan Pengajuan Vendor</th>
+                                <td>
+                                    @if (!empty($pengajuan->keterangan_ditolak_vendor))
+                                    <ul>
+                                        @foreach(json_decode($pengajuan->keterangan_ditolak_vendor) as $catatans)
+                                        <li>{{ $catatans }}</li>
+                                        @endforeach
+                                    </ul>
+                                    @else
+                                    Tidak ada catatan penolakan dari vendor.
+                                    @endif
+                                </td>
                             </tr>
+
                             <tr>
                                 <th scope="row">Status Pengajuan AP</th>
                                 <td>
                                     @if ($pengajuan->status_pengajuan_ap == 0)
                                     <span class="badge badge-primary">Dibuat</span>
                                     @elseif ($pengajuan->status_pengajuan_ap == 1)
-                                    <span class="badge badge-primary">Disetujui</span>
+                                    <span class="badge badge-success">Disetujui</span>
                                     @else
-                                    <span class="badge badge-primary">Ditolak</span>
+                                    <span class="badge badge-danger">Ditolak</span>
                                     @endif
                                 </td>
                             </tr>
                             <tr>
-                                <th scope="row">Status Pengajuan AP</th>
+                                <th scope="row">Status Pengajuan Vendor</th>
                                 <td>
                                     @if ($pengajuan-> status_pengajuan_vendor == 0)
                                     <span class="badge badge-primary">Dibuat</span>
                                     @elseif ($pengajuan-> status_pengajuan_vendor == 1)
-                                    <span class="badge badge-primary">Disetujui</span>
+                                    <span class="badge badge-success">Disetujui</span>
                                     @else
-                                    <span class="badge badge-primary">Ditolak</span>
+                                    <span class="badge badge-danger">Ditolak</span>
                                     @endif
                                 </td>
                             </tr>
