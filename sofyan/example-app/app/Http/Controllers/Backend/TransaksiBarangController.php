@@ -13,6 +13,14 @@ use App\Models\User;
 
 class TransaksiBarangController extends Controller
 {
+    function __construct()
+    {
+        $this->middleware('permission:pengajuan-list|pengajuan-create|pengajuan-edit|pengajuan-delete', ['only' => ['index', 'store']]);
+        $this->middleware('permission:pengajuan-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:pengajuan-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:pengajuan-delete', ['only' => ['destroy']]);
+    }
+
     public function index()
     {
         $trPengajuan = DB::table('_t_r__pengajuan')
@@ -29,7 +37,7 @@ class TransaksiBarangController extends Controller
         return view('backend.tr_pengajuan.index', compact('trPengajuan'));
     }
 
-    
+
     //transaksi
     public function create()
     {
@@ -41,7 +49,7 @@ class TransaksiBarangController extends Controller
     public function getBarangById(Request $request)
     {
         $dataBarang = DB::table('_m_s_t__barang')->select('id', 'nama_barang')
-            ->where('vendor_id', (int) $request->id_vendor)
+            ->where('Id_vendor', (int) $request->id_vendor)
             ->get();
 
         return response()->json($dataBarang);
@@ -133,58 +141,181 @@ class TransaksiBarangController extends Controller
         $detailPengajuan = DB::table('_detail__pengajuan')
             ->select('_detail__pengajuan.*', 'nama_barang', 'harga', 'satuan', 'image', 'deskripsi', 'nama')
             ->join('_m_s_t__barang', '_m_s_t__barang.id', '=', '_detail__pengajuan.id_barang')
-            ->join('vendors', 'vendors.id', '=', '_m_s_t__barang.vendor_id')
+            ->join('vendors', 'vendors.id', '=', '_m_s_t__barang.Id_vendor')
             ->where('_detail__pengajuan.id_tr_pengajuan', $id_pengajuan)
             ->get();
-            // dd($detailPengajuan);
+        // dd($detailPengajuan);
         return view('backend.tr_pengajuan.show', compact('pengajuan', 'detailPengajuan'));
     }
 
-    public function terimapengajuan($id){
-        DB::table('_t_r__pengajuan')->where('id',$id)->update([
-            'status_pengajuan_ap'=>1
+    public function terimapengajuan($id)
+    {
+        DB::table('_t_r__pengajuan')->where('id', $id)->update([
+            'status_pengajuan_ap' => 1
         ]);
 
-        return redirect()->route('detail_pengajuan',$id)->with('message', 'Pengajuan Berhasil Diajukan');
+        return redirect()->route('detail_pengajuan', $id)->with('message', 'Pengajuan Berhasil Diajukan');
     }
 
-    public function tolakpengajuan($id)
+    public function tolakpengajuan(Request $request, $id)
     {
-        $request = request();
-        $keterangan = $request->input('catatan');
+        $penolakanAP = DB::table('_t_r__pengajuan')->select('keterangan_ditolak_ap')->where('id', $id)->first();
+
+        if (!empty($penolakanAP->keterangan_ditolak_ap)) {
+            $existingCatatan = json_decode($penolakanAP->keterangan_ditolak_ap, true);
+        } else {
+            $existingCatatan = [];
+        }
+
+        $newCatatan = $request->catatan;
+
+        // Tambahkan data baru ke dalam array yang ada
+        $existingCatatan[] = $newCatatan;
+
+        // Konversi array ke format JSON sebelum memperbarui database
+        $mergedCatatan = json_encode($existingCatatan);
 
         DB::table('_t_r__pengajuan')->where('id', $id)->update([
             'status_pengajuan_ap' => 2,
-            'keterangan_ditolak_ap' => $keterangan
+            'keterangan_ditolak_ap' => $mergedCatatan,
         ]);
 
         return redirect()->route('detail_pengajuan', $id)->with('message', 'Pengajuan Berhasil Ditolak');
     }
 
+    public function terimavendor($id)
+    {
+        DB::table('_t_r__pengajuan')->where('id', $id)->update([
+            'status_pengajuan_vendor' => 1
+        ]);
+
+        return redirect()->route('detail_pengajuan', $id)->with('message', 'Vendor Berhasil Diajukan');
+    }
+
+    public function tolakvendor(Request $request, $id)
+    {
+        $keteranganVendor = DB::table('_t_r__pengajuan')->select('keterangan_ditolak_vendor')->where('id', $id)->first();
+
+        if (!empty($keteranganVendor->keterangan_ditolak_vendor)) {
+            // Periksa apakah keterangan_ditolak_vendor tidak kosong, kemudian tambahkan data baru ke dalam array
+            $existingCatatan = json_decode($keteranganVendor->keterangan_ditolak_vendor, true);
+        } else {
+            $existingCatatan = [];
+        }
+        // Tambahkan catatan penolakan baru ke dalam array
+        $catatanpenolakan = $request->catatanVendor;
+
+        $existingCatatan[] = $catatanpenolakan;
+
+        // Konversi array ke format JSON sebelum memperbarui database
+        $mergedCatatan = json_encode($existingCatatan);
+
+        DB::table('_t_r__pengajuan')->where('id', $id)->update([
+            'status_pengajuan_vendor' => 2,
+            'keterangan_ditolak_vendor' => $mergedCatatan,
+        ]);
+
+        return redirect()->route('detail_pengajuan', $id)->with('message', 'Vendor Berhasil Ditolak');
+    }
     public function deletepengajuan($id)
     {
-        try {
-            // Cari pengajuan berdasarkan ID
-            $pengajuan = DB::table('_t_r__pengajuan')->where('id', $id)->first();
-
-            // Jika pengajuan ditemukan, Anda dapat menghapusnya
-            if ($pengajuan) {
-                // Lakukan penghapusan pengajuan
-                DB::table('_t_r__pengajuan')->where('id', $id)->delete();
-                // Hapus juga detail pengajuan yang terkait jika perlu
-                DB::table('_detail__pengajuan')->where('id_tr_pengajuan', $id)->delete();
-
-                // Redirect dengan pesan sukses
-                return redirect()->route('pengajuan')->with('message', 'Pengajuan berhasil dihapus.');
-            } else {
-                // Jika pengajuan tidak ditemukan, redirect dengan pesan error
-                return redirect()->route('pengajuan')->with('error', 'Pengajuan tidak ditemukan.');
-            }
-        } catch (\Exception $e) {
-            // Tangani kesalahan jika terjadi
-            return redirect()->route('pengajuan')->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
-        }
+        DB::table('_t_r__pengajuan')->where('id', $id)->delete();
+        return redirect()->route('pengajuan')->with('message', 'Pengajuan Berhasil Dihapus!');
     }
 
 
+    public function editpengajuan($id)
+    {
+        $editpengajuan = DB::table('_t_r__pengajuan')
+            ->select('_t_r__pengajuan.*', 'nama', 'id_barang', '_m_s_t__barang.Id_vendor as id_vendor')
+            ->join('_detail__pengajuan', '_detail__pengajuan.id_tr_pengajuan', '_t_r__pengajuan.id')
+            ->join('_m_s_t__barang', '_m_s_t__barang.id', '_detail__pengajuan.id_barang')
+            ->join('vendors', 'vendors.id', '_m_s_t__barang.id_vendor')
+            ->where('_t_r__pengajuan.id', $id)
+            ->first();
+
+        // Ambil data jenis barang untuk dropdown
+        $detailP = DB::table('_detail__pengajuan')
+            ->join('_t_r__pengajuan', '_t_r__pengajuan.id', '_detail__pengajuan.id_tr_pengajuan')
+            ->join('_m_s_t__barang', '_m_s_t__barang.id', '_detail__pengajuan.id_barang')
+            ->select('_detail__pengajuan.id as id_detail_pengajuan', 'nama_barang', 'stok', 'harga', 'id_barang', 'jumlah')
+            ->where('_detail__pengajuan.id_tr_pengajuan', $id)
+            ->get();
+
+        $barangs = DB::table('_m_s_t__barang')
+            ->where('Id_vendor', $editpengajuan->id_vendor)
+            ->select('id', 'nama_barang')
+            ->get();
+
+
+        // Mengambil data vendor untuk dropdown
+        $vendors = DB::table('vendors')
+            ->select('id', 'nama')
+            ->get();
+
+        // Simpan data jenis barang ke dalam sesi
+        session(['edit_pengajuan' => $editpengajuan]);
+
+        // Arahkan ke halaman create
+        return view('backend.tr_pengajuan.edit', compact('editpengajuan', 'vendors', 'detailP', 'barangs'));
+    }
+
+    public function updatepengajuan(Request $request, $id)
+    {
+        DB::beginTransaction();
+
+        try {
+            // Update data pengajuan
+            DB::table('_t_r__pengajuan')
+                ->where('id', $id)
+                ->update([
+                    'tanggal_pengajuan' => $request->tanggal_pengajuan,
+                    'updated_by' => Auth::user()->id,
+                    'updated_at' => \Carbon\Carbon::now(),
+                    // Tambahkan kolom-kolom lain yang perlu diperbarui
+                ]);
+
+            $grandTotal = 0;
+
+            $countData = count($request->id_barang);
+
+            for ($i = 0; $i < $countData; $i++) {
+                if (!isset($request->id_detail_barang[$i])) {
+                    DB::table('_detail__pengajuan')->insert([
+                        'id_tr_pengajuan' => $id,
+                        'id_barang' => $request->id_barang[$i],
+                        'total_per_barang' => $request->jumlah_barang[$i] * $request->harga_barang[$i],
+                        'jumlah' => $request->jumlah_barang[$i],
+                        'created_at' => \Carbon\Carbon::now(),
+                        'updated_at' => \Carbon\Carbon::now(),
+                    ]);
+                } else {
+                    DB::table('_detail__pengajuan')->where('id', $request->id_detail_barang[$i])->update([
+                        'id_tr_pengajuan' => $id,
+                        'id_barang' => $request->id_barang[$i],
+                        'total_per_barang' => $request->jumlah_barang[$i] * $request->harga_barang[$i],
+                        'jumlah' => $request->jumlah_barang[$i],
+                        'updated_at' => \Carbon\Carbon::now(),
+                    ]);
+                }
+                DB::table('_m_s_t__barang')
+                    ->where('id', $request->id_barang[$i])
+                    ->decrement('stok', $request->jumlah_barang[$i]);
+
+                $grandTotal += $request->jumlah_barang[$i] * $request->harga_barang[$i];
+            }
+
+            DB::table('_t_r__pengajuan')
+                ->where('id', $id)->update(['grand_total' => $grandTotal]);
+
+
+            DB::commit();
+
+            return redirect()->route('pengajuan')->with('message', 'Pengajuan berhasil diperbarui.');
+        } catch (\Exception $e) {
+            DB::rollback();
+
+            return  $e->getMessage();
+        }
+    }
 }

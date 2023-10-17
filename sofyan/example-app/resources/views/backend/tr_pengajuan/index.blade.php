@@ -20,7 +20,9 @@
     </section>
 
     <div class="card-footer clearfix">
+        @can('pengajuan-create')
         <a href="{{ route ('tambah_pengajuan') }}" class="btn btn-primary float-right"><i class="fas fa-plus"></i> Transaksi</a>
+        @endcan
     </div>
     <section class="content">
         <div class="card">
@@ -61,9 +63,15 @@
                             <td>{{$pengajuan->created_at}}</td>
 
                             <td>
+                                @can('pengajuan-detail')
                                 <a href="{{ route('detail_pengajuan', $pengajuan->id) }}" class="btn btn-sm btn-info">Show</a>
-                                <a href="{{ route('edit_barang', $pengajuan->id) }}" class="btn btn-sm btn-primary">Edit</a>
+                                @endcan
+                                @can('pengajuan-edit')
+                                <a href="{{ route('edit_pengajuan', $pengajuan->id) }}" class="btn btn-sm btn-primary">Edit</a>
+                                @endcan
+                                @can('pengajuan-delete')
                                 <a href="{{route('delete_pengajuan',$pengajuan->id)}}" onclick="return confirm('are you sure?')" class="btn btn-sm btn-danger">Delete</a>
+                                @endcan
                             </td>
                         </tr>
                         @empty

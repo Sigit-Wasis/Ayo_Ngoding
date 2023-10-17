@@ -20,12 +20,16 @@
     </section>
 
     <section class="content">
+        @can('terima-ap')
         <a href="{{ route('terima_pengajuan', $pengajuan->id) }}" class="btn btn-sm btn-success">Terima</a>
+        @endcan
         <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#exampleModal">
             Tolak
         </button>
 
+        @can('terima-vendor')
         <a href="{{ route('terima_pengajuan_vendor', $pengajuan->id) }}" class="btn btn-sm btn-success">Terima Vendor</a>
+        @endcan
         <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#exampleModalVendor">
             Tolak Vendor
         </button>

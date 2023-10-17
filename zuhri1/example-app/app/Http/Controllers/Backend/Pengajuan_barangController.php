@@ -98,37 +98,103 @@ class Pengajuan_barangController extends Controller
     {
         //Query untuk mengambil data dari TR pengajuan berdasarkan id_pengajuan
         $pengajuan = DB::table('tr_pengajuan')
-        ->select('tr_pengajuan.*','name as created_by')
-        ->join('users','users.id','tr_pengajuan.created_by')
-        ->where('tr_pengajuan.id',$id_tr_pengajuan)
-        ->first();
-        
+            ->select('tr_pengajuan.*', 'name as created_by')
+            ->join('users', 'users.id', 'tr_pengajuan.created_by')
+            ->where('tr_pengajuan.id', $id_tr_pengajuan)
+            ->first();
+
         //query untuk mengambil data dari detail pengajuan berdasarkan id_pengajuan join ke table barang
         //dan barang joinke vendor
         $detail_pengajuan = DB::table('detail_pengajuan')
-            ->select('detail_pengajuan.*', 'nama_barang','harga','gambar','satuan','deskripsi','nama_perusahaan')
+            ->select('detail_pengajuan.*', 'nama_barang', 'harga', 'gambar', 'satuan', 'deskripsi', 'nama_perusahaan')
             ->join('barang', 'barang.id', 'detail_pengajuan.id_barang')
             ->join('vendor', 'vendor.id', 'barang.id_vendor')
             ->where('detail_pengajuan.id_tr_pengajuan',  $id_tr_pengajuan)
             ->get();
 
 
-// Compact arahkan kedalam show.blade.php
-        return view('backend.pengajuan_barang.show', compact('pengajuan','detail_pengajuan'));
+        // Compact arahkan kedalam show.blade.php
+        return view('backend.pengajuan_barang.show', compact('pengajuan', 'detail_pengajuan'));
     }
+
     public function terimaPengajuan($id)
     {
-        DB::table('tr_pengajuan')->where('id',$id)->update([
-            'status_pengajuan_ap'=> 1 // jika 1 maka status diterima
+        DB::table('tr_pengajuan')->where('id', $id)->update([
+            'status_pengajuan_ap' => 1 // jika 1 maka status diterima
         ]);
-        return redirect()->route('show_pengajuan', $id)->with('message','pengajuan berhasil diterima');
+        return redirect()->route('show_pengajuan', $id)->with('message', 'pengajuan berhasil diterima');
     }
-    public function tolakpengajuan(Request $request,$id)
+    public function tolakpengajuan(Request $request, $id)
     {
-    DB::table('tr_pengajuan')->where('id',$id)->update([
-        'status_pengajuan_ap'=> 2 ,// jika 1 maka status ditolak
-        'keterangan_ditolak_ap'=> $request->catatan, //panah catatan itu diambil
-    ]);
-    return redirect()->route('show_pengajuan', $id)->with('message', 'yahhh,,,,, pengajuan ditolak!');
+        $penolakanAP = DB::table('tr_pengajuan')->select('keterangan_ditolak_ap')->where('id', $id)->first();
+        $array = [$request->catatan];
+
+        if ($penolakanAP->keterangan_ditolak_ap !== "") {
+            if ($penolakanAP->keterangan_ditolak_ap !== null || !empty($penolakanAP->keterangan_ditolak_ap)) {
+                $catatanpenolakan = array_merge(json_decode($penolakanAP->keterangan_ditolak_ap), $array);
+            }
+        } else {
+            $catatanpenolakan = $array;
+        }
+
+
+        DB::table('tr_pengajuan')->where('id', $id)->update([
+            'status_pengajuan_ap' => 2, // jika 1 maka status ditolak
+            'keterangan_ditolak_ap' => $catatanpenolakan, //panah catatan itu diambil
+        ]);
+        return redirect()->route('show_pengajuan', $id)->with('message', 'yahhh,,,,, pengajuan ditolak!');
+    }
+
+    public function tolakvendor(Request $request, $id)
+    {
+        $penolakanvendor = DB::table('tr_pengajuan')->select('keterangan_ditolak_vendor')->where('id', $id)->first();
+        $array = [$request->catatan];
+
+        if ($penolakanvendor->keterangan_ditolak_vendor !== "") {
+            if ($penolakanvendor->keterangan_ditolak_vendor !== null || !empty($penolakanvendor->keterangan_ditolak_vendor)) {
+                $catatanpenolakan = array_merge(json_decode($penolakanvendor->keterangan_ditolak_vendor), $array);
+            }
+        } else {
+            $catatanpenolakan = $array;
+        }
+
+        DB::table('tr_pengajuan')->where('id', $id)->update([
+            'status_pengajuan_vendor' => 2, // jika 1 maka status ditolak
+            'keterangan_ditolak_vendor' => $catatanpenolakan, //panah catatan itu diambil
+        ]);
+        return redirect()->route('show_pengajuan', $id)->with('message', 'yahhh,,,,, vendor menolak!');
+    }
+    public function terimavendor($id)
+    {
+        DB::table('tr_pengajuan')->where('id', $id)->update([
+            'status_pengajuan_vendor' => 1 // jika 1 maka status diterima
+        ]);
+        return redirect()->route('show_pengajuan', $id)->with('message', 'vendor berhasil diterima');
+    }
+
+
+    public function destroy($id)
+    {
+
+        try {
+            //Cari pengajuan berdasarkan id
+            $pengajuan = DB::table('tr_pengajuan')->where('id', $id)->first();
+
+            if ($pengajuan) {
+                //lakkan penghapusan pengajuan
+                DB::table('tr_pengajuan')->where('id', $id)->delete();
+                //hapus juga detail pengajuan yang terkait jika perlu
+                DB::table('detail_pengajuan')->where('id_tr_pengajuan', '$id')->delete();
+
+                //redirect dengan pesan sukses
+                return redirect()->route('pengajuan')->with('message', 'pengajuan berhasil dihapus.');
+            } else {
+                //jika pengajuan tidak ditemukan,redirect dengan pesan error
+                return redirect()->route('pengajuan')->with('erros', 'pengajuan tidak ditemukan');
+            }
+        } catch (\Exception $e) {
+            //tangani kesalahan jika terjadi
+            return redirect()->route('pengajuan')->with('eror', 'Terjadi kesalahan:' . $e->getMessage());
+        }
     }
 }
