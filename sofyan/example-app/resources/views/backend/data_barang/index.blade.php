@@ -20,7 +20,9 @@
     </section>
 
     <div class="card-footer clearfix">
+        @can('data_barang-create')
         <a href="{{ route ('tambah-barang') }}" class="btn btn-primary float-right"><i class="fas fa-plus"></i> Tambah Barang</a>
+        @endcan
     </div>
     <section class="content">
         <div class="card">
@@ -58,9 +60,15 @@
                             <td>{{$data->kode_barang}}</td>
                             <td>{{$data->nama_barang}}</td>
                             <td>
+                                @can('data_barang-detail')
                                 <a href="{{ route('detail_barang', $data->id) }}" class="btn btn-sm btn-info">Show</a>
+                                @endcan
+                                @can('data_barang-edit')
                                 <a href="{{ route('edit_barang', $data->id) }}" class="btn btn-sm btn-primary">Edit</a>
+                                @endcan
+                                @can('data_barang-delete')
                                 <a href="{{route('delete_barang',$data->id)}}" onclick="return confirm('are you sure?')" class="btn btn-sm btn-danger">Delete</a>
+                                @endcan
                             </td>
                         </tr>
                         @empty

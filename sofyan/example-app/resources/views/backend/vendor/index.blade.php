@@ -20,7 +20,9 @@
     </section>
 
     <div class="card-footer clearfix">
+        @can('vendors-create')
         <a href="{{ route ('tambah_vendor') }}" class="btn btn-primary float-right"><i class="fas fa-plus"></i> Tamabah Vendor</a>
+        @endcan
     </div>
     <section class="content">
         <div class="card">
@@ -68,8 +70,12 @@
                             <td>{{$vendor->created_at}}</td> <!-- Menampilkan nilai kolom "Created At" -->
                             <td>{{$vendor->created_by}}</td>
                             <td>
+                                @can('vendors-edit')
                                 <a href="{{ route('edit_vendor', $vendor->id) }}" class="btn btn-sm btn-primary">Edit</a>
+                                @endcan
+                                @can('vendors-delete')
                                 <a href="{{route('delete_vendor',$vendor->id)}}" onclick="return confirm('are you sure?')" class="btn btn-sm btn-danger">Delete</a>
+                                @endcan
                             </td>
                         </tr>
                         @empty

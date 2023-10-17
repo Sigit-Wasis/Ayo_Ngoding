@@ -40,20 +40,21 @@
                     </a>
                 </li>
 
+                @can('vendors-list')
                 <li class="nav-item">
                     <a href="{{route('vendors')}}" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
+                        <i class="nav-icon fas fa-briefcase"></i>
                         <p>
                             Vendors
                         </p>
                     </a>
                 </li>
-
+                @endcan
 
                 @can('jenis_barang-list')
                 <li class="nav-item">
                     <a href="{{route('jenis-barang')}}" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
+                        <i class="nav-icon fas fa-cubes"></i>
                         <p>
                             Jenis Barang
                         </p>
@@ -64,7 +65,7 @@
                 @can('data_barang-list')
                 <li class="nav-item">
                     <a href="{{route('data_barang')}}" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
+                        <i class="nav-icon fas fa-cube"></i>
                         <p>
                             Data Barang
                         </p>
@@ -83,19 +84,21 @@
                 </li>
                 @endcan
 
+                @can('pengajuan-list')
                 <li class="nav-item">
                     <a href="{{route('pengajuan')}}" class="nav-link">
-                        <i class="nav-icon fas fa-user"></i>
+                        <i class="nav-icon fas fa-shopping-cart"></i>
                         <p>
                             Pengajuan
                         </p>
                     </a>
                 </li>
-
+                @endcan
+                
                 @can('role-list')
                 <li class="nav-item">
                     <a href="{{route('roles.index')}}" class="nav-link">
-                        <i class="nav-icon fas fa-user"></i>
+                        <i class="nav-icon fas fa-code"></i>
                         <p>
                             Roles
                         </p>

@@ -44,6 +44,7 @@ class UserController extends Controller
         //     'updated_at' => now(),
         // ]);
         $input = $request->all(); //mengambil semua value dari form create user
+        $input ['password'] = bcrypt($input['password']);
         $user = User::create($input); // menyimpan data user kedalam database
         $user->assignRole($request->input('roles')); // menghubungkan antara user dengan role dengan inputan 
 

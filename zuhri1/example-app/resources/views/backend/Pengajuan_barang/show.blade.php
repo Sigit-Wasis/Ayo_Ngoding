@@ -51,6 +51,37 @@
                 </div>
             </div>
         </div>
+
+        <!-- modal vendor -->
+        <a href="{{ route('terima_vendor', $pengajuan->id) }}" class="btn btn-sm btn-success">Terima Vendor</a>
+        <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#exampleModalvendor">Tolak Vendor</button>
+        
+        <div class="modal fade" id="exampleModalvendor" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Tolak Vendor</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action=" {{ route('tolak_vendor', $pengajuan->id) }}" method="POST">
+                            @csrf
+                            <div class="form-group">
+                                <label for="catatan">Catatan Penolakan</label>
+                                <textarea name="catatan" class="form-control"id="catatan" cols="30" rows="10"required></textarea>
+                            </div>
+                        
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tidak jadi Ditolak</button>
+                        <button type="submit" class="btn btn-danger">Tolak Sekarang Juga !</button>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
         @if(Session::has('message'))
         <div class="alert alert-success mt-3 alert-dismissible">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true"></button>

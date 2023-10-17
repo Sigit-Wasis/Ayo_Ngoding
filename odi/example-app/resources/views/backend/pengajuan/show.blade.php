@@ -20,11 +20,14 @@
     </section>
 
     <section class="content">
+        @can('approve-ap')
         <a href="{{ route('terima_pengajuan', $Pengajuans->id) }}" class="btn btn-sm btn-success">Terima</a>
+        @endcan
+        @can('tolak-ap')
         <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#exampleModalLong">
             Tolak
         </button>
-
+        @endcan
         <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
             aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -54,7 +57,44 @@
                 </div>
             </div>
         </div>
+        @can('approve-vendor')
+        <a href="{{ route('terima_pengajuan_vendor', $Pengajuans->id) }}" class="btn btn-sm btn-success">Terima Vendor</a>
+        @endcan
+        @can('approve-vendor')
+        <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#exampleModalLongVendor">
+            Tolak Vendor
+        </button>
+        @endcan
+        <div class="modal fade" id="exampleModalLongVendor" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongVendor">Apakah Anda Yakin!!!!</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
 
+                    <div class="modal-body">
+                        <form action="{{ route('tolak_pengajuan_vendor', $Pengajuans->id)}}" method="POST">
+                            @csrf
+                            <div class="form-group">
+                                <lebel for="catatan">Catatan Penolakan</label>
+                                    <textarea name="catatan" class="form-control" id="catatan" cols="30" rows="10"
+                                        required></textarea>
+                            </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-danger">Tolak</button>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
         @if(Session::has('message'))
         <div class="alert alert-success mt-3 alert-dismissible">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true"></button>
