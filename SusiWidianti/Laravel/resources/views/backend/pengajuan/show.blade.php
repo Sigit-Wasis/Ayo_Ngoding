@@ -18,18 +18,23 @@
             </div>
         </div>
     </section>
-
     <section class="content">
+        @can('terima-ap')
         <a href="{{ route('terima_pengajuan',$pengajuan->id) }}" class="btn btn-sm btn-success">Terima</a>
+        @endcan
+        @can('tolak-ap')
         <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#exampleModalCenter">
             Tolak
         </button>
-
+        @endcan
+        @can('terima-vendor')
         <a href="{{ route('terima_vendor',$pengajuan->id) }}" class="btn btn-sm btn-success">Terima Vendor</a>
+        @endcan
+        @can('tolak-vendor')
         <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#exampleModalVendor">
             Tolak Vendor
         </button>
-        
+        @endcan
 
         <!-- Modal -->
         <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -123,35 +128,35 @@
                                 @endif
                             </th>
                             </th>
-                            <tr>
+                        <tr>
                             <th scope="col">keterangan ditolak ap</th>
                             <th>{{$pengajuan->keterangan_ditolak_ap}}</th>
                         </tr>
                         </tr>
-                       
+
                     </thead>
                 </table>
             </div>
             <div class="col-md-6">
                 <table class="table table-striped">
                     <thead>
-                    <th scope="col">Status Pengajuan Vendor</th>
-                            <th>
-                                @if($pengajuan->status_pengajuan_vendor == 0)
-                                <span class="badge badge-primary">Dibuat</span>
-                                @elseif($pengajuan->status_pengajuan_vendor == 1)
-                                <span class="badge badge-success">Disetujui</span>
-                                @else
-                                <span class="bagde badge-danger">Ditolak</span>
-                                @endif
-                            </th>
-                            <tr>
-                           
-                           <tr>
-                           <th scope="col">Status ditolak vendor</th>
-                           <th>{{ $pengajuan->status_ditolak_vendor}}</th>
-                       </tr>
-                       
+                        <th scope="col">Status Pengajuan Vendor</th>
+                        <th>
+                            @if($pengajuan->status_pengajuan_vendor == 0)
+                            <span class="badge badge-primary">Dibuat</span>
+                            @elseif($pengajuan->status_pengajuan_vendor == 1)
+                            <span class="badge badge-success">Disetujui</span>
+                            @else
+                            <span class="bagde badge-danger">Ditolak</span>
+                            @endif
+                        </th>
+                        <tr>
+
+                        <tr>
+                            <th scope="col">Status ditolak vendor</th>
+                            <th>{{ $pengajuan->status_ditolak_vendor}}</th>
+                        </tr>
+
                         <tr>
                             <th scope="col">Di buat oleh</th>
                             <th>{{ $pengajuan->created_by}}</th>
