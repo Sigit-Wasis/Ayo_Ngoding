@@ -40,23 +40,9 @@ class UserController extends Controller
 
     public function store(UserUpdateRequest $request)
     {
-        // Tipe data $request adalah object
-
-        // DD (die dump untuk memeriksa apakahvalue atau rcord didalam variabel $request yang diambil dari form inputan)
-        // dd($request->all());
-
-        // DB::table('users')->insert([
-        //     'nama_lengkap' => $request->nama_lengkap,
-        //     'alamat' => $request->alamat,
-        //     'no_telephone' => $request->no_telephone,
-        //     'email' => $request->email,
-        //     'username' => $request->username,
-        //     'password' => bcrypt($request->password),
-        //     'created_at' => \Carbon\Carbon::now(),
-        //     'Updated_at' => \Carbon\Carbon::now(),
-        // ]);
 
         $input = $request->all(); //mengambil semua value dari form create user
+        $input['password'] = bcrypt($input['password']);
         $user = User::create($input); //menyimpan data user ke dalam database
         $user->assignRole($request->input('roles')); //menghubungkan antara user ddengan role dari inputan
 
@@ -82,11 +68,11 @@ class UserController extends Controller
     public function update(UserUpdateRequest $request, $id)
     {
         $input = $request->all();
-        if(!empty($input['password'])){                
-             $input['password'] = Hash::make($input['password']);
-        }else{
-                $input = Arr::except($input,array('password'));
-            }
+        if  (!empty($input['password'])) {
+            $input['password'] = bcrypt($input['password']);
+        } else {
+            $input = Arr::except($input, array('password'));
+        }
 
             $user = User::find($id);
             $user->update($input);
