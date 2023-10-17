@@ -46,7 +46,7 @@ class PengajuanBarangController extends Controller
     public function getBarangById(Request $request)
     {
         $databarang = DB::table('mts_barang')->select('id', 'nama_barang')
-            ->where('id_vendors', (int) $request->id_vendors)
+            ->where('id_vendor', (int) $request->id_vendor)
             ->get();
 
         return response()->json($databarang);
@@ -74,7 +74,7 @@ class PengajuanBarangController extends Controller
                 'status_pengajuan_ap' => 0, 
                 'keterangan_ditolak_ap' => '', 
                 'status_pengajuan_vendor' => 0, 
-                'keterangan_ditolak_vendor' => '', 
+                'status_ditolak_vendor' => '', 
                 'created_by' => Auth::user()->id, 
                 'updated_by' => Auth::user()->id, 
                 'created_at' => \Carbon\Carbon::now(), 
@@ -93,10 +93,10 @@ class PengajuanBarangController extends Controller
                     'created_at' => \Carbon\Carbon::now(), 
                     'updated_at' => \Carbon\Carbon::now(), 
                 ]); 
-
+                
 
                 //UPDATE STOK BARANG
-                DB::table('mts_barang')->where('id', $request->id_barang[$i])->decrement('Stok', $request->jumlah_barang);
+                DB::table('mts_barang')->where('id', $request->id_barang[$i])->decrement('Stok', $request->jumlah_barang[$i]);
  
                 $grandTotal += $request->jumlah_barang[$i] * $request->harga_barang[$i]; 
             } 
@@ -132,7 +132,7 @@ class PengajuanBarangController extends Controller
             $detailPengajuan = DB::table('detail_pengajuan')
             ->select('detail_pengajuan.*', 'nama_barang', 'harga','satuan', 'gambar', 'deskripsi', 'nama')
             ->join('mts_barang', 'mts_barang.id', 'detail_pengajuan.id_barang')
-            ->join('vendors', 'vendors.id', 'mts_barang.id_vendors')
+            ->join('vendors', 'vendors.id', 'mts_barang.id_vendor')
             ->where('detail_pengajuan.id_tr_pengajuan', $id_pengajuan)
             ->get();
 
@@ -153,14 +153,92 @@ class PengajuanBarangController extends Controller
 
         public function tolakPengajuan(Request $request, $id)
         {
-            DB::table('tr_pengajuan')->where('id', $id)->update([
-                'status_pengajuan_ap' =>2, //Jika satu maka status diterima
-                'Keterangan_ditolak_ap' =>$request->catatan, //panah catatan itu diambil dari nama modal
-            ]);
-
-            return redirect()->route('show_data_pengajuan',$id)->with('message', 'pengajuan di tolak');
-    
-    }
+            // Ambil data keterangan_ditolak_ap dari tabel tr_pengajuan
+            $penolakanAP = DB::table('tr_pengajuan')->select('keterangan_ditolak_ap')->where('id', $id)->first();
         
+            // Ambil catatan dari request
+            $catatan = $request->catatan;
+        
+            if ($penolakanAP) {
+                // Jika keterangan_ditolak_ap ada, gabungkan dengan catatan
+                $existingCatatan = json_decode($penolakanAP->keterangan_ditolak_ap, true);
+        
+                if (is_array($existingCatatan)) {
+                    // Gabungkan catatan dengan yang sudah ada
+                    $existingCatatan[] = $catatan;
+                } else {
+                    // Jika keterangan_ditolak_ap tidak berisi array valid, buat array baru
+                    $existingCatatan = [$catatan];
+                }
+        
+                // Simpan kembali ke database
+                DB::table('tr_pengajuan')->where('id', $id)->update([
+                    'status_pengajuan_ap' => 2, // Jika satu maka status diterima
+                    'keterangan_ditolak_ap' => json_encode($existingCatatan), // Simpan sebagai JSON
+                ]);
+            } else {
+                // Jika data tidak ditemukan, tangani sesuai kebutuhan aplikasi Anda
+                // Misalnya, tampilkan pesan kesalahan atau lakukan tindakan lain yang sesuai.
+            }
+        
+            return redirect()->route('show_data_pengajuan', $id)->with('message', 'Pengajuan ditolak');
+        }
+        
+    public function terimavendor($id)
+    {
+        DB::table('tr_pengajuan')->where('id', $id)->update([
+            'status_pengajuan_vendor' =>1 //Jika satu maka status diterima
+        ]);
+
+        return redirect()->route('show_data_pengajuan',$id)->with('message', 'Pengajuan Berhasil Diterima Vendor');
+
+}
+public function tolakvendor(Request $request, $id)
+{
+    $penolakanVendor = DB::table('tr_pengajuan')->select('status_ditolak_vendor')->where('id', $id)->first();
+        
+    // Ambil catatan dari request
+        $catatan = $request->catatan;
+
+        if ($penolakanVendor) {
+            // Jika keterangan_ditolak_ap ada, gabungkan dengan catatan
+            $existingCatatan = json_decode($penolakanVendor->status_ditolak_vendor, true);
+
+            if (is_array($existingCatatan)) {
+                // Gabungkan catatan dengan yang sudah ada
+                $existingCatatan[] = $catatan;
+            } else {
+                // Jika keterangan_ditolak_ap tidak berisi array valid, buat array baru
+                $existingCatatan = [$catatan];
+            }
+
+              // Simpan kembali ke database
+              DB::table('tr_pengajuan')->where('id', $id)->update([
+                'status_pengajuan_vendor' => 2, // Jika satu maka status diterima
+                'status_ditolak_vendor' => json_encode($existingCatatan), // Simpan sebagai JSON
+            ]);
+        } else {
+            // Jika data tidak ditemukan, tangani sesuai kebutuhan aplikasi Anda
+            // Misalnya, tampilkan pesan kesalahan atau lakukan tindakan lain yang sesuai.
         }
     
+        return redirect()->route('show_data_pengajuan', $id)->with('message', 'Pengajuan ditolak oleh vendor');
+    }
+    
+    public function destroy($id)
+    {
+        DB::table('tr_pengajuan')->where('id', $id)->delete();
+
+        return redirect()->route('pengajuan')->with('message', 'Barang Berhasil dihapus');
+    }
+
+    public function edit($id)
+    {
+        //apa tipe data dari $id ?
+        //menggunakan first karena kita mau mengambel hanya satu data yang sesuai dengan id
+        $editpengajuan = DB::table('edit_data_pengajuan')->where('id', $id)->first();
+
+        return view('backend.pengajuan.edit', compact('editpengajuan'));
+    }
+
+        }

@@ -147,7 +147,31 @@ class PengajuanController extends Controller
      */
     public function edit(string $id)
     {
-        //
+         // Query untuk mengambil data dari pengajuan berdasarkan id pengajuan
+        $Pengajuans = FacadesDB::table('pengajuan')->select('pengajuan.*','id_barang', 'nama_perusahaan', 'barang.id_vendor as id_vendor')
+            ->join('detail_pengajuan','detail_pengajuan.id_tr_pengajuan', 'pengajuan.id' )
+            ->join('barang', 'barang.id', 'detail_pengajuan.id_barang')
+            ->join('vendor', 'vendor.id', 'barang.id_vendor')
+            ->where('pengajuan.id',$id)
+            ->first();
+ 
+         // query untuk mengambil data dari detail pengajuan berdasarkan id pengajuan join ke table barang 
+         //dan barang join ke vendor
+        $detailBarang = FacadesDB::table('detail_pengajuan')
+             ->join('pengajuan', 'pengajuan.id', 'detail_pengajuan.id_tr_pengajuan')
+             ->select('detail_pengajuan.id as id_detail_pengajuan','id_barang', 'nama_barang', 'harga', 'stok', 'jumlah')
+             ->join('barang', 'barang.id', 'detail_pengajuan.id_barang')
+             ->where('detail_pengajuan.id_tr_pengajuan',$id)
+             ->get();
+     
+        $vendors = FacadesDB::table('vendor')->select('id','nama_perusahaan')->get();
+        $Barang = FacadesDB::table('barang')
+            ->where('id_vendor',$Pengajuans->id_vendor)
+            ->select('id', 'nama_barang')->get();
+
+        
+        return view ('backend.pengajuan.edit', compact('detailBarang','Pengajuans','vendors','Barang'));
+        
     }
 
     /**
@@ -155,8 +179,67 @@ class PengajuanController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        FacadesDB::beginTransaction();
+
+            try {
+                FacadesDB::table('pengajuan')->where ('id',$id)->update([
+                    'tanggal_pengajuan' =>$request->tanggal_pengajuan,
+                    'updated_by' => Auth::user()->id,
+                    'updated_at' => \Carbon\Carbon::now(),
+        
+                ]);
+
+                $grandTotal = 0;
+
+                $countData = count ($request->id_barang);
+
+                for ($i=0; $i < $countData; $i++) {
+
+                    if (!isset($request->id_detail_barang[$i])) {
+                        FacadesDB::table('detail_pengajuan')->insert([
+                            'id_barang' =>$request->id_barang[$i],
+                            'jumlah' =>$request->jumlah_barang[$i],
+                            'id_tr_pengajuan' =>$id,
+                            'total_per_barang' =>$request->jumlah_barang[$i] * $request->harga_barang[$i],
+                            'created_by' => Auth::user()->id, 
+                            'updated_by' => Auth::user()->id,
+                            'created_at' => \Carbon\Carbon::now(),
+                            'updated_at' => \Carbon\Carbon::now(),
+                        ]);
+                    }else{
+                        FacadesDB::table('detail_pengajuan')->where('id', $request->id_detail_barang[$i])->update([
+                            'id_barang' =>$request->id_barang[$i],
+                            'jumlah' =>$request->jumlah_barang[$i],
+                            'id_tr_pengajuan' =>$id,
+                            'total_per_barang' =>$request->jumlah_barang[$i] * $request->harga_barang[$i],
+                            'created_at' => \Carbon\Carbon::now(),
+                            'updated_at' => \Carbon\Carbon::now(),
+                        ]);
+                    }
+                    FacadesDB::table('barang')->where('id', $request->id_barang[$i])
+                    ->decrement('stok', $request->jumlah_barang[$i]);
+
+                    $grandTotal += $request->jumlah_barang[$i] * $request->harga_barang[$i];
+                }
+
+                FacadesDB::table('pengajuan')->where ('id',$id)->update([
+                    'grand_total' => $grandTotal
+                ]);
+
+                // return "OKEEE deh";
+
+                FacadesDB::commit();
+
+                return redirect()->route('pengajuan')->with('message', 'Pengajuan Berhasil Diupdate');
+
+            } catch (\Exception $e) {
+                FacadesDB::rollback();
+                
+                return $e->getMessage();
+            }
     }
+    
+    
 
     /**
      * Remove the specified resource from storage.
@@ -179,11 +262,59 @@ class PengajuanController extends Controller
 
     public function tolakpengajuan(Request $request, $id)
     {
+        $penolakanap = FacadesDB::table('pengajuan')->select('keterangan_ditolak_ap')->where('id', $id)->first();
+        $array = [$request->catatan]; 
+
+        // dd($penolakanap->keterangan_ditolak_ap);
+
+        if ($penolakanap->keterangan_ditolak_ap !== "") {
+            # code...
+            if ($penolakanap->keterangan_ditolak_ap !== null || !empty($penolakanap->keterangan_ditolak_ap)) {
+                $penolakanAP = array_merge(json_decode($penolakanap->keterangan_ditolak_ap), $array);
+            }
+        } else {
+            $penolakanAP = $array;
+        }
+    
         FacadesDB::table('pengajuan')->where('id', $id)->update([
-        'status_pengajuan_ap' => 2, //jika 2 maka ditolak
-        'keterangan_ditolak_ap' => $request->catatan, // catatan diambil dari name modal
+            'status_pengajuan_ap' => 2, // jika 2 maka ditolak
+            'keterangan_ditolak_ap' => $penolakanAP, 
         ]);
 
-        return redirect()->route('show_pengajuan',$id)->with('message','Data Pengajuan Berhasil Ditolak');
+
+        return redirect()->route('show_pengajuan',$id)->with('message','Status Pengajuan Berhasil Ditolak');
+    }
+
+    public function terimapengajuanvendor($id)
+    {
+        FacadesDB::table('pengajuan')->where('id', $id)->update([
+        'status_pengajuan_vendor' => 1 //jika 1 maka diterima
+        ]);
+
+        return redirect()->route('show_pengajuan',$id)->with('message','Data Pengajuan Vendor Berhasil Diterima');
+    }
+
+    public function tolakpengajuanvendor(Request $request, $id)
+    {
+        $penolakanvendor = FacadesDB::table('pengajuan')->select('keterangan_ditolak_vendor')->where('id', $id)->first();
+        $array = [$request->catatan]; 
+
+        // dd($penolakanvendor->keterangan_ditolak_vendor);
+
+        if ($penolakanvendor->keterangan_ditolak_vendor !== "") {
+            # code...
+            if ($penolakanvendor->keterangan_ditolak_vendor !== null || !empty($penolakanvendor->keterangan_ditolak_vendor)) {
+                $penolakanVendor = array_merge(json_decode($penolakanvendor->keterangan_ditolak_vendor), $array);
+            }
+        } else {
+            $penolakanVendor = $array;
+        }
+    
+        FacadesDB::table('pengajuan')->where('id', $id)->update([
+            'status_pengajuan_vendor' => 2, // jika 2 maka ditolak
+            'keterangan_ditolak_vendor' => $penolakanVendor, 
+        ]);
+
+        return redirect()->route('show_pengajuan',$id)->with('message','Status Pengajuan Vendor Berhasil Ditolak');
     }
 }

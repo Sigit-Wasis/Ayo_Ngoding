@@ -39,8 +39,8 @@
                     <input type="date" id="tanggal_pengajuan" class="form-control" value="<?php echo date('Y-m-d') ?>" name="tanggal_pengajuan"> 
                 </div> 
                 <div class="form-group"> 
-                    <label for="id_vendors">Nama Vendor</label> 
-                    <select name="id_vendors" class="form-control" id="id_vendors" onchange="selectBarangByVendor(this.value)"> 
+                    <label for="id_vendor">Nama Vendor</label> 
+                    <select name="id_vendor" class="form-control" id="id_vendor" onchange="selectBarangByVendor(this.value)"> 
                         <option value="">-- pilih vendor --</option> 
                         @foreach($vendors as $vendor) 
                             <option value="{{ $vendor->id }}">{{ $vendor->nama }}</option> 
@@ -97,13 +97,13 @@
  
 @section('script') 
 <script> 
-    function selectBarangByVendor(id_vendors) {   
+    function selectBarangByVendor(id_vendor) {   
         $.ajax({ 
             type: 'GET', 
             url: window.location.origin + '/data_pengajuan/barang', 
             dataType: 'json', 
             data: { 
-                "id_vendors": id_vendors 
+                "id_vendor": id_vendor
             }, 
             success: function(textStatus) { 
                 if (textStatus.length > 0) { 
@@ -156,7 +156,7 @@
             type: 'GET', 
             dataType: 'json', 
             data: { 
-                "id_vendors": $('#id_vendors').val(), 
+                "id_vendor": $('#id_vendor').val(), 
             }, 
             success: function(data) { 
                 console.log(data) 

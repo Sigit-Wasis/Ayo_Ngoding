@@ -68,7 +68,7 @@ class DataBarangController extends Controller
             'satuan' => $request->satuan,
             'deskripsi' => $request->deskripsi,
             'gambar' => 'assets/image/' . $imageName,
-            'id_vendors' => $request->id_vendors,
+            'id_vendor' => $request->id_vendor,
             'stok' => $request->stok,
             'created_by' => Auth::user()->id,
             'updated_by' => Auth::user()->id,
@@ -87,9 +87,11 @@ class DataBarangController extends Controller
         $detailBarang = DB::table('mts_barang')->select('mts_barang.*', 'username as created_by', 'nama_jenis_barang', 'vendors.nama as nama_perusahaan')
             ->where('mts_barang.id', $id) //tambahin where dimana id barang itu sesuai dengan yang dipilih
             ->join('jenis_barang', 'jenis_barang.id', 'mts_barang.id_jenis_barang')
-            ->join('vendors', 'vendors.id', 'mts_barang.id_vendors')
+            ->join('vendors', 'vendors.id', 'mts_barang.id_vendor')
             ->join('users', 'users.id', 'mts_barang.created_by')
             ->first(); //dari paginate ganti jadi firsh()
+
+          
 
         return view('backend.barang.show', compact('detailBarang'));
     }
@@ -127,7 +129,7 @@ class DataBarangController extends Controller
                 'satuan' => $request->satuan,
                 'deskripsi' => $request->deskripsi,
                 'gambar' => 'assets/image/' . $imageName,
-                'id_vendors' => $request->id_vendors,
+                'id_vendor' => $request->id_vendor,
                 'stok' => $request->stok,
                 'updated_by' => Auth::user()->id,
                 'updated_at' => \Carbon\Carbon::now(),
@@ -142,7 +144,7 @@ class DataBarangController extends Controller
                 'satuan' => $request->satuan,
                 'deskripsi' => $request->deskripsi,
                 'stok' => $request->stok,
-                'id_vendors' => $request->id_vendors,
+                'id_vendor' => $request->id_vendor,
                 'updated_by' => Auth::user()->id,
                 'updated_at' => \Carbon\Carbon::now(),
             ]);
