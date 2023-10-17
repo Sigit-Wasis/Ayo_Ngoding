@@ -57,7 +57,7 @@
                 @endcan
                 <!-- <li class="nav-item"> -->
                 <li class="nav-item">
-                    <a href="{{ route('pengajuan_barang') }}" class="nav-link">
+                    <a href="{{ route('pengajuan') }}" class="nav-link">
                         <i class="nav-icon fas fa-shopping-cart"></i>
                         <p>
                             Pengajuan Barang
@@ -75,7 +75,7 @@
                     </a>
                 </li>
                 @can('user-list')
-                <li class="nav-item">s
+                <li class="nav-item">
                     <a href="{{ route('user') }}" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
                         <p>

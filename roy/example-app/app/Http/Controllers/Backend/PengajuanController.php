@@ -76,6 +76,7 @@ class PengajuanController extends Controller
                 'created_at' => \Carbon\Carbon::now(), 
                 'updated_at' => \Carbon\Carbon::now(), 
             ]); 
+
  
             $grandTotal = 0; 
  
@@ -92,6 +93,10 @@ class PengajuanController extends Controller
                     'updated_by' => Auth::user()->id,
                 ]); 
  
+
+                // UPDATE STOK BARANG
+                DB::table('mst_barang')->where('id', $request->id_barang[$i])->decrement('stok_barang', $request->jumlah_barang[$i]);
+
                 $grandTotal += $request->jumlah_barang[$i] * $request->harga_barang[$i]; 
             } 
  
@@ -106,18 +111,82 @@ class PengajuanController extends Controller
         } catch (\Exception $e) { 
             DB::rollback(); 
             // something went wrong 
+
+            dd($e->getMessage());
         } 
     }
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
+
+    public function show($id_pengajuan)
+     {
+        // Query untuk mengambil data dari TR pengajuan berdasarkan id_pengajuan
+        $pengajuan = DB::table('tr_pengajuan')
+        ->select('tr_pengajuan.*', 'name as created_by', 'email')
+        ->join("users", "users.id", 'tr_pengajuan.created_by')
+        ->where('tr_pengajuan.id', $id_pengajuan)
+        ->first();
+
+        // Query untuk mengambil data dari detail pengajuan berdasarkan Id_pengajuan join ke table barang
+        // dan barang join ke vendor
+        $detailPengajuan =DB::table('detail_pengajuan')
+        ->select('detail_pengajuan.*', 'nama_barang', 'harga', 'gambar', 'satuan', 'deskripsi', 'nama_perusahaan')
+        ->join('mst_barang', 'mst_barang.id', 'detail_pengajuan.id_barang')
+        ->join('vendor', 'vendor.id', 'mst_barang.id_vendor')  
+        ->where('detail_pengajuan.id_tr_pengajuan', $id_pengajuan)
+        ->get();
+
+        // Compact arahkan ke dalam show.blade.php
+        return view('backend.pengajuan.show', compact('pengajuan', 'detailPengajuan'));
+     }  
+    
+     public function terimaPengajuan($id)
+     {
+        DB::table('tr_pengajuan')->where('id', $id)->update([
+            'status_pengajuan_ap' => 1 //jika 1 maka status diterima
+        ]);
+        return redirect()->route('show_pengajuan', $id)->with('message', 'Pengajuan berhasil diterima');
+     }
+  
+     public function tolakPengajuan(Request $request, $id)
+     {
+        $keteranganPenolakanAP = Db::table ('tr_pengajuan')->select('keterangan_ditolak_ap')->where('id', $id)->first();     
+        $array = [$request->catatan];
+
+        if ($keteranganPenolakanAP->keterangan_ditolak_ap !== "") {
+            if ($keteranganPenolakanAP->keterangan_ditolak_ap !== null || ! empty($keteranganPenolakanAP->keterangan_ditolak_ap)) {
+                $penolakan = array_merge(json_decode($keteranganPenolakanAP->keterangan_ditolak_ap), $array);
+            }
+        } else {
+            $penolakan = $array;
+        }
+
+        DB::table('tr_pengajuan')->where('id', $id)->update([
+            'status_pengajuan_ap' => 2, // Jika 2 maka status ditolak
+            'keterangan_ditolak_ap' => $penolakan, //panah catatan itu diambil dari nama modal tolal
+        ]);
+
+        // DB::table('tr_pengajuan')->where('id', $id)->update([
+        //     'status_pengajuan_ap' => 2, //jika 1 maka status ditolak
+        //     'keterangan_ditolak_ap' => $request->catatan, // panah catatan itu diambil dari nama modal tolak
+        // ]);
+            return redirect()->route('show_pengajuan', $id)->with('message', 'Maaf,,, Pengajuan Ditolak!');
+     }
+
+     public function terimaPengajuanVendor($id)
+     {
+        DB::table('tr_pengajuan')->where('id', $id)->update([
+            'status_pengajuan_vendor' => 1 //jika 1 maka status diterima
+        ]);
+        return redirect()->route('show_pengajuan', $id)->with('message', 'Pengajuan berhasil diterima');
+     }
+  
+     public function tolakPengajuanVendor(Request $request, $id)
+     {
+        DB::table('tr_pengajuan')->where('id', $id)->update([
+            'status_pengajuan_vendor' => 2, //jika 1 maka status ditolak
+            'keterangan_ditolak_vendor' => $request->catatan, // panah catatan itu diambil dari nama modal tolak
+        ]);
+            return redirect()->route('show_pengajuan', $id)->with('message', 'Maaf,,, Pengajuan Ditolak!');
+     }
 
     /**
      * Show the form for editing the specified resource.
@@ -150,6 +219,8 @@ class PengajuanController extends Controller
      */
     public function destroy($id)
     {
-        //
+        DB::table('tr_pengajuan')->where('id', $id)->delete();
+
+        return redirect()->route('pengajuan')->with('message', 'Transaksi Berhasil dihapus');
     }
 }

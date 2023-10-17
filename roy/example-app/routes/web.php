@@ -61,6 +61,11 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('edit-pengajuan/{id}', 'Backend\PengajuanController@edit')->name('edit_pengajuan');
         Route::post('/update-pengajuan/{id}', 'Backend\PengajuanController@update')->name('update_pengajuan');
 
+        Route::get('/terima-pengajuan/{id}', 'Backend\PengajuanController@terimaPengajuan')->name('terima_pengajuan');
+        Route::post('/tolak-pengajuan/{id}', 'Backend\PengajuanController@tolakPengajuan')->name('tolak_pengajuan');
+        Route::get('/terima-pengajuan-vendor/{id}', 'Backend\PengajuanController@terimaPengajuanVendor')->name('terima_pengajuan_vendor');
+        Route::post('/tolak-pengajuan-vendor/{id}', 'Backend\PengajuanController@tolakPengajuanVendor')->name('tolak_pengajuan_vendor');
+
         Route::get('/vendor', 'Backend\vendorController@index')->name('vendor');
         Route::get('/tambah-vendor', 'Backend\vendorController@create')->name('tambah_vendor');
         Route::post('/store-vendor', 'Backend\vendorController@store')->name('store_vendor');
@@ -69,7 +74,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/update-vendor/{id}', 'Backend\vendorController@update')->name('update_vendor');
 
     
-        Route::resource('roles', RoleController::class);
+        // Route::resource('roles', RoleController::class);
     });
 });
 

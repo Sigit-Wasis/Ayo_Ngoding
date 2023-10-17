@@ -52,13 +52,19 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
 
         Route::get('/pengajuan', 'Backend\PengajuanController@index')->name('pengajuan.index');
         Route::get('/barang/add', 'Backend\PengajuanController@index')->name('barangAdd');
+        Route::post('/pengajuan/{id}', 'Backend\PengajuanController@update')->name('pengajuan.update');
         Route::get('/pengajuan/barang', 'Backend\PengajuanController@getBarangById')->name('pengajuan-barang');
         Route::get('/barang/harga/stok', 'Backend\PengajuanController@getHargaStokBarangById');
         Route::get('pengajuan_barang', 'Backend\PengajuanController@create')->name('pengajuan_barang.create');
         Route::get('/tambah_pengajuan', 'Backend\PengajuanController@create')->name('tambah_pengajuan');
         Route::post('/store_pengajuan', 'Backend\PengajuanController@store')->name('store_pengajuan');
         Route::get('/edit-pengajuan/{id}', 'Backend\PengajuanController@edit')->name('edit_pengajuan');
-        Route::delete('/hapus-pengajuan/{id}', 'Backend\PengajuanController@destroy')->name('delete_pengajuan');
+        Route::get('/show_pengajuan/{id}', 'Backend\PengajuanController@show')->name('show_pengajuan');
+        Route::get('/hapus-pengajuan/{id}', 'Backend\PengajuanController@destroy')->name('delete_pengajuan');
+        Route::post('/tolak_pengajuan/{id}', 'Backend\PengajuanController@tolakpengajuan')->name('tolak_pengajuan');
+        Route::get('/terima_pengajuan/{id}', 'Backend\PengajuanController@terimapengajuan')->name('terima_pengajuan');
+        Route::get('/terima_pengajuan_vendor/{id}', 'Backend\PengajuanController@terimapengajuanvendor')->name('terima_pengajuan_vendor');
+        Route::post('/tolak_pengajuan_vendor/{id}', 'Backend\PengajuanController@tolakpengajuanvendor')->name('tolak_pengajuan_vendor');
 
         // // Route::get('/show_barang/{id}', 'Backend\BarangController@show')->name('Show_barang');
         // Route::post('/store_pengajuan', 'Backend\PengajuanController@store')->name('store_pengajuan');

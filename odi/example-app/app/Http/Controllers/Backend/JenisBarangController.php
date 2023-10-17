@@ -66,7 +66,7 @@ class JenisBarangController extends Controller
         FacadesDB::table('jenis_barang')->where ('id',$id)->update([
             'nama_jenis_barang' =>$request->nama_jenis_barang,
             'deskripsi' =>$request->deskripsi,
-            'updated_by' => 1,
+            'updated_by' => Auth::user()->id,
             'updated_at' => \Carbon\Carbon::now(),
 
         ]);

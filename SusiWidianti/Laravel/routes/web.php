@@ -30,7 +30,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
         Route::post('/store_jenis_barang', 'Backend\JenisBarangController@store')->name('store_jenis_barang');
         Route::get('delete_jenis_barang/{id}', 'Backend\JenisBarangController@destroy')->name('delete_jenis_barang');
         Route::get('edit_jenis_barang/{id}', 'Backend\JenisBarangController@edit')->name('edit_jenis_barang');
-        Route::post('update_jenis_barang/{id }', 'Backend\JenisBarangController@update')->name('update_jenis_barang');
+        Route::post('update_jenis_barang/{id}', 'Backend\JenisBarangController@update')->name('update_jenis_barang');
 
         Route::get('/user', 'Backend\UserController@index')->name('users');
         Route::get('/tambah_users', 'Backend\UserController@create')->name('tambah_users');
@@ -59,6 +59,10 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
         Route::get('show_data_pengajuan/{id}', 'Backend\PengajuanBarangController@show')->name('show_data_pengajuan');
         Route::post('update_data_pengajuan/{id}', 'Backend\PengajuanBarangController@update')->name('update_data_pengajuan');
 
+        Route::get('/terima_pengajuan/{id}', 'Backend\PengajuanBarangController@terimaPengajuan')->name('terima_pengajuan');
+        Route::POST('/tolak_pengajuan/{id}', 'Backend\PengajuanBarangController@tolakPengajuan')->name('tolak_pengajuan');
+        Route::get('/terima_vendor/{id}', 'Backend\PengajuanBarangController@terimavendor')->name('terima_vendor');
+        Route::POST('/tolak_vendor/{id}', 'Backend\PengajuanBarangController@tolakvendor')->name('tolak_vendor');
 
         Route::get('/data_vendor', 'Backend\VendorController@index')->name('vendor');
         Route::get('/tambah_Vendor', 'Backend\VendorController@create')->name('tambah_Vendor');
@@ -67,6 +71,9 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
         Route::get('edit_data_Vendor/{id}', 'Backend\VendorController@edit')->name('edit_data_Vendor');
         Route::get('show_data_Vendor/{id}', 'Backend\VendorController@show')->name('show_data_Vendor');
         Route::post('update_data_Vendor/{id}', 'Backend\VendorController@update')->name('update_data_Vendor');
+
+
+        
 
 
 

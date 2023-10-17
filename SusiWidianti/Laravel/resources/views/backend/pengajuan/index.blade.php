@@ -25,6 +25,7 @@
     <section class="content">
         <div class="card">
             <div class="card-body">
+                
                 @if(Session::has('message'))
                 <div class="alert alert-success alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -39,9 +40,10 @@
                     <thead>
                         <tr>
                             <th scope="col">NO</th>
-                            <th scope="col">User</th>
-                            <th scope="col">Tanggal Pengajuan</th>
-                            <th scope="col">Total Pengajuan</th>
+                            <th scope="col">tanggal_pengajuan</th>
+                            <th scope="col">Grand Total</th>
+                            <th scope="col">Di Buat Oleh</th>
+                            <th scope="col">Di Buat Pada</th>
                             <th scope="col">Aksi</th>
                         </tr>
                     </thead>
@@ -52,10 +54,12 @@
                         @forelse($trBarang as $pengajuan)
                         <tr>
                         <td>{{$trBarang->firstItem() + $loop->index }}</td>
-                            <td>{{$pengajuan->created_by}}</td>
-                            <td>{{$pengajuan->tanggal_pengajuan}}</td>
-                            <td>{{$pengajuan->grand_total}}</td>
-                            <td>
+                        <td>{{$pengajuan->tanggal_pengajuan}}</td>
+                        <td>{{"Rp ".number_format($pengajuan->grand_total,2,',','.');}}</td>
+                         <td>{{$pengajuan->created_by}}</td>
+                         <td>{{$pengajuan->created_at?? \Carbon\Carbon::now() }}</td>
+                        <td>
+
                                 <a href="{{ route('show_data_pengajuan', $pengajuan->id) }}" class="btn btn-sm btn-info">Show</a>
                                 <a href="{{ route('edit_data_pengajuan', $pengajuan->id) }}" class="btn btn-sm btn-primary">Edit</a>
                                 <a href="{{route('delete_data_pengajuan',$pengajuan->id)}}" onclick="return confirm('are you sure?')" class="btn btn-sm btn-danger">Delete</a>
