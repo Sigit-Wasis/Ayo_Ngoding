@@ -47,6 +47,7 @@ class UserController extends Controller
         // ]);
 
         $input = $request->all(); // mengmabil semua value dari from create user
+        $input['password'] = bcrypt($input['password']);
         $user = User::create($input); // menyimpan data user ke dalam database
         $user->assignRole($request->input('roles')); // menghubungkan antara user dangan role dan input
 
@@ -66,20 +67,21 @@ class UserController extends Controller
 
     public function update(UserUpdateRequest $request,$id)
      {
-        $input = $request->all();
+
+        $input = $request->all();  // mrngambil semua value dari form create user
         if(!empty($input['password'])){                
-    $input['password'] = Hash::make($input['password']);
+            $input['password'] = bcrypt($input['password']);
             }else{
                 $input = Arr::except($input,array('password'));
             }
 
             $user = User::find($id);
-            $user->update($input);
+            $user->update($input); // menyimpan data user kedalam database
             DB::table('model_has_roles')->where('model_id',$id)->delete();
 
-            $user->assignRole($request->input('roles'));
+            $user->assignRole($request->input('roles')); // menghubungkan antara user dengan role dari
 
-        return redirect()->route('user')->with('message', 'User Berhasil di Update');      
+        return redirect()->route('user')->with('message', 'Data User Berhasil di Update');      
 
     }
     public function destroy($id) {

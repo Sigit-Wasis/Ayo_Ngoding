@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use App\Models\User;
+use Illuminate\Support\Arr;
 
 
 class UserController extends Controller
@@ -71,6 +72,7 @@ class UserController extends Controller
         //     'updated_at' => \Carbon\Carbon::now(),
         // ]);
         $input = $request->all();
+        $input['password'] = bcrypt($input['password']);
         $user = User::create($input);
         $user->assignRole($request->input('roles'));
         return redirect()->route('user')->with('message', 'Users Berhasil Disimpan!');
@@ -85,35 +87,18 @@ class UserController extends Controller
     public function update(UserUpdateRequest $request, $id)
     {
         // Perbarui password jika password baru dan konfirmasi password cocok
-        if ($request->has('password') && $request->password) {
-            DB::table('users')->where('id', $id)->update([
-                'name' => $request->name,
-                'email' => $request->email,
-                'username' => $request->username,
-                'password' => bcrypt($request->password), // Menggunakan => bukan =
-                'updated_at' => \Carbon\Carbon::now(),
-            ]);
-
-            // Atur ulang peran pengguna (roles) jika ada input roles dalam request
-            if ($request->has('roles')) {
-                $user = User::find($id);
-                $user->syncRoles($request->input('roles'));
-            }
+        $input = $request->all();
+        if (!empty($input['password'])) {
+            $input['password'] = bcrypt($input['password']);
+           
         } else {
-            DB::table('users')->where('id', $id)->update([
-                'name' => $request->name,
-                'email' => $request->email,
-                'username' => $request->username,
-                'updated_at' => \Carbon\Carbon::now(),
-            ]);
+           $input= Arr::except($input,array('password'));
 
-            // Atur ulang peran pengguna (roles) jika ada input roles dalam request
-            if ($request->has('roles')) {
-                $user = User::find($id);
-                $user->syncRoles($request->input('roles'));
-            }
         }
-
+        $user = User::find($id);
+        $user->update($input);
+        DB::table('model_has_roles')->where('model_id', $id)->delete();
+        $user->assignRole($request->input('roles'));
         return redirect()->route('user')->with('message', 'User berhasil diperbarui!');
     }
 

@@ -49,6 +49,7 @@ class UserController extends Controller
         // ]);
 
         $input = $request->all();   // mengambil semua value dari form create user
+        $input ['password'] = bcrypt($input['password']);
         $user = User::create($input); //menyimpan data user ke dalam database
         $user->assignRole($request->input('roles')); // menghubungkan antara user dengan role dari inputan
 
@@ -69,7 +70,7 @@ class UserController extends Controller
 
         $input = $request->all();
         if (!empty($input['password'])) {
-            $input['password'] = Hash::make($input['password']);
+            $input['password'] = bcrypt($input['password']);
         } else {
             $input = Arr::except($input, array('password'));
         }

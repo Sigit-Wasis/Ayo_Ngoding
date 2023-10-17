@@ -52,7 +52,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
 
         Route::get('/pengajuan', 'Backend\PengajuanController@index')->name('pengajuan.index');
         Route::get('/barang/add', 'Backend\PengajuanController@index')->name('barangAdd');
-        Route::post('/pengajuan/{id}', 'Backend\PengajuanController@update')->name('pengajuan.update');
+        Route::post('/update/{id}', 'Backend\PengajuanController@update')->name('update_pengajuan');
         Route::get('/pengajuan/barang', 'Backend\PengajuanController@getBarangById')->name('pengajuan-barang');
         Route::get('/barang/harga/stok', 'Backend\PengajuanController@getHargaStokBarangById');
         Route::get('pengajuan_barang', 'Backend\PengajuanController@create')->name('pengajuan_barang.create');

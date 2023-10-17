@@ -1,7 +1,5 @@
 @extends('backend.app')
 
-@section('title', 'Tambah Transaksi Pengajuan')
-
 @section('content')
 
 <div class="content-wrapper">
@@ -9,12 +7,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Tambah Transaksi Pengajuan</h1>
+                    <h1>Update Transaksi Pengajuan</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Tambah Transaksi Pengajuan</li>
+                        <li class="breadcrumb-item active">Update Transaksi Pengajuan</li>
                     </ol>
                 </div>
             </div>
@@ -33,7 +31,7 @@
         </div>
         @endif
 
-        <form method="POST" action="{{ route('store_pengajuan') }}">
+        <form method="POST" action="{{ route('update_pengajuan', ['id' => $editpengajuan->id]) }}">
             @csrf
             <div class="card-body">
                 <div class="form-group">
@@ -45,7 +43,7 @@
                     <select name="id_vendor" class="form-control" id="id_vendor" onchange="selectBarangByVendor(this.value)">
                         <option value="">-- pilih vendor --</option>
                         @foreach($vendors as $vendor)
-                        <option value="{{ $vendor->id }}">{{ $vendor->nama }}</option>
+                        <option value="{{ $vendor->id }}" {{$vendor->id==$editpengajuan->id_vendor ? 'selected':''}}>{{ $vendor->nama }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -58,40 +56,60 @@
                                 <th>Jumlah Barang</th>
                                 <th>Harga Barang</th>
                                 <th>Stok Barang</th>
-                                <th width="80">
-                                    <button type="button" class="btn btn-sm btn-success" disabled id="dynamic-barang">Tambah</button>
+                                <th width="150" colspan=" 5" style="text-align: center;">
+                                    <button type="button" class="btn btn-sm btn-success" id="dynamic-barang">Tambah</button>
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
+                            @foreach($detailP as $key =>$detail)
+                            <input type="hidden" name="id_detail_barang[{{$key}}]" value="{{$detail->id_detail_pengajuan    }}">
                             <tr>
                                 <td>
-                                    <select name="id_barang[0]" class="form-control" onchange="selectHargaDanStokBarang(this.value)" id="id_barang">
-                                        <option value="" selected>-- pilih --</option>
+                                    <select name="id_barang[{{$key}}]" class="form-control" onchange="selectHargaDanStokBarang(this.value)" id="id_barang">
+                                        @foreach($barangs as $brg)
+                                        <option value="{{ $brg->id }}" {{$brg->id==$detail->id_barang ? 'selected':''}}>{{ $brg->nama_barang }}</option>
+                                        @endforeach
                                     </select>
                                 </td>
                                 <td>
-                                    <input type="number" name="jumlah_barang[0]" class="form-control" id="jumlah_barang" required>
+                                    <input type="number" name="jumlah_barang[{{$key}}]" class="form-control" id="jumlah_barang" value="{{ ( $detail->jumlah) }}" required>
                                 </td>
                                 <td>
-                                    <input type="text" name="harga_barang[0]" class="form-control" id="harga_barang" readonly>
+                                    <input type="text" name="harga_barang[{{$key}}]" class="form-control" id="harga_barang" value="{{ ( $detail->harga) }}" readonly>
                                 </td>
                                 <td>
-                                    <input type="text" name="stok_barang[0]" class="form-control" id="stok_barang" readonly>
+                                    <input type="text" name="stok_barang[{{$key}}]" class="form-control" id="stok_barang" value="{{ ( $detail->stok) }}" readonly>
+                                </td>
+                                <td width="80px">
+                                    <button class="btn btn=sm btn-danger">Hapus</button>
+
                                 </td>
                             </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
 
                 <div class="card-footer">
-                    <button type="submit" disabled id="ajukan" class="btn btn-primary">Ajukan</button>
+                    <button type="submit" id="Updateajukan" class="btn btn-primary">Update Pengajuan</button>
                     <a href="{{ route('pengajuan') }}" class="btn btn-info">Kembali</a>
                 </div>
             </div>
         </form>
     </section>
 </div>
+@if(session('message'))
+<div class="alert alert-success">
+    {{ session('message') }}
+</div>
+@endif
+
+@if(session('error'))
+<div class="alert alert-danger">
+    {{ session('error') }}
+</div>
+@endif
 
 @endsection
 
@@ -131,10 +149,10 @@
             },
             success: function(textStatus) {
                 if (katBarang > 0 && katBarang != undefined) {
-                    $('#stok_barang' + katBarang + '').val(textStatus.stok_barang);
+                    $('#stok_barang' + katBarang + '').val(textStatus.stok);
                     $('#harga_barang' + katBarang + '').val(textStatus.harga);
                 } else {
-                    $('#stok_barang').val(textStatus.stok_barang);
+                    $('#stok_barang').val(textStatus.stok);
                     $('#harga_barang').val(textStatus.harga);
                 }
 
