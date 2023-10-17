@@ -32,7 +32,8 @@ class BarangUpdateRequest extends FormRequest
             'deskripsi' => 'required',
             'stok' => 'required|integer',
             'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-            'vendor_id' => 'required'
+            'vendor_id' => 'required',
+            'password' => 'nullable'
         ];
     }
     public function messages()

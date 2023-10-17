@@ -179,11 +179,54 @@ class PengajuanController extends Controller
 
     public function tolakpengajuan(Request $request, $id)
     {
+        $penolakanap = FacadesDB::table('pengajuan')->select('keterangan_ditolak_ap')->where('id', $id)->first();
+        $array = [$request->catatan]; 
+
+        if ($penolakanap->keterangan_ditolak_ap !== null || !empty($penolakanap->keterangan_ditolak_ap)) {
+            $penolakanAP = array_merge(json_decode($penolakanap->keterangan_ditolak_ap), $array);
+        } else {
+            $penolakanAP = $array;
+        }
+    
         FacadesDB::table('pengajuan')->where('id', $id)->update([
-        'status_pengajuan_ap' => 2, //jika 2 maka ditolak
-        'keterangan_ditolak_ap' => $request->catatan, // catatan diambil dari name modal
+            'status_pengajuan_ap' => 2, // jika 2 maka ditolak
+            'keterangan_ditolak_ap' => $penolakanAP, 
         ]);
 
-        return redirect()->route('show_pengajuan',$id)->with('message','Data Pengajuan Berhasil Ditolak');
+
+        return redirect()->route('show_pengajuan',$id)->with('message','Status Pengajuan Berhasil Ditolak');
+    }
+
+    public function terimapengajuanvendor($id)
+    {
+        FacadesDB::table('pengajuan')->where('id', $id)->update([
+        'status_pengajuan_vendor' => 1 //jika 1 maka diterima
+        ]);
+
+        return redirect()->route('show_pengajuan',$id)->with('message','Data Pengajuan Vendor Berhasil Diterima');
+    }
+
+    public function tolakpengajuanvendor(Request $request, $id)
+    {
+        $penolakanvendor = FacadesDB::table('pengajuan')->select('keterangan_ditolak_vendor')->where('id', $id)->first();
+        $array = [$request->catatan]; 
+
+        // dd($penolakanvendor->keterangan_ditolak_vendor);
+
+        if ($penolakanvendor->keterangan_ditolak_vendor !== "") {
+            # code...
+            if ($penolakanvendor->keterangan_ditolak_vendor !== null || !empty($penolakanvendor->keterangan_ditolak_vendor)) {
+                $penolakanVendor = array_merge(json_decode($penolakanvendor->keterangan_ditolak_vendor), $array);
+            }
+        } else {
+            $penolakanVendor = $array;
+        }
+    
+        FacadesDB::table('pengajuan')->where('id', $id)->update([
+            'status_pengajuan_vendor' => 2, // jika 2 maka ditolak
+            'keterangan_ditolak_vendor' => $penolakanVendor, 
+        ]);
+
+        return redirect()->route('show_pengajuan',$id)->with('message','Status Pengajuan Vendor Berhasil Ditolak');
     }
 }

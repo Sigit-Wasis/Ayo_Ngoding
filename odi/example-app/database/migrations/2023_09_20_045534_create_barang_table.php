@@ -22,6 +22,7 @@ return new class extends Migration
             $table->text('deskripsi');
             $table->string('gambar');
             $table->integer('stok');
+            $table->foreignId('id_vendor')->notNull()->references('id')->on('vendor')->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('created_by')->notNull()->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('updated_by')->notNull()->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();

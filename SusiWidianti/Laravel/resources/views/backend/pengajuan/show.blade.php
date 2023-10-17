@@ -25,6 +25,12 @@
             Tolak
         </button>
 
+        <a href="{{ route('terima_vendor',$pengajuan->id) }}" class="btn btn-sm btn-success">Terima Vendor</a>
+        <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#exampleModalVendor">
+            Tolak Vendor
+        </button>
+        
+
         <!-- Modal -->
         <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
@@ -52,6 +58,35 @@
                 </div>
             </div>
         </div>
+
+        <!-- Modal vendor -->
+        <div class="modal fade" id="exampleModalVendor" tabindex="-1" role="dialog" aria-labelledby="exampleModalVendorTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalVendorLongTitle">Catatan Ditolak</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{ route('tolak_vendor', $pengajuan->id) }}" method="POST">
+                            <div class="form-group">
+                                @csrf
+                                <label for="catatan">Catatan Penolakan</label>
+                                <textarea name="catatan" class="form-control" id="catatan" cols="30" rows="10" required></textarea>
+
+                            </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Are You Sure??</button>
+                        <button type="submit" class="btn btn-danger">Tolak Aja!!</button>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
 
         @if(Session::has('message'))
         <div class="alert alert-success mt-3 alert-dismissible">
@@ -88,9 +123,19 @@
                                 @endif
                             </th>
                             </th>
+                            <tr>
+                            <th scope="col">keterangan ditolak ap</th>
+                            <th>{{$pengajuan->keterangan_ditolak_ap}}</th>
                         </tr>
-                        <tr>
-                            <th scope="col">Status Pengajuan Vendor</th>
+                        </tr>
+                       
+                    </thead>
+                </table>
+            </div>
+            <div class="col-md-6">
+                <table class="table table-striped">
+                    <thead>
+                    <th scope="col">Status Pengajuan Vendor</th>
                             <th>
                                 @if($pengajuan->status_pengajuan_vendor == 0)
                                 <span class="badge badge-primary">Dibuat</span>
@@ -100,38 +145,22 @@
                                 <span class="bagde badge-danger">Ditolak</span>
                                 @endif
                             </th>
+                            <tr>
+                           
+                           <tr>
+                           <th scope="col">Status ditolak vendor</th>
+                           <th>{{ $pengajuan->status_ditolak_vendor}}</th>
+                       </tr>
+                       
                         <tr>
-                            <th scope="col">keterangan ditolak ap</th>
-                            <th>{{$pengajuan->keterangan_ditolak_ap}}</th>
-                        </tr>
-
-                    </thead>
-                </table>
-            </div>
-            <div class="col-md-6">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th scope="col">keterangan ditolak vendor</th>
-                            <th>{{ $pengajuan->keterangan_ditolak_vendor}}</th>
-                        </tr>
-                        <tr>
-                            <th scope="col">created by</th>
+                            <th scope="col">Di buat oleh</th>
                             <th>{{ $pengajuan->created_by}}</th>
 
                         </tr>
                         <tr>
-                            <th scope="col">update by</th>
-                            <th>{{ $pengajuan->updated_by}}</th>
-                        </tr>
-                        <tr>
-                            <th scope="col">created at</th>
+                            <th scope="col">Di buat pada</th>
                             <th>{{ $pengajuan->created_at}}</th>
 
-                        </tr>
-                        <tr>
-                            <th scope="col">updated at</th>
-                            <th>{{ $pengajuan->updated_at}}</th>
                         </tr>
                     </thead>
                 </table>

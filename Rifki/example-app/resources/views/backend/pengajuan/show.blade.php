@@ -23,7 +23,7 @@
     <section class="content">
         <a href="{{ route('terima_pengajuan', $pengajuan->id) }}" class="btn btn-sm btn-success">Terima</a>
         <button class="btn btn-sm btn-danger" data-toggle="modal" data-target="#keteranganModal">Tolak</button>
-            <!-- Modal for Keterangan Penolakan -->
+        <!-- Modal for Keterangan Penolakan -->
         <div class="modal fade" id="keteranganModal" tabindex="-1" role="dialog" aria-labelledby="keteranganModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -37,16 +37,42 @@
                         <form action="{{ route('tolak_pengajuan', $pengajuan->id) }}" method="post">
                             @csrf
                             <textarea name="catatan" id="catatan" class="form-control" rows="5" placeholder="Alasan Penolakan" required></textarea>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-danger">Tolak Sekarang Juga</button>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Tidak Jadi Ditolak</button>
-                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-danger">Tolak Sekarang Juga</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tidak Jadi Ditolak</button>
+                    </div>
                     </form>
                 </div>
             </div>
         </div>
 
+        <a href="{{ route('terima_pengajuan_vendor', $pengajuan->id) }}" class="btn btn-sm btn-success">Terima Vendor</a>
+        <button class="btn btn-sm btn-danger" data-toggle="modal" data-target="#keteranganModalvendor">Tolak Vendor</button>
+
+        <!-- Modal for Keterangan Penolakan vendor -->
+        <div class="modal fade" id="keteranganModalvendor" tabindex="-1" role="dialog" aria-labelledby="keteranganModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="keteranganModalLabel">Keterangan Penolakan</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{ route('tolak_pengajuan_vendor', $pengajuan->id) }}" method="post">
+                            @csrf
+                            <textarea name="catatan" id="catatan" class="form-control" rows="5" placeholder="Alasan Penolakan" required></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-danger">Tolak Sekarang Juga</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tidak Jadi Ditolak</button>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
 
         @if(Session::has('message'))
         <div class="alert alert-success mt-3 alert-dismissible">
@@ -61,7 +87,6 @@
         @endif
 
 
-        <section class="content">
             <div class="row">
                 <div class="col-md-6">
                     <div class="table-responsive">
@@ -102,6 +127,14 @@
                                         <span class="badge badge-danger">Ditolak</span>
                                         @endif
                                     </td>
+                                </tr>
+
+                                <tr>
+                                   
+                                    
+
+                                    <th scope="row">Keterangan Ditolak Vendor</th>
+                                    <td>{{ $pengajuan->keterangan_ditolak_vendor }}</td>
                                 </tr>
                                 <tr>
                                     <th scope="row">Dibuat Pada</th>

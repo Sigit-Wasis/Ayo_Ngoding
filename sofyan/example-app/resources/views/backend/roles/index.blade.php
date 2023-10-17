@@ -19,13 +19,11 @@
         </div>
     </section>
 
+    <div class="card-footer clearfix">
+        <a href="{{route('roles.create')}}" class="btn btn-primary float-right"><i class="fas fa-plus"></i>Tambah Roles</a>
+    </div>
 
     <section class="content">
-
-        <div class="col-md-2 mb-2">
-            <a href="{{route('roles.create')}}" class="btn btn-sm btn-block btn-success"><i class="fas fa-plus"></i> Tambah Roles</a>
-        </div>
-
         <div class="card">
             <div class="card-body">
                 @if(Session::has('message'))
