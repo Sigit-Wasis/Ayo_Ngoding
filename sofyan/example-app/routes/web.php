@@ -59,8 +59,14 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
         Route::post('/store-pengajuan', 'Backend\TransaksiBarangController@store')->name('store_pengajuan');
         Route::get('/detail_pengajuan/{id}', 'Backend\TransaksiBarangController@detailpengajuan')->name('detail_pengajuan');
         Route::get('/delete_pengajuan/{id}', 'Backend\TransaksiBarangController@deletepengajuan')->name('delete_pengajuan');
+        Route::get('/edit_pengajuan/{id}', 'Backend\TransaksiBarangController@editpengajuan')->name('edit_pengajuan');
+        Route::post('/update_pengajuan/{id}', 'Backend\TransaksiBarangController@updatepengajuan')->name('update_pengajuan');
+
         Route::get('/terima_pengajuan/{id}', 'Backend\TransaksiBarangController@terimapengajuan')->name('terima_pengajuan');
         Route::post('/tolak_pengajuan/{id}', 'Backend\TransaksiBarangController@tolakpengajuan')->name('tolak_pengajuan');
+
+        Route::get('/terima_vendor/{id}', 'Backend\TransaksiBarangController@terimavendor')->name('terima_vendor');
+        Route::post('/tolak_vendor/{id}', 'Backend\TransaksiBarangController@tolakvendor')->name('tolak_vendor');
 
         //Vendor
         Route::get('/vendors', 'Backend\VendorController@index')->name('vendors');

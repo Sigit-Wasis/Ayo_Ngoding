@@ -35,6 +35,26 @@ class PermissionTableSeeder extends Seeder
             'user-create',
             'user-edit',
             'user-delete',
+
+            'vendors-list',
+            'vendors-create',
+            'vendors-edit',
+            'vendors-delete',
+
+            'pengajuan-list',
+            'pengajuan-create',
+            'pengajuan-detail',
+            'pengajuan-edit',
+            'pengajuan-delete',
+
+            'laporan_list',
+            'laporan_cetak',
+            'laporan_download',
+
+            'approve_vendor',
+            'approve_ap',
+            'tolak_vendor',
+            'tolak_ap'
         ];
 
         foreach ($permissions as $permission) {

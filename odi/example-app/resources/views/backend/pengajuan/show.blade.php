@@ -20,16 +20,14 @@
     </section>
 
     <section class="content">
+        @can('approve-ap')
         <a href="{{ route('terima_pengajuan', $Pengajuans->id) }}" class="btn btn-sm btn-success">Terima</a>
+        @endcan
+        @can('tolak-ap')
         <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#exampleModalLong">
             Tolak
         </button>
-
-        <a href="{{ route('terima_pengajuan_vendor', $Pengajuans->id) }}" class="btn btn-sm btn-success">Terima Vendor</a>
-        <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#exampleModalLongVendor">
-            Tolak Vendor
-        </button>
-
+        @endcan
         <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
             aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -59,7 +57,14 @@
                 </div>
             </div>
         </div>
-
+        @can('approve-vendor')
+        <a href="{{ route('terima_pengajuan_vendor', $Pengajuans->id) }}" class="btn btn-sm btn-success">Terima Vendor</a>
+        @endcan
+        @can('approve-vendor')
+        <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#exampleModalLongVendor">
+            Tolak Vendor
+        </button>
+        @endcan
         <div class="modal fade" id="exampleModalLongVendor" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
             aria-hidden="true">
             <div class="modal-dialog" role="document">

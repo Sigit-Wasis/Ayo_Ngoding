@@ -20,7 +20,9 @@
     </section>
 
     <div class="card-footer clearfix">
+        @can('jenis_barang-create')
         <a href="{{route('tambah-jenis-barang')}}" class="btn btn-primary float-right"><i class="fas fa-plus"></i> Tambah Barang</a>
+        @endcan
     </div>
     <section class="content">
         <div class="card">
@@ -60,9 +62,12 @@
                             <td>{{$jenis->created_at ?? \Carbon\Carbon::now() }}</td>
                             <td>{{$jenis->created_by}}</td>
                             <td>
+                                @can('jenis_barang-edit')
                                 <a href="{{ route('edit_jenis_barang', $jenis->id) }}" class="btn btn-sm btn-primary">Edit</a>
-
+                                @endcan
+                                @can('jenis_barang-delete')
                                 <a href="{{route('delete_jenis_barang',$jenis->id)}}" onclick="return confirm('are you sure?')" class="btn btn-sm btn-danger">Delete</a>
+                                @endcan
                         </tr>
                         @endforeach
                     </tbody>

@@ -51,7 +51,7 @@
                         <select class="form-control" id="vendor_id" name="vendor_id">
                             <option value="" disabled>Pilih Nama Perusahaan</option>
                             @foreach ($vendorNames as $vendor)
-                            <option value="{{ $vendor->id }}" {{ $vendor->id == $editBarang->vendor_id ? 'selected' : '' }}>
+                            <option value="{{ $vendor->id }}" {{ $vendor->id == $editBarang->Id_vendor ? 'selected' : '' }}>
                                 {{ $vendor->nama }}
                             </option>
                             @endforeach
