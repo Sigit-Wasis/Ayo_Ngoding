@@ -20,16 +20,19 @@
     </section>
 
     <section class="content">
+        @can('approve-ap')
         <a href="{{ route('terima_pengajuan', $pengajuan->id) }}" class="btn btn-sm btn-success">Terima Pengajuan</a>
+        @endcan
         <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#exampleModal">
             Tolak Pengajuan
         </button>
-
+        @can('approve-vendor')
         <a href="{{ route('terima_vendor', $pengajuan->id) }}" class="btn btn-sm btn-success">Terima Vendor</a>
+        @endcan
         <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#exampleModalVendor">
             Tolak Vendor
         </button>
-
+        
         <!-- Modal Tolak Ap-->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModal" aria-hidden="true">
   <div class="modal-dialog" role="document">
