@@ -17,6 +17,7 @@ class DataBarangController extends Controller
         $this->middleware('permission:data_barang-edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:data_barang-delete', ['only' => ['destroy']]);
     }
+    
     public function index()
     {
         $dataBarang = DB::table('_m_s_t__barang')
@@ -73,7 +74,7 @@ class DataBarangController extends Controller
         // Menyimpan data barang dengan kode barang otomatis
         DB::table('_m_s_t__barang')->insert([
             'Id_jenis_barang' => $request->jenis_barang, // Gunakan jenis_barang sesuai dengan form input
-            'vendor_id' => $request->vendor_id,
+            'Id_vendor' => $request->vendor_id,
             'kode_barang' => $kodeBarang, // Gunakan kode barang otomatis
             'nama_barang' => $request->nama_barang,
             'harga' => $request->harga,
@@ -137,7 +138,7 @@ class DataBarangController extends Controller
         // Ambil data dari request
         $data = [
             'Id_jenis_barang' => $request->jenis_barang,
-            'vendor_id' => $request->vendor_id,
+            'Id_vendor' => $request->vendor_id,
             'nama_barang' => $request->nama_barang,
             'harga' => $request->harga,
             'satuan' => $request->satuan,
@@ -185,7 +186,7 @@ class DataBarangController extends Controller
                 '_m_s_t__jenis__barang.nama as jenis_barang' // Ubah menjadi 'nama' sesuai dengan alias yang Anda berikan
             )
             ->join('users', 'users.id', '_m_s_t__barang.created_by')
-            ->join('vendors', 'vendors.id', '_m_s_t__barang.vendor_id')
+            ->join('vendors', 'vendors.id', '_m_s_t__barang.Id_vendor')
             ->join('_m_s_t__jenis__barang', '_m_s_t__jenis__barang.id', '_m_s_t__barang.Id_jenis_barang')
             ->where('_m_s_t__barang.id', $id) // Filter berdasarkan ID yang diberikan
             ->first(); // Ambil hasil pertama saja

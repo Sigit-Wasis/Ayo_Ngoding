@@ -20,7 +20,9 @@
     </section>
 
     <div class="card-footer clearfix">
+        @can('pengajuan-create')
         <a href="{{ route ('tambah_pengajuan') }}" class="btn btn-primary float-right"><i class="fas fa-plus"></i> Transaksi</a>
+        @endcan
     </div>
     <section class="content">
         <div class="card">
@@ -39,9 +41,10 @@
                     <thead>
                         <tr>
                             <th scope="col">NO</th>
-                            <th scope="col">User</th>
                             <th scope="col">Tanggal Pengajuan</th>
                             <th scope="col">Total Pengajuan</th>
+                            <th scope="col">Di Buat Oleh</th>
+                            <th scope="col">Di Buat Pada</th>
                             <th scope="col">Aksi</th>
                         </tr>
                     </thead>
@@ -54,14 +57,21 @@
                         @forelse($trPengajuan as $pengajuan)
                         <tr>
                             <td scope="row">{{ $rowNumber++ }}</td>
-                            <td>{{$pengajuan->created_by}}</td>
                             <td>{{$pengajuan->tanggal_pengajuan}}</td>
-                            <td>{{ 'Rp ' . number_format($pengajuan->total, 0, ',', '.') }}</td>
+                            <td>{{ 'Rp ' . number_format($pengajuan->grand_total, 0, ',', '.') }}</td>
+                            <td>{{$pengajuan->created_by}}</td>
+                            <td>{{$pengajuan->created_at}}</td>
 
                             <td>
+                                @can('pengajuan-detail')
                                 <a href="{{ route('detail_pengajuan', $pengajuan->id) }}" class="btn btn-sm btn-info">Show</a>
-                                <a href="{{ route('edit_barang', $pengajuan->id) }}" class="btn btn-sm btn-primary">Edit</a>
-                                <a href="{{route('delete_barang',$pengajuan->id)}}" onclick="return confirm('are you sure?')" class="btn btn-sm btn-danger">Delete</a>
+                                @endcan
+                                @can('pengajuan-edit')
+                                <a href="{{ route('edit_pengajuan', $pengajuan->id) }}" class="btn btn-sm btn-primary">Edit</a>
+                                @endcan
+                                @can('pengajuan-delete')
+                                <a href="{{route('delete_pengajuan',$pengajuan->id)}}" onclick="return confirm('are you sure?')" class="btn btn-sm btn-danger">Delete</a>
+                                @endcan
                             </td>
                         </tr>
                         @empty

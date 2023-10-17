@@ -16,7 +16,7 @@ class JenisBarangController extends Controller
          $this->middleware('permission:jenis_barang-list|jenis_barang-create|jenis_barang-edit|jenis_barang-delete', ['only' => ['index','store']]);
          $this->middleware('permission:jenis_barang-create', ['only' => ['create','store']]);
          $this->middleware('permission:jenis_barang-edit', ['only' => ['edit','update']]);
-         $this->middleware('permission:jenis-barang-delete', ['only' => ['destroy']]);
+         $this->middleware('permission:jenis_barang-delete', ['only' => ['destroy']]);
     }
     
     public function index() {
@@ -66,7 +66,7 @@ class JenisBarangController extends Controller
         FacadesDB::table('jenis_barang')->where ('id',$id)->update([
             'nama_jenis_barang' =>$request->nama_jenis_barang,
             'deskripsi' =>$request->deskripsi,
-            'updated_by' => 1,
+            'updated_by' => Auth::user()->id,
             'updated_at' => \Carbon\Carbon::now(),
 
         ]);

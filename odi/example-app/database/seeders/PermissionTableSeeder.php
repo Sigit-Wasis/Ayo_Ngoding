@@ -18,16 +18,13 @@ class PermissionTableSeeder extends Seeder
             'role-create',
             'role-edit',
             'role-delete',
+            'role-show',
 
             'barang-list',
             'barang-create',
             'barang-edit',
             'barang-delete',
-
-            'pengajuan-list',
-            
-            'vendor-list',
-
+            'barang-show',
 
             'jenis_barang-list',
             'jenis_barang-create',
@@ -38,6 +35,27 @@ class PermissionTableSeeder extends Seeder
             'user-create',
             'user-edit',
             'user-delete',
+
+            'vendor-list',
+            'vendor-create',
+            'vendor-edit',
+            'vendor-show',
+            'vendor-delete',
+
+            'approve-ap',
+            'approve-vendor',
+            'tolak-ap',
+            'tolak-vendor',
+
+            'laporan-list',
+            'laporan-cetak',
+            'laporan-download',
+
+            'pengajuan-list',
+            'pengajuan-create',
+            'pengajuan-edit',
+            'pengajuan-delete',
+            'pengajuan-show',
             
         ];
        

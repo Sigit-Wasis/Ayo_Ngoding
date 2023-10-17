@@ -50,12 +50,24 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
         Route::put('/update_barang/{id}', 'Backend\DataBarangController@updateBarang')->name('update_barang');
         Route::get('/detail_barang/{id}', 'Backend\DataBarangController@detailBarang')->name('detail_barang');
 
-        //Pengajuan
-        Route::get('/tr_pengajuan', 'Backend\TransaksiBarangController@index')->name('tr_pengajuan');
-        Route::get('/tambah_pengajuan', 'Backend\TransaksiBarangController@createPengajuan')->name('tambah_pengajuan');
-        Route::post('/store_pengajuan', 'Backend\TransaksiBarangController@storePengajuan')->name('store_pengajuan');
-        Route::get('/detail_pengajuan/{id}', 'Backend\TransaksiBarangController@detailpengajuan')->name('detail_pengajuan');
         
+        //Pengajuan
+        Route::get('/pengajuan', 'Backend\TransaksiBarangController@index')->name('pengajuan');
+        Route::get('/pengajuan/barang', 'Backend\TransaksiBarangController@getBarangById')->name('pengajuan-barang');
+        Route::get('/barang/harga/stok', 'Backend\TransaksiBarangController@getHargaStokBarangById');
+        Route::get('/tambah-pengajuan', 'Backend\TransaksiBarangController@create')->name('tambah_pengajuan');
+        Route::post('/store-pengajuan', 'Backend\TransaksiBarangController@store')->name('store_pengajuan');
+        Route::get('/detail_pengajuan/{id}', 'Backend\TransaksiBarangController@detailpengajuan')->name('detail_pengajuan');
+        Route::get('/delete_pengajuan/{id}', 'Backend\TransaksiBarangController@deletepengajuan')->name('delete_pengajuan');
+        Route::get('/edit_pengajuan/{id}', 'Backend\TransaksiBarangController@editpengajuan')->name('edit_pengajuan');
+        Route::post('/update_pengajuan/{id}', 'Backend\TransaksiBarangController@updatepengajuan')->name('update_pengajuan');
+
+        Route::get('/terima_pengajuan/{id}', 'Backend\TransaksiBarangController@terimapengajuan')->name('terima_pengajuan');
+        Route::post('/tolak_pengajuan/{id}', 'Backend\TransaksiBarangController@tolakpengajuan')->name('tolak_pengajuan');
+
+        Route::get('/terima_vendor/{id}', 'Backend\TransaksiBarangController@terimavendor')->name('terima_vendor');
+        Route::post('/tolak_vendor/{id}', 'Backend\TransaksiBarangController@tolakvendor')->name('tolak_vendor');
+
         //Vendor
         Route::get('/vendors', 'Backend\VendorController@index')->name('vendors');
         Route::get('/tambah_vendor', 'Backend\VendorController@createvendor')->name('tambah_vendor');

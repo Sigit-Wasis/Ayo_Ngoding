@@ -11,8 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('mts_barang', function (Blueprint $table) {
-            $table->foreignId('id_vendors')->nullable()->references('id')->on('vendors')->onUpdate('cascade')->onDelete('cascade');
+        Schema::table('tr_pengajuan', function (Blueprint $table) {
+            $table->string('status_pengajuan_vendor');
+            $table->string('status_ditolak_vendor');
         });
     }
 
@@ -21,8 +22,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('mts_barang', function (Blueprint $table) {
-            //
+        Schema::table('tr_pengajuan', function (Blueprint $table) {
+           // 
         });
     }
 };

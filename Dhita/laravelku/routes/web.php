@@ -58,6 +58,8 @@ Route::group(['namespace' =>'App\Http\Controllers'], function() {
         Route::get('/vendor_create', 'Backend\VendorController@index')->name('vendor_create');
         Route::post('/vendor_store', 'Backend\VendorController@store')->name('vendor_store');
 
+       
+
         Route::get('/pengajuan', 'Backend\PengajuanController@index')->name('pengajuan.index');
         Route::get('/tambah_pengajuan', 'Backend\PengajuanController@create')->name('tambah_pengajuan');
         Route::post('/store_pengajuan', 'Backend\PengajuanController@store')->name('store_pengajuan');
@@ -66,9 +68,13 @@ Route::group(['namespace' =>'App\Http\Controllers'], function() {
         Route::post('/update_pengajuan/{id}', 'Backend\PengajuanController@update')->name('update_pengajuan');
         Route::get('/show_pengajuan/{id}', 'Backend\PengajuanController@show')->name('show_pengajuan');
 
-        Route::get('/pengajuan/barang', 'Backend\PengajuanController@getBarangById');
+        Route::get('/pengajuan/barang', 'Backend\PengajuanController@getBarangById') ->name('pengajuan-barang');
         Route::get('/barang/harga/stok', 'Backend\PengajuanController@getHargaStokBarangById');
+        Route::get('/terima-pengajuan/{id}', 'Backend\PengajuanController@terimaPengajuan')->name('terima_pengajuan');
+        Route::post('/tolak-pengajuan/{id}', 'Backend\PengajuanController@tolakPengajuan')->name('tolak_pengajuan');
 
+        Route::get('/terima-vendor/{id}', 'Backend\PengajuanController@terimavendor')->name('terima_vendor');
+        Route::post('/tolak-vendor/{id}', 'Backend\PengajuanController@tolakvendor')->name('tolak_vendor');
 
     });
 });

@@ -15,11 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string('tanggal_pengajuan');
             $table->string('grand_total');
-            $table->string('status_pengajuab_ap');
+            $table->string('status_pengajuan_ap');
             $table->string('keterangan_ditolak_ap');
             $table->string('status_pengajuan_vendor');
+            $table->string('keterangan_ditolak_vendor');
             $table->foreignId('created_by')->notNull()->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('upadated_by')->notNull()->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('updated_by')->notNull()->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });
     }
