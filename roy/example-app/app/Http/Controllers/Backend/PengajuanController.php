@@ -215,7 +215,9 @@ class PengajuanController extends Controller
             ->where('detail_pengajuan.id_tr_pengajuan', $id)
             ->get();
 
-        return view('backend.pengajuan.edit', compact('editPengajuan', 'vendors', 'detailBarang', 'barangs'));
+
+        return view('backend.pengajuan.edit',
+           compact('editPengajuan', 'vendors', 'detailBarang', 'barangs'));
     }
 
     /**
@@ -250,6 +252,8 @@ class PengajuanController extends Controller
                     'total_per_barang' => $request->jumlah_barang[$i] * $request->harga_barang[$i],
                     'created_at' => \Carbon\Carbon::now(),
                     'updated_at' => \Carbon\Carbon::now(),
+                    'created_by' => Auth::user()->id, 
+                    'updated_by' => Auth::user()->id,
                 ]);
             
         } else {
@@ -291,10 +295,37 @@ class PengajuanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id_barang, $id_pengajuan)
     {
-        DB::table('tr_pengajuan')->where('id', $id)->delete();
+        DB::table('detail_pengajuan')->where('id', $id_barang)->delete();
 
-        return redirect()->route('pengajuan')->with('message', 'Transaksi Berhasil dihapus');
+        $editPengajuan =DB::table('tr_pengajuan')->select('tr_pengajuan.*', 'id_barang', 'nama_perusahaan', 'mst_barang.id_vendor as id_vendor')
+            ->join('detail_pengajuan', 'detail_pengajuan.id_tr_pengajuan', 'tr_pengajuan.id')
+            ->join('mst_barang', 'mst_barang.id', 'detail_pengajuan.id_barang')
+            ->join('vendor', 'vendor.id', 'mst_barang.id_vendor')
+            ->where('tr_pengajuan.id', $id_pengajuan)
+            ->first();
+
+        $vendors =DB::table('vendor')->select('id', 'nama_perusahaan')->get();
+        $barangs =DB::table('mst_barang')
+        ->where('id_vendor', $editPengajuan->id_vendor)
+        ->select('id', 'nama_barang')->get();
+
+        $detailBarang =DB::table('detail_pengajuan')
+            ->join('tr_pengajuan', 'tr_pengajuan.id', 'detail_pengajuan.id_tr_pengajuan')
+            ->join('mst_barang', 'mst_barang.id', 'detail_pengajuan.id_barang')
+            ->select('detail_pengajuan.id as id_detail_pengajuan', 'id_barang', 'nama_barang', 'jumlah', 'harga', 'stok_barang')
+            ->where('detail_pengajuan.id_tr_pengajuan', $id_pengajuan)
+            ->get();
+
+
+        return redirect()->route('edit_pengajuan', $id_pengajuan)->with(
+            ['message', 'Barang Berhasil Dihapus!',
+            'detailBarang' => $detailBarang,
+            'barangs' => $barangs,
+            'vendors' => $vendors,
+            'editPengajuan' => $editPengajuan]);
+
+        }
+        
     }
-}
