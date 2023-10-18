@@ -167,7 +167,8 @@ class PengajuanController extends Controller
         $vendors = FacadesDB::table('vendor')->select('id','nama_perusahaan')->get();
         $Barang = FacadesDB::table('barang')
             ->where('id_vendor',$Pengajuans->id_vendor)
-            ->select('id', 'nama_barang')->get();
+            ->select('id', 'nama_barang')
+            ->get();
 
         
         return view ('backend.pengajuan.edit', compact('detailBarang','Pengajuans','vendors','Barang'));
@@ -249,6 +250,41 @@ class PengajuanController extends Controller
         FacadesDB::table('pengajuan')->where('id', $id)->delete();
 
         return redirect()->route('pengajuan')->with('message','Data Pengajuan Berhasil Dihapus');
+    }
+
+    public function destroyBarang($id_barang, $id_pengajuan)
+    {
+        DB::table('detail_pengajuan')->where('id',$id_barang)->delete();
+
+        $Pengajuans = FacadesDB::table('pengajuan')
+        ->select('pengajuan.*','id_barang', 'detail_pengajuan.id  as id_detail_pengajuan', 'nama_perusahaan', 'barang.id_vendor as id_vendor')
+            ->join('detail_pengajuan','detail_pengajuan.id_tr_pengajuan', 'pengajuan.id' )
+            ->join('barang', 'barang.id', 'detail_pengajuan.id_barang')
+            ->join('vendor', 'vendor.id', 'barang.id_vendor')
+            ->where('pengajuan.id',$id_pengajuan)
+            ->first();
+ 
+         // query untuk mengambil data dari detail pengajuan berdasarkan id pengajuan join ke table barang 
+         //dan barang join ke vendor
+        $detailBarang = FacadesDB::table('detail_pengajuan')
+             ->join('pengajuan', 'pengajuan.id', 'detail_pengajuan.id_tr_pengajuan')
+             ->select('detail_pengajuan.id as id_detail_pengajuan','id_barang', 'nama_barang', 'harga', 'stok', 'jumlah')
+             ->join('barang', 'barang.id', 'detail_pengajuan.id_barang')
+             ->where('detail_pengajuan.id_tr_pengajuan',$id_pengajuan)
+             ->get();
+     
+        $vendors = FacadesDB::table('vendor')->select('id','nama_perusahaan')->get();
+        $Barang = FacadesDB::table('barang')
+            ->where('id_vendor',$Pengajuans->id_vendor)
+            ->select('id', 'nama_barang')
+            ->get();
+
+        return redirect()->route('edit_pengajuan',$id_pengajuan)->with([
+            'message', 'Barang Berhasil Dihapus',
+            'detailBarang' => $detailBarang,
+            'Barang' => $Barang,
+            'vendors' => $vendors,
+            'Pengajuans' => $Pengajuans]);
     }
 
     public function terimapengajuan($id)
