@@ -1,5 +1,7 @@
 @extends('backend.app')
 
+@section('title', 'Edit Transaksi Pengajuan')
+
 @section('content')
 
 <div class="content-wrapper">
@@ -11,7 +13,7 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item"><a href="#">Transaksi Pengajuan</a></li>
                         <li class="breadcrumb-item active">Edit Transaksi Pengajuan</li>
                     </ol>
                 </div>
@@ -19,6 +21,7 @@
         </div>
     </section>
 
+    <!-- KONTEN EDIT JENIS BARANG -->
     <section class="content">
 
         @if ($errors->any())
@@ -31,19 +34,19 @@
         </div>
         @endif
 
-        <form method="POST" action="{{ route('update_pengajuan_barang',$editpengajuan->id) }}">
+        <form method="POST" action="{{ route('store_pengajuan') }}">
             @csrf
             <div class="card-body">
                 <div class="form-group">
                     <label for="tanggal_pengajuan">Tanggal Pengajuan</label>
-                    <input type="date" id="tanggal_pengajuan" class="form-control" value="{{ $editpengajuan->tanggal_pengajuan }}" name="tanggal_pengajuan">
+                    <input type="date" id="tanggal_pengajuan" class="form-control" value="<?php echo date('Y-m-d') ?>" name="tanggal_pengajuan">
                 </div>
                 <div class="form-group">
                     <label for="id_vendor">Nama Vendor</label>
-                    <select name="id_vendor" class="form-control" id="id_vendor" onchange="selectBarangByVendor(this.value)">
+                    <select name="id_vendor" class="form-control" id="id_vendor" onchange="selectBarangByVendor(this.value)" id="id_vendor">
                         <option value="">-- pilih vendor --</option>
                         @foreach($vendors as $vendor)
-                        <option value="{{ $vendor->id }}" {{ $vendor->id == $editpengajuan->id_vendor ?'selected': ''}}>{{ $vendor->nama_perusahaan }}</option>
+                        <option value="{{ $vendor->id }}"{{ $vendor->id == $editpengajuan->id_vendor ? 'selected' : '' }}{{ $vendor->nama}}</option>
                         @endforeach
                     </select>
                 </div>
@@ -63,12 +66,12 @@
                         </thead>
                         <tbody>
                             @foreach($detailBarang as $key => $barang)
-                            <input type="hidden" name="id_detail_barang[{{ $key }}]" value="{{ $barang->id_detail_pengajuan }}">
+                            <input type="hidden" name="id_detail_barang[{{$key}}]" value="{{ $barang->id_detail_pengajuan }}">
                             <tr>
                                 <td>
-                                    <select name="id_barang[{{ $key }}]" class="form-control" onchange="selectHargaDanStokBarang(this.value)" id="id_barang">
+                                    <select name="id_barang[{{$key}}]" class="form-control" onchange="selectHargaDanStokBarang(this.value)" id="id_barang">
                                         @foreach($barangs as $brg)
-                                        <option value="{{ $brg->id }}" {{ $brg->id == $editpengajuan->id_barang ?'selected': ''}}>{{ $brg->nama_barang }}</option>
+                                        <option value="{{ $brg->id }}" {{ $brg->id == $editpengajuan->id_barang ? 'selected' : ''}}>{{$brg->nama_barang}}</option>
                                         @endforeach
                                     </select>
                                 </td>
@@ -79,9 +82,10 @@
                                     <input type="text" name="harga_barang[{{$key}}]" class="form-control" id="harga_barang" value="{{ $barang->harga }}" readonly>
                                 </td>
                                 <td>
-                                    <input type="text" name="stok_barang[{{$key}}]" class="form-control" id="stok_barang" value="{{ $barang->stok }}" readonly>
+                                    <input type="text" name="stok_barang[{{$key}}]" class="form-control" id="stok_barang" value="{{ $barang->stok_barang }}" readonly>
                                 </td>
                                 <td width="130px">
+                                    <button class="btn btn-sm btn-primary">Edit</button>
                                     <button class="btn btn-sm btn-danger">Hapus</button>
                                 </td>
                             </tr>
@@ -89,7 +93,6 @@
                         </tbody>
                     </table>
                 </div>
-
                 <div class="card-footer">
                     <button type="submit" id="ajukan" class="btn btn-primary">Ajukan</button>
                     <a href="{{ route('pengajuan') }}" class="btn btn-info">Kembali</a>
@@ -137,10 +140,10 @@
             },
             success: function(textStatus) {
                 if (katBarang > 0 && katBarang != undefined) {
-                    $('#stok_barang' + katBarang + '').val(textStatus.stok);
+                    $('#stok_barang' + katBarang + '').val(textStatus.stok_barang);
                     $('#harga_barang' + katBarang + '').val(textStatus.harga);
                 } else {
-                    $('#stok_barang').val(textStatus.stok);
+                    $('#stok_barang').val(textStatus.stok_barang);
                     $('#harga_barang').val(textStatus.harga);
                 }
 
@@ -172,7 +175,6 @@
                 $('#id_barang' + i + '').append(htmlSelect);
             }
         });
-
 
         var htmlForm = '';
 

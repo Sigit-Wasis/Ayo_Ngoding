@@ -20,6 +20,7 @@
     </section>
 
     <section class="content">
+        
         <a href="{{ route('terima_pengajuan', $pengajuan->id) }}" class="btn btn-sm btn-success">Terima</a>
         <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#exampleModal">
             Tolak
