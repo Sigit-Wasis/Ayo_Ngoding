@@ -1,5 +1,7 @@
 @extends('backend.app')
 
+@section('title', 'Edit Transaksi Pengajuan')
+
 @section('content')
 
 <div class="content-wrapper">
@@ -7,18 +9,19 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Update Transaksi Pengajuan</h1>
+                    <h1>Edit Transaksi Pengajuan</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Update Transaksi Pengajuan</li>
+                        <li class="breadcrumb-item"><a href="#">Transaksi Pengajuan</a></li>
+                        <li class="breadcrumb-item active">Edit Transaksi Pengajuan</li>
                     </ol>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- KONTEN EDIT JENIS BARANG -->
     <section class="content">
 
         @if ($errors->any())
@@ -31,7 +34,7 @@
         </div>
         @endif
 
-        <form method="POST" action="{{ route('update_pengajuan', $editPengajuan->id) }}">
+        <form method="POST" action="{{ route('update_pengajuan', $editpengajuan->id) }}">
             @csrf
             <div class="card-body">
                 <div class="form-group">
@@ -43,14 +46,12 @@
                     <select name="id_vendor" class="form-control" id="id_vendor" onchange="selectBarangByVendor(this.value)" id="id_vendor">
                         <option value="">-- pilih vendor --</option>
                         @foreach($vendors as $vendor)
-                        <option value="{{ $vendor->id }}" {{ $vendor->id == $editPengajuan->id_vendor ? 'selected' : ''}}>{{ $vendor->nama}}</option>
+                        <option value="{{ $vendor->id }}"{{ $vendor->id == $editpengajuan->id_vendor ? 'selected' : '' }}>{{ $vendor->nama}}</option>
                         @endforeach
                     </select>
                 </div>
 
-
                 <div class="form-group">
-
                     <table class="table table-bordered" id="dynamicAddForm">
                         <thead>
                             <tr>
@@ -64,37 +65,36 @@
                             </tr>
                         </thead>
                         <tbody>
-                        @foreach($detailBarang as $key => $barang)
-                        <input type="hidden" name="id_detail_barang[{{ $key }}]" value="{{ $barang->id_detail_pengajuan }}">
-                            <tr> 
-                                <td> 
-                                    <select name="id_barang[{{ $key }}]" class="form-control" onchange="selectHargaDanStokBarang(this.value)" id="id_barang"> 
-                                    @foreach($barangs as $brg)    
-                                        <option value="{{ $brg->id}}" {{ $brg->id == $barang->id_barang ? 'selected' : '' }}>{{ $brg->nama_barang }}</option> 
-                                    @endforeach 
-                                    </select> 
-                                </td> 
-                                <td> 
-                                    <input type="number" name="jumlah_barang[{{ $key }}]" class="form-control" id="jumlah_barang" value="{{ $barang->jumlah}}" required> 
-                                </td> 
-                                <td> 
-                                    <input type="text" name="harga_barang[{{ $key }}]" class="form-control" id="harga_barang" value="{{ $barang->harga}}" readonly> 
-                                </td> 
-                                <td> 
-                                    <input type="text" name="stok_barang[{{ $key }}]" class="form-control" id="stok_barang" value="{{ $barang->stok_barang}}" readonly> 
-                                </td> 
-                                <td width="130px"> 
-                                    <a href="{{route('delete_barang_pengajuan', [$barang->id_detail_pengajuan, $editPengajuan->id])}}" onclick="return confirm('Apakah Anda yakin ingin menghapus barang ini?')"  class="btn btn-danger">Hapus</a>
+                            @foreach($detailBarang as $key => $barang)
+                            <input type="hidden" name="id_detail_barang[{{$key}}]" value="{{ $barang->id_detail_pengajuan }}">
+                            <tr>
+                                <td>
+                                    <select name="id_barang[{{$key}}]" class="form-control" onchange="selectHargaDanStokBarang(this.value)" id="id_barang">
+                                        @foreach($barangs as $brg)
+                                        <option value="{{ $brg->id }}" {{ $brg->id == $barang->id_barang ? 'selected' : ''}}>{{$brg->nama_barang}}</option>
+                                        @endforeach
+                                    </select>
+                                </td>
+                                <td>
+                                    <input type="number" name="jumlah_barang[{{$key}}]" class="form-control" id="jumlah_barang" value="{{ $barang->jumlah }}" required>
+                                </td>
+                                <td>
+                                    <input type="text" name="harga_barang[{{$key}}]" class="form-control" id="harga_barang" value="{{ $barang->harga }}" readonly>
+                                </td>
+                                <td>
+                                    <input type="text" name="stok_barang[{{$key}}]" class="form-control" id="stok_barang" value="{{ $barang->stok_barang }}" readonly>
+                                </td>
+                                <td width="130px">
+                                    <a href="{{ route('delete_barang_pengajuan', [$barang->id_detail_pengajuan, $editpengajuan->id]) }}" onclick="return confirm('Apakah Anda yakin?')" class="btn btn-sm btn-danger">Hapus</a>
                                 </td>
                             </tr>
                             @endforeach
                         </tbody>
                     </table>
                 </div>
-
                 <div class="card-footer">
                     <button type="submit" id="ajukan" class="btn btn-primary">Ajukan</button>
-                    <a href="{{ route('jenis_barang') }}" class="btn btn-info">Kembali</a>
+                    <a href="{{ route('pengajuan') }}" class="btn btn-info">Kembali</a>
                 </div>
             </div>
         </form>
@@ -116,14 +116,14 @@
             success: function(textStatus) {
                 if (textStatus.length > 0) {
                     var htmlBarang = '';
-                    htmlBarang += '<option selected> -- pilih -- </option>';
+                    htmlBarang += '<option selected disabled> -- pilih -- </option>';
                     for (let i = 0; i < textStatus.length; i++) {
                         htmlBarang += '<option value="' + textStatus[i].id + '">' + textStatus[i].nama_barang + '</option>';
                     }
                     $('#id_barang').attr('readonly', false);
                     $('#id_barang').html(htmlBarang);
                 } else {
-                    $('#id_barang').html('<option selected> -- data tidak ditemukan -- </option>');
+                    $('#id_barang').html('<option selected disabled> -- data tidak ditemukan -- </option>');
                 }
             }
         });
@@ -146,8 +146,8 @@
                     $('#harga_barang').val(textStatus.harga);
                 }
 
-                $('#ajukan').prop(false);
-                $('#dynamic-barang').prop(false);
+                $('#ajukan').prop("disabled", false);
+                $('#dynamic-barang').prop("disabled", false);
             }
         });
     }

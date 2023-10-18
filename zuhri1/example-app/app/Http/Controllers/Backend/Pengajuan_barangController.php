@@ -94,6 +94,84 @@ class Pengajuan_barangController extends Controller
         //     // something went wrong 
         // } 
     }
+    public function edit($id)
+    {
+
+        $editpengajuan = DB::table('tr_pengajuan')
+            ->select('tr_pengajuan.id', 'id_barang', 'detail_pengajuan.id as id_detail_pengajuan', 'tanggal_pengajuan', 'nama_perusahaan', 'barang.id_vendor as id_vendor')
+            ->join('detail_pengajuan', 'detail_pengajuan.id_tr_pengajuan', 'tr_pengajuan.id')
+            ->join('barang', 'barang.id', 'detail_pengajuan.id_barang')
+            ->join('vendor', 'vendor.id', 'barang.id_vendor')
+            ->where('tr_pengajuan.id', $id)
+            ->first();
+
+        $vendors = DB::table('vendor')->select('id', 'nama_perusahaan')->get();
+        $barangs = DB::table('barang')
+            ->where('id_vendor', $editpengajuan->id_vendor)
+            ->select('id', 'nama_barang')->get();
+
+        $detailBarang = DB::table('detail_pengajuan')
+            ->join('tr_pengajuan', 'tr_pengajuan.id', 'detail_pengajuan.id_tr_pengajuan')
+            ->join('barang', 'barang.id', 'detail_pengajuan.id_barang')
+            ->select('detail_pengajuan.id as id_detail_pengajuan', 'nama_barang', 'jumlah', 'harga', 'stok')
+            ->where('detail_pengajuan.id_tr_pengajuan', $id)
+            ->get();
+
+        return view('backend.pengajuan_barang.edit', compact('editpengajuan', 'vendors', 'detailBarang', 'barangs'));
+    }
+    public function update(Request $request, $id)
+    {
+        DB::beginTransaction();
+
+        try {
+            //Insert ke tr_pengajuan
+            DB::table('tr_pengajuan')->where('id', $id)->update([
+                'tanggal_pengajuan' => $request->tanggal_pengajuan,
+                'updated_by' => Auth::user()->id,
+                'updated_at' => \Carbon\Carbon::now(),
+            ]);
+            $grandTotal = 0;
+
+            $countData = count($request->id_barang);
+            for ($i = 0; $i < $countData; $i++) {
+                if (!isset($request->id_detail_barang[$i])) {
+                    DB::table('detail_pengajuan')->insert([
+                        'id_barang' => $request->id_barang[$i],
+                        'jumlah' => $request->jumlah_barang[$i],
+                        'id_tr_pengajuan' => $id,
+                        'total_per_barang' => $request->jumlah_barang[$i] * $request->harga_barang[$i],
+                        'created_at' => \Carbon\Carbon::now(),
+                        'updated_at' => \Carbon\Carbon::now(),
+                    ]);
+                } else {
+                    DB::table('detail_pengajuan')->where('id', $request->id_detail_barang[$i])->update([
+                        'id_barang' => $request->id_barang[$i],
+                        'jumlah' => $request->jumlah_barang[$i],
+                        'id_tr_pengajuan' => $id,
+                        'total_per_barang' => $request->jumlah_barang[$i] * $request->harga_barang[$i],
+                        'updated_at' => \Carbon\Carbon::now(),
+                    ]);
+                }
+                //UPDATE STOK BARANG
+                DB::table('barang')->where('id', $request->id_barang[$i])
+                    ->decrement('stok', $request->jumlah_barang[$i]);
+
+                $grandTotal += $request->jumlah_barang[$i] * $request->harga_barang[$i];
+            }
+            DB::table('tr_pengajuan')->where('id', $id)->update([
+                'grand_total' => $grandTotal
+            ]);
+
+            DB::commit();
+            return redirect()->route('pengajuan')->with('message', 'pengajuan berhasil diajukan');
+        } catch (\Exception $e) {
+            DB::rollback();
+            //something went wrong
+
+            return $e->getMessage();
+        }
+    }
+
     public function show($id_tr_pengajuan)
     {
         //Query untuk mengambil data dari TR pengajuan berdasarkan id_pengajuan

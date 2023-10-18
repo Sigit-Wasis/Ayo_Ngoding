@@ -52,7 +52,7 @@ class PermissionTableSeeder extends Seeder
             'jenis-barang-delete',
 
             'user-list',
-            'user-cretae',
+            'user-create',
             'user-edit',
             'user-delete',
          ];

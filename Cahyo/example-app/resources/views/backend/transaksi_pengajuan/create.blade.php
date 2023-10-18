@@ -86,7 +86,7 @@
 
                 <div class="card-footer">
                     <button type="submit" disabled id="ajukan" class="btn btn-primary">Ajukan</button>
-                    <a href="{{ route('jenis_barang') }}" class="btn btn-info">Kembali</a>
+                    <a href="{{ route('pengajuan') }}" class="btn btn-info">Kembali</a>
                 </div>
             </div>
         </form>
