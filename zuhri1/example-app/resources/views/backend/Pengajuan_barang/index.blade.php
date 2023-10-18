@@ -66,7 +66,7 @@
                 <td>
 
                   <a href="{{route('show_pengajuan',$pengajuan->id)}}" class="btn btn-sm btn-danger">Show</a>
-                  <a href="{{route('pengajuan_edit',$pengajuan->id)}}" class="btn btn-sm btn-danger">Edit</a>
+                  <a href="{{route('edit_pengajuan',$pengajuan->id)}}" class="btn btn-sm btn-danger">Edit</a>
                   <a href=" {{route('pengajuan_delete',$pengajuan->id)}}" onclick="return confirm('Are you sure?')" class="btn btn-sm btn-danger">Delete</a>
                 </td>
               </tr>

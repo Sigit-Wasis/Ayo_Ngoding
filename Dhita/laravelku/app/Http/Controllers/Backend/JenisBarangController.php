@@ -44,21 +44,16 @@ class JenisBarangController extends Controller
         // DD (die dump untuk memeriksa apakahvalue atau rcord didalam variabel $request yang diambil dari form inputan)
         // dd($request->all());
 
-        DB::table('mst_barang')->insert([   
-            'nama_barang' => $request->nama_barang,
-            'kode_barang' => $request->kodebarang,
-            'harga' => $request->kode,
-            'satuan' => $request->satuan,
-            'deskripsi' => $request->deskripsi,
-            'gambar' => $request->gambar,
-            'stok_barang' => $request->stok_barang,
+        DB::table('mst_jenis_barang')->insert([   
+            'nama' => $request->nama_jenis_barang,
+                'deskripsi' => $request->deskripsi,
             'created_by' => Auth::user()->id,
             'updated_by' => Auth::user()->id,
             'created_at' => \Carbon\Carbon::now(),
             'Updated_at' => \Carbon\Carbon::now(),
         ]);
 
-        return redirect()->route('_barang')->with('message', 'Jenis Barang berhasil di Simpan!');
+        return redirect()->route('jenis_barang')->with('message', 'Jenis Barang berhasil di Simpan!');
     }
 
     
@@ -86,7 +81,7 @@ class JenisBarangController extends Controller
             ->where('id', $id)->update([
                 'nama' => $request->nama_jenis_barang,
                 'deskripsi' => $request->deskripsi,
-                'updated_by' => 1,
+                'updated_by' => Auth::user()->id,
                 'updated_at' => \Carbon\carbon::now(),
             ]);
 
