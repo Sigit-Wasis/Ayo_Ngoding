@@ -250,7 +250,14 @@ class PengajuanController extends Controller
                         'created_at' => \Carbon\Carbon::now(),
                         'updated_at' => \Carbon\Carbon::now(),
                     ]);
+
+                    // update stok barang
+                    DB::table('mst_barang')->where('id', $request->id_barang[$i])->decrement('stok_barang', $request->jumlah_barang[$i]);
                 } else {
+                    $jumlahSebelumDiupdate = DB::table('detail_pengajuan')
+                    ->where('id_tr_pengajuan')
+                    ->where('id_barang', $request->id_barang[$i])->value('jumlah');
+
                     DB::table('detail_pengajuan')->where('id', $request->id_detail_barang[$i])->update([
                         'id_barang' => $request->id_barang[$i],
                         'jumlah' => $request->jumlah_barang[$i],
@@ -258,9 +265,29 @@ class PengajuanController extends Controller
                         'total_barang' => $request->jumlah_barang[$i] * $request->harga_barang[$i],
                         'updated_at' => \Carbon\Carbon::now(),
                     ]);
+
+                    if ($request->jumlah_barang[$i] >   $jumlahSebelumDiupdate){
+                        $counter = $request->jumlah_barang[$i] - $jumlahSebelumDiupdate;
+                        $stokSekarang = DB::table('mst_barang')->where('id', $request->id_barang[$i])->value('stok_barang');
+
+                        DB::table('mst_barang')->where('id', $request->id_barang[$i])
+                        ->update([
+                            'stok_barang' =>$stokSekarang - $counter
+                        ]);
+
+                    }elseif( $request->jumlah_barang[$i] < $jumlahSebelumDiupdate){
+                        $counter =  $jumlahSebelumDiupdate -  $request->jumlah_barang[$i];
+
+                        $stokSekarang = DB::table('mst_barang')->where('id', $request->id_barang[$i])->latest()->value('stok_barang');
+
+                        DB::table('mst_barang')->where('id', $request->id_barang[$i])
+                        ->update([
+                            'grand_total' => $grandTotal
+                        ]);
+                        
+                    }
                 }
-                DB::table('mst_barang')->where('id', $request->id_barang[$i])
-                ->decrement('stok_barang', $request->jumlah_barang[$i]);
+                DB::table('mst_barang')->where('id', $request->id_barang[$i])->decrement('stok_barang', $request->jumlah_barang[$i]);
 
                 $grandTotal += $request->jumlah_barang[$i] * $request->harga_barang[$i];
             }
