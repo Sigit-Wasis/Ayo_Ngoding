@@ -91,7 +91,7 @@
                     </table>     
                 </div> 
                 <div class="card-footer"> 
-                    <button type="submit" disabled id="ajukan" class="btn btn-primary">Update</button> 
+                    <button type="submit" id="ajukan" class="btn btn-primary">Update</button> 
                     <a href="{{ route('pengajuan') }}" class="btn btn-info">Kembali</a> 
                 </div> 
             </div> 
