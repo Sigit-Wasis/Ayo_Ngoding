@@ -231,6 +231,8 @@ class PengajuanController extends Controller
     {
         DB::beginTransaction();
 
+        // dd($request->all());
+
         try {
             // insert ke tr_pengajuan
             DB::table('tr_pengajuan')->where('id', $id)->update([
@@ -244,50 +246,105 @@ class PengajuanController extends Controller
             $countData = count($request->id_barang);
 
             for ($i=0; $i < $countData; $i++) {
-            if (!isset($request->id_detail_barang[$i])) {
-                DB::table('detail_pengajuan')->insert([
-                    'id_barang' => $request->id_barang[$i],
-                    'jumlah' => $request->jumlah_barang[$i],
-                    'id_tr_pengajuan' => $id,
-                    'total_per_barang' => $request->jumlah_barang[$i] * $request->harga_barang[$i],
-                    'created_at' => \Carbon\Carbon::now(),
-                    'updated_at' => \Carbon\Carbon::now(),
-                    'created_by' => Auth::user()->id, 
-                    'updated_by' => Auth::user()->id,
-                ]);
+                if (!isset($request->id_detail_barang[$i])) {
+                    DB::table('detail_pengajuan')->insert([
+                        'id_barang' => $request->id_barang[$i],
+                        'jumlah' => $request->jumlah_barang[$i],
+                        'id_tr_pengajuan' => $id,
+                        'total_per_barang' => $request->jumlah_barang[$i] * $request->harga_barang[$i],
+                        'created_at' => \Carbon\Carbon::now(),
+                        'updated_at' => \Carbon\Carbon::now(),
+                        'created_by' => Auth::user()->id, 
+                        'updated_by' => Auth::user()->id,
+                    ]);
+
+                    //  update stok barang
+                    DB::table ('mst_barang')->where('id', $request[$i])->decrement('stok_barang', $request->jumlah_barang[$i]);
+                                
+                } else {
+
+                    // var_dump( $request->id_barang[$i]);
+                    $jumlahSebelumDiupdate = DB::table('detail_pengajuan')
+                        ->where('id_tr_pengajuan', $id)
+                        ->where('id_barang', $request->id_barang[$i])->value('jumlah');
+
+                    DB::table('detail_pengajuan')->where('id', $request->id_detail_barang[$i])->update([
+                        'id_barang' => $request->id_barang[$i],
+                        'jumlah' => $request->jumlah_barang[$i],
+                        'id_tr_pengajuan' => $id,
+                        'total_per_barang' => $request->jumlah_barang[$i] * $request->harga_barang[$i],
+                        'updated_at' => \Carbon\Carbon::now(),
+                    ]);
+
+                    // var_dump( (int) $request->jumlah_barang[$i]);
+                    // var_dump( (int) $jumlahSebelumDiupdate);
+                    // dd((int) $request->jumlah_barang[$i] > (int) $jumlahSebelumDiupdate);
+                    // dd('s');
+                    // var_dump($request->jumlah_barang[$i] > $jumlahSebelumDiupdate);
+                    //jika jumlah barang lebih besar dari sebelumnya maka dikurang
+                    // contoh awal jumlahnya 5 kemudian update menjadi 8 berarti stok barang (stok-8)
+                    if ( $request->jumlah_barang[$i] > $jumlahSebelumDiupdate) {
+                        $counter = $request->jumlah_barang[$i] - $jumlahSebelumDiupdate;
+
+                        // dd($counter);
+
+                        $stokSekarang = DB::table('mst_barang')->where('id', $request->id_barang[$i])->value('stok_barang');
+
+                        // update stok barang
+                        DB::table('mst_barang')->where('id', $request->id_barang[$i])
+                        ->update([
+                            'stok_barang' => $stokSekarang - $counter
+                        ]);
+
+                        // dd('masuk sini atas');
+
+                        //jika jumlah barang kurang dari sebelumnya maka di tambah
+                        // contoh awal jumlahnya 5 kemudian di update menjadi 3 berarti stok barang (stok-3)
+                    } elseif ($request->jumlah_barang[$i] < $jumlahSebelumDiupdate) {
+
+                        $counter = $jumlahSebelumDiupdate - $request->jumlah_barang[$i];
+
+                        
+                        $stokSekarang = DB::table('mst_barang')->where('id', $request->id_barang[$i])->value('stok_barang');
+                        // dd($stokSekarang/);
+
+                        // update stok barang
+                        DB::table('mst_barang')->where('id', $request->id_barang[$i])
+                        ->update([
+                            'stok_barang' => $stokSekarang + $counter
+                        ]);
+
+                        // dd('masuk sini sdsd');
+
+                    } else {
+                        // 
+                    }
+                }
             
-        } else {
-            DB::table('detail_pengajuan')->where('id', $request->id_detail_barang[$i])->update([
-                    'id_barang' => $request->id_barang[$i],
-                    'jumlah' => $request->jumlah_barang[$i],
-                    'id_tr_pengajuan' => $id,
-                    'total_per_barang' => $request->jumlah_barang[$i] * $request->harga_barang[$i],
-                    'updated_at' => \Carbon\Carbon::now(),
+                // // UPDATE STOK BARANG
+                // DB::table('mst_barang')->where('id', $request->id_barang[$i])
+                //     ->decrement('stok_barang', $request->jumlah_barang[$i]);
+
+                $grandTotal += $request->jumlah_barang[$i] * $request->harga_barang[$i];
+            }
+
+            // dd('keluar sini');
+
+            DB::table('tr_pengajuan')->where('id', $id)->update([
+                'grand_total' => $grandTotal
             ]);
+
+            DB::commit();
+
+            return redirect()->route('pengajuan')->with('message', 'pengajuan berhasil diajukan');
+
+            } catch (\Exception $e) {
+                DB::rollBack();
+                // something went wrong
+
+                return $e->getMessage();
+            }
         }
-
-        // UPDATE STOK BARANG
-        DB::table('mst_barang')->where('id', $request->id_barang[$i])
-            ->decrement('stok_barang', $request->jumlah_barang[$i]);
-
-            $grandTotal += $request->jumlah_barang[$i] * $request->harga_barang[$i];
-    }
-
-    DB::table('tr_pengajuan')->where('id', $id)->update([
-        'grand_total' => $grandTotal
-    ]);
-
-    DB::commit();
-
-    return redirect()->route('pengajuan')->with('message', 'pengajuan berhasil diajukan');
-
-} catch (\Exception $e) {
-    DB::rollBack();
-    // something went wrong
-
-    return $e->getMessage();
-}
-    }
     
     /**
      * Remove the specified resource from storage.
@@ -295,7 +352,7 @@ class PengajuanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id_barang, $id_pengajuan)
+    public function destroyBarang($id_barang, $id_pengajuan)
     {
         DB::table('detail_pengajuan')->where('id', $id_barang)->delete();
 

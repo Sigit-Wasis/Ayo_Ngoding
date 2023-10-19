@@ -59,7 +59,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('delete-pengajuan/{id}', 'Backend\PengajuanController@destroy')->name('delete_pengajuan');
         Route::get('show-pengajuan/{id}', 'Backend\PengajuanController@show')->name('show_pengajuan');
         Route::get('edit-pengajuan/{id}', 'Backend\PengajuanController@edit')->name('edit_pengajuan');
-        Route::get('delete-barang-pengajuan/{id_barang}/{id_pengajuan}', 'Backend\PengajuanController@destroy')->name('delete_barang_pengajuan');
+        Route::get('delete-barang-pengajuan/{id_barang}/{id_pengajuan}', 'Backend\PengajuanController@destroyBarang')->name('delete_barang_pengajuan');
         Route::post('/update-pengajuan/{id}', 'Backend\PengajuanController@update')->name('update_pengajuan');
 
         Route::get('/terima-pengajuan/{id}', 'Backend\PengajuanController@terimaPengajuan')->name('terima_pengajuan');
