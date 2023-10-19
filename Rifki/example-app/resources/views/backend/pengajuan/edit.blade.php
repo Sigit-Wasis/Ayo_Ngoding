@@ -64,27 +64,27 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($detailBarang as $key => $barang)
-                            <input type="hidden" name="id_detail_barang[{{$key}}]" value="{{ $barang->id_detail_pengajuan }}">
-                            <tr>
-                                <td>
-                                    <select name="id_barang[{{ $key }}]" class="form-control" onchange="selectHargaDanStokBarang(this.value)" id="id_barang">
-                                        @foreach($barangs as $brg)
-                                        <option value="{{$brg->id}}" {{ $brg->id == $editPengajuan->id_barang ? 'selected' : ''}}>{{$brg->nama_barang}}</option>
-                                        @endforeach
-                                    </select>
-                                </td>
-                                <td>
-                                    <input type="number" name="jumlah_barang[{{$key}}]" class="form-control" id="jumlah_barang" value="{{$barang->jumlah}}" required>
-                                </td>
-                                <td>
-                                    <input type="text" name="harga_barang[{{$key}}]" class="form-control" id=</td>
-                                <td>
-                                    <input type="text" name="stok_barang[{{$key}}]" class="form-control" id="stok_barang" value="{{$barang->stok_barang}}" readonly>
-                                </td>
-                                <td width="130px">
-                                    <!-- <button class="btn btn-sm btn-primary">Edit</button> -->
-                                    <button class="btn btn-sm btn-danger">Hapus</button>
+                        @foreach($detailBarang as $key => $barang)
+                        <input type="hidden" name="id_detail_barang[{{ $key }}]" value="{{ $barang->id_detail_pengajuan }}">
+                            <tr> 
+                                <td> 
+                                    <select name="id_barang[{{ $key }}]" class="form-control" onchange="selectHargaDanStokBarang(this.value)" id="id_barang"> 
+                                    @foreach($barangs as $brg)    
+                                        <option value="{{ $brg->id}}" {{ $brg->id == $barang->id_barang ? 'selected' : '' }}>{{ $brg->nama_barang }}</option> 
+                                    @endforeach 
+                                    </select> 
+                                </td> 
+                                <td> 
+                                    <input type="number" name="jumlah_barang[{{ $key }}]" class="form-control" id="jumlah_barang" value="{{ $barang->jumlah}}" required> 
+                                </td> 
+                                <td> 
+                                    <input type="text" name="harga_barang[{{ $key }}]" class="form-control" id="harga_barang" value="{{ $barang->harga}}" readonly> 
+                                </td> 
+                                <td> 
+                                    <input type="text" name="stok_barang[{{ $key }}]" class="form-control" id="stok_barang" value="{{ $barang->stok_barang}}" readonly> 
+                                </td> 
+                                <td width="130px"> 
+                                    <a href="{{route('delete_barang_pengajuan', [$barang->id_detail_pengajuan, $editPengajuan->id])}}" onclick="return confirm('Apakah Anda yakin ingin menghapus barang ini?')"  class="btn btn-danger">Hapus</a>
                                 </td>
                             </tr>
                             @endforeach
@@ -94,7 +94,7 @@
 
                 <div class="card-footer">
                     <button type="submit" id="ajukan" class="btn btn-primary">Ajukan</button>
-                    <a href="{{ route('pengajuan.index') }}" class="btn btn-info">Kembali</a>
+                    <a href="{{ route('jenis_barang') }}" class="btn btn-info">Kembali</a>
                 </div>
             </div>
         </form>
