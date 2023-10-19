@@ -34,7 +34,7 @@
         </div>
         @endif
 
-        <form method="POST" action="{{ route('store_pengajuan') }}">
+        <form method="POST" action="{{ route('update_pengajuan', $editpengajuan->id) }}">
             @csrf
             <div class="card-body">
                 <div class="form-group">
@@ -46,7 +46,7 @@
                     <select name="id_vendor" class="form-control" id="id_vendor" onchange="selectBarangByVendor(this.value)" id="id_vendor">
                         <option value="">-- pilih vendor --</option>
                         @foreach($vendors as $vendor)
-                        <option value="{{ $vendor->id }}"{{ $vendor->id == $editpengajuan->id_vendor ? 'selected' : '' }}{{ $vendor->nama}}</option>
+                        <option value="{{ $vendor->id }}"{{ $vendor->id == $editpengajuan->id_vendor ? 'selected' : '' }}>{{ $vendor->nama}}</option>
                         @endforeach
                     </select>
                 </div>
@@ -71,7 +71,7 @@
                                 <td>
                                     <select name="id_barang[{{$key}}]" class="form-control" onchange="selectHargaDanStokBarang(this.value)" id="id_barang">
                                         @foreach($barangs as $brg)
-                                        <option value="{{ $brg->id }}" {{ $brg->id == $editpengajuan->id_barang ? 'selected' : ''}}>{{$brg->nama_barang}}</option>
+                                        <option value="{{ $brg->id }}" {{ $brg->id == $barang->id_barang ? 'selected' : ''}}>{{$brg->nama_barang}}</option>
                                         @endforeach
                                     </select>
                                 </td>
@@ -85,8 +85,7 @@
                                     <input type="text" name="stok_barang[{{$key}}]" class="form-control" id="stok_barang" value="{{ $barang->stok_barang }}" readonly>
                                 </td>
                                 <td width="130px">
-                                    <button class="btn btn-sm btn-primary">Edit</button>
-                                    <button class="btn btn-sm btn-danger">Hapus</button>
+                                    <a href="{{ route('delete_barang_pengajuan', [$barang->id_detail_pengajuan, $editpengajuan->id]) }}" onclick="return confirm('Apakah Anda yakin?')" class="btn btn-sm btn-danger">Hapus</a>
                                 </td>
                             </tr>
                             @endforeach

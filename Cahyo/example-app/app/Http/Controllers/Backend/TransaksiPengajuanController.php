@@ -208,6 +208,39 @@ class TransaksiPengajuanController extends Controller
         return redirect()->route('pengajuan')->with('message', 'Barang Berhasil dihapus');
     }
 
+    public function destroyBarang($id_barang, $id_pengajuan)
+    {
+        DB::table('detail_pengajuan')->where('id', $id_barang)->delete();
+
+        $editpengajuan = DB::table('tr_pengajuan')
+        ->select('tr_pengajuan.*', 'id_barang', 'detail_pengajuan.id as id_detail-pengajuan ','nama','mst_barang.id_vendor as id_vendor')
+        ->join('detail_pengajuan', 'detail_pengajuan.id_tr_pengajuan', 'tr_pengajuan.id')
+        ->join('mst_barang', 'mst_barang.id', 'detail_pengajuan.id_barang')
+        ->join('vendors', 'vendors.id', 'mst_barang.id_vendor')
+        ->where('tr_pengajuan.id', $id_pengajuan)
+        ->first();
+
+    $vendors = DB::table('vendors')->select('id', 'nama')->get();
+
+    $barangs = DB::table('mst_barang')
+        ->where('id_vendor', $editpengajuan->id_vendor)
+        ->select('id', 'nama_barang')->get();
+
+    $detailBarang = DB::table('detail_pengajuan')
+        ->join('tr_pengajuan', 'tr_pengajuan.id', 'detail_pengajuan.id_tr_pengajuan')
+        ->join('mst_barang', 'mst_barang.id', 'detail_pengajuan.id_barang')
+        ->select('detail_pengajuan.id as id_detail_pengajuan', 'nama_barang', 'jumlah', 'harga', 'stok_barang')
+        ->where('detail_pengajuan.id_tr_pengajuan', $id_pengajuan)
+        ->get();
+
+        return redirect()->route('edit_pengajuan', $id_pengajuan)->with(
+            ['message', 'Barang Berhasil dihapus',
+            'detailBarang' => $detailBarang,
+            'barangs' => $barangs,
+            'vendors' => $vendors,
+            'editpengajuan' => $editpengajuan]);
+    }
+
     public function edit($id)
     {
 
@@ -228,7 +261,7 @@ class TransaksiPengajuanController extends Controller
         $detailBarang = DB::table('detail_pengajuan')
             ->join('tr_pengajuan', 'tr_pengajuan.id', 'detail_pengajuan.id_tr_pengajuan')
             ->join('mst_barang', 'mst_barang.id', 'detail_pengajuan.id_barang')
-            ->select('detail_pengajuan.id as id_detail_pengajuan', 'nama_barang', 'jumlah', 'harga', 'stok_barang')
+            ->select('detail_pengajuan.id as id_detail_pengajuan', 'id_barang', 'nama_barang', 'jumlah', 'harga', 'stok_barang')
             ->where('detail_pengajuan.id_tr_pengajuan', $id)
             ->get();
 

@@ -82,8 +82,10 @@
                                     <input type="text" name="stok_barang[{{ $key }}]" class="form-control" id="stok_barang" value="{{ $barang->stok}}" readonly> 
                                 </td> 
                                 <td width="80px"> 
-                                    <!-- <button class="btn btn-sm btn-primary">Edit</button>          -->
-                                    <button class="btn btn-sm btn-danger">Hapus</button> 
+                                    <!-- <button class="btn btn-sm btn-primary">Edit</button> -->
+                                    <!-- <button class="btn btn-sm btn-danger">Hapus</button> -->
+                                    <a href="{{ route('delete_barang_pengajuan', [$barang->id_detail_pengajuan, $Pengajuans->id]) }}"
+                                    onclick="return confirm('Apa kamu yakin')" class="btn btn-sm btn-danger">Hapus</a>
                                 </td>
                             </tr>
                             @endforeach 
