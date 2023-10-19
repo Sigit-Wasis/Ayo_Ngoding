@@ -207,7 +207,14 @@ class PengajuanController extends Controller
                             'created_at' => \Carbon\Carbon::now(),
                             'updated_at' => \Carbon\Carbon::now(),
                         ]);
+
+                        FacadesDB::table('barang')->where('id', $request->id_barang[$i])->decrement('stok', $request->jumlah_barang[$i]);
+                        
                     }else{
+                        $jumlahSebelumDiupdate = FacadesDB::table('detail_pengajuan')
+                        ->where('id_tr_pengajuan',$id)
+                        ->where('id_barang', $request->id_barang[$i])->value('jumlah');
+
                         FacadesDB::table('detail_pengajuan')->where('id', $request->id_detail_barang[$i])->update([
                             'id_barang' =>$request->id_barang[$i],
                             'jumlah' =>$request->jumlah_barang[$i],
@@ -216,9 +223,50 @@ class PengajuanController extends Controller
                             'created_at' => \Carbon\Carbon::now(),
                             'updated_at' => \Carbon\Carbon::now(),
                         ]);
+                        // jika jumlah barang lebih besar dari sebelumnya maka dikurang
+                        // contoh awal jumlahnya 5 kemudian di update jadi 8 berarti stok berkurang 
+                        if($request->jumlah_barang[$i] > $jumlahSebelumDiupdate) {
+                            $counter = $request->jumlah_barang[$i] - $jumlahSebelumDiupdate;
+
+                            $stokSekarang = FacadesDB::table('barang')->where('id', $request->id_barang[$i])->value('stok');
+
+                            // UPDATE STOK BARANG
+                            FacadesDB::table('barang')->where('id', $request->id_barang[$i])
+                            ->update([
+                                'stok' => $stokSekarang - $counter
+                            ]);
+
+                        // jika jumlah barang lebih besar dari sebelumnya maka dikurang
+                        // contoh awal jumlahnya 5 kemudian di update jadi 8 berarti stok berkurang
+                        }elseif ($request->jumlah_barang[$i] < $jumlahSebelumDiupdate) {
+                            $counter = $jumlahSebelumDiupdate - $request->jumlah_barang[$i];
+
+                            $stokSekarang = FacadesDB::table('barang')->where('id', $request->id_barang[$i])->value('stok');
+
+                            // UPDATE STOK BARANG
+                            FacadesDB::table('barang')->where('id', $request->id_barang[$i])
+                            ->update([
+                                'stok' => $stokSekarang + $counter
+                            ]);
+
+                            // $stokSebelum = FacadesDB::table('barang')->where('id', $request->id_barang[$i])->value('stok');
+                            // DB::table('detail_pengajuan')->insert([
+                            // 'barang_id' =>$request->id_barang[$i],
+                            // 'stok_sebelum' =>$stokSebelum,
+                            // 'stok_sesudah' =>$request->jumlah_barang[$i],
+                            // 'stok_sekarang' =>$stokSebelum - $request->jumlah_barang[$i],
+                            // 'created_at' => \Carbon\Carbon::now(),
+                            // 'updated_at' => \Carbon\Carbon::now(),
+                            // ]);
+
+                        }else{
+
+                        }
                     }
-                    FacadesDB::table('barang')->where('id', $request->id_barang[$i])
-                    ->decrement('stok', $request->jumlah_barang[$i]);
+                    //     }
+                    // }
+                    // FacadesDB::table('barang')->where('id', $request->id_barang[$i])
+                    // ->decrement('stok', $request->jumlah_barang[$i]);
 
                     $grandTotal += $request->jumlah_barang[$i] * $request->harga_barang[$i];
                 }
@@ -238,8 +286,7 @@ class PengajuanController extends Controller
                 
                 return $e->getMessage();
             }
-    }
-    
+    }    
     
 
     /**
@@ -284,7 +331,8 @@ class PengajuanController extends Controller
             'detailBarang' => $detailBarang,
             'Barang' => $Barang,
             'vendors' => $vendors,
-            'Pengajuans' => $Pengajuans]);
+            'Pengajuans' => $Pengajuans
+        ]);
     }
 
     public function terimapengajuan($id)
