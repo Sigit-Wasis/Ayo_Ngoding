@@ -42,7 +42,7 @@
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Tanggal Pengajuan</th>
-                            <th scope="col"> Grand Total</th>
+                            <th scope="col">Grand Total</th>
                             <th scope="col">Dibuat Pada</th>
                             <th scope="col">Dibuat Oleh</th>
                             <th scope="col">Aksi</th>
