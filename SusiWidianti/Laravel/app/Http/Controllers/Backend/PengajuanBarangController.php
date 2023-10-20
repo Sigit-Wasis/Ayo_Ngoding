@@ -13,13 +13,13 @@ use Illuminate\Support\Facades\DB;
 
 class PengajuanBarangController extends Controller
 {
-    // function __construct()
-    // {
-    //      $this->middleware('permission:barang-list|barang-create|barang-edit|barang-delete', ['only' => ['index','store']]);
-    //      $this->middleware('permission:barang-create', ['only' => ['create','store']]);
-    //      $this->middleware('permission:barang-edit', ['only' => ['edit','update']]);
-    //      $this->middleware('permission:barang-delete', ['only' => ['destroy']]);
-    // }
+    function __construct()
+    {
+         $this->middleware('permission:pengajuan-list|pengajuan-create|pengajuan-edit|pengajuan-delete', ['only' => ['index','store']]);
+         $this->middleware('permission:pengajuan-create', ['only' => ['create','store']]);
+         $this->middleware('permission:pengajuan-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:pengajuan-delete', ['only' => ['destroy']]);
+    }
     public function index()
     {
         //query ini untuk mengambil data jenis barang secara keseluruhan dengan id secara discending
@@ -263,18 +263,21 @@ public function tolakvendor(Request $request, $id)
         return view('backend.pengajuan.edit', compact('editPengajuan', 'vendors', 'detailBarang','barangs'));
 
     }
+
     public function update(Request $request, $id)
     {
+        // dd($request->all());
         DB::beginTransaction();
 
         try {
             DB::table('tr_pengajuan')->where('id', $id)->update([
-                'tanggal_pengajuan' =>$request->tanggal_pengajuan,
+                'tanggal_pengajuan' => $request->tanggal_pengajuan,
                 'updated_by' => Auth::user()->id,
-                'updated_at' =>\Carbon\Carbon::now(),
+                'updated_at' => \Carbon\Carbon::now(),
             ]);
 
             $grandTotal = 0;
+
             $countData = count($request->id_barang);
 
             for ($i=0; $i < $countData; $i++) {
@@ -288,32 +291,79 @@ public function tolakvendor(Request $request, $id)
                         'created_at' => \Carbon\Carbon::now(),
                         'updated_at' => \Carbon\Carbon::now(),
                     ]);
+                                   
+                    // UPDATE STOK BARANG
+                    DB::table('mts_barang')->where('id', $request->id_barang[$i])->decrement('stok_barang', $request->jumlah_barang[$i]);
+
                 } else {
-                    DB::table('detail_pengajuan')->where('id', $request->id_detail_barang[$i])->update([
+                    $jumlahSebelumDiupdate = DB::table('detail_pengajuan')
+                    ->where('id_tr_pengajuan', $id)
+                    ->where('id_barang', $request->id_barang[$i])->value('jumlah');
+
+                    DB::table('detail_pengajuan')->where('id',$request->id_detail_barang[$i])->update([
                         'id_barang' => $request->id_barang[$i],
                         'jumlah' => $request->jumlah_barang[$i],
                         'id_tr_pengajuan' => $id,
                         'total_per_barang' => $request->jumlah_barang[$i] * $request->harga_barang[$i],
                         'updated_at' => \Carbon\Carbon::now(),
                     ]);
+
+                // jika barang lebih besar dari seblumnya maka dikurang
+                // contoh awal jumlahnya 5 kemudian update menjadi 8 berarti stok barang (stok -8)
+                if ($request->jumlah_barang[$i] > $jumlahSebelumDiupdate) {
+                    $counter = $request->jumlah_barang[$i] -$jumlahSebelumDiupdate;
+                    $stokSekarang = DB::table('mts_barang')->where('id', $request->id_barang[$i])->value('stok_barang');
+
+                    // UPDATE STOK BARANG
+                    DB::table('mts_barang')->where('id',$request->id_barang[$i])
+                    ->update([
+                    'stok_barang' => $stokSekarang - $counter
+                    ]);
+
+                // jika barang lebih besar dari seblumnya maka dikurang
+                // contoh awal jumlahnya 5 kemudian update menjadi 3 berarti stok barang (stok +3)
+                } elseif  ($request->jumlah_barang[$i] < $jumlahSebelumDiupdate) {
+                    $counter = $jumlahSebelumDiupdate - $request->jumlah_barang[$i];
+
+                    $stokSekarang = DB::table('mts_barang')->where('id', $request->id_barang[$i])->latest()->value('stok_barang');
+
+                    // UPDATE STOK BARANG
+                    DB::table('mts_barang')->where('id',$request->id_barang[$i])
+                    ->update([
+                    'stok_barang' => $stokSekarang + $counter
+                    ]);
+
+                    // $stokSebelum = DB::table('mts_barang')->where('id',$request->id_barang[$i])->value('stok_barang');
+                    // DB::table('history_stok_barang')->insert([
+                    //     'barang_id' => $request->id_barang[$i],
+                    //     'stok_sebelum' => $stokSebelum,
+                    //     'stok_sesudah' => $request->jumlah_barang[$i],
+                    //     'stok_sekarang' =>  $stokSebelum - $request->jumlah_barang[$i],
+                    //     'created_at' => \Carbon\Carbon::now(),
+                    //     'updated_at' => \Carbon\Carbon::now()
+                    // ]);
+                } else {
+                    // continue;
                 }
-                DB::table('mst_barang')->where('id', $request->id_barang[$i])
-                ->decrement('stok_barang', $request->jumlah_barang[$i]);
+            }
 
                 $grandTotal += $request->jumlah_barang[$i] * $request->harga_barang[$i];
-            }
+
+
+            } 
             DB::table('tr_pengajuan')->where('id', $id)->update([
-                'grand_total'=> $grandTotal
+                'grand_total' => $grandTotal
             ]);
+
             DB::commit();
 
-            return redirect()->route('pengajuan.index')->with('message', 'pengajuan berhasil diajukan');
+            return redirect()->route('pengajuan')->with('message', 'Pengajuan Berhasil Diajukan');
 
-        }  catch (\Exception $e) {
+        } catch (\Exception $e) {
             DB::rollBack();
+            // something went wrong
 
             return $e->getMessage();
         }
     }
-
 }

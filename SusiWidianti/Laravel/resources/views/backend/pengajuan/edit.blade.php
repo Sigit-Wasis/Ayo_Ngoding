@@ -31,7 +31,7 @@
         </div>
         @endif
 
-        <form method="POST" action="{{ route('store_data_pengajuan') }}">
+        <form method="POST" action="{{ route('update_data_pengajuan', $editPengajuan->id) }}">
             @csrf
             <div class="card-body">
                 <div class="form-group">
@@ -63,7 +63,7 @@
                         </thead>
                         <tbody>
                             @foreach($detailBarang as $key => $barang)
-                            <input type="hidden" name="id_detail_barang[{{$key }}]" value="{{ $barang->id_detail_pengajuan }}">
+                            <input type="hidden" name="id_detail_barang[{{$key}}]" value="{{ $barang->id_detail_pengajuan }}">
                             <tr>
                                 <td>
                                     <select name="id_barang[{{ $key }}]" class="form-control" onchange="selectHargaDanStokBarang(this.value)" id="id_barang">
@@ -83,7 +83,8 @@
                                 </td>
 
                                 <td width="130x">
-                                    <button class="btn btn-sm btn-danger">Hapus</button>
+                                    <a href="{{route('delete_barang_pengajuan', [$barang->id_detail_pengajuan, $editPengajuan->id]) }}"
+                                    onclick="return confirm('Are You Sure?')" class="btn btn-sm btn-danger">Hapus</button>
                                 </td>
                             </tr>
                             @endforeach
