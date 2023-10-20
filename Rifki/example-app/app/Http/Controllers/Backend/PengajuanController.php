@@ -12,6 +12,13 @@ use function Laravel\Prompts\select;
 
 class PengajuanController extends Controller
 {
+    function __construct()
+    {
+        $this->middleware('permission:pengajuan-list|pengajuan-create|pengajuan-edit|pengajuan-delete', ['only' => ['index', 'store']]);
+        $this->middleware('permission:pengajuan-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:pengajuan-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:pengajuan-delete', ['only' => ['destroy']]);
+    }
     public function index()
     {
         $transaksiPengajuan = DB::table('tr_pengajuan')
