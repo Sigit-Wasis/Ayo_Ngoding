@@ -156,12 +156,13 @@ class BarangController extends Controller
             ]);
         }
 
-        return redirect()->route('barang')->with('messages', 'Data Barang Berhasil Diupdate');
+        return redirect()->route('barang')->with('message', 'Data Barang Berhasil Diupdate');
     }
 
     /**
      * Remove the specified resource from storage.
      */
+
     public function destroy(string $id)
     {
             if ($id) {
@@ -178,4 +179,27 @@ class BarangController extends Controller
                 return redirect()->route('barang')->with('messages', 'Sukses');
             }
         }
+
+
+
+        //     public function destroy(string $id)
+        // {
+        //     if ($id) {
+        //         $file = FacadesDB::table('barang')->select('gambar')->where('id', $id)->first();
+                
+        //         if ($file) {
+        //             // Check if 'gambar' property exists and is not empty
+        //             if (property_exists($file, 'gambar') && $file->gambar != "") {
+        //                 if (file_exists(public_path($file->gambar))) {
+        //                     unlink(public_path($file->gambar));
+        //                 }
+        //             }
+        //         }
+
+        //         FacadesDB::table('barang')->where('id', $id)->delete();
+
+        //         return redirect()->route('barang')->with('messages', 'Sukses');
+        //     }
+        // }
+
     }

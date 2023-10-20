@@ -167,7 +167,8 @@ class PengajuanController extends Controller
         $vendors = FacadesDB::table('vendor')->select('id','nama_perusahaan')->get();
         $Barang = FacadesDB::table('barang')
             ->where('id_vendor',$Pengajuans->id_vendor)
-            ->select('id', 'nama_barang')->get();
+            ->select('id', 'nama_barang')
+            ->get();
 
         
         return view ('backend.pengajuan.edit', compact('detailBarang','Pengajuans','vendors','Barang'));
@@ -206,7 +207,14 @@ class PengajuanController extends Controller
                             'created_at' => \Carbon\Carbon::now(),
                             'updated_at' => \Carbon\Carbon::now(),
                         ]);
+
+                        FacadesDB::table('barang')->where('id', $request->id_barang[$i])->decrement('stok', $request->jumlah_barang[$i]);
+                        
                     }else{
+                        $jumlahSebelumDiupdate = FacadesDB::table('detail_pengajuan')
+                        ->where('id_tr_pengajuan',$id)
+                        ->where('id_barang', $request->id_barang[$i])->value('jumlah');
+
                         FacadesDB::table('detail_pengajuan')->where('id', $request->id_detail_barang[$i])->update([
                             'id_barang' =>$request->id_barang[$i],
                             'jumlah' =>$request->jumlah_barang[$i],
@@ -215,9 +223,50 @@ class PengajuanController extends Controller
                             'created_at' => \Carbon\Carbon::now(),
                             'updated_at' => \Carbon\Carbon::now(),
                         ]);
+                        // jika jumlah barang lebih besar dari sebelumnya maka dikurang
+                        // contoh awal jumlahnya 5 kemudian di update jadi 8 berarti stok berkurang 
+                        if($request->jumlah_barang[$i] > $jumlahSebelumDiupdate) {
+                            $counter = $request->jumlah_barang[$i] - $jumlahSebelumDiupdate;
+
+                            $stokSekarang = FacadesDB::table('barang')->where('id', $request->id_barang[$i])->value('stok');
+
+                            // UPDATE STOK BARANG
+                            FacadesDB::table('barang')->where('id', $request->id_barang[$i])
+                            ->update([
+                                'stok' => $stokSekarang - $counter
+                            ]);
+
+                        // jika jumlah barang lebih besar dari sebelumnya maka dikurang
+                        // contoh awal jumlahnya 5 kemudian di update jadi 8 berarti stok berkurang
+                        }elseif ($request->jumlah_barang[$i] < $jumlahSebelumDiupdate) {
+                            $counter = $jumlahSebelumDiupdate - $request->jumlah_barang[$i];
+
+                            $stokSekarang = FacadesDB::table('barang')->where('id', $request->id_barang[$i])->value('stok');
+
+                            // UPDATE STOK BARANG
+                            FacadesDB::table('barang')->where('id', $request->id_barang[$i])
+                            ->update([
+                                'stok' => $stokSekarang + $counter
+                            ]);
+
+                            // $stokSebelum = FacadesDB::table('barang')->where('id', $request->id_barang[$i])->value('stok');
+                            // DB::table('detail_pengajuan')->insert([
+                            // 'barang_id' =>$request->id_barang[$i],
+                            // 'stok_sebelum' =>$stokSebelum,
+                            // 'stok_sesudah' =>$request->jumlah_barang[$i],
+                            // 'stok_sekarang' =>$stokSebelum - $request->jumlah_barang[$i],
+                            // 'created_at' => \Carbon\Carbon::now(),
+                            // 'updated_at' => \Carbon\Carbon::now(),
+                            // ]);
+
+                        }else{
+
+                        }
                     }
-                    FacadesDB::table('barang')->where('id', $request->id_barang[$i])
-                    ->decrement('stok', $request->jumlah_barang[$i]);
+                    //     }
+                    // }
+                    // FacadesDB::table('barang')->where('id', $request->id_barang[$i])
+                    // ->decrement('stok', $request->jumlah_barang[$i]);
 
                     $grandTotal += $request->jumlah_barang[$i] * $request->harga_barang[$i];
                 }
@@ -237,8 +286,7 @@ class PengajuanController extends Controller
                 
                 return $e->getMessage();
             }
-    }
-    
+    }    
     
 
     /**
@@ -249,6 +297,42 @@ class PengajuanController extends Controller
         FacadesDB::table('pengajuan')->where('id', $id)->delete();
 
         return redirect()->route('pengajuan')->with('message','Data Pengajuan Berhasil Dihapus');
+    }
+
+    public function destroyBarang($id_barang, $id_pengajuan)
+    {
+        DB::table('detail_pengajuan')->where('id',$id_barang)->delete();
+
+        $Pengajuans = FacadesDB::table('pengajuan')
+        ->select('pengajuan.*','id_barang', 'detail_pengajuan.id  as id_detail_pengajuan', 'nama_perusahaan', 'barang.id_vendor as id_vendor')
+            ->join('detail_pengajuan','detail_pengajuan.id_tr_pengajuan', 'pengajuan.id' )
+            ->join('barang', 'barang.id', 'detail_pengajuan.id_barang')
+            ->join('vendor', 'vendor.id', 'barang.id_vendor')
+            ->where('pengajuan.id',$id_pengajuan)
+            ->first();
+ 
+         // query untuk mengambil data dari detail pengajuan berdasarkan id pengajuan join ke table barang 
+         //dan barang join ke vendor
+        $detailBarang = FacadesDB::table('detail_pengajuan')
+             ->join('pengajuan', 'pengajuan.id', 'detail_pengajuan.id_tr_pengajuan')
+             ->select('detail_pengajuan.id as id_detail_pengajuan','id_barang', 'nama_barang', 'harga', 'stok', 'jumlah')
+             ->join('barang', 'barang.id', 'detail_pengajuan.id_barang')
+             ->where('detail_pengajuan.id_tr_pengajuan',$id_pengajuan)
+             ->get();
+     
+        $vendors = FacadesDB::table('vendor')->select('id','nama_perusahaan')->get();
+        $Barang = FacadesDB::table('barang')
+            ->where('id_vendor',$Pengajuans->id_vendor)
+            ->select('id', 'nama_barang')
+            ->get();
+
+        return redirect()->route('edit_pengajuan',$id_pengajuan)->with([
+            'message', 'Barang Berhasil Dihapus',
+            'detailBarang' => $detailBarang,
+            'Barang' => $Barang,
+            'vendors' => $vendors,
+            'Pengajuans' => $Pengajuans
+        ]);
     }
 
     public function terimapengajuan($id)

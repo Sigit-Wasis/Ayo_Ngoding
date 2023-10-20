@@ -60,6 +60,8 @@ Route::group(['namespace' => 'App\Http\Controllers'], function() {
         Route::get('/show-pengajuan/{id}', 'Backend\PengajuanController@show')->name('show_pengajuan');
         Route::post('/update-pengajuan/{id}', 'Backend\PengajuanController@update')->name('update_pengajuan');
 
+        Route::get('/delete-barang-pengajuan/{id_barang}/{id_pengajuan}', 'Backend\PengajuanController@destroyBarang')->name('delete_barang_pengajuan');
+
         Route::get('/terima-pengajuan/{id}', 'Backend\PengajuanController@terimapengajuan')->name('terima_pengajuan');
         Route::POST('/tolak-pengajuan/{id}', 'Backend\PengajuanController@tolakpengajuan')->name('tolak_pengajuan');
         Route::get('/terima-pengajuan-vendor/{id}', 'Backend\PengajuanController@terimapengajuanvendor')->name('terima_pengajuan_vendor');

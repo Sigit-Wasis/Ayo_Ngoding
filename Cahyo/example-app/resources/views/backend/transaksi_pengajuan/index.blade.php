@@ -63,7 +63,7 @@
 
                                 <a href="{{ route('show_pengajuan', $transaksi->id) }}" class="btn btn-sm btn-info">Show</a>
                                 <a href="{{ route('edit_pengajuan', $transaksi->id) }}" class="btn btn-sm btn-primary">Edit</a>
-                                <a href="{{route('delete_pengajuan',$transaksi->id)}}" onclick="return confirm('are you sure?')" class="btn btn-sm btn-danger">Delete</a>
+                                <a href="{{route('delete_pengajuan',$transaksi->id)}}" onclick="return confirm('Apakah Anda yaqqin?')" class="btn btn-sm btn-danger">Delete</a>
                             </td>
                         </tr>
                         @empty

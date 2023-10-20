@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Facade;
 
 use function Laravel\Prompts\select;
 
@@ -194,57 +195,69 @@ class PengajuanController extends Controller
     {
         // apa tipe data dari $id? STRING
         // Menggunakan first karena kita mau mengambil data hanya 1 yang sesuai dengan ID
-
         $editPengajuan = DB::table('tr_pengajuan')->select('tr_pengajuan.*','id_barang', 'nama', 'mst_barang.id_vendor as id_vendor')
-        ->join('detail_pengajuan','detail_pengajuan.id_tr_pengajuan','tr_pengajuan.id')
-        ->join('mst_barang','mst_barang.id','detail_pengajuan.id_barang')
-        ->join('vendors','vendors.id','mst_barang.id_vendor')
-        ->where('tr_pengajuan.id',$id)
-        ->first();
+            ->join('detail_pengajuan','detail_pengajuan.id_tr_pengajuan','tr_pengajuan.id')
+            ->join('mst_barang','mst_barang.id','detail_pengajuan.id_barang')
+            ->join('vendors','vendors.id','mst_barang.id_vendor')
+            ->where('tr_pengajuan.id',$id)
+            ->first();
 
         $vendors = DB::table('vendors')->select('id', 'nama' )->get();
+        
         $barangs = DB::table('mst_barang')
-        ->where('id_vendor', $editPengajuan->id_vendor )
-        ->select('id','nama_barang')->get();
+            ->where('id_vendor', $editPengajuan->id_vendor )
+            ->select('id','nama_barang')
+            ->get();
 
         $detailBarang = DB::table('detail_pengajuan')
-        ->join('tr_pengajuan', 'tr_pengajuan.id', 'detail_pengajuan.id_tr_pengajuan')
-        ->join('mst_barang','mst_barang.id','detail_pengajuan.id_barang')
-        ->select('detail_pengajuan.id as id_detail_pengajuan', 'id_barang', 'nama_barang', 'jumlah', 'harga', 'stok_barang' )
-        // ->select('detail_pengajuan.id','nama_barang','jumlah','harga','stok_barang')
-        ->where('detail_pengajuan.id_tr_pengajuan', $id)
-        ->get();
-        
+            ->join('tr_pengajuan', 'tr_pengajuan.id', 'detail_pengajuan.id_tr_pengajuan')
+            ->join('mst_barang','mst_barang.id','detail_pengajuan.id_barang')
+            ->select('detail_pengajuan.id as id_detail_pengajuan', 'id_barang', 'nama_barang', 'jumlah', 'harga', 'stok_barang' )
+            ->where('detail_pengajuan.id_tr_pengajuan', $id)
+            ->get();
 
+       
         return view('backend.pengajuan.edit', compact('editPengajuan', 'vendors', 'detailBarang','barangs'));
-
     }
+
     public function update(Request $request, $id)
-    {
+    {   
         DB::beginTransaction();
 
         try {
-            DB::table('tr_pengajuan')->where('id', $id)->update([
-                'tanggal_pengajuan' =>$request->tanggal_pengajuan,
-                'updated_by' => Auth::user()->id,
-                'updated_at' =>\Carbon\Carbon::now(),
-            ]);
+            // Update data pengajuan
+            DB::table('tr_pengajuan')
+                ->where('id', $id)
+                ->update([
+                    'tanggal_pengajuan' => $request->tanggal_pengajuan,
+                    'updated_by' => Auth::user()->id,
+                    'updated_at' => \Carbon\Carbon::now(),
+                    // Tambahkan kolom-kolom lain yang perlu diperbarui
+                ]);
 
             $grandTotal = 0;
+
             $countData = count($request->id_barang);
 
-            for ($i=0; $i < $countData; $i++) {
 
+            for ($i = 0; $i < $countData; $i++) {
                 if (!isset($request->id_detail_barang[$i])) {
                     DB::table('detail_pengajuan')->insert([
-                        'id_barang' => $request->id_barang[$i],
-                        'jumlah' => $request->jumlah_barang[$i],
                         'id_tr_pengajuan' => $id,
+                        'id_barang' => $request->id_barang[$i],
                         'total_barang' => $request->jumlah_barang[$i] * $request->harga_barang[$i],
+                        'jumlah' => $request->jumlah_barang[$i],
                         'created_at' => \Carbon\Carbon::now(),
                         'updated_at' => \Carbon\Carbon::now(),
                     ]);
+
+                    // update stok barang
+                    DB::table('mst_barang')->where('id', $request->id_barang[$i])->decrement('stok_barang', $request->jumlah_barang[$i]);
                 } else {
+                    $jumlahSebelumDiupdate = DB::table('detail_pengajuan')
+                    ->where('id_tr_pengajuan')
+                    ->where('id_barang', $request->id_barang[$i])->value('jumlah');
+
                     DB::table('detail_pengajuan')->where('id', $request->id_detail_barang[$i])->update([
                         'id_barang' => $request->id_barang[$i],
                         'jumlah' => $request->jumlah_barang[$i],
@@ -252,9 +265,29 @@ class PengajuanController extends Controller
                         'total_barang' => $request->jumlah_barang[$i] * $request->harga_barang[$i],
                         'updated_at' => \Carbon\Carbon::now(),
                     ]);
+
+                    if ($request->jumlah_barang[$i] >   $jumlahSebelumDiupdate){
+                        $counter = $request->jumlah_barang[$i] - $jumlahSebelumDiupdate;
+                        $stokSekarang = DB::table('mst_barang')->where('id', $request->id_barang[$i])->value('stok_barang');
+
+                        DB::table('mst_barang')->where('id', $request->id_barang[$i])
+                        ->update([
+                            'stok_barang' =>$stokSekarang - $counter
+                        ]);
+
+                    }elseif( $request->jumlah_barang[$i] < $jumlahSebelumDiupdate){
+                        $counter =  $jumlahSebelumDiupdate -  $request->jumlah_barang[$i];
+
+                        $stokSekarang = DB::table('mst_barang')->where('id', $request->id_barang[$i])->latest()->value('stok_barang');
+
+                        DB::table('mst_barang')->where('id', $request->id_barang[$i])
+                        ->update([
+                            'grand_total' => $grandTotal
+                        ]);
+                        
+                    }
                 }
-                DB::table('mst_barang')->where('id', $request->id_barang[$i])
-                ->decrement('stok_barang', $request->jumlah_barang[$i]);
+                DB::table('mst_barang')->where('id', $request->id_barang[$i])->decrement('stok_barang', $request->jumlah_barang[$i]);
 
                 $grandTotal += $request->jumlah_barang[$i] * $request->harga_barang[$i];
             }
@@ -271,5 +304,41 @@ class PengajuanController extends Controller
             return $e->getMessage();
         }
     }
+    
+    public function destroyBarang($id_barang, $id_pengajuan)
+{
+    DB::table('detail_pengajuan')->where('id', $id_barang)->delete();
+    
+    $editPengajuan = DB::table('tr_pengajuan')
+    ->select('tr_pengajuan.*','id_barang','detail_pengajuan.id as id_detail_pengajuan', 'nama', 'mst_barang.id_vendor as id_vendor')
+    ->join('detail_pengajuan','detail_pengajuan.id_tr_pengajuan','tr_pengajuan.id')
+    ->join('mst_barang','mst_barang.id','detail_pengajuan.id_barang')
+    ->join('vendors','vendors.id','mst_barang.id_vendor')
+    ->where('tr_pengajuan.id',$id_pengajuan)
+    ->first();
+
+    $vendors = DB::table('vendors')->select('id', 'nama' )->get();
+    $barangs = DB::table('mst_barang')
+    ->where('id_vendor', $editPengajuan->id_vendor )
+    ->select('id','nama_barang')->get();
+
+    $detailBarang = DB::table('detail_pengajuan')
+    ->join('tr_pengajuan', 'tr_pengajuan.id', 'detail_pengajuan.id_tr_pengajuan')
+    ->join('mst_barang','mst_barang.id','detail_pengajuan.id_barang')
+    ->select('detail_pengajuan.id as id_detail_pengajuan', 'id_barang', 'nama_barang', 'jumlah', 'harga', 'stok_barang' )
+    ->where('detail_pengajuan.id_tr_pengajuan', $id_pengajuan)
+    ->get();
+
+    return redirect()->route('edit_pengajuan',$id_pengajuan)->with([ 
+        'message', 'Barang Berhasil Dihapus', 
+        'detailBarang' => $detailBarang, 
+        'barangs' => $barangs, 
+        'vendors' => $vendors, 
+        'editPengajuan' => $editPengajuan
+    ]);
+
+    }
+
+
 
 }

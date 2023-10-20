@@ -75,6 +75,8 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
     Route::get('/terima-vendor/{id}', 'Backend\Pengajuan_barangController@terimavendor')->name('terima_vendor');
     Route::post('/tolak-vendor/{id}', 'Backend\Pengajuan_barangController@tolakvendor')->name('tolak_vendor');
 
+    Route::get('/delete-barang-pengajuan/{id_barang}/{id_pengajuan}', 'Backend\Pengajuan_barangController@destroybarang')->name('delete_barang_pengajuan');
+
     //vendor
     Route::get('/vendor', 'Backend\vendorController@index')->name('vendor');
     Route::get('/tambah-vendor', 'Backend\vendorController@create')->name('tambah_vendor');
