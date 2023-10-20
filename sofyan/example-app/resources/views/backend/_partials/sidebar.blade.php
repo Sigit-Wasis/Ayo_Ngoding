@@ -1,7 +1,7 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <a href="../../index3.html" class="brand-link">
         <img src="{{ url('assets/dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-        <span class="brand-text font-weight-light">AdminLTE 3</span>
+        <span class="brand-text font-weight-light">{{ auth()->user()->name}}</span>
     </a>
 
     <div class="sidebar">
@@ -94,7 +94,18 @@
                     </a>
                 </li>
                 @endcan
-                
+
+                @can('laporan-list')
+                <li class="nav-item">
+                    <a href="{{route('laporan')}}" class="nav-link">
+                        <i class="nav-icon fas fa-book"></i>
+                        <p>
+                            Laporan
+                        </p>
+                    </a>
+                </li>
+                @endcan
+
                 @can('role-list')
                 <li class="nav-item">
                     <a href="{{route('roles.index')}}" class="nav-link">
