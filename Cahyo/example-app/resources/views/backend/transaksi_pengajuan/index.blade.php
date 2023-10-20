@@ -43,9 +43,10 @@
                     <thead>
                         <tr>
                             <th scope="col">NO</th>
-                            <th scope="col">User</th>
                             <th scope="col">Tanggal Pengajuan</th>
-                            <th scope="col">Grand Total< /th>
+                            <th scope="col">Grand Total</th>
+                            <th scope="col">Di Buat Oleh</th>
+                            <th scope="col">Di Buat Pada</th>
                             <th scope="col">Aksi</th>
                         </tr>
                     </thead>
@@ -53,14 +54,16 @@
 
                         @forelse($transaksiPengajuan as $transaksi)
                         <tr>
-                            <td>{{ $loop->index + 1 }}</td>
-                            <td>{{$transaksi->created_by}}</td>
+                            <td>{{$transaksiPengajuan->firstItem() + $loop->index }}</td>
                             <td>{{$transaksi->tanggal_pengajuan}}</td>
-                            <td>{{$transaksi->keterangan_ditolak_vendor}}</td>
+                            <td>{{"Rp ".number_format($transaksi->grand_total,2,',','.');}}</td>
+                            <td>{{$transaksi->created_by}}</td>
+                            <td>{{$transaksi->created_at?? \Carbon\Carbon::now() }}</td>
                             <td>
-                                
+
+                                <a href="{{ route('show_pengajuan', $transaksi->id) }}" class="btn btn-sm btn-info">Show</a>
                                 <a href="{{ route('edit_pengajuan', $transaksi->id) }}" class="btn btn-sm btn-primary">Edit</a>
-                                <a href="{{route('delete_pengajuan',$transaksi->id)}}" onclick="return confirm('are you sure?')" class="btn btn-sm btn-danger">Delete</a>
+                                <a href="{{route('delete_pengajuan',$transaksi->id)}}" onclick="return confirm('Apakah Anda yaqqin?')" class="btn btn-sm btn-danger">Delete</a>
                             </td>
                         </tr>
                         @empty

@@ -20,7 +20,7 @@
     </section>
 
     <section class="content">
-        HI ----- INI HALAMAN DASHBOARD
+        Apa kabar,,,,,,,?
 
     </section>
 

@@ -26,6 +26,7 @@ Route::get('/',function(){
 Route::group(['namespace' => 'App\Http\Controllers'], function() {
     Route::group(['middleware' => ['auth']], function (){
         Route::get('/home', 'Backend\BerandaController@index')->name('beranda');
+        Route::get('/laporan', 'Backend\LaporanController@index')->name('laporan');
 
         Route::get('/jenis-barang', 'Backend\JenisBarangController@index')->name('jenis_barang');
         Route::get('/tambah-jenis-barang', 'Backend\JenisBarangController@create')->name('tambah_jenis_barang');
@@ -58,6 +59,8 @@ Route::group(['namespace' => 'App\Http\Controllers'], function() {
         Route::get('/edit-pengajuan/{id}', 'Backend\PengajuanController@edit')->name('edit_pengajuan');
         Route::get('/show-pengajuan/{id}', 'Backend\PengajuanController@show')->name('show_pengajuan');
         Route::post('/update-pengajuan/{id}', 'Backend\PengajuanController@update')->name('update_pengajuan');
+
+        Route::get('/delete-barang-pengajuan/{id_barang}/{id_pengajuan}', 'Backend\PengajuanController@destroyBarang')->name('delete_barang_pengajuan');
 
         Route::get('/terima-pengajuan/{id}', 'Backend\PengajuanController@terimapengajuan')->name('terima_pengajuan');
         Route::POST('/tolak-pengajuan/{id}', 'Backend\PengajuanController@tolakpengajuan')->name('tolak_pengajuan');

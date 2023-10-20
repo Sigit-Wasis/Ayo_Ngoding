@@ -67,7 +67,7 @@ class DataBarangController extends Controller
             'satuan' => $request->satuan,
             'deskripsi' => $request->deskripsi,
             'gambar' => 'assets/image/' . $imageName,
-            'id_vendor' => $request->vendor,
+            'id_vendor' => $request->id_vendor,
             'stok_barang' => $request->stok_barang,
             'created_by' => Auth::user()->id,
             'updated_by' => Auth::user()->id,

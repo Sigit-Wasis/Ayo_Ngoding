@@ -39,7 +39,7 @@
                     <input type="date" id="tanggal_pengajuan" class="form-control" value="<?php echo date('Y-m-d') ?>" name="tanggal_pengajuan"> 
                 </div> 
                 <div class="form-group"> 
-                    <label for="id_vendor">Pengajuan</label> 
+                    <label for="id_vendor">Nama Vendor</label> 
                     <select name="id_vendor" class="form-control" id="id_vendor" onchange="selectBarangByVendor(this.value)"> 
                         <option value="">-- pilih vendor --</option> 
                         @foreach($vendors as $vendor) 

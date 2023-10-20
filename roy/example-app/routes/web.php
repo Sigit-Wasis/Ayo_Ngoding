@@ -59,6 +59,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('delete-pengajuan/{id}', 'Backend\PengajuanController@destroy')->name('delete_pengajuan');
         Route::get('show-pengajuan/{id}', 'Backend\PengajuanController@show')->name('show_pengajuan');
         Route::get('edit-pengajuan/{id}', 'Backend\PengajuanController@edit')->name('edit_pengajuan');
+        Route::get('delete-barang-pengajuan/{id_barang}/{id_pengajuan}', 'Backend\PengajuanController@destroyBarang')->name('delete_barang_pengajuan');
         Route::post('/update-pengajuan/{id}', 'Backend\PengajuanController@update')->name('update_pengajuan');
 
         Route::get('/terima-pengajuan/{id}', 'Backend\PengajuanController@terimaPengajuan')->name('terima_pengajuan');
@@ -72,6 +73,11 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('delete-vendor/{id}', 'Backend\vendorController@destroy')->name('delete_vendor');
         Route::get('edit-vendor/{id}', 'Backend\vendorController@edit')->name('edit_vendor');
         Route::post('/update-vendor/{id}', 'Backend\vendorController@update')->name('update_vendor');
+
+
+        Route::get('/laporan', 'Backend\laporanController@index')->name('laporan');
+        Route::get('/cetak-laporan/{id}', 'Backend\laporanController@cetak')->name('cetak_laporan');
+        
 
     
         // Route::resource('roles', RoleController::class);

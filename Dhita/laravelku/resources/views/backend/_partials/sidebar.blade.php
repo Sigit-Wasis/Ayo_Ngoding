@@ -41,27 +41,41 @@
                 @can('barang-list')
                 <li class="nav-item">
                     <a href="{{ route('data_barang') }}" class="nav-link">
-                    <i class="nav-icon fas fa-briefcase"></i>
+                        <i class="nav-icon fas fa-briefcase"></i>
                         <p>
                             Data Barang
                         </p>
                     </a>
                 </li>
-
+                @endcan
+                @can('vendor-list')
                 <li class="nav-item">
                     <a href="{{ route('vendor.index') }}" class="nav-link">
-                    <i class="nav-icon far fa-building"></i>
+                        <i class="nav-icon far fa-building"></i>
                         <p>
                             Vendor
                         </p>
                     </a>
                 </li>
+                @endcan
+                @can('pengajuan-list')
                 <li class="nav-item">
                     <a href="{{ route('pengajuan.index') }}" class="nav-link">
                         <!-- <i class="nav-icon fas fa-user-alt"></i> -->
+                        <i class="nav-icon fas fa-clipboard-list"></i>
+                        <p>
+                            Pengajuan
+                        </p>
+                    </a>
+                </li>
+                @endcan
+                @can('laporan-list')
+                <li class="nav-item">
+                    <a href="{{ route('laporan') }}" class="nav-link">
+                        <!-- <i class="nav-icon fas fa-user-alt"></i> -->
                         <i class="nav-icon fas fa-book-open"></i>
                         <p>
-                            Pengajuan 
+                            Laporan
                         </p>
                     </a>
                 </li>
