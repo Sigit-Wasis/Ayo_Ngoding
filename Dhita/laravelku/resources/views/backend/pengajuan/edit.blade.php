@@ -84,8 +84,9 @@
                                     <input type="text" name="stok_barang[{{$key}}]" class="form-control" id="stok_barang" value="{{$barang->stok_barang}}" readonly> 
                                 </td> 
                                 <td width="130px">
-                                    <button class="btn btn-sm btn-primary">Edit</button>
-                                    <button class="btn btn-sm btn-danger">Hapus</button>
+                                    <a href="{{route('delete_barang_pengajuan', [$barang->id_detail_pengajuan, $editPengajuan->id]) }}"
+                                    onclick="return confirm('Apakah kamu ingin menghapus?')" class="btn btn-sm btn-danger">Hapus</button>
+                                    <!-- <button class="btn btn-sm btn-primary">Edit</button> -->
                                 </td>
                             </tr> 
                             @endforeach

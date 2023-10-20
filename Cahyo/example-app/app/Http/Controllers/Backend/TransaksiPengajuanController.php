@@ -270,6 +270,7 @@ class TransaksiPengajuanController extends Controller
 
     public function update(Request $request, $id)
     {
+        // dd($request->all());
         DB::beginTransaction();
 
         try {
@@ -294,7 +295,15 @@ class TransaksiPengajuanController extends Controller
                         'created_at' => \Carbon\Carbon::now(),
                         'updated_at' => \Carbon\Carbon::now(),
                     ]);
+                                   
+                    // UPDATE STOK BARANG
+                    DB::table('mst_barang')->where('id', $request->id_barang[$i])->decrement('stok_barang', $request->jumlah_barang[$i]);
+
                 } else {
+                    $jumlahSebelumDiupdate = DB::table('detail_pengajuan')
+                    ->where('id_tr_pengajuan', $id)
+                    ->where('id_barang', $request->id_barang[$i])->value('jumlah');
+
                     DB::table('detail_pengajuan')->where('id',$request->id_detail_barang[$i])->update([
                         'id_barang' => $request->id_barang[$i],
                         'jumlah' => $request->jumlah_barang[$i],
@@ -302,12 +311,49 @@ class TransaksiPengajuanController extends Controller
                         'total_per_barang' => $request->jumlah_barang[$i] * $request->harga_barang[$i],
                         'updated_at' => \Carbon\Carbon::now(),
                     ]);
-                }
 
-                // UPDATE STOK BARANG
-                DB::table('mst_barang')->where('id',$request->id_barang[$i])->decrement('stok_barang', $request->jumlah_barang[$i]);
+                // jika barang lebih besar dari seblumnya maka dikurang
+                // contoh awal jumlahnya 5 kemudian update menjadi 8 berarti stok barang (stok -8)
+                if ($request->jumlah_barang[$i] > $jumlahSebelumDiupdate) {
+                    $counter = $request->jumlah_barang[$i] -$jumlahSebelumDiupdate;
+                    $stokSekarang = DB::table('mst_barang')->where('id', $request->id_barang[$i])->value('stok_barang');
+
+                    // UPDATE STOK BARANG
+                    DB::table('mst_barang')->where('id',$request->id_barang[$i])
+                    ->update([
+                    'stok_barang' => $stokSekarang - $counter
+                    ]);
+
+                // jika barang lebih besar dari seblumnya maka dikurang
+                // contoh awal jumlahnya 5 kemudian update menjadi 3 berarti stok barang (stok +3)
+                } elseif  ($request->jumlah_barang[$i] < $jumlahSebelumDiupdate) {
+                    $counter = $jumlahSebelumDiupdate - $request->jumlah_barang[$i];
+
+                    $stokSekarang = DB::table('mst_barang')->where('id', $request->id_barang[$i])->latest()->value('stok_barang');
+
+                    // UPDATE STOK BARANG
+                    DB::table('mst_barang')->where('id',$request->id_barang[$i])
+                    ->update([
+                    'stok_barang' => $stokSekarang + $counter
+                    ]);
+
+                    // $stokSebelum = DB::table('mst_barang')->where('id',$request->id_barang[$i])->value('stok_barang');
+                    // DB::table('history_stok_barang')->insert([
+                    //     'barang_id' => $request->id_barang[$i],
+                    //     'stok_sebelum' => $stokSebelum,
+                    //     'stok_sesudah' => $request->jumlah_barang[$i],
+                    //     'stok_sekarang' =>  $stokSebelum - $request->jumlah_barang[$i],
+                    //     'created_at' => \Carbon\Carbon::now(),
+                    //     'updated_at' => \Carbon\Carbon::now()
+                    // ]);
+                } else {
+                    // continue;
+                }
+            }
 
                 $grandTotal += $request->jumlah_barang[$i] * $request->harga_barang[$i];
+
+
             } 
             DB::table('tr_pengajuan')->where('id', $id)->update([
                 'grand_total' => $grandTotal
