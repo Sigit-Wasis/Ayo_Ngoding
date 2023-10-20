@@ -74,6 +74,11 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('edit-vendor/{id}', 'Backend\vendorController@edit')->name('edit_vendor');
         Route::post('/update-vendor/{id}', 'Backend\vendorController@update')->name('update_vendor');
 
+
+        Route::get('/laporan', 'Backend\laporanController@index')->name('laporan');
+        Route::get('/cetak-laporan/{id}', 'Backend\laporanController@cetak')->name('cetak_laporan');
+        
+
     
         // Route::resource('roles', RoleController::class);
     });

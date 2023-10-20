@@ -49,6 +49,15 @@
                 </div>
 
                 <div class="form-group">
+                    @if(Session::has('messages'))
+                    <div class="alert alert-success alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h5>
+                            <i class="icon fas fa-check"></i> Sukses
+                        </h5>
+                        {{ Session('messages')}}
+                    </div>
+                    @endif
                     <table class="table table-bordered" id="dynamicAddForm">
                         <thead>
                             <tr>
@@ -66,23 +75,23 @@
                             <input type="hidden" name="id_detail_barang[{{ $key }}]" value="{{ $barang->id_detail_pengajuan }}">
                             <tr>
                                 <td>
-                                    <select name="id_barang[{{ $key }}]" class="form-control" onchange="selectHargaDanStokBarang(this.value)" id="id_barang">
+                                    <select name="id_barang[{{ $key }}]" class="form-control" onchange="selectHargaDanStokBarang(this.value,  <?= json_decode($key) ?>, 5)" id="id_barang">
                                         @foreach($barangs as $brg)
-                                        <option value="{{ $brg->id }}" {{ $brg->id == $editpengajuan->id_barang ?'selected': ''}}>{{ $brg->nama_barang }}</option>
+                                        <option value="{{ $brg->id }}" {{ $brg->id == $barang->id_barang ?'selected': ''}}>{{ $brg->nama_barang }}</option>
                                         @endforeach
                                     </select>
                                 </td>
                                 <td>
-                                    <input type="number" name="jumlah_barang[{{$key}}]" class="form-control" id="jumlah_barang" value="{{ $barang->jumlah }}" required>
+                                    <input type="number" name="jumlah_barang[{{$key}}]" class="form-control" id="jumlah_barang{{$key}}" value="{{ $barang->jumlah }}" required>
                                 </td>
                                 <td>
-                                    <input type="text" name="harga_barang[{{$key}}]" class="form-control" id="harga_barang" value="{{ $barang->harga }}" readonly>
+                                    <input type="text" name="harga_barang[{{$key}}]" class="form-control" id="harga_barang{{$key}}" value="{{ $barang->harga }}" readonly>
                                 </td>
                                 <td>
-                                    <input type="text" name="stok_barang[{{$key}}]" class="form-control" id="stok_barang" value="{{ $barang->stok }}" readonly>
+                                    <input type="text" name="stok_barang[{{$key}}]" class="form-control" id="stok_barang{{$key}}" value="{{ $barang->stok }}" readonly>
                                 </td>
                                 <td width="130px">
-                                    <button class="btn btn-sm btn-danger">Hapus</button>
+                                    <a href="{{route('delete_barang_pengajuan',[$barang->id_detail_pengajuan,$editpengajuan->id])}}" onclick="return confirm('are you sure')" class="btn btn-sm btn-danger">Delete</a>
                                 </td>
                             </tr>
                             @endforeach
@@ -127,7 +136,7 @@
         });
     }
 
-    function selectHargaDanStokBarang(id_barang, katBarang) {
+    function selectHargaDanStokBarang(id_barang, katBarang, katform) {
         $.ajax({
             type: 'GET',
             url: window.location.origin + '/barang/harga/stok',
@@ -136,13 +145,25 @@
                 "id_barang": id_barang
             },
             success: function(textStatus) {
-                if (katBarang > 0 && katBarang != undefined) {
+                if (katform == 5) {
                     $('#stok_barang' + katBarang + '').val(textStatus.stok);
                     $('#harga_barang' + katBarang + '').val(textStatus.harga);
+                    console.log(katform)
                 } else {
-                    $('#stok_barang').val(textStatus.stok);
-                    $('#harga_barang').val(textStatus.harga);
+                    console.log(katform)
+                    $('#stok_barang' + katBarang + '').val(textStatus.stok);
+                    $('#harga_barang' + katBarang + '').val(textStatus.harga);
                 }
+                // console.log(katBarang)
+                // if (katBarang > 0 && katBarang != undefined) {
+                    // $('#stok_barang' + katBarang + '').val(textStatus.stok);
+                    // $('#harga_barang' + katBarang + '').val(textStatus.harga);
+                    // console.log('sdknsd')
+                // } else {
+                //     $('#stok_barang').val(textStatus.stok);
+                //     $('#harga_barang').val(textStatus.harga);
+                //     console.log('lll')
+                // }
 
                 $('#ajukan').prop("disabled", false);
                 $('#dynamic-barang').prop("disabled", false);
@@ -163,7 +184,6 @@
                 "id_vendor": $('#id_vendor').val(),
             },
             success: function(data) {
-                console.log(data)
                 var htmlSelect = '';
                 $.each(data, function(key, val) {
                     htmlSelect += '<option value="' + val.id + '">' + val.nama_barang + '</option>';
@@ -175,10 +195,11 @@
 
 
         var htmlForm = '';
+        let katform = 4;  
 
         htmlForm += '<tr>';
         htmlForm += '<td>';
-        htmlForm += '<select name="id_barang[' + i + ']" id="id_barang' + i + '" class="form-control" onchange="selectHargaDanStokBarang(this.value, ' + i + ')">';
+        htmlForm += '<select name="id_barang[' + i + ']" id="id_barang' + i + '" class="form-control" onchange="selectHargaDanStokBarang(this.value, ' + i + ', '+ katform + ')">';
         htmlForm += '<option value="" selected>-- pilih --</option>';
         htmlForm += '</select>';
         htmlForm += '</td>';

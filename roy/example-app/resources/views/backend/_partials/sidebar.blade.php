@@ -67,6 +67,17 @@
                 </a> 
             </li>
             @endcan
+            @can ('barang-list')
+                <li class="nav-item">
+                <a href="{{ route('laporan') }}" class="nav-link">
+                    <i class="nav-icon fas fa-th"></i>
+                    <p>
+                        Laporan
+                        <span class="right badge badge-danger"></span>
+                    </p>
+                </a> 
+            </li>
+            @endcan
             @can ('user-list')
                 <li class="nav-item">
                 <a href="{{ route('user') }}" class="nav-link">
