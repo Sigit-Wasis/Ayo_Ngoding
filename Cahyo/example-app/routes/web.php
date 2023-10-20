@@ -83,6 +83,10 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
         Route::get('/vendor_destroy/{id}', 'Backend\vendorController@destroy')->name('vendor.destroy');
         Route::post('/vendor_update/{id}', 'Backend\vendorController@update')->name('vendor.update');
 
+        // Route Laporan
+        Route::get('/laporan', 'Backend\LaporanController@index')->name('laporan');
+        Route::get('/cetak_laporan/{id}', 'Backend\LaporanController@cetak')->name('cetak_laporan'); 
+
     });
 });
 
