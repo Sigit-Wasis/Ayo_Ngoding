@@ -85,6 +85,7 @@
                 </a>
             </li>
             @endcan
+            @can('laporan-list')
             <li class="nav-item">
                 <a href="{{ route('laporan')}}" class="nav-link">
                     <i class="nav-icon fas fa-book"></i>
@@ -93,6 +94,7 @@
                     </p>
                 </a>
             </li>
+            @endcan
             <li class="nav-item">
                 <a href="{{ route('logout') }}" onclick="event.preventDefault();
                         document.getElementById('logout-form').submit();" class="nav-link">
