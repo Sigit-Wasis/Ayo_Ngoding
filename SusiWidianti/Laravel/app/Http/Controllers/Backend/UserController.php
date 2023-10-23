@@ -45,22 +45,10 @@ class UserController extends Controller
 
     public function store(UserStoreRequest $request)
     {
-        // Validasi request menggunakan UserRequest
 
-        // Memeriksa apakah 'username' ada dalam request
-        // Data pengguna baru disimpan dalam tabel 'users'
-        // DB::table('users')->insert([
-        //     'username' => $request->username,
-        //     'password' => bcrypt($request->password),
-        //     'nama_lengkap' => $request->nama_lengkap,
-        //     'alamat' => $request->alamat,
-        //     'nomor_telepon' => $request->nomor_telepon,
-        //     'email' => $request->email,
-        //     'created_at' => Carbon::now(),
-        //     'updated_at' => Carbon::now(),
-        //]);
 
         $input =$request->all();        //mengambil semua value dari form created user
+        $input['password']=bcrypt($input['password']);
         $user=User::create($input);
         $user->assignRole($request->input('roles'));
 
@@ -82,7 +70,8 @@ class UserController extends Controller
     public function update(UserUpdateRequest $request, $id)
     {
         $input = $request->all();
-        if(!empty($input['password'])){$input['password'] = Hash::make($input['password']);
+        if(!empty($input['password'])){
+            $input['password'] = bcrypt($input['password']);
         }else{
              $input = Arr::except($input,array('password'));
         }
