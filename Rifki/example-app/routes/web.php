@@ -75,6 +75,10 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
         Route::get('/vendor_edit/{id}', 'Backend\VendorController@edit')->name('vendor.edit');
         Route::put('/vendor_update/{id}', 'Backend\VendorController@update')->name('vendor.update');
         Route::delete('/vendor-destroy/{id}', 'Backend\VendorController@destroy')->name('vendor.destroy');
+
+        Route::get('/laporan', 'Backend\LaporanController@index')->name('laporan');
+        Route::get('/cetak-laporan/{id}', 'Backend\LaporanController@cetak')->name('cetak_laporan');
+        
     });
 });
 

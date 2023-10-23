@@ -12,10 +12,10 @@ class DataBarangController extends Controller
 {
     function __construct()
     {
-        $this->middleware('permission:data_barang-list|data_barang-create|data_barang-edit|data_barang-delete', ['only' => ['index', 'store']]);
-        $this->middleware('permission:data_barang-create', ['only' => ['create', 'store']]);
-        $this->middleware('permission:data_barang-edit', ['only' => ['edit', 'update']]);
-        $this->middleware('permission:data_barang-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:data_barang-list|data_barang-create|data_barang-edit|data_barang-delete', ['only' => ['index', 'barangAdd']]);
+        $this->middleware('permission:data_barang-create', ['only' => ['createBarang', 'barangAdd']]);
+        $this->middleware('permission:data_barang-edit', ['only' => ['editBarang', 'updateBarang']]);
+        $this->middleware('permission:data_barang-delete', ['only' => ['deleteBarang']]);
     }
     
     public function index()

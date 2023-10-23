@@ -53,12 +53,22 @@
                     </a>
                 </li>
                 @endcan
-                @can('barang-list')
+                @can('pengajuan-list')
                 <li class="nav-item">
                     <a href="{{ route ('pengajuan') }}" class="nav-link">
                         <i class="nav-icon fas fa-exchange-alt"></i>
                         <p>
                             Transaksi Pengajuan
+                        </p>
+                    </a>
+                </li>
+                @endcan
+                @can('laporan-lis')
+                <li class="nav-item">
+                    <a href="{{ route ('laporan') }}" class="nav-link">
+                        <i class="nav-icon fas fa-file-alt"></i>
+                        <p>
+                            Laporan
                         </p>
                     </a>
                 </li>
