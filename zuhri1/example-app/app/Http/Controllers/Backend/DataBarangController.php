@@ -11,16 +11,17 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class DataBarangController extends Controller
-{
-    function __construct()
+{  function __construct()
     {
         $this->middleware('permission:barang-list|barang-create|barang-edit|barang-delete', ['only' => ['index', 'store']]);
         $this->middleware('permission:barang-create', ['only' => ['create', 'store']]);
         $this->middleware('permission:barang-edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:barang-delete', ['only' => ['destroy']]);
     }
+       
     public function index()
     {
+  
         $DataBarang = DB::table('barang')->select('barang.*', 'name as created_by', 'nama_jenis_barang')->orderBy('barang.id', 'DESC')
             ->join('users', 'users.id', 'barang.created_by')
             ->join('jenis_barang', 'jenis_barang.id', 'barang.id_jenis_barang')

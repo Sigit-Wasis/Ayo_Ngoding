@@ -77,6 +77,10 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
 
     Route::get('/delete-barang-pengajuan/{id_barang}/{id_pengajuan}', 'Backend\Pengajuan_barangController@destroybarang')->name('delete_barang_pengajuan');
 
+    //Laporan
+    Route::get('/laporan', 'Backend\laporanController@index')->name('laporan');
+    Route::get('/cetak_laporan/{id}', 'Backend\laporanController@cetak')->name('cetak_laporan');
+
     //vendor
     Route::get('/vendor', 'Backend\vendorController@index')->name('vendor');
     Route::get('/tambah-vendor', 'Backend\vendorController@create')->name('tambah_vendor');

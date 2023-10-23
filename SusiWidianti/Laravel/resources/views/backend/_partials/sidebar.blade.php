@@ -49,12 +49,22 @@
 
                 </li>
                 @endcan
-                @can('barang-list')
+                @can('pengajuan-list')
                 <li class="nav-item">
                     <a href="{{ route('pengajuan') }} " class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
                         <p>
                             Transaksi Pengajuan
+                            <p>
+                    </a>
+                </li>
+                @endcan
+               @can('laporan-lis')
+                <li class="nav-item">
+                    <a href="{{ route('Laporan') }} " class="nav-link">
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>
+                            Laporan
                             <p>
                     </a>
                 </li>
@@ -70,7 +80,7 @@
                     </a>
                     </li>
                 @endcan
-                @can('user-list')
+                @can('vendor-list')
                 <li class="nav-item">
                     <a href="{{ route('vendor') }} " class="nav-link">
                         <i class="nav-icon fas fa-th"></i>

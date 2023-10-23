@@ -8,6 +8,7 @@ use App\Http\Requests\BarangRequest;
 use App\Http\Requests\BarangUpdateRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB as FacadesDB;
+
 class BarangController extends Controller
 {
     /**
