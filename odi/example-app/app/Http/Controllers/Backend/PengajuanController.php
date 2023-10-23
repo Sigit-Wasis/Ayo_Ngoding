@@ -14,6 +14,13 @@ use Illuminate\Support\Facades\Auth;
 
 class PengajuanController extends Controller
 {
+    function __construct()
+    {
+         $this->middleware('permission:pengajuan-list|pengajuan-create|pengajuan-edit|pengajuan-delete', ['only' => ['index','store']]);
+         $this->middleware('permission:pengajuan-create', ['only' => ['create','store']]);
+         $this->middleware('permission:pengajuan-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:pengajuan-delete', ['only' => ['destroy']]);
+    }
     /**
      * Display a listing of the resource.
      */
@@ -116,7 +123,6 @@ class PengajuanController extends Controller
         // } 
     }
     
-
     /**
      * Display the specified resource.
      */
@@ -141,7 +147,6 @@ class PengajuanController extends Controller
             return view ('backend.pengajuan.show', compact('detailBarang','Pengajuans'));
         }
     
-
     /**
      * Show the form for editing the specified resource.
      */
@@ -288,7 +293,6 @@ class PengajuanController extends Controller
             }
     }    
     
-
     /**
      * Remove the specified resource from storage.
      */

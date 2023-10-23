@@ -49,6 +49,15 @@
                 </div>
 
                 <div class="form-group">
+                    @if(Session::has('message'))
+                    <div class="alert alert-success alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        <h5>
+                            <i class="icon fas fa-check"></i> Sukses!
+                        </h5>
+                        {{ Session('message')}}
+                    </div>
+                    @endif
                     <table class="table table-bordered" id="dynamicAddForm">
                         <thead>
                             <tr>
@@ -82,7 +91,7 @@
                                     <input type="text" name="stok_barang[{{$key}}]" class="form-control" id="stok_barang" value="{{ ( $detail->stok) }}" readonly>
                                 </td>
                                 <td width="80px">
-                                    <button class="btn btn=sm btn-danger">Hapus</button>
+                                    <a href="{{route('delete_detail_pengajuan',[$detail->id_detail_pengajuan,$editpengajuan->id])}}" onclick="return confirm('are you sure?')" class="btn btn-sm btn-danger">Delete</a>
 
                                 </td>
                             </tr>
@@ -99,11 +108,11 @@
         </form>
     </section>
 </div>
-@if(session('message'))
+<!-- @if(session('message'))
 <div class="alert alert-success">
     {{ session('message') }}
 </div>
-@endif
+@endif -->
 
 @if(session('error'))
 <div class="alert alert-danger">

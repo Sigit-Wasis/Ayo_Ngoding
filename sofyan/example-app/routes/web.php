@@ -50,7 +50,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
         Route::put('/update_barang/{id}', 'Backend\DataBarangController@updateBarang')->name('update_barang');
         Route::get('/detail_barang/{id}', 'Backend\DataBarangController@detailBarang')->name('detail_barang');
 
-        
+
         //Pengajuan
         Route::get('/pengajuan', 'Backend\TransaksiBarangController@index')->name('pengajuan');
         Route::get('/pengajuan/barang', 'Backend\TransaksiBarangController@getBarangById')->name('pengajuan-barang');
@@ -59,6 +59,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
         Route::post('/store-pengajuan', 'Backend\TransaksiBarangController@store')->name('store_pengajuan');
         Route::get('/detail_pengajuan/{id}', 'Backend\TransaksiBarangController@detailpengajuan')->name('detail_pengajuan');
         Route::get('/delete_pengajuan/{id}', 'Backend\TransaksiBarangController@deletepengajuan')->name('delete_pengajuan');
+        Route::get('/delete_detail_pengajuan/{id_barang}/{id_pengajuan}', 'Backend\TransaksiBarangController@deletedetailpengajuan')->name('delete_detail_pengajuan');
         Route::get('/edit_pengajuan/{id}', 'Backend\TransaksiBarangController@editpengajuan')->name('edit_pengajuan');
         Route::post('/update_pengajuan/{id}', 'Backend\TransaksiBarangController@updatepengajuan')->name('update_pengajuan');
 
@@ -75,6 +76,10 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
         Route::get('/delete_vendor/{id}', 'Backend\VendorController@deletevendor')->name('delete_vendor');
         Route::get('/edit_vendor/{id}', 'Backend\VendorController@editvendor')->name('edit_vendor');
         Route::put('/update_vendor/{id}', 'Backend\VendorController@updatevendor')->name('update_vendor');
+
+        //Laporan
+        Route::get('/laporan', 'Backend\LaporanController@index')->name('laporan');
+        Route::get('/cetak_laporan/{id}', 'Backend\LaporanController@cetak')->name('cetak_laporan');
 
         //roles
         Route::resource('roles', RoleController::class);

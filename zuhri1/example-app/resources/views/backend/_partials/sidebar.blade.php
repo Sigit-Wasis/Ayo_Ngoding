@@ -33,6 +33,7 @@
                         </p>
                     </a>
                 </li>
+                
                 @can('jenis-barang-list')
                 <li class="nav-item">
                     <a href="{{ route('jenis_barang') }}" class="nav-link">
@@ -44,6 +45,7 @@
                     </a>
                 </li>
                 @endcan
+
                 @can('barang-list')
                 <li class="nav-item">
                     <a href="{{ route('DataBarang') }}" class="nav-link">
@@ -55,6 +57,8 @@
                     </a>
                 </li>
                 @endcan
+
+                @can('Pengajuan-barang-list')
                 <!-- <li class="nav-item"> -->
                 <li class="nav-item">
                     <a href="{{ route('pengajuan') }}" class="nav-link">
@@ -65,6 +69,21 @@
                         </p>
                     </a>
                 </li>
+                @endcan
+
+                @can('laporan-list')
+                <li class="nav-item">
+                    <a href="{{ route('laporan') }}" class="nav-link">
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>
+                            Laporan
+                            <span class="right badge badge-danger"></span>
+                        </p>
+                    </a>
+                </li>
+                 @endcan
+
+                 @can('vendor-list')
                 <li class="nav-item">
                     <a href="{{ route('vendor') }}" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
@@ -74,6 +93,9 @@
                         </p>
                     </a>
                 </li>
+
+                @endcan
+
                 @can('user-list')
                 <li class="nav-item">
                     <a href="{{ route('user') }}" class="nav-link">
@@ -85,6 +107,7 @@
                     </a>
                 </li>
                 @endcan
+
                 @can('role-list')
                 <li class="nav-item">
                     <a href="{{ route('roles.index') }}" class="nav-link">

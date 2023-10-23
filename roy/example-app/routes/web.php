@@ -28,6 +28,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::group(['namespace' => 'App\Http\Controllers',], function () {
         Route::get('/home', 'Backend\BerandaController@index')->name('beranda');
+        Route::get('/char', 'Backend\BerandaController@handleChart')->name('char');
 
         Route::get('/jenis-barang', 'Backend\JenisBarangController@index')->name('jenis_barang');
         Route::get('/tambah-jenis-barang', 'Backend\JenisBarangController@create')->name('tambah_jenis_barang');
