@@ -23,7 +23,11 @@ Route::get('/', function () {
 // ROUTING ATAU URL UNTUK JENIS BARANG
 Route::group(['namespace' => 'App\Http\Controllers'], function () {
     Route::group(['middleware' => ['auth']], function () {
+
         Route::get('/home', 'Backend\BerandaController@index')->name('beranda');
+        Route::get('/char', 'Backend\BerandaController@handleChart')->name('char');
+
+
         Route::get('/jenis-barang', 'Backend\JenisBarangController@index')->name('jenis_barang');
         Route::get('/tambah_jenis_barang', 'Backend\JenisBarangController@create')->name('tambah_jenis_barang');
         Route::post('/store_jenis_barang', 'Backend\JenisBarangController@store')->name('store_jenis_barang');
@@ -78,7 +82,6 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
 
         Route::get('/laporan', 'Backend\LaporanController@index')->name('laporan');
         Route::get('/cetak-laporan/{id}', 'Backend\LaporanController@cetak')->name('cetak_laporan');
-        
     });
 });
 

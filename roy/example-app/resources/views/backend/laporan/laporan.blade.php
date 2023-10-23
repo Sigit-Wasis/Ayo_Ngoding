@@ -22,9 +22,9 @@
     </table>
     <hr />
     <p>
-    </strong> Tanggal Pengajuan: </strong> {{ $data[0]->tanggal_pengajuan }}</p>
-    </strong> Nama Perusahaan: </strong> {{ $data[0]->nama_perusahaan }}</p>
-    </strong> Dibuat Oleh: </strong> {{ $data[0]->dibuat_oleh }}</p>
+    <strong> Tanggal Pengajuan: </strong> {{ $data[0]->tanggal_pengajuan }}</br>
+    <strong> Nama Perusahaan: </strong> {{ $data[0]->nama_perusahaan }}</br>
+    <strong> Dibuat Oleh: </strong> {{ $data[0]->dibuat_oleh }}
 </p>
     <table class="table table-bordered">
         <tr style="font-size: 12px; background-color: #e5e5e5;">
@@ -38,20 +38,21 @@
         <?php
             $no = 1;
         ?>
-        @foreach ($data as $data)
+        @foreach ($data as $laporan)
         <tr style="font-size: 10px;">
             <td style="padding-top: 2px; padding-bottom: 5px;">{{ $no++ }}</td>
-            <td style="padding-top: 2px; padding-bottom: 5px;">{{ $data->nama_barang }}</td>
-            <td style="padding-top: 2px; padding-bottom: 5px;">{{ $data->nama_jenis_barang }}</td>
-            <td style="padding-top: 2px; padding-bottom: 5px;">{{ $data->jumlah }}</td>
+            <td style="padding-top: 2px; padding-bottom: 5px;">{{ $laporan->nama_barang }}</td>
+            <td style="padding-top: 2px; padding-bottom: 5px;">{{ $laporan->nama_jenis_barang }}</td>
+            <td style="padding-top: 2px; padding-bottom: 5px;">{{ $laporan->jumlah }}</td>
             <td style="padding-top: 2px; padding-bottom: 5px;">{{ "Rp " .
-                number_format($data->total_per_barang,2,',','.') }}</td>
+                number_format($laporan->total_per_barang,2,',','.') }}</td>
         </tr>
         @endforeach
         <tr style="font-size: 10px;">
-        <td style="padding-top: 2px; padding-bottom: 5px;" colspan="5">Grand Total</td>
-        <td style="padding-top: 2px; padding-bottom: 5px; "
-
+        <td style="padding-top: 2px; padding-bottom: 5px;" colspan="4">Grand Total</td>
+        <td style="padding-top: 2px; padding-bottom: 5px; font-weight: bold;">
+        {{ "Rp " .number_format($laporan->grand_total,2,',','.') }}
+    </td>
     </tr>
     </table>
 </body>
