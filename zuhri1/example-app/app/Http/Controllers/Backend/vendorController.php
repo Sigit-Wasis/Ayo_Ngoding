@@ -11,6 +11,16 @@ use Illuminate\Http\Request;
 
 class vendorController extends Controller
 {
+
+    function __construct()
+    {
+        $this->middleware('permission:vendor-list|vendor-create|vendor-edit|vendor-delete', ['only' => ['index', 'store']]);
+        $this->middleware('permission:vendor-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:vendor-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:vendor-delete', ['only' => ['destroy']]);
+    }
+
+
     public function index()
     {
         //query ini untuk mengambil data jenis barang secara keseluruhan dengan id secara discending

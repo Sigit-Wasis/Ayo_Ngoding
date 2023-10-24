@@ -14,9 +14,9 @@ class VendorController extends Controller
 {
     function __construct()
     {
-        $this->middleware('permission:pengajuan-list|pengajuan-create|pengajuan-edit|pengajuan-delete', ['only' => ['index', 'store']]);
-        $this->middleware('permission:pengajuan-create', ['only' => ['create', 'store']]);
-        $this->middleware('permission:pengajuan-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:pengajuan-list|pengajuan-create|pengajuan-edit|pengajuan-delete', ['only' => ['index', 'storevendor']]);
+        $this->middleware('permission:pengajuan-create', ['only' => ['createvendor', 'storevendor']]);
+        $this->middleware('permission:pengajuan-edit', ['only' => ['editVendor', 'updateVendor']]);
         $this->middleware('permission:pengajuan-delete', ['only' => ['destroy']]);
     }
     public function index()

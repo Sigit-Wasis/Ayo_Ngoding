@@ -24,7 +24,7 @@ class LaporanController extends Controller
     {
         $data = DB::table('detail_pengajuan')
         ->select('mst_barang.nama_barang', 'tanggal_pengajuan', 'jumlah', 'total_per_barang', 
-        'grand_total', 'nama_perusahaan', 'jenis_barang.nama_barang as nama_jenis_barang', 'users.nama as dibuat_oleh')
+        'grand_total', 'nama_perusahaan', 'jenis_barang.nama_barang as nama_jenis_barang', 'users.name as dibuat_oleh')
         ->join('mst_barang', 'mst_barang.id', 'detail_pengajuan.id_barang')
         ->join('jenis_barang', 'jenis_barang.id', 'mst_barang.id_jenis_barang')
         ->join('vendor', 'vendor.id', 'mst_barang.id_vendor')

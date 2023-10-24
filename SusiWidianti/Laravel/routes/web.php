@@ -24,6 +24,7 @@ Route::get('/', function () {
 Route::group(['namespace' => 'App\Http\Controllers'], function () {
     Route::group(['middleware' => ['auth']], function () {
         Route::get('/home', 'Backend\BerandaController@index')->name('Beranda');
+        Route::get('/char', 'Backend\BerandaController@handleChart')->name('char');
 
         Route::get('/jenis_barang', 'Backend\JenisBarangController@index')->name('jenis_barang');
         Route::get('/tambah_jenis_barang', 'Backend\JenisBarangController@create')->name('tambah_jenis_barang');
@@ -63,6 +64,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
         Route::POST('/tolak_pengajuan/{id}', 'Backend\PengajuanBarangController@tolakPengajuan')->name('tolak_pengajuan');
         Route::get('/terima_vendor/{id}', 'Backend\PengajuanBarangController@terimavendor')->name('terima_vendor');
         Route::POST('/tolak_vendor/{id}', 'Backend\PengajuanBarangController@tolakvendor')->name('tolak_vendor');
+        Route::get('/delete_barang_pengajuan/{id_barang}/{id_pengajuan}', 'Backend\PengajuanBarangController@destroyBarang')->name('delete_barang_pengajuan');
 
         Route::get('/data_vendor', 'Backend\VendorController@index')->name('vendor');
         Route::get('/tambah_Vendor', 'Backend\VendorController@create')->name('tambah_Vendor');
@@ -73,8 +75,8 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
         Route::post('update_data_Vendor/{id}', 'Backend\VendorController@update')->name('update_data_Vendor');
 
 
-        
-
+        Route::get('/Laporan', 'Backend\LaporanController@index')->name('Laporan');
+        Route::get('cetak_laporan/{id}', 'Backend\LaporanController@cetak')->name('cetak_laporan');
 
 
     });

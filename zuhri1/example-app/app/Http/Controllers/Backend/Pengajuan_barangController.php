@@ -12,6 +12,17 @@ use function Laravel\Prompts\select;
 
 class Pengajuan_barangController extends Controller
 {
+
+    function __construct()
+    {
+        $this->middleware('permission:transaksi-pengajuan-list|transaksi-pengajuan-create|transaksi-pengajuan-edit|transaksi-pengajuan-delete', ['only' => ['index', 'store']]);
+        $this->middleware('permission:transaksi-pengajuan-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:transaksi-pengajuan-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:transaksi-pengajuan-delete', ['only' => ['destroy']]);
+    }
+
+
+
     public function index()
     {
         //query ini untuk mengambil data jenis barang secara keseluruhan dengan id secara discending
