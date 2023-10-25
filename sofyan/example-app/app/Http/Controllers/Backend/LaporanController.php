@@ -15,11 +15,10 @@ class LaporanController extends Controller
 {
     function __construct()
     {
-        $this->middleware('permission:laporan-list|laporan-cetak', ['only' => ['index', 'cetak']]);
-        $this->middleware('permission:laporan-cetak', ['only' => ['cetak']]);
-        
-        
+        $this->middleware('permission:laporan_list', ['only' => ['index', 'cetak']]);
+        $this->middleware('permission:laporan_cetak', ['only' => ['cetak']]);
     }
+
     public function index()
     {
         $laporan = DB::table('_t_r__pengajuan')
