@@ -1,5 +1,25 @@
-@extends('backend.app')
 @section('title', 'Data Barang')
+@extends('backend.app')
+
+@section('style')
+<link rel="stylesheet" href="{{url('assets/plugins/select2/css/select2.min.css')}}">
+<link rel="stylesheet" href="{{url('assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
+
+<style>
+    .select2-container--default.select2-container--focus .select2-selection--multiple,
+    .select2-container--default.select2-container--focus .select2-selection--single {
+        height: 37px !important;
+    }
+
+    .select2-container--default .select2-selection--single {
+        height: 38px !important;
+    }
+
+    .select2-container--default .select2-selection--single .select2-selection__arrow {
+        height: 35px !important;
+    }
+</style>
+
 @section('content')
 
 <div class="content-wrapper">
@@ -33,6 +53,33 @@
                     {{ Session('message') }}
                 </div>
                 @endif
+
+                <div class="row mb-3">
+                    <div class="col-md-3">
+                        <form action="{{ route('barang.index')}}" method="get">
+                            <label for="jenis_barang">Jenis Barang</label>
+                            <select class="form-control select2" style="width: 100%;" name="jenis_barang">
+                                <option value="">--Pilih--</option>
+                                @foreach($jenisBarang as $jenis)
+                                <option value="{{ $jenis->id}}">{{$jenis->nama_barang}}</option>
+                                @endforeach
+                            </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="jenis_barang">Nama Barang</label>
+                        <input type="text" class="form-control" name="jenis_barang">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="jenis_barang">Kode Barang</label>
+                        <input type="text" class="form-control" name="jenis_barang">
+                    </div>
+                    <div class="col-md-2">
+                        <button class="btn btn-primary" style="margin-top: 30px;">
+                            <i class="fa fa-seacrh"></i>Cari Barang
+                        </button>
+                    </div>
+                    </form>
+                </div>
 
                 <table class="table">
                     <thead>
@@ -82,5 +129,12 @@
         </div>
     </section>
 </div>
+@endsection
 
+
+@section('script')
+<script src="{{url('assets/plugins/select2/js/select2.full.min.js')}}"></script>
+<script>
+    $('.select2').select2()
+</script>
 @endsection

@@ -20,7 +20,10 @@ Route::get('/', function () {
 });
 Route::group(['namespace' => 'App\Http\Controllers'], function () {
   Route::group(['middleware' => ['auth']], function () {
+
+
     Route::get('/home', 'Backend\BerandaController@index')->name('beranda');
+    Route::get('/char', 'Backend\BerandaController@handleChart')->name('char');
 
     Route::get('/jenis-barang', 'Backend\JenisBarangController@index')->name('jenis_barang');
     Route::get('/tambah-jenis-barang', 'Backend\JenisBarangController@create')->name('tambah_jenis_barang');
@@ -76,6 +79,10 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
     Route::post('/tolak-vendor/{id}', 'Backend\Pengajuan_barangController@tolakvendor')->name('tolak_vendor');
 
     Route::get('/delete-barang-pengajuan/{id_barang}/{id_pengajuan}', 'Backend\Pengajuan_barangController@destroybarang')->name('delete_barang_pengajuan');
+
+    //Laporan
+    Route::get('/laporan', 'Backend\laporanController@index')->name('laporan');
+    Route::get('/cetak_laporan/{id}', 'Backend\laporanController@cetak')->name('cetak_laporan');
 
     //vendor
     Route::get('/vendor', 'Backend\vendorController@index')->name('vendor');

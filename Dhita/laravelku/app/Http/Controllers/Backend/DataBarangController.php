@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\BarangStoreRequest;
 use App\Http\Requests\BarangUpdateRequest;
 use App\Http\Requests\DataBarangRequest;
+use App\Models\JenisBarang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -20,18 +21,23 @@ class DataBarangController extends Controller
          $this->middleware('permission:barang-delete', ['only' => ['destroy']]);
     }
     
-    public function index()
+    public function index(Request $request)
     {
         // query ini untuk mengambil data jenis barang secara keseluruhan dengan id secara discending
         $dataBarang = DB::table('mst_barang')->select('mst_barang.*', 'nama_lengkap as created_by','nama')
         ->orderBy('mst_barang.id', 'DESC')
+        ->where('mst_jenis_barang.id', 'LIKE',"%{$request->jenis_barang}%")
+        ->where('nama_barang', 'LIKE',"%{$request->nama_barang}%")
+        ->where('kode_barang', 'LIKE',"%{$request->kode_barang}%")
             ->join('mst_jenis_barang', 'mst_jenis_barang.id', 'mst_barang.id_jenis_barang')
             ->join('users','users.id','mst_barang.created_by')
             ->paginate(5);
 
         // dd($dataBarang);
 
-        return view('backend.barang.index', compact('dataBarang'));
+        $jenisBarang = DB::table('mst_jenis_barang')->select('id', 'nama')->get();
+
+        return view('backend.barang.index', compact('dataBarang', 'jenisBarang'));
     }
 
     public function create()
