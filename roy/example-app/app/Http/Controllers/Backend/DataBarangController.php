@@ -26,17 +26,22 @@ class DataBarangController extends Controller
          $this->middleware('permission:barang-delete', ['only' => ['destroy']]);
     }
 
-    public function index()
-    {
+    public function index(Request $request){
+
+    
         // Queri ini untuk mengambil data jenis barang secara keseluruhan dengan id secara discending
         $barangs = DB::table('mst_barang')->select('mst_barang.*', 'name as created_by', 'jenis_barang.nama_barang as nama_jenis_barang')
+        ->where('mst_barang.id', 'LIKE', "%{$request->jenis_barang}%")
+        ->where('mst_barang.nama_barang', 'LIKE', "%{$request->nama_barang}%")
+        ->where('kode_barang', 'LIKE', "%{$request->kode_barang}%")
         ->orderBy('mst_barang.id', 'DESC')
         ->join('jenis_barang', 'jenis_barang.id', 'mst_barang.id_jenis_barang')
         ->join('users', 'users.id', 'mst_barang.created_by')    
         ->paginate(5);
-    // dd($jenisbarang);
+    
+        $jenisBarang = DB::table('jenis_barang')->select('id', 'nama_barang')->get();
 
-return view('backend.barang.index', compact('barangs'));
+return view('backend.barang.index', compact('barangs', 'jenisBarang'));
     }
 
 

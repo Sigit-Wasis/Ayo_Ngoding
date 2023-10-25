@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="{{ url('assets/plugins/fontawesome-free/css/all.min.css ') }}">
 
     <link rel="stylesheet" href="{{ url('assets/dist/css/adminlte.min.css') }}">
+    @yield('style')
 </head>
 
 <body class="hold-transition sidebar-mini">

@@ -7,12 +7,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Tambah Pengajuan Barang</h1>
+                    <h1>Tambah Jenis Barang</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item"><a href="{{ route('pengajuan.index') }}">Pengajuan Barang</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('pengajuan.index') }}">Jenis Barang</a></li>
                         <li class="breadcrumb-item active">Tambah Pengajuan</li>
                     </ol>
                 </div>
@@ -33,13 +33,13 @@
         </div>
         @endif
 
-        <form method="POST" action="{{ route('store_pengajuan') }}">
+        <form method="POST" action="{{ route('store_jenis_barang') }}">
             @csrf
 
             <div class="card-body">
                 <div class="form-group">
-                    <label for="nama_barang">Nama Barang</label>
-                    <input type="text" class="form-control" id="nama_barang" name="nama_barang" placeholder="Nama Barang">
+                    <label for="nama_jenis_barang">Nama Jenis Barang</label>
+                    <input type="text" class="form-control" id="nama_jenis_barang" name="nama_jenis_barang" placeholder="Nama Barang">
                 </div>
                 
                 <div class="form-group">
@@ -55,7 +55,7 @@
 
             <div class="card-footer">
                 <button type="submit" class="btn btn-primary">Simpan Pengajuan</button>
-                <a href="{{ route('pengajuan.index') }}" class="btn btn-primary">Kembali</a>
+                <a href="{{ route('jenis_barang') }}" class="btn btn-primary">Kembali</a>
             </div>
         </form>
     </section>
