@@ -13,7 +13,7 @@
         <tr>
          
             <td width="100" align="center">
-                <h3>Laporan Pembelian ATK di PT Kita's</h3>
+                <h3>Laporan Pembelian ATK</h3>
                 <p style="font-size: 13px;">Jln. Ahmad Yani RT/RW 004/010, Sukamulya, Kec. Karangharapan, Kabupaten
                     Bandung, Jawa Barat <br>
                     <i style="font-size: 13px;">Email: dhitahumdana@gmail.com Website: http://dhitastore.com</i>
