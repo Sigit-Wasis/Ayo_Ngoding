@@ -21,16 +21,21 @@ class BarangController extends Controller
         $this->middleware('permission:barang-edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:barang-delete', ['only' => ['destroy']]);
     }
-    public function index()
+    public function index(Request $request)
     {
         $barangs = DB::table('mst_barang')
             ->select('mst_barang.*', 'name as created_by', 'mst_jenis_barang.nama_barang as nama_jenis_barang')
             ->orderBy('mst_barang.id', 'DESC')
+            ->where('mst_jenis_barang.id', 'LIKE', "%{$request->jenis_barang}%")
+            ->where('mst_barang.nama_barang', 'LIKE', "%{$request->jenis_barang}%")
+            ->where('kode_barang', 'LIKE', "%{$request->jenis_barang}%")
             ->join('mst_jenis_barang', 'mst_jenis_barang.id', 'mst_barang.id_jenis_barang')
             ->join('users', 'users.id', 'mst_barang.created_by')
             ->paginate(5);
 
-        return view('backend.barang.index', compact('barangs'));
+            $jenisBarang = DB::table('mst_jenis_barang')->select('id', 'nama_barang')->get();
+
+        return view('backend.barang.index', compact('barangs','jenisBarang'));
     }
 
     public function create()

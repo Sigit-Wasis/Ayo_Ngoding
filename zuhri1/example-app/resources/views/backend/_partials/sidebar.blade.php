@@ -58,7 +58,7 @@
                 </li>
                 @endcan
 
-                @can('Pengajuan-barang-list')
+                @can('transaksi-pengajuan-list')
                 <!-- <li class="nav-item"> -->
                 <li class="nav-item">
                     <a href="{{ route('pengajuan') }}" class="nav-link">

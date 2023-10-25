@@ -27,12 +27,13 @@
         <div class="card">
             <div class="card-body">
                 @if(Session::has('message'))
-                    <div class="alert alert-success alert-dismissible">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                        <h5><i class="icon fas fa-check"></i> Sukses!</h5>
-                        {{ Session('message') }}
-                    </div>
+                <div class="alert alert-success alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h5><i class="icon fas fa-check"></i> Sukses!</h5>
+                    {{ Session('message') }}
+                </div>
                 @endif
+
 
                 <table class="table">
                     <thead>
@@ -45,19 +46,20 @@
                             <th scope="col">Aksi</th>
                         </tr>
                     </thead>
+
                     <tbody>
                         @foreach($jenisbarang as $jenis)
-                            <tr>
-                                <td>{{ $jenisbarang->firstItem() + $loop->index }}</td>
-                                <td>{{ $jenis->nama_barang }}</td>
-                                <td>{{ $jenis->deskripsi }}</td>
-                                <td>{{ $jenis->created_at ?? \Carbon\Carbon::now() }}</td>
-                                <td>{{ $jenis->created_by }}</td>
-                                <td>
-                                    <a href="{{ route('jenis_barang.edit', $jenis->id) }}" class="btn btn-primary">Edit</a>
-                                    <a href="{{ route('delete_jenis_barang', $jenis->id) }}" onclick="return confirm('Are you sure')" class="btn btn-sm btn-danger">Delete</a>
-                                </td>
-                            </tr>
+                        <tr>
+                            <td>{{ $jenisbarang->firstItem() + $loop->index }}</td>
+                            <td>{{ $jenis->nama_barang }}</td>
+                            <td>{{ $jenis->deskripsi }}</td>
+                            <td>{{ $jenis->created_at ?? \Carbon\Carbon::now() }}</td>
+                            <td>{{ $jenis->created_by }}</td>
+                            <td>
+                                <a href="{{ route('jenis_barang.edit', $jenis->id) }}" class="btn btn-primary">Edit</a>
+                                <a href="{{ route('delete_jenis_barang', $jenis->id) }}" onclick="return confirm('Are you sure')" class="btn btn-sm btn-danger">Delete</a>
+                            </td>
+                        </tr>
                         @endforeach
                     </tbody>
                 </table>
