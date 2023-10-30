@@ -27,8 +27,6 @@ class TransaksiBarangController extends Controller
             ->select(
                 '_t_r__pengajuan.*',
                 'users.name as created_by',
-
-
             )
             ->orderBy('_t_r__pengajuan.id', 'DESC')
             ->join('users', 'users.id', '_t_r__pengajuan.created_by')
@@ -72,10 +70,10 @@ class TransaksiBarangController extends Controller
             $trPengajuanId = DB::table('_t_r__pengajuan')->insertGetId([
                 'tanggal_pengajuan' => $request->tanggal_pengajuan,
                 'grand_total' => 0, // Default grand total
-                'status_pengajuan_ap' => 1, //$request->status_pengajuan_ap,
-                'keterangan_ditolak_ap' => '', //$request->keterangan_ditolak_ap,
-                'status_pengajuan_vendor' => 0, //$request->status_pengajuan_vendor,
-                'keterangan_ditolak_vendor' => '', //$request->keterangan_ditolak_vendor,
+                'status_pengajuan_ap' => 1,
+                'keterangan_ditolak_ap' => '',
+                'status_pengajuan_vendor' => 0,
+                'keterangan_ditolak_vendor' => '',
                 'created_by' => auth::user()->id,
                 'updated_by' => auth::user()->id,
                 'created_at' => \Carbon\Carbon::now(),
@@ -276,7 +274,7 @@ class TransaksiBarangController extends Controller
         }
     }
 
-    public function editpengajuan($id)
+    public function editpengajuan(string $id)
     {
 
         $editpengajuan = DB::table('_t_r__pengajuan')
@@ -309,7 +307,7 @@ class TransaksiBarangController extends Controller
             ->get();
 
         // Simpan data jenis barang ke dalam sesi
-        session(['edit_pengajuan' => $editpengajuan]);
+        // session(['edit_pengajuan' => $editpengajuan]);
 
         // Arahkan ke halaman create
         return view('backend.tr_pengajuan.edit', compact('editpengajuan', 'vendors', 'detailP', 'barangs'));
@@ -369,7 +367,6 @@ class TransaksiBarangController extends Controller
                             ->update([
                                 'stok' => $stokSekarang - $counter
                             ]);
-
                     } elseif ($request->jumlah_barang[$i] < $jumlahSebelumUpdate) {
                         $counter = $jumlahSebelumUpdate - $request->jumlah_barang[$i];
                         $stokSekarang =  DB::table('_m_s_t__barang')->where('id', $request->id_barang[$i])->value('stok');
@@ -378,8 +375,7 @@ class TransaksiBarangController extends Controller
                             ->update([
                                 'stok' => $stokSekarang + $counter
                             ]);
-                    }else{
-
+                    } else {
                     }
                     // DB::table('_m_s_t__barang')
                     //     ->where('id', $request->id_barang[$i])

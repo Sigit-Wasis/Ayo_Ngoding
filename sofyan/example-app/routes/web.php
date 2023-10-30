@@ -24,6 +24,8 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
 
         //BERANDA
         Route::get('/home', 'Backend\BerandaController@index')->name('beranda');
+        Route::get('/char', 'Backend\BerandaController@handleChart')->name('char');
+        Route::get('/charvendordonut', 'Backend\BerandaController@vendorChartData')->name('charvendordonut');
 
         //JENIS BARANG
         Route::get('/jenis-barang', 'Backend\JenisBarangController@index')->name('jenis-barang');
