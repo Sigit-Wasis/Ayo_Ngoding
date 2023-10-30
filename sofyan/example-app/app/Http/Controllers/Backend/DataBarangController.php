@@ -17,21 +17,26 @@ class DataBarangController extends Controller
         $this->middleware('permission:data_barang-edit', ['only' => ['editBarang', 'updateBarang']]);
         $this->middleware('permission:data_barang-delete', ['only' => ['deleteBarang']]);
     }
-    
-    public function index()
+
+    public function index(Request $request)
     {
         $dataBarang = DB::table('_m_s_t__barang')
             ->select(
                 '_m_s_t__barang.*',
                 'users.name as created_by',
-                '_m_s_t__jenis__barang.nama as jenis_barang' // Ubah menjadi 'nama' sesuai dengan alias yang Anda berikan
+                '_m_s_t__jenis__barang.nama as jenis' // Ubah menjadi 'nama' sesuai dengan alias yang Anda berikan
             )
+            ->where('_m_s_t__jenis__barang.id', 'LIKE', "%{$request->jenis_barang}%")
+            ->where('_m_s_t__barang.nama_barang', 'LIKE', "%{$request->nama_barang}%")
+            ->where('_m_s_t__barang.kode_barang', 'LIKE', "%{$request->kode_barang}%")
             ->orderBy('_m_s_t__barang.id', 'DESC')
             ->join('users', 'users.id', '_m_s_t__barang.created_by')
             ->join('_m_s_t__jenis__barang', '_m_s_t__jenis__barang.id', '_m_s_t__barang.Id_jenis_barang') // Sesuaikan dengan kolom yang sesuai
             ->paginate(5);
 
-        return view('backend.data_barang.index', compact('dataBarang'));
+        $searchBarang = DB::table('_m_s_t__jenis__barang')->select('id', 'nama')->get();
+
+        return view('backend.data_barang.index', compact('dataBarang', 'searchBarang'));
     }
 
     public function createBarang()
@@ -46,7 +51,7 @@ class DataBarangController extends Controller
         // Membuat kode barang otomatis dengan format 'BRG-0001', 'BRG-0002', dst.
         $kodeBarang = 'BRG-' . str_pad($totalBarang + 1, 4, '0', STR_PAD_LEFT);
 
-        return view('backend.data_barang.create', compact('jenisBarang', 'kodeBarang','vendorName'));
+        return view('backend.data_barang.create', compact('jenisBarang', 'kodeBarang', 'vendorName'));
     }
     //tipe data request adalah object
     //DD (die dump untuk memeriksa apakah ada value atau record di dalam variabel $request yang di amabil dari form imputan)
