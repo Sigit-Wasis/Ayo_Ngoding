@@ -64,6 +64,8 @@ Route::group(['namespace' => 'App\Http\Controllers'], function() {
 
         Route::get('/laporan', 'Backend\LaporanController@index')->name('laporan');
         Route::get('/cetak-laporan/{id}', 'Backend\LaporanController@cetak')->name('cetak_laporan');
+        Route::get('/other-laporan', 'Backend\LaporanController@otherLaporan')->name('other_laporan');
+
 
         Route::get('/terima-pengajuan/{id}', 'Backend\PengajuanController@terimapengajuan')->name('terima_pengajuan');
         Route::POST('/tolak-pengajuan/{id}', 'Backend\PengajuanController@tolakpengajuan')->name('tolak_pengajuan');

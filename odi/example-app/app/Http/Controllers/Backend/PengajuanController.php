@@ -341,12 +341,14 @@ class PengajuanController extends Controller
 
     public function terimapengajuan($id)
     {
-        FacadesDB::table('pengajuan')->where('id', $id)->update([
-        'status_pengajuan_ap' => 1 //jika 1 maka diterima
-        ]);
+    // Jika sudah disetujui oleh Admin Pengadaan, Admin Vendor dapat menyetujuinya
+    FacadesDB::table('pengajuan')->where('id', $id)->update([
+        'status_pengajuan_ap' => 1 // Jika 1 maka diterima
+    ]);
 
-        return redirect()->route('show_pengajuan',$id)->with('message','Data Pengajuan Berhasil Diterima');
-    }
+    return redirect()->route('show_pengajuan', $id)->with('message', 'Data Pengajuan Berhasil Diterima');
+}
+
 
     public function tolakpengajuan(Request $request, $id)
     {
@@ -375,34 +377,62 @@ class PengajuanController extends Controller
 
     public function terimapengajuanvendor($id)
     {
-        FacadesDB::table('pengajuan')->where('id', $id)->update([
-        'status_pengajuan_vendor' => 1 //jika 1 maka diterima
+        $pengajuan = DB::table('pengajuan')->where('id', $id)->first();
+
+        if ($pengajuan->status_pengajuan_ap !== '1') {
+            return redirect()->route('show_pengajuan', $id)->with('error', 'Admin Pengadaan belum memberikan ACC');
+        }
+
+        // Jika Admin Vendor menyetujui, maka status pengajuan "Admin Vendor" diubah menjadi 1 (diACC)
+        DB::table('pengajuan')->where('id', $id)->update([
+            'status_pengajuan_vendor' => 1
         ]);
 
-        return redirect()->route('show_pengajuan',$id)->with('message','Data Pengajuan Vendor Berhasil Diterima');
+        return redirect()->route('show_pengajuan', $id)->with('message', 'Vendor Berhasil Diajukan');
     }
+
+
 
     public function tolakpengajuanvendor(Request $request, $id)
     {
-        $penolakanvendor = FacadesDB::table('pengajuan')->select('keterangan_ditolak_vendor')->where('id', $id)->first();
-        $array = [$request->catatan]; 
+        $pengajuan = DB::table('pengajuan')->where('id', $id)->first();
 
-        // dd($penolakanvendor->keterangan_ditolak_vendor);
-
-        if ($penolakanvendor->keterangan_ditolak_vendor !== "") {
-            # code...
-            if ($penolakanvendor->keterangan_ditolak_vendor !== null || !empty($penolakanvendor->keterangan_ditolak_vendor)) {
-                $penolakanVendor = array_merge(json_decode($penolakanvendor->keterangan_ditolak_vendor), $array);
-            }
-        } else {
-            $penolakanVendor = $array;
+        if ($pengajuan->status_pengajuan_ap != "1") {
+            // Jika Admin Pengadaan belum memberikan ACC, maka Admin Vendor tidak dapat ACC
+            return redirect()->route('show_pengajuan', $id)->with('error', 'Admin Pengadaan belum memberikan ACC atau telah menolak');
         }
-    
-        FacadesDB::table('pengajuan')->where('id', $id)->update([
-            'status_pengajuan_vendor' => 2, // jika 2 maka ditolak
-            'keterangan_ditolak_vendor' => $penolakanVendor, 
-        ]);
 
-        return redirect()->route('show_pengajuan',$id)->with('message','Status Pengajuan Vendor Berhasil Ditolak');
+        // Jika Admin Pengadaan menolak, maka Admin Vendor tidak dapat memberikan ACC
+        if ($pengajuan->status_pengajuan_ap == "2") {
+            return redirect()->route('show_pengajuan', $id)->with('error', 'Admin Pengadaan telah menolak pengajuan, sehingga Admin Vendor tidak dapat memberikan ACC.');
+        }
+
+        $keteranganVendor = DB::table('pengajuan')->select('keterangan_ditolak_vendor')->where('id', $id)->first();
+
+        if (!empty($keteranganVendor->keterangan_ditolak_vendor)) {
+            // Periksa apakah keterangan_ditolak_vendor tidak kosong, kemudian tambahkan data baru ke dalam array
+            $existingCatatan = json_decode($keteranganVendor->keterangan_ditolak_vendor, true);
+        } else {
+            $existingCatatan = [];
+        }
+        // Tambahkan catatan penolakan baru ke dalam array
+        $catatanpenolakan = $request->catatan;
+
+        $existingCatatan[] = $catatanpenolakan;
+
+        // Konversi array ke format JSON sebelum memperbarui database
+        $mergedCatatan = json_encode($existingCatatan);
+
+        // Jika Admin Vendor menolak, maka Status Admin Pengadaan Kembali Ke Awal (0)
+        // if ($pengajuan->status_pengajuan_vendor == "2") {
+        // Kembalikan status Admin Pengadaan ke awal (0)
+        DB::table('pengajuan')->where('id', $id)->update([
+            'status_pengajuan_ap' => 0,
+            'status_pengajuan_vendor' => 2,
+            'keterangan_ditolak_vendor' => $mergedCatatan,
+        ]);
+        // }
+
+        return redirect()->route('show_pengajuan', $id)->with('message', 'Vendor Berhasil Ditolak');
     }
 }
