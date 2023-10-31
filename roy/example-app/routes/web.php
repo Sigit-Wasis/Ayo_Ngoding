@@ -79,7 +79,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/laporan', 'Backend\laporanController@index')->name('laporan');
         Route::get('/cetak-laporan/{id}', 'Backend\laporanController@cetak')->name('cetak_laporan');
 
-        Route::get('/other-laporan/{id}', 'Backend\laporanController@otherLaporan')->name('other_laporan');
+        Route::get('/other_laporan', 'Backend\laporanController@otherLaporan')->name('other_laporan');
         
 
     

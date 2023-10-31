@@ -82,6 +82,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
         //Laporan
         Route::get('/laporan', 'Backend\LaporanController@index')->name('laporan');
         Route::get('/cetak_laporan/{id}', 'Backend\LaporanController@cetak')->name('cetak_laporan');
+        Route::get('/laporan2', 'Backend\LaporanController@cetak2')->name('laporan2');
 
         //roles
         Route::resource('roles', RoleController::class);

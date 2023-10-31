@@ -22,7 +22,9 @@
 
   <section class="content">
     <div class="col-md-2 mb-2">
-      <a href="{{ route('laporan') }}" class="btn btn-sm btn-block btn-success">Tambah Laporan</a>
+      <a href="{{ route('other_laporan') }}" class="btn btn-primary">
+        <i class="fas fa-print"></i> Other Laporan </i>
+      </a>   
     </div>
 
     <section class="content">
