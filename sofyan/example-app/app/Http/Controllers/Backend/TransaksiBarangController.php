@@ -70,7 +70,7 @@ class TransaksiBarangController extends Controller
             $trPengajuanId = DB::table('_t_r__pengajuan')->insertGetId([
                 'tanggal_pengajuan' => $request->tanggal_pengajuan,
                 'grand_total' => 0, // Default grand total
-                'status_pengajuan_ap' => 1,
+                'status_pengajuan_ap' => 0,
                 'keterangan_ditolak_ap' => '',
                 'status_pengajuan_vendor' => 0,
                 'keterangan_ditolak_vendor' => '',
@@ -183,6 +183,13 @@ class TransaksiBarangController extends Controller
 
     public function terimavendor($id)
     {
+        $pengajuan = DB::table('_t_r__pengajuan')->where('id', $id)->first();
+
+        if ($pengajuan->status_pengajuan_ap !== '1') {
+            return redirect()->route('detail_pengajuan', $id)->with('error', 'Admin Pengadaan belum memberikan ACC');
+        }
+
+        // Jika Admin Vendor menyetujui, maka status pengajuan "Admin Vendor" diubah menjadi 1 (diACC)
         DB::table('_t_r__pengajuan')->where('id', $id)->update([
             'status_pengajuan_vendor' => 1
         ]);
@@ -190,8 +197,22 @@ class TransaksiBarangController extends Controller
         return redirect()->route('detail_pengajuan', $id)->with('message', 'Vendor Berhasil Diajukan');
     }
 
+
+
     public function tolakvendor(Request $request, $id)
     {
+        $pengajuan = DB::table('_t_r__pengajuan')->where('id', $id)->first();
+
+        if ($pengajuan->status_pengajuan_ap != "1") {
+            // Jika Admin Pengadaan belum memberikan ACC, maka Admin Vendor tidak dapat ACC
+            return redirect()->route('detail_pengajuan', $id)->with('error', 'Admin Pengadaan belum memberikan ACC atau telah menolak');
+        }
+
+        // Jika Admin Pengadaan menolak, maka Admin Vendor tidak dapat memberikan ACC
+        if ($pengajuan->status_pengajuan_ap == "2") {
+            return redirect()->route('detail_pengajuan', $id)->with('error', 'Admin Pengadaan telah menolak pengajuan, sehingga Admin Vendor tidak dapat memberikan ACC.');
+        }
+
         $keteranganVendor = DB::table('_t_r__pengajuan')->select('keterangan_ditolak_vendor')->where('id', $id)->first();
 
         if (!empty($keteranganVendor->keterangan_ditolak_vendor)) {
@@ -208,10 +229,15 @@ class TransaksiBarangController extends Controller
         // Konversi array ke format JSON sebelum memperbarui database
         $mergedCatatan = json_encode($existingCatatan);
 
+        // Jika Admin Vendor menolak, maka Status Admin Pengadaan Kembali Ke Awal (0)
+        // if ($pengajuan->status_pengajuan_vendor == "2") {
+        // Kembalikan status Admin Pengadaan ke awal (0)
         DB::table('_t_r__pengajuan')->where('id', $id)->update([
+            'status_pengajuan_ap' => 0,
             'status_pengajuan_vendor' => 2,
             'keterangan_ditolak_vendor' => $mergedCatatan,
         ]);
+        // }
 
         return redirect()->route('detail_pengajuan', $id)->with('message', 'Vendor Berhasil Ditolak');
     }
