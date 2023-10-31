@@ -23,6 +23,11 @@
         <a href="{{ route ('Laporan') }}" class="btn btn-primary float-right"><i class="fas fa-plus"></i> Laporan</a>
     </div>
     <section class="content">
+        <div class="col-md-2 mb-3">
+            <a href="{{ route ('other_laporan') }} " class="btn btn-primary">
+                <i class="fas fa-print"></i>Other Laporan
+            </a>
+        </div>
         <div class="card">
             <div class="card-body">
                 
