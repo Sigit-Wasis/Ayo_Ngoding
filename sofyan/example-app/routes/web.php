@@ -24,6 +24,8 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
 
         //BERANDA
         Route::get('/home', 'Backend\BerandaController@index')->name('beranda');
+        Route::get('/char', 'Backend\BerandaController@handleChart')->name('char');
+        Route::get('/charvendordonut', 'Backend\BerandaController@vendorChartData')->name('charvendordonut');
 
         //JENIS BARANG
         Route::get('/jenis-barang', 'Backend\JenisBarangController@index')->name('jenis-barang');
@@ -80,6 +82,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
         //Laporan
         Route::get('/laporan', 'Backend\LaporanController@index')->name('laporan');
         Route::get('/cetak_laporan/{id}', 'Backend\LaporanController@cetak')->name('cetak_laporan');
+        Route::get('/laporan2', 'Backend\LaporanController@cetak2')->name('laporan2');
 
         //roles
         Route::resource('roles', RoleController::class);

@@ -15,11 +15,10 @@ class LaporanController extends Controller
 {
     function __construct()
     {
-        $this->middleware('permission:laporan-list|laporan-cetak', ['only' => ['index', 'cetak']]);
-        $this->middleware('permission:laporan-cetak', ['only' => ['cetak']]);
-        
-        
+        $this->middleware('permission:laporan_list', ['only' => ['index', 'cetak']]);
+        $this->middleware('permission:laporan_cetak', ['only' => ['cetak']]);
     }
+
     public function index()
     {
         $laporan = DB::table('_t_r__pengajuan')
@@ -62,5 +61,11 @@ class LaporanController extends Controller
         // Konversi koleksi menjadi array
         $pdf = Pdf::loadView('backend.Laporan.laporan', compact('data'));
         return $pdf->download('laporan_pengajuan.pdf');
+    }
+    public function cetak2(){
+        $pdf = PDF::setOptions(['isRemoteEnabled' => true, 'chroot' => public_path('assets/images/')])
+            ->loadView('backend.laporan.laporan2')->setPaper('folio', 'portrait');
+
+        return $pdf->stream('other_laporan.pdf');
     }
 }
