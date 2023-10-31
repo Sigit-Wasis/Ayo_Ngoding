@@ -21,9 +21,13 @@
     </section>
 
     <section class="content">
-        <!-- <div class="col-md-2 mb-2">
-            <a href="{{ route('tambah_pengajuan') }}" class="btn btn-block btn-primary">Tambah Data</a>
-        </div> -->
+        <div class="col-md-2 mb-2">
+            <a href="{{ route('other_laporan') }}" class="btn btn-block btn-primary">
+                <i class="fas fa-print"> Cetak</i>
+        </a>
+        </div>
+        
+        <section class="content">
         <div class="card">
             <div class="card-body">
 
