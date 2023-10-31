@@ -62,7 +62,7 @@
             <div class="row mb-3">
                 <div class="col-md-3">
                     <label for="jenis_barang">Jenis Barang</label>
-                    <select class="form-control select2" style="width: 100%;" name="jenis_barang">
+                    <select class="form-control select2" style="width: 100%;" name="jenis_barang`">
                         <option value="">-- Pilih --</option> 
                             @foreach($jenisBarang as $jenis) 
                                 <option value="{{ $jenis->id }}">{{ $jenis->nama_jenis_barang }}</option> 

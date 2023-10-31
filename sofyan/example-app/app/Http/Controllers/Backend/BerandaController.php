@@ -53,14 +53,27 @@ class BerandaController extends Controller
 
     public function vendorChartData()
     {
+        $allVendor = DB::table('vendors')->select('id', 'nama')->get();
+
+        $simpananDoi = [];
+
+        foreach ($allVendor as $key => $value) {
+            $simpananDoi[$value->nama] = DB::table('_detail__pengajuan')
+                ->join('_m_s_t__barang', '_m_s_t__barang.id', '_detail__pengajuan.id_barang')
+                ->where('Id_vendor', $value->id)
+                ->count();
+        }
+
+        dd($simpananDoi);
+        
         $data = DB::table('vendors as v')
-        ->select('v.nama as nama_vendor', DB::raw('(SUM(p.grand_total) / SUM(vt.grand_total)) * 100 as persentase_pemesanan'))
-        ->join('mst_barang as db', 'v.id', '=', 'db.id_vendor')
-        ->join('detail_pengajuan as dp', 'db.id', '=', 'dp.id_barang')
-        ->join('tr_pengajuan as p', 'dp.id_tr_pengajuan', '=', 'p.id')
-        ->join('tr_pengajuan as vt', 'v.id', '=', 'vt.id_vendor')
-        ->groupBy('v.nama')
-        ->get();
+            ->select('v.nama as nama_vendor', DB::raw('(SUM(p.grand_total) / SUM(vt.grand_total)) * 100 as persentase_pemesanan'))
+            ->join('mst_barang as db', 'v.id', '=', 'db.id_vendor')
+            ->join('detail_pengajuan as dp', 'db.id', '=', 'dp.id_barang')
+            ->join('tr_pengajuan as p', 'dp.id_tr_pengajuan', '=', 'p.id')
+            ->join('tr_pengajuan as vt', 'v.id', '=', 'vt.id_vendor')
+            ->groupBy('v.nama')
+            ->get();
 
 
         return response()->json($data);
