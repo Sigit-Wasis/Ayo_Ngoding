@@ -9,6 +9,9 @@ use Database\Seeders\jenis_barang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+
+use Illuminate\Routing\Controller as BaseController;
 
 class DataBarangController extends Controller
 {
@@ -25,12 +28,12 @@ class DataBarangController extends Controller
 
         $DataBarang = DB::table('barang')->select('barang.*', 'name as created_by', 'nama_jenis_barang')
             ->orderBy('barang.id', 'DESC')
-            ->where('jenis_barang.id','LIKE',"%{$request->jenis_barang}%")
-            ->where('nama_barang','LIKE',"%{$request->nama_barang}%")
-            ->where('kode_barang','LIKE',"%{$request->nama_barang}%")
+            ->where('jenis_barang.id', 'LIKE', "%{$request->jenis_barang}%")
+            ->where('nama_barang', 'LIKE', "%{$request->nama_barang}%")
+            ->where('kode_barang', 'LIKE', "%{$request->nama_barang}%")
             ->join('users', 'users.id', 'barang.created_by')
             ->join('jenis_barang', 'jenis_barang.id', 'barang.id_jenis_barang')
-            ->paginate(3);
+            ->paginate(10);
 
         $jenisBarang = DB::table('jenis_barang')->select('id', 'nama_jenis_barang')->get();
         // dd($DataBarang);
@@ -169,6 +172,60 @@ class DataBarangController extends Controller
             DB::table('barang')->where('id', $id)->delete();
 
             return redirect()->route('DataBarang')->with('messages', 'Sukses');
+        }
+    }
+    public function import(Request $request)
+    {
+        $this->validate($request, [
+            'file_barang' => 'required|file|mimes:xls,xlsx,csv'
+        ]);
+
+        $the_file = $request->file('file_barang');
+
+        $spreadsheet = IOFactory::load($the_file->getRealPath());
+
+        $sheet = $spreadsheet->getActiveSheet();
+        $row_limit = $sheet->getHighestDataRow();
+        $row_range = range(2, $row_limit);
+        $startcount = 1;
+
+        DB::beginTransaction();
+
+        try {
+            foreach ($row_range as $row) {
+                try {
+                    //Generate kode barang
+                    $uniqid = uniqid();
+                    $rand_start = rand(1, 5);
+                    $kodeBarang = substr($uniqid, $rand_start, 8);
+
+                    DB::table('barang')->insert([
+                        'id_jenis_barang' => $sheet->getCell('A' . $row)->getValue(),
+                        'nama_barang' => $sheet->getCell('C' . $row)->getValue(),
+                        'harga' =>  $sheet->getCell('D' . $row)->getValue(),
+                        'kode_barang' =>  $kodeBarang,
+                        'satuan' =>  $sheet->getCell('E' . $row)->getValue(),
+                        'deskripsi' =>  $sheet->getCell('F' . $row)->getValue(),
+                        'gambar' => '_',
+                        'id_vendor' => $sheet->getCell('B' . $row)->getValue(),
+                        'stok' => $sheet->getCell('G' . $row)->getValue(),
+                        'created_by' => Auth::user()->id,
+                        'updated_by' => Auth::user()->id,
+                        'created_at' => \Carbon\Carbon::now(),
+                        'updated_at' => \Carbon\Carbon::now(),
+                    ]);
+                } catch (\Throwable $th) {
+                    continue;
+                }
+
+                $startcount++;
+            }
+            DB::commit();
+
+            return redirect()->route('barang')->with('message','jadi dong !!!');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return redirect()->back()->with('error', $th->getMessage());
         }
     }
 }

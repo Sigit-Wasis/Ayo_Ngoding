@@ -48,6 +48,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
     Route::get('/edit-DataBarang/{id}', 'Backend\DataBarangController@edit')->name('edit_DataBarang');
     Route::post('/update-DataBarang/{id}', 'Backend\DataBarangController@update')->name('update_DataBarang');
     Route::get('/show-DataBarang/{id}', 'Backend\DataBarangController@show')->name('show_DataBarang');
+    Route::post('/barang/import','Backend\DataBarangController@import')->name('import.barang');
 
 
     //PENGAJUAN BARANG
@@ -94,6 +95,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
     Route::post('/update-vendor/{id}', 'Backend\vendorController@update')->name('update_vendor');
     Route::get('/show-vendor/{id}', 'Backend\vendorController@show')->name('show_vendor');
 
+  
 
     Route::resource('roles', RoleController::class);
   });
