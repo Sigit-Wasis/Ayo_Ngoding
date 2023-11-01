@@ -20,7 +20,11 @@
     </section>
 
     <section class="content">
-        
+        <div class="col-md-2 mb-3">
+            <a href="{{ route('other_laporan') }}" class="btn btn-primary">
+                <i class="fa fa-print"></i> Other Laporan
+            </a>
+        </div>
 <!--END BUTTON JENIS BARANG -->
 
         <div class="card">

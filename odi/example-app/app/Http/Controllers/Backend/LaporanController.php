@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB as FacadesDB;
 use Barryvdh\DomPDF\Facade\Pdf;
 
+
 class LaporanController extends Controller
 {
 
@@ -48,6 +49,18 @@ class LaporanController extends Controller
         return $pdf->download('laporan-pengajauan.pdf');
     }
 
+    /**
+     * Show the form for creating a new resource.
+     */
+
+    public function otherLaporan()
+    {
+        $pdf = Pdf::setOptions(['isRemoteEnabled' => true, 'chroot' => public_path('assets/images/')])
+            ->loadView('backend.laporan.laporan1')->setPaper('folio', 'portrait');
+
+        return $pdf->stream('other-laporan.pdf');
+    }
+    
     /**
      * Show the form for creating a new resource.
      */

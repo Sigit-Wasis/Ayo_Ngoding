@@ -79,6 +79,8 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
         Route::get('cetak_laporan/{id}', 'Backend\LaporanController@cetak')->name('cetak_laporan');
 
 
+        Route::get('/other_laporan', 'Backend\LaporanController@otherLaporan')->name('other_laporan');
+
     });
 });
 Auth::routes();

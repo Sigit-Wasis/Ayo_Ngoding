@@ -61,8 +61,16 @@ class PengajuanController extends Controller
     public function store(Request $request)
     {
         DB::beginTransaction();
-
+    
         try {
+            // Cek apakah tanggal_pengajuan ada dalam request
+            if (!$request->has('tanggal_pengajuan') || empty($request->tanggal_pengajuan)) {
+                // Tindakan yang diambil jika tanggal_pengajuan kosong
+                return redirect()->route('pengajuan.index')->with('error', 'Tanggal Pengajuan harus diisi');
+            }
+    
+            // Selanjutnya, Anda dapat melanjutkan penyimpanan jika tanggal_pengajuan ada dalam request
+    
             // Insert ke tr_pengajuan
             $id_tr_pengajuan = DB::table('tr_pengajuan')->insertGetId([
                 'tanggal_pengajuan' => $request->tanggal_pengajuan,
@@ -76,37 +84,19 @@ class PengajuanController extends Controller
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
-
-            $grandTotal = 0;
-
-            $countData = count($request->id_barang);
-            for ($i = 0; $i < $countData; $i++) {
-                DB::table('detail_pengajuan')->insert([
-                    'id_barang' => $request->id_barang[$i],
-                    'jumlah' => $request->jumlah_barang[$i],
-                    'id_tr_pengajuan' => $id_tr_pengajuan,
-                    'total_barang' => $request->jumlah_barang[$i] * $request->harga_barang[$i],
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ]);
-
-                DB::table('mst_barang')->where('id', $request->id_barang[$i])->decrement('stok_barang', $request->jumlah_barang[$i]);
-
-                $grandTotal += $request->jumlah_barang[$i] * $request->harga_barang[$i];
-            }
-
-            DB::table('tr_pengajuan')->where('id', $id_tr_pengajuan)->update([
-                'grand_total' => $grandTotal,
-            ]);
-
+    
+            // Sisanya tetap sama seperti kode sebelumnya
+            // ...
+    
             DB::commit();
-
+    
             return redirect()->route('pengajuan.index')->with('message', 'Pengajuan Berhasil Diajukan');
         } catch (\Exception $e) {
             DB::rollback();
             dd($e->getMessage());
         }
     }
+    
 
     public function show($id_pengajuan)
     {
@@ -169,35 +159,65 @@ class PengajuanController extends Controller
         return redirect()->route('show_pengajuan', $id)->with('message', 'Pengajuan berhasil diterima');
     }
 
-    public function tolakPengajuanVendor($id, Request $request)
+    public function tolakpengajuanvendor(Request $request, $id)
     {
-        $penolakanVendor = $request->input('catatan'); // Mengambil catatan penolakan dari request
-
-        // Ambil data pengajuan untuk update status dan catatan penolakan
         $pengajuan = DB::table('tr_pengajuan')->where('id', $id)->first();
 
-        // Cek apakah catatan penolakan sebelumnya sudah ada
-        if ($pengajuan->keterangan_ditolak_vendor != null) {
-            $catatanPenolakan = json_decode($pengajuan->keterangan_ditolak_vendor);
-
-            if (is_array($catatanPenolakan)) {
-                $catatanPenolakan[] = $penolakanVendor;
-            } else {
-                $catatanPenolakan = [$penolakanVendor];
-            }
-        } else {
-            $catatanPenolakan = [$penolakanVendor];
+        if ($pengajuan->status_pengajuan_ap != "1") {
+            // Jika Admin Pengadaan belum memberikan ACC, maka Admin Vendor tidak dapat ACC
+            return redirect()->route('show_pengajuan', $id)->with('error', 'Admin Pengadaan belum memberikan ACC atau telah menolak');
         }
 
-        // Update data pengajuan dengan status dan catatan penolakan
+        // Jika Admin Pengadaan menolak, maka Admin Vendor tidak dapat memberikan ACC
+        if ($pengajuan->status_pengajuan_ap == "2") {
+            return redirect()->route('show_pengajuan', $id)->with('error', 'Admin Pengadaan telah menolak pengajuan, sehingga Admin Vendor tidak dapat memberikan ACC.');
+        }
+
+        $keteranganVendor = DB::table('tr_pengajuan')->select('keterangan_ditolak_vendor')->where('id', $id)->first();
+
+        if (!empty($keteranganVendor->keterangan_ditolak_vendor)) {
+            // Periksa apakah keterangan_ditolak_vendor tidak kosong, kemudian tambahkan data baru ke dalam array
+            $existingCatatan = json_decode($keteranganVendor->keterangan_ditolak_vendor, true);
+        } else {
+            $existingCatatan = [];
+        }
+        // Tambahkan catatan penolakan baru ke dalam array
+        $catatanpenolakan = $request->catatanVendor;
+
+        $existingCatatan[] = $catatanpenolakan;
+
+        // Konversi array ke format JSON sebelum memperbarui database
+        $mergedCatatan = json_encode($existingCatatan);
+
+        // Jika Admin Vendor menolak, maka Status Admin Pengadaan Kembali Ke Awal (0)
+        // if ($pengajuan->status_pengajuan_vendor == "2") {
+        // Kembalikan status Admin Pengadaan ke awal (0)
         DB::table('tr_pengajuan')->where('id', $id)->update([
-            'status_pengajuan_vendor' => 2, // 2 menunjukkan status ditolak oleh vendor
-            'keterangan_ditolak_vendor' => json_encode($catatanPenolakan),
+            'status_pengajuan_ap' => 0,
+            'status_pengajuan_vendor' => 2,
+            'keterangan_ditolak_vendor' => $mergedCatatan,
+        ]);
+        // }
+
+        return redirect()->route('show_pengajuan', $id)->with('message', 'Vendor Berhasil Ditolak');
+    }
+    public function terimapengajuanvendor($id)
+    {
+        $pengajuan = DB::table('tr_pengajuan')->where('id', $id)->first();
+
+        if ($pengajuan->status_pengajuan_ap !== '1') {
+            return redirect()->route('show_pengajuan', $id)->with('error', 'Admin Pengadaan belum memberikan ACC');
+        }
+
+        // Jika Admin Vendor menyetujui, maka status pengajuan "Admin Vendor" diubah menjadi 1 (diACC)
+        DB::table('tr_pengajuan')->where('id', $id)->update([
+            'status_pengajuan_vendor' => 1
         ]);
 
-        return redirect()->route('show_pengajuan', $id)->with('message', 'Pengajuan berhasil ditolak oleh Vendor');
+        return redirect()->route('show_pengajuan', $id)->with('message', 'Vendor Berhasil Diajukan');
     }
 
+    
     public function edit($id)
     {
         // apa tipe data dari $id? STRING

@@ -95,7 +95,7 @@
                 </li>
                 @endcan
 
-                @can('laporan-list')
+                @can('laporan_list')
                 <li class="nav-item">
                     <a href="{{route('laporan')}}" class="nav-link">
                         <i class="nav-icon fas fa-book"></i>

@@ -22,16 +22,24 @@ class BarangController extends Controller
          $this->middleware('permission:barang-delete', ['only' => ['destroy']]);
     }
     
-    public function index()
+    public function index(Request $request)
     {
-        $Barang = FacadesDB::table('barang')->select('barang.*','name as created_by','nama_jenis_barang')->orderBy('barang.id', 'DESC')
+        $Barang = FacadesDB::table('barang')->select('barang.*','name as created_by','nama_jenis_barang')
+        ->orderBy('barang.id', 'DESC')
+        ->where('jenis_barang.id', 'LIKE', "%{$request->jenis_barang}%")
+        ->where('nama_barang', 'LIKE', "%{$request->nama_barang}%")
+        ->where('kode_barang', 'LIKE', "%{$request->kode_barang}%")
         ->join('jenis_barang', 'jenis_barang.id', 'barang.id_jenis_barang')
         ->join('users','users.id','jenis_barang.created_by')
         ->paginate(5);
 
         //  dd($Barang);
 
-        return view ('backend.barang.index', compact('Barang'));
+        $jenisBarang = FacadesDB::table('jenis_barang')->select('id', 'nama_jenis_barang')->get();
+        
+        //   dd($jenisBarang);
+        
+        return view ('backend.barang.index', compact('Barang','jenisBarang'));
     }
 
     /**

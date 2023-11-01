@@ -18,7 +18,11 @@
             </div>
         </div>
     </section>
-
+    <div class="card-footer clearfix">
+        
+        <a href="{{ route ('laporan2') }}" class="btn btn-primary float-right"><i class="fas fa-plus"></i> laporan 2</a>
+        
+    </div>
     <section class="content">
         <div class="card">
             <div class="card-body">
@@ -31,7 +35,7 @@
                     {{ Session('message')}}
                 </div>
                 @endif
-               
+
                 <table class="table table-striped">
                     <thead>
                         <tr>

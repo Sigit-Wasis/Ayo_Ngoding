@@ -20,9 +20,9 @@ class TransaksiPengajuanController extends Controller
     public function index()
     {
         $transaksiPengajuan = DB::table('tr_pengajuan')->select('tr_pengajuan.*', 'username as created_by')
-        ->orderBy('tr_pengajuan.id', 'DESC')
-        ->join('users', 'users.id', 'tr_pengajuan.created_by')
-        ->paginate(5);
+            ->orderBy('tr_pengajuan.id', 'DESC')
+            ->join('users', 'users.id', 'tr_pengajuan.created_by')
+            ->paginate(5);
 
         return view('backend.transaksi_pengajuan.index', compact('transaksiPengajuan'));
     }
@@ -169,45 +169,107 @@ class TransaksiPengajuanController extends Controller
         return redirect()->route('show_pengajuan', $id)->with('message', 'Pengajuan ditolak');
     }
 
+    // public function terimavendor($id)
+    // {
+    //     DB::table('tr_pengajuan')->where('id', $id)->update([
+    //         'status_pengajuan_vendor' => 1 //Jika satu maka status diterima
+    //     ]);
+
+    //     return redirect()->route('show_pengajuan', $id)->with('message', 'Pengajuan Berhasil Diterima Vendor');
+    // }
+
     public function terimavendor($id)
     {
-        DB::table('tr_pengajuan')->where('id', $id)->update([
-            'status_pengajuan_vendor' => 1 //Jika satu maka status diterima
-        ]);
+        $pengajuan = DB::table('tr_pengajuan')->where('id', $id)->first();
 
-        return redirect()->route('show_pengajuan', $id)->with('message', 'Pengajuan Berhasil Diterima Vendor');
-    }
-    public function tolakvendor(Request $request, $id)
-    {
-        $penolakanVendor = DB::table('tr_pengajuan')->select('status_ditolak_vendor')->where('id', $id)->first();
-
-        // Ambil catatan dari request
-        $catatan = $request->catatan;
-
-        if ($penolakanVendor) {
-            // Jika keterangan_ditolak_ap ada, gabungkan dengan catatan
-            $existingCatatan = json_decode($penolakanVendor->status_ditolak_vendor, true);
-
-            if (is_array($existingCatatan)) {
-                // Gabungkan catatan dengan yang sudah ada
-                $existingCatatan[] = $catatan;
-            } else {
-                // Jika keterangan_ditolak_ap tidak berisi array valid, buat array baru
-                $existingCatatan = [$catatan];
-            }
-
-            // Simpan kembali ke database
-            DB::table('tr_pengajuan')->where('id', $id)->update([
-                'status_pengajuan_vendor' => 2, // Jika satu maka status diterima
-                'status_ditolak_vendor' => json_encode($existingCatatan), // Simpan sebagai JSON
-            ]);
-        } else {
-            // Jika data tidak ditemukan, tangani sesuai kebutuhan aplikasi Anda
-            // Misalnya, tampilkan pesan kesalahan atau lakukan tindakan lain yang sesuai.
+        if ($pengajuan->status_pengajuan_ap !== '1') {
+            return redirect()->route('show_pengajuan', $id)->with('error', 'Admin Pengadaan belum memberikan ACC');
         }
 
-        return redirect()->route('show_pengajuan', $id)->with('message', 'Pengajuan ditolak oleh vendor');
+        // Jika Admin Vendor menyetujui, maka status pengajuan "Admin Vendor" diubah menjadi 1 (diACC)
+        DB::table('tr_pengajuan')->where('id', $id)->update([
+            'status_pengajuan_vendor' => 1
+        ]);
+
+        return redirect()->route('show_pengajuan', $id)->with('message', 'Vendor Berhasil Diajukan');
     }
+
+
+    // public function tolakvendor(Request $request, $id)
+    // {
+    //     $penolakanVendor = DB::table('tr_pengajuan')->select('status_ditolak_vendor')->where('id', $id)->first();
+
+    //     // Ambil catatan dari request
+    //     $catatan = $request->catatan;
+
+    //     if ($penolakanVendor) {
+    //         // Jika keterangan_ditolak_ap ada, gabungkan dengan catatan
+    //         $existingCatatan = json_decode($penolakanVendor->status_ditolak_vendor, true);
+
+    //         if (is_array($existingCatatan)) {
+    //             // Gabungkan catatan dengan yang sudah ada
+    //             $existingCatatan[] = $catatan;
+    //         } else {
+    //             // Jika keterangan_ditolak_ap tidak berisi array valid, buat array baru
+    //             $existingCatatan = [$catatan];
+    //         }
+
+    //         // Simpan kembali ke database
+    //         DB::table('tr_pengajuan')->where('id', $id)->update([
+    //             'status_pengajuan_vendor' => 2, // Jika satu maka status diterima
+    //             'status_ditolak_vendor' => json_encode($existingCatatan), // Simpan sebagai JSON
+    //         ]);
+    //     } else {
+    //         // Jika data tidak ditemukan, tangani sesuai kebutuhan aplikasi Anda
+    //         // Misalnya, tampilkan pesan kesalahan atau lakukan tindakan lain yang sesuai.
+    //     }
+
+    //     return redirect()->route('show_pengajuan', $id)->with('message', 'Pengajuan ditolak oleh vendor');
+    // }
+
+    public function tolakvendor(Request $request, $id)
+    {
+        $pengajuan = DB::table('tr_pengajuan')->where('id', $id)->first();
+
+        if ($pengajuan->status_pengajuan_ap != "1") {
+            // Jika Admin Pengadaan belum memberikan ACC, maka Admin Vendor tidak dapat ACC
+            return redirect()->route('show_pengajuan', $id)->with('error', 'Admin Pengadaan belum memberikan ACC atau telah menolak');
+        }
+
+        // Jika Admin Pengadaan menolak, maka Admin Vendor tidak dapat memberikan ACC
+        if ($pengajuan->status_pengajuan_ap == "2") {
+            return redirect()->route('show_pengajuan', $id)->with('error', 'Admin Pengadaan telah menolak pengajuan, sehingga Admin Vendor tidak dapat memberikan ACC.');
+        }
+
+        $keteranganVendor = DB::table('tr_pengajuan')->select('keterangan_ditolak_vendor')->where('id', $id)->first();
+
+        if (!empty($keteranganVendor->keterangan_ditolak_vendor)) {
+            // Periksa apakah keterangan_ditolak_vendor tidak kosong, kemudian tambahkan data baru ke dalam array
+            $existingCatatan = json_decode($keteranganVendor->keterangan_ditolak_vendor, true);
+        } else {
+            $existingCatatan = [];
+        }
+        // Tambahkan catatan penolakan baru ke dalam array
+        $catatanpenolakan = $request->catatanVendor;
+
+        $existingCatatan[] = $catatanpenolakan;
+
+        // Konversi array ke format JSON sebelum memperbarui database
+        $mergedCatatan = json_encode($existingCatatan);
+
+        // Jika Admin Vendor menolak, maka Status Admin Pengadaan Kembali Ke Awal (0)
+        // if ($pengajuan->status_pengajuan_vendor == "2") {
+        // Kembalikan status Admin Pengadaan ke awal (0)
+        DB::table('tr_pengajuan')->where('id', $id)->update([
+            'status_pengajuan_ap' => 0,
+            'status_pengajuan_vendor' => 2,
+            'keterangan_ditolak_vendor' => $mergedCatatan,
+        ]);
+        // }
+
+        return redirect()->route('show_pengajuan', $id)->with('message', 'Vendor Berhasil Ditolak');
+    }
+
 
     public function destroy($id)
     {
@@ -221,39 +283,42 @@ class TransaksiPengajuanController extends Controller
         DB::table('detail_pengajuan')->where('id', $id_barang)->delete();
 
         $editpengajuan = DB::table('tr_pengajuan')
-        ->select('tr_pengajuan.*', 'id_barang', 'detail_pengajuan.id as id_detail-pengajuan ','nama','mst_barang.id_vendor as id_vendor')
-        ->join('detail_pengajuan', 'detail_pengajuan.id_tr_pengajuan', 'tr_pengajuan.id')
-        ->join('mst_barang', 'mst_barang.id', 'detail_pengajuan.id_barang')
-        ->join('vendors', 'vendors.id', 'mst_barang.id_vendor')
-        ->where('tr_pengajuan.id', $id_pengajuan)
-        ->first();
+            ->select('tr_pengajuan.*', 'id_barang', 'detail_pengajuan.id as id_detail-pengajuan ', 'nama', 'mst_barang.id_vendor as id_vendor')
+            ->join('detail_pengajuan', 'detail_pengajuan.id_tr_pengajuan', 'tr_pengajuan.id')
+            ->join('mst_barang', 'mst_barang.id', 'detail_pengajuan.id_barang')
+            ->join('vendors', 'vendors.id', 'mst_barang.id_vendor')
+            ->where('tr_pengajuan.id', $id_pengajuan)
+            ->first();
 
-    $vendors = DB::table('vendors')->select('id', 'nama')->get();
+        $vendors = DB::table('vendors')->select('id', 'nama')->get();
 
-    $barangs = DB::table('mst_barang')
-        ->where('id_vendor', $editpengajuan->id_vendor)
-        ->select('id', 'nama_barang')->get();
+        $barangs = DB::table('mst_barang')
+            ->where('id_vendor', $editpengajuan->id_vendor)
+            ->select('id', 'nama_barang')->get();
 
-    $detailBarang = DB::table('detail_pengajuan')
-        ->join('tr_pengajuan', 'tr_pengajuan.id', 'detail_pengajuan.id_tr_pengajuan')
-        ->join('mst_barang', 'mst_barang.id', 'detail_pengajuan.id_barang')
-        ->select('detail_pengajuan.id as id_detail_pengajuan', 'nama_barang', 'jumlah', 'harga', 'stok_barang')
-        ->where('detail_pengajuan.id_tr_pengajuan', $id_pengajuan)
-        ->get();
+        $detailBarang = DB::table('detail_pengajuan')
+            ->join('tr_pengajuan', 'tr_pengajuan.id', 'detail_pengajuan.id_tr_pengajuan')
+            ->join('mst_barang', 'mst_barang.id', 'detail_pengajuan.id_barang')
+            ->select('detail_pengajuan.id as id_detail_pengajuan', 'nama_barang', 'jumlah', 'harga', 'stok_barang')
+            ->where('detail_pengajuan.id_tr_pengajuan', $id_pengajuan)
+            ->get();
 
         return redirect()->route('edit_pengajuan', $id_pengajuan)->with(
-            ['message', 'Barang Berhasil dihapus',
-            'detailBarang' => $detailBarang,
-            'barangs' => $barangs,
-            'vendors' => $vendors,
-            'editpengajuan' => $editpengajuan]);
+            [
+                'message', 'Barang Berhasil dihapus',
+                'detailBarang' => $detailBarang,
+                'barangs' => $barangs,
+                'vendors' => $vendors,
+                'editpengajuan' => $editpengajuan
+            ]
+        );
     }
 
     public function edit($id)
     {
 
         $editpengajuan = DB::table('tr_pengajuan')
-            ->select('tr_pengajuan.*', 'id_barang', 'detail_pengajuan.id as id_detail-pengajuan ','nama','mst_barang.id_vendor as id_vendor')
+            ->select('tr_pengajuan.*', 'id_barang', 'detail_pengajuan.id as id_detail-pengajuan ', 'nama', 'mst_barang.id_vendor as id_vendor')
             ->join('detail_pengajuan', 'detail_pengajuan.id_tr_pengajuan', 'tr_pengajuan.id')
             ->join('mst_barang', 'mst_barang.id', 'detail_pengajuan.id_barang')
             ->join('vendors', 'vendors.id', 'mst_barang.id_vendor')
@@ -292,7 +357,7 @@ class TransaksiPengajuanController extends Controller
 
             $countData = count($request->id_barang);
 
-            for ($i=0; $i < $countData; $i++) {
+            for ($i = 0; $i < $countData; $i++) {
 
                 if (!isset($request->id_detail_barang[$i])) {
                     DB::table('detail_pengajuan')->insert([
@@ -303,16 +368,15 @@ class TransaksiPengajuanController extends Controller
                         'created_at' => \Carbon\Carbon::now(),
                         'updated_at' => \Carbon\Carbon::now(),
                     ]);
-                                   
+
                     // UPDATE STOK BARANG
                     DB::table('mst_barang')->where('id', $request->id_barang[$i])->decrement('stok_barang', $request->jumlah_barang[$i]);
-
                 } else {
                     $jumlahSebelumDiupdate = DB::table('detail_pengajuan')
-                    ->where('id_tr_pengajuan', $id)
-                    ->where('id_barang', $request->id_barang[$i])->value('jumlah');
+                        ->where('id_tr_pengajuan', $id)
+                        ->where('id_barang', $request->id_barang[$i])->value('jumlah');
 
-                    DB::table('detail_pengajuan')->where('id',$request->id_detail_barang[$i])->update([
+                    DB::table('detail_pengajuan')->where('id', $request->id_detail_barang[$i])->update([
                         'id_barang' => $request->id_barang[$i],
                         'jumlah' => $request->jumlah_barang[$i],
                         'id_tr_pengajuan' => $id,
@@ -320,49 +384,47 @@ class TransaksiPengajuanController extends Controller
                         'updated_at' => \Carbon\Carbon::now(),
                     ]);
 
-                // jika barang lebih besar dari seblumnya maka dikurang
-                // contoh awal jumlahnya 5 kemudian update menjadi 8 berarti stok barang (stok -8)
-                if ($request->jumlah_barang[$i] > $jumlahSebelumDiupdate) {
-                    $counter = $request->jumlah_barang[$i] -$jumlahSebelumDiupdate;
-                    $stokSekarang = DB::table('mst_barang')->where('id', $request->id_barang[$i])->value('stok_barang');
+                    // jika barang lebih besar dari seblumnya maka dikurang
+                    // contoh awal jumlahnya 5 kemudian update menjadi 8 berarti stok barang (stok -8)
+                    if ($request->jumlah_barang[$i] > $jumlahSebelumDiupdate) {
+                        $counter = $request->jumlah_barang[$i] - $jumlahSebelumDiupdate;
+                        $stokSekarang = DB::table('mst_barang')->where('id', $request->id_barang[$i])->value('stok_barang');
 
-                    // UPDATE STOK BARANG
-                    DB::table('mst_barang')->where('id',$request->id_barang[$i])
-                    ->update([
-                    'stok_barang' => $stokSekarang - $counter
-                    ]);
+                        // UPDATE STOK BARANG
+                        DB::table('mst_barang')->where('id', $request->id_barang[$i])
+                            ->update([
+                                'stok_barang' => $stokSekarang - $counter
+                            ]);
 
-                // jika barang lebih besar dari seblumnya maka dikurang
-                // contoh awal jumlahnya 5 kemudian update menjadi 3 berarti stok barang (stok +3)
-                } elseif  ($request->jumlah_barang[$i] < $jumlahSebelumDiupdate) {
-                    $counter = $jumlahSebelumDiupdate - $request->jumlah_barang[$i];
+                        // jika barang lebih besar dari seblumnya maka dikurang
+                        // contoh awal jumlahnya 5 kemudian update menjadi 3 berarti stok barang (stok +3)
+                    } elseif ($request->jumlah_barang[$i] < $jumlahSebelumDiupdate) {
+                        $counter = $jumlahSebelumDiupdate - $request->jumlah_barang[$i];
 
-                    $stokSekarang = DB::table('mst_barang')->where('id', $request->id_barang[$i])->latest()->value('stok_barang');
+                        $stokSekarang = DB::table('mst_barang')->where('id', $request->id_barang[$i])->latest()->value('stok_barang');
 
-                    // UPDATE STOK BARANG
-                    DB::table('mst_barang')->where('id',$request->id_barang[$i])
-                    ->update([
-                    'stok_barang' => $stokSekarang + $counter
-                    ]);
+                        // UPDATE STOK BARANG
+                        DB::table('mst_barang')->where('id', $request->id_barang[$i])
+                            ->update([
+                                'stok_barang' => $stokSekarang + $counter
+                            ]);
 
-                    // $stokSebelum = DB::table('mst_barang')->where('id',$request->id_barang[$i])->value('stok_barang');
-                    // DB::table('history_stok_barang')->insert([
-                    //     'barang_id' => $request->id_barang[$i],
-                    //     'stok_sebelum' => $stokSebelum,
-                    //     'stok_sesudah' => $request->jumlah_barang[$i],
-                    //     'stok_sekarang' =>  $stokSebelum - $request->jumlah_barang[$i],
-                    //     'created_at' => \Carbon\Carbon::now(),
-                    //     'updated_at' => \Carbon\Carbon::now()
-                    // ]);
-                } else {
-                    // continue;
+                        // $stokSebelum = DB::table('mst_barang')->where('id',$request->id_barang[$i])->value('stok_barang');
+                        // DB::table('history_stok_barang')->insert([
+                        //     'barang_id' => $request->id_barang[$i],
+                        //     'stok_sebelum' => $stokSebelum,
+                        //     'stok_sesudah' => $request->jumlah_barang[$i],
+                        //     'stok_sekarang' =>  $stokSebelum - $request->jumlah_barang[$i],
+                        //     'created_at' => \Carbon\Carbon::now(),
+                        //     'updated_at' => \Carbon\Carbon::now()
+                        // ]);
+                    } else {
+                        // continue;
+                    }
                 }
-            }
 
                 $grandTotal += $request->jumlah_barang[$i] * $request->harga_barang[$i];
-
-
-            } 
+            }
             DB::table('tr_pengajuan')->where('id', $id)->update([
                 'grand_total' => $grandTotal
             ]);
@@ -370,7 +432,6 @@ class TransaksiPengajuanController extends Controller
             DB::commit();
 
             return redirect()->route('pengajuan')->with('message', 'Pengajuan Berhasil Diajukan');
-
         } catch (\Exception $e) {
             DB::rollBack();
             // something went wrong
