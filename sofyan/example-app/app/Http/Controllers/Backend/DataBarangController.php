@@ -7,6 +7,7 @@ use App\Http\Requests\BarangRequest;
 use App\Http\Requests\BarangUpdateRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class DataBarangController extends Controller
 {
@@ -198,5 +199,62 @@ class DataBarangController extends Controller
 
         //dd($detailBarang);
         return view('backend.data_barang.detail_barang', compact('detailBarang'));
+    }
+    public function importBarang(Request $request)
+    {
+        $request->validate([
+            'inportBarang' => 'required|file|mimes:xls,xlsx',
+        ]);
+
+        $file = $request->file('inportBarang');
+
+        $spreadsheet = IOFactory::load($file->getRealPath());
+        $worksheet = $spreadsheet->getActiveSheet();
+        $row_limit = $worksheet->getHighestDataRow();
+        $row_range = range(2, $row_limit);
+        $startCount = 1;
+
+        DB::beginTransaction();
+
+        try {
+            $totalBarang = DB::table('_m_s_t__barang')->count();
+            $kodeBarang = 'BRG-' . str_pad($totalBarang + 1, 4, '0', STR_PAD_LEFT);
+
+            foreach ($row_range as $rowIndex) {
+                try {
+                    DB::table('_m_s_t__barang')->insert([
+                        'Id_jenis_barang' => $worksheet->getCell('A' . $rowIndex)->getValue(),
+                        'Id_vendor' => $worksheet->getCell('B' . $rowIndex)->getValue(),
+                        'kode_barang' => $kodeBarang,
+                        'nama_barang' => $worksheet->getCell('C' . $rowIndex)->getValue(),
+                        'harga' => $worksheet->getCell('D' . $rowIndex)->getValue(),
+                        'satuan' => $worksheet->getCell('E' . $rowIndex)->getValue(),
+                        'deskripsi' => $worksheet->getCell('F' . $rowIndex)->getValue(),
+                        'stok' => $worksheet->getCell('G' . $rowIndex)->getValue(),
+                        'image' => '-', // Sesuaikan jika Anda ingin menangani gambar
+                        'created_by' => auth()->user()->id, // Sesuaikan dengan informasi pengguna yang sesuai
+                        'updated_by' => auth()->user()->id, // Sesuaikan dengan informasi pengguna yang sesuai
+                        'created_at' => now(), // Tanggal dan waktu saat ini
+                        'updated_at' => now(), // Tanggal dan waktu saat ini
+                    ]);
+                } catch (\Throwable $th) {
+                    // Tangani kesalahan pada setiap baris data
+                    // Anda dapat melakukan logging kesalahan atau menangani sesuai kebutuhan
+                    continue;
+                }
+                $startCount++;
+            }
+
+            DB::commit(); // Commit transaksi jika semuanya berhasil
+
+            return redirect()->route('data_barang')->with('message', 'Data berhasil diimpor.');
+        } catch (\Throwable $th) {
+            // Gulirkan balik transaksi jika terjadi kesalahan pada tingkat transaksi
+            DB::rollBack();
+
+            // Tangani kesalahan pada tingkat transaksi
+            // Anda dapat melakukan logging kesalahan atau menangani sesuai kebutuhan
+            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $th->getMessage());
+        }
     }
 }
