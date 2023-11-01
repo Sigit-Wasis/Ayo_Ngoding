@@ -65,7 +65,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
         Route::get('/edit-pengajuan/{id}', 'Backend\PengajuanController@edit')->name('edit_pengajuan');
         Route::get('/show_pengajuan/{id}', 'Backend\PengajuanController@show')->name('show_pengajuan');
         Route::get('/hapus-pengajuan/{id}', 'Backend\PengajuanController@destroy')->name('delete_pengajuan');
-        
+
         Route::get('/delete-barang-pengajuan/{id_barang}/{id_pengajuan}', 'Backend\PengajuanController@destroyBarang')->name('delete_barang_pengajuan');
 
         Route::post('/tolak_pengajuan/{id}', 'Backend\PengajuanController@tolakpengajuan')->name('tolak_pengajuan');
@@ -84,6 +84,9 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
         Route::get('/cetak-laporan/{id}', 'Backend\LaporanController@cetak')->name('cetak_laporan');
 
         Route::get('/other-laporan', 'Backend\LaporanController@otherLaporan')->name('other_laporan');
+
+        Route::post('import-barang', 'Backend\BarangController@import')->name('import_barang');
+        
     });
 });
 
