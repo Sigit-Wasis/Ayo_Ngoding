@@ -50,6 +50,38 @@
     </div>
     <!-- END BUTTON TAMBAH JENIS BARANG-->
 
+    <!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
+  Launch demo modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form action="{{ route('import.barang') }}" method="POST" enctype="multipart/form-data">
+     
+      @csrf
+        <div class="modal-body">
+          <div class="col-md-12">
+            <input type="file" name="file_barang" class="form-control" requered>
+          </div>
+        </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Ayo Import</button>
+      </div>
+      </form>  
+    </div>
+  </div>
+</div>
+
     <div class="card">
       <div class="card-body">
 
