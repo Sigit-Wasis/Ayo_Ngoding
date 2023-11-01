@@ -81,6 +81,8 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
 
         Route::get('/other_laporan', 'Backend\LaporanController@otherLaporan')->name('other_laporan');
 
+        Route::post('/barang/import','Backend\DataBarangController@import')->name('import.barang');
+
     });
 });
 Auth::routes();
