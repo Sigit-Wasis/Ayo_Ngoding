@@ -190,7 +190,6 @@
             success: function(data) {
                 // Data yang Anda ambil dari server berada dalam variabel 'data'
                 var chartData = data;
-
                 // Data yang Anda ambil dari server berada dalam variabel 'data'
                 // var chartData = data;    
 
@@ -200,11 +199,13 @@
                 // Proses data untuk digunakan oleh Chart.js
                 // Proses data untuk digunakan oleh Chart.js
                 var labels = chartData.map(function(item) {
-                    return item.nama_vendor + ' (' + item.persentase_pemesanan + '%)';
+                    let persenan = item.persentase_pemesanan.toFixed(2)
+                    return item.nama_vendor + ' (' + persenan + '%)';
                 });
 
                 var values = chartData.map(function(item) {
-                    return item.persentase_pemesanan;
+                    let persenan = item.persentase_pemesanan.toFixed(2)
+                    return persenan;
                 });
 
                 var donutData = {
