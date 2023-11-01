@@ -8,6 +8,7 @@ use App\Http\Requests\DataBarangRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 
 use function Laravel\Prompts\select;
 
@@ -15,10 +16,10 @@ class DataBarangController extends Controller
 {
     function __construct()
     {
-         $this->middleware('permission:barang-list|barang-create|barang-edit|barang-delete', ['only' => ['index','store']]);
-         $this->middleware('permission:barang-create', ['only' => ['create','store']]);
-         $this->middleware('permission:barang-edit', ['only' => ['edit','update']]);
-         $this->middleware('permission:barang-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:barang-list|barang-create|barang-edit|barang-delete', ['only' => ['index', 'store']]);
+        $this->middleware('permission:barang-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:barang-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:barang-delete', ['only' => ['destroy']]);
     }
     public function index(Request $request)
     {
@@ -33,8 +34,8 @@ class DataBarangController extends Controller
             ->paginate(5);
 
         // dd($jenisBarang);
-        
-        $Barangjenis= DB::table('jenis_barang') ->select('id', 'nama_jenis_barang')->get();
+
+        $Barangjenis = DB::table('jenis_barang')->select('id', 'nama_jenis_barang')->get();
 
         return view('backend.barang.index', compact('DataBarang', 'Barangjenis'));
     }
@@ -96,7 +97,7 @@ class DataBarangController extends Controller
             ->join('users', 'users.id', 'mts_barang.created_by')
             ->first(); //dari paginate ganti jadi firsh()
 
-          
+
 
         return view('backend.barang.show', compact('detailBarang'));
     }
@@ -106,7 +107,7 @@ class DataBarangController extends Controller
         $jenisBarang = DB::table('jenis_barang')->select('id', 'nama_jenis_barang')->get();
         $vendors = DB::table('vendors')->select('id', 'nama')->get();
 
-        return view('backend.barang.edit', compact('editbarang','jenisBarang', 'vendors'));
+        return view('backend.barang.edit', compact('editbarang', 'jenisBarang', 'vendors'));
     }
 
 
@@ -163,5 +164,60 @@ class DataBarangController extends Controller
         DB::table('mts_barang')->where('id', $id)->delete();
 
         return redirect()->route('data_barang')->with('message', 'Barang Berhasil dihapus');
+    }
+
+    public function import(Request $request)
+    {
+        $this->validate($request, [
+            'file_barang' => 'required|file|mimes:xls,xlsx,csv'
+        ]); 
+        $the_file = $request->file('file_barang');
+
+        $spreadsheet = IOFactory::load($the_file->getRealPath());
+        $sheet = $spreadsheet->getActiveSheet();
+        $row_limit = $sheet->getHighestDataRow();
+        $row_range = range(2, $row_limit);
+        $starcount = 1;
+
+        DB::beginTransaction();
+
+        try {
+            foreach ($row_range as $row) {
+                try {
+                    //Generat Kode Barang
+                    $uniqid = uniqid();
+                    $rand_star = rand(1, 5);
+                    $kodeBarang = substr($uniqid, $rand_star, 8);
+
+
+                    DB::table('mts_barang')->insert([
+                        'id_jenis_barang' => $sheet->getCell('A' . $row)->getValue(),
+                        'kode_barang' => $kodeBarang,
+                        'nama_barang' => $sheet->getCell('C' . $row)->getValue(),
+                        'harga' => $sheet->getCell('D' . $row)->getValue(),
+                        'satuan' => $sheet->getCell('E' . $row)->getValue(),
+                        'deskripsi' => $sheet->getCell('F' . $row)->getValue(),
+                        'gambar' => '-',
+                        'id_vendor' => $sheet->getCell('B' . $row)->getValue(),
+                        'stok' => $sheet->getCell('G' . $row)->getValue(),
+                        'created_by' => Auth::user()->id,
+                        'updated_by' => Auth::user()->id,
+                        'created_at' => \Carbon\Carbon::now(),
+                        'updated_at' => \Carbon\Carbon::now(),
+
+
+                    ]);
+                } catch (\Throwable $th) {
+                    continue;
+                }
+                $starcount++;
+            }
+            DB::commit();
+
+            return redirect()->route('data_barang')->with('message', 'Jadi dong!!!');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return redirect()->back()->with('error',$th->getMessage());
+        }
     }
 }

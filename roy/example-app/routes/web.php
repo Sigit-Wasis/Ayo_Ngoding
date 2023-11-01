@@ -80,6 +80,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/cetak-laporan/{id}', 'Backend\laporanController@cetak')->name('cetak_laporan');
 
         Route::get('/other_laporan', 'Backend\laporanController@otherLaporan')->name('other_laporan');
+
+        Route::post('/barang/import.','Backend\DataBarangController@import')->name('import.barang');
         
 
     
