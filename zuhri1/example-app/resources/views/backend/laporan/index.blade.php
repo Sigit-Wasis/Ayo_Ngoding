@@ -21,6 +21,13 @@
         </div>
     </section>
 
+    <section class="content">
+        <div class="col-md-2 mb-3">
+            <a href="{{ route('other_laporan') }}" class="btn btn-primary">
+                <i class="fas fa-print"></i> Other Laporan
+            </a>
+        </div>
+
     @if(Session::has('message'))
     <div class="alert alert-success alert-dismissible">
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>

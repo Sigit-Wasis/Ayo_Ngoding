@@ -7,6 +7,7 @@ use App\Http\Requests\BarangStoreRequest;
 use App\Http\Requests\BarangUpdateRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 use Illuminate\Support\Facades\DB;
 
 class DataBarangController extends Controller
@@ -77,7 +78,7 @@ class DataBarangController extends Controller
             'created_by' => Auth::user()->id,
             'updated_by' => Auth::user()->id,
             'created_at' => \Carbon\Carbon::now(),
-            'updated_at' => \Carbon\Carbon::now()
+            'updated_at' => \Carbon\Carbon::now(),
 
         ]);
 
@@ -175,4 +176,59 @@ class DataBarangController extends Controller
 
     //     return redirect()->route('jenis_barang')->with('message', 'Jenis Barang Berhasil Dihapus');
     // }
+
+    public function import(Request $request)
+    {
+        $this->validate($request, [
+            'file_barang' => 'required|file|mimes:xls,xlsx,csv'
+        ]);
+
+        $the_file = $request->file('file_barang');
+
+        $spreadsheet = IOFactory::load($the_file->getRealPath());
+        $sheet = $spreadsheet->getActiveSheet();
+        $row_limit = $sheet->getHighestDataRow();
+        $row_range = range(2, $row_limit);
+        $startcount = 1;
+
+        DB::beginTransaction();
+
+        try {
+            foreach ($row_range as $row) {
+                try {
+                    // Generate kode barang
+                    $uniqid = uniqid();
+                    $rand_star = rand(1, 5);
+                    $kodeBarang = substr($uniqid, $rand_star, 8);
+
+                    DB::table('mst_barang')->insert([
+                        'id_jenis_barang' => $sheet->getCell('A' . $row)->getValue(),
+                        'kode_barang' => $kodeBarang,
+                        'nama_barang' => $sheet->getCell('C' . $row)->getValue(),
+                        'harga' => $sheet->getCell('D' . $row)->getValue(),
+                        'satuan' => $sheet->getCell('E' . $row)->getValue(),
+                        'deskripsi' => $sheet->getCell('F' . $row)->getValue(),
+                        'gambar' => '-',
+                        'id_vendor' => $sheet->getCell('B' . $row)->getValue(),
+                        'stok_barang' => $sheet->getCell('G' . $row)->getValue(),
+                        'created_by' => Auth::user()->id,
+                        'updated_by' => Auth::user()->id,
+                        'created_at' => \Carbon\Carbon::now(),
+                        'updated_at' => \Carbon\Carbon::now(),
+                    ]);
+                } catch (\Throwable $th) {
+                    continue;
+                }
+
+                $startcount++;
+            }
+
+            DB::commit();
+
+            return redirect()->route('barang')->with('message','Jadi dong!!!');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return redirect()->back()->with('error', $th->getMessage());
+        }
+    }
 }
