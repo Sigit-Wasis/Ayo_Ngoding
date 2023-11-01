@@ -1,9 +1,18 @@
 <?xml version="1.0"?>
 <psalm
+<<<<<<< HEAD
+=======
+    errorLevel="1"
+>>>>>>> 34d8e98f63b8b75b3996f5a00da830531ffbe070
     resolveFromConfigFile="true"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns="https://getpsalm.org/schema/config"
     xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
+<<<<<<< HEAD
+=======
+    findUnusedBaselineEntry="true"
+    findUnusedCode="true"
+>>>>>>> 34d8e98f63b8b75b3996f5a00da830531ffbe070
 >
     <projectFiles>
         <directory name="src" />
@@ -11,6 +20,7 @@
             <directory name="vendor" />
         </ignoreFiles>
     </projectFiles>
+<<<<<<< HEAD
 
     <issueHandlers>
         <LessSpecificReturnType errorLevel="info" />
@@ -49,5 +59,12 @@
         <RawObjectIteration errorLevel="info" />
 
         <InvalidStringClass errorLevel="info" />
+=======
+    <issueHandlers>
+        <!-- Turn off dead code warnings for externally called functions -->
+        <PossiblyUnusedProperty errorLevel="suppress" />
+        <PossiblyUnusedMethod errorLevel="suppress" />
+        <PossiblyUnusedReturnValue errorLevel="suppress" />
+>>>>>>> 34d8e98f63b8b75b3996f5a00da830531ffbe070
     </issueHandlers>
 </psalm>

@@ -28,53 +28,53 @@
             </a>
         </div>
 
-    <div class="card">
-        <div class="card-body">
+        <div class="card">
+            <div class="card-body">
 
-            @if(Session::has('message'))
-            <div class="alert alert-success alert-dismissible">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                <h5>
-                    <i class="icon fas fa-check"></i> Sukses!
-                </h5>
-                {{ Session('message')}}
+                @if(Session::has('message'))
+                <div class="alert alert-success alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <h5>
+                        <i class="icon fas fa-check"></i> Sukses!
+                    </h5>
+                    {{ Session('message')}}
+                </div>
+                @endif
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">NO</th>
+                            <th scope="col">Tanggal Pengajuan</th>
+                            <th scope="col">Dibuat Pada</th>
+                            <th scope="col">Dibuat Oleh</th>
+                            <th scope="col">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach($laporans as $laporan)
+                        <tr>
+                            <td>{{$laporans->firstItem() + $loop->index }}</td>
+                            <td>{{$laporan->tanggal_pengajuan}}</td>
+                            <td>{{$laporan->created_by}}</td>
+                            <td>{{$laporan->created_at}}</td>
+                            <td>
+
+                                <a href="{{ route('cetak_laporan', $laporan->id) }}" class="btn btn-sm btn-primary">
+                                    <i class="fas fa-print"></i> Cetak
+                                </a>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+
+                <div class="pull-right">
+                </div>
+
             </div>
-            @endif
-
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">NO</th>
-                        <th scope="col">Tanggal Pengajuan</th>
-                        <th scope="col">Dibuat Pada</th>
-                        <th scope="col">Dibuat Oleh</th>
-                        <th scope="col">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-
-                    @foreach($laporans as $laporan)
-                    <tr>
-                        <td>{{$laporans->firstItem() + $loop->index }}</td>
-                        <td>{{$laporan->tanggal_pengajuan}}</td>
-                        <td>{{$laporan->created_by}}</td>
-                        <td>{{$laporan->created_at}}</td>
-                        <td>
-
-                            <a href="{{ route('cetak_laporan', $laporan->id) }}" class="btn btn-sm btn-primary">
-                                <i class="fas fa-print"></i> Cetak
-                            </a>
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
-
-            <div class="pull-right">
-            </div>
-
         </div>
-    </div>
     </section>
 </div>
 

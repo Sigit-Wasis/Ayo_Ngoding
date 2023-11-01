@@ -69,6 +69,7 @@
         },
         {
             "name": "maennchen/zipstream-php",
+<<<<<<< HEAD
             "version": "2.4.0",
             "source": {
                 "type": "git",
@@ -79,10 +80,23 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/maennchen/ZipStream-PHP/zipball/3fa72e4c71a43f9e9118752a5c90e476a8dc9eb3",
                 "reference": "3fa72e4c71a43f9e9118752a5c90e476a8dc9eb3",
+=======
+            "version": "3.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/maennchen/ZipStream-PHP.git",
+                "reference": "b8174494eda667f7d13876b4a7bfef0f62a7c0d1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/maennchen/ZipStream-PHP/zipball/b8174494eda667f7d13876b4a7bfef0f62a7c0d1",
+                "reference": "b8174494eda667f7d13876b4a7bfef0f62a7c0d1",
+>>>>>>> 34d8e98f63b8b75b3996f5a00da830531ffbe070
                 "shasum": ""
             },
             "require": {
                 "ext-mbstring": "*",
+<<<<<<< HEAD
                 "myclabs/php-enum": "^1.5",
                 "php": "^8.0",
                 "psr/http-message": "^1.0"
@@ -96,6 +110,24 @@
                 "phpunit/phpunit": "^8.5.8 || ^9.4.2",
                 "vimeo/psalm": "^5.0"
             },
+=======
+                "ext-zlib": "*",
+                "php-64bit": "^8.1"
+            },
+            "require-dev": {
+                "ext-zip": "*",
+                "friendsofphp/php-cs-fixer": "^3.16",
+                "guzzlehttp/guzzle": "^7.5",
+                "mikey179/vfsstream": "^1.6",
+                "php-coveralls/php-coveralls": "^2.5",
+                "phpunit/phpunit": "^10.0",
+                "vimeo/psalm": "^5.0"
+            },
+            "suggest": {
+                "guzzlehttp/psr7": "^2.4",
+                "psr/http-message": "^2.0"
+            },
+>>>>>>> 34d8e98f63b8b75b3996f5a00da830531ffbe070
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -131,7 +163,11 @@
             ],
             "support": {
                 "issues": "https://github.com/maennchen/ZipStream-PHP/issues",
+<<<<<<< HEAD
                 "source": "https://github.com/maennchen/ZipStream-PHP/tree/2.4.0"
+=======
+                "source": "https://github.com/maennchen/ZipStream-PHP/tree/3.1.0"
+>>>>>>> 34d8e98f63b8b75b3996f5a00da830531ffbe070
             },
             "funding": [
                 {
@@ -143,7 +179,11 @@
                     "type": "open_collective"
                 }
             ],
+<<<<<<< HEAD
             "time": "2022-12-08T12:29:14+00:00"
+=======
+            "time": "2023-06-21T14:59:35+00:00"
+>>>>>>> 34d8e98f63b8b75b3996f5a00da830531ffbe070
         },
         {
             "name": "markbaker/complex",
@@ -253,6 +293,7 @@
             "time": "2022-12-02T22:17:43+00:00"
         },
         {
+<<<<<<< HEAD
             "name": "myclabs/php-enum",
             "version": "1.8.4",
             "source": {
@@ -316,6 +357,8 @@
             "time": "2022-08-04T09:53:51+00:00"
         },
         {
+=======
+>>>>>>> 34d8e98f63b8b75b3996f5a00da830531ffbe070
             "name": "phpoffice/phpspreadsheet",
             "version": "1.29.0",
             "source": {
@@ -529,6 +572,7 @@
         },
         {
             "name": "psr/http-message",
+<<<<<<< HEAD
             "version": "1.1",
             "source": {
                 "type": "git",
@@ -539,6 +583,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/php-fig/http-message/zipball/cb6ce4845ce34a8ad9e68117c10ee90a29919eba",
                 "reference": "cb6ce4845ce34a8ad9e68117c10ee90a29919eba",
+=======
+            "version": "2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/http-message.git",
+                "reference": "402d35bcb92c70c026d1a6a9883f06b2ead23d71"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/http-message/zipball/402d35bcb92c70c026d1a6a9883f06b2ead23d71",
+                "reference": "402d35bcb92c70c026d1a6a9883f06b2ead23d71",
+>>>>>>> 34d8e98f63b8b75b3996f5a00da830531ffbe070
                 "shasum": ""
             },
             "require": {
@@ -547,7 +603,11 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
+<<<<<<< HEAD
                     "dev-master": "1.1.x-dev"
+=======
+                    "dev-master": "2.0.x-dev"
+>>>>>>> 34d8e98f63b8b75b3996f5a00da830531ffbe070
                 }
             },
             "autoload": {
@@ -562,7 +622,11 @@
             "authors": [
                 {
                     "name": "PHP-FIG",
+<<<<<<< HEAD
                     "homepage": "http://www.php-fig.org/"
+=======
+                    "homepage": "https://www.php-fig.org/"
+>>>>>>> 34d8e98f63b8b75b3996f5a00da830531ffbe070
                 }
             ],
             "description": "Common interface for HTTP messages",
@@ -576,9 +640,15 @@
                 "response"
             ],
             "support": {
+<<<<<<< HEAD
                 "source": "https://github.com/php-fig/http-message/tree/1.1"
             },
             "time": "2023-04-04T09:50:52+00:00"
+=======
+                "source": "https://github.com/php-fig/http-message/tree/2.0"
+            },
+            "time": "2023-04-04T09:54:51+00:00"
+>>>>>>> 34d8e98f63b8b75b3996f5a00da830531ffbe070
         },
         {
             "name": "psr/simple-cache",

@@ -31,7 +31,11 @@ stored in an AWS S3 bucket by key:
     */
     public function zipStreamAction()
     {
+<<<<<<< HEAD
         //sample test file on s3
+=======
+        // sample test file on s3
+>>>>>>> 34d8e98f63b8b75b3996f5a00da830531ffbe070
         $s3keys = array(
         "ziptestfolder/file1.txt"
         );
@@ -39,6 +43,7 @@ stored in an AWS S3 bucket by key:
         $s3Client = $this->get('app.amazon.s3'); //s3client service
         $s3Client->registerStreamWrapper(); //required
 
+<<<<<<< HEAD
         //using StreamedResponse to wrap ZipStream functionality for files on AWS s3.
         $response = new StreamedResponse(function() use($s3keys, $s3Client)
         {
@@ -51,6 +56,20 @@ stored in an AWS S3 bucket by key:
 
             //initialise zipstream with output zip filename and options.
             $zip = new ZipStream\ZipStream('test.zip', $options);
+=======
+        // using StreamedResponse to wrap ZipStream functionality
+        // for files on AWS s3.
+        $response = new StreamedResponse(function() use($s3keys, $s3Client)
+        {
+            // Define suitable options for ZipStream Archive.
+            // this is needed to prevent issues with truncated zip files
+            //initialise zipstream with output zip filename and options.
+            $zip = new ZipStream\ZipStream(
+                outputName: 'test.zip',
+                defaultEnableZeroHeader: true,
+                contentType: 'application/octet-stream',
+            );
+>>>>>>> 34d8e98f63b8b75b3996f5a00da830531ffbe070
 
             //loop keys - useful for multiple files
             foreach ($s3keys as $key) {
@@ -58,15 +77,30 @@ stored in an AWS S3 bucket by key:
                 //file using the same name.
                 $fileName = basename($key);
 
+<<<<<<< HEAD
                 //concatenate s3path.
                 $bucket = 'bucketname'; //replace with your bucket name or get from parameters file.
+=======
+                // concatenate s3path.
+                // replace with your bucket name or get from parameters file.
+                $bucket = 'bucketname';
+>>>>>>> 34d8e98f63b8b75b3996f5a00da830531ffbe070
                 $s3path = "s3://" . $bucket . "/" . $key;
 
                 //addFileFromStream
                 if ($streamRead = fopen($s3path, 'r')) {
+<<<<<<< HEAD
                 $zip->addFileFromStream($fileName, $streamRead);
                 } else {
                 die('Could not open stream for reading');
+=======
+                    $zip->addFileFromStream(
+                        fileName: $fileName,
+                        stream: $streamRead,
+                    );
+                } else {
+                    die('Could not open stream for reading');
+>>>>>>> 34d8e98f63b8b75b3996f5a00da830531ffbe070
                 }
             }
 
@@ -123,4 +157,8 @@ You need to add correct permissions
         's3' => ['ACL' => 'public-read'],
     ]);
 
+<<<<<<< HEAD
     fopen($path, 'w', null, $outputContext);
+=======
+    fopen($path, 'w', null, $outputContext);
+>>>>>>> 34d8e98f63b8b75b3996f5a00da830531ffbe070

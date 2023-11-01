@@ -7,5 +7,8 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
+<<<<<<< HEAD
     'Stringable' => $vendorDir . '/myclabs/php-enum/stubs/Stringable.php',
+=======
+>>>>>>> 34d8e98f63b8b75b3996f5a00da830531ffbe070
 );

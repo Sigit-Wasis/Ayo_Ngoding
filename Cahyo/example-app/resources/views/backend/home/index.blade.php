@@ -17,16 +17,93 @@
                 </div>
             </div>
         </div>
-    </section>
+        <div class="row">
+            <div class="col-lg-3 col-6">
 
-    <section class="content">
-        <div id="container"></div>
+                <div class="small-box bg-success">
+                    <div class="inner">
+                        <h3>{{$countDiterimaPengajuan}}<sup style="font-size: 20px"></sup></h3>
+                        <p>Di Terima Pengajuan</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-stats-bars"></i>
+                    </div>
+                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+
+
+
+            <div class="col-lg-3 col-6">
+
+                <div class="small-box bg-danger">
+                    <div class="inner">
+                        <h3>{{ $countDitolakPengajuan }}</h3>
+                        <p>Ditolak pengajaun</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-pie-graph"></i>
+                    </div>
+                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+
+
+            <div class="col-lg-3 col-6">
+
+                <div class="small-box bg-success">
+                    <div class="inner">
+                        <h3>{{$countDiterimaVendor}}<sup style="font-size: 20px"></sup></h3>
+                        <p>Di Terima vendor</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-stats-bars"></i>
+                    </div>
+                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+
+
+
+            <div class="col-lg-3 col-6">
+
+                <div class="small-box bg-danger">
+                    <div class="inner">
+                        <h3>{{ $countDitolakVendor }}</h3>
+                        <p>Ditolak Vendor</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-pie-graph"></i>
+                    </div>
+                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="card">
+                    <section class="content">
+                        <div id="container"></div>
+                    </section>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-body">
+                        <canvas id="donutChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 </div>
 @endsection
 
 @section('script')
 <script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://adminlte.io/themes/v3/plugins/chart.js/Chart.min.js"></script>
 <script type="text/javascript">
     selectHargaDanStokBarang()
 
@@ -102,5 +179,55 @@
             }
         });
     }
+    $(document).ready(function() {
+        $.ajax({
+            url: "{{ route('charvendordonut') }}",
+            method: 'GET',
+            success: function(data) {
+                // Data yang Anda ambil dari server berada dalam variabel 'data'
+                var chartData = data;
+                // Data yang Anda ambil dari server berada dalam variabel 'data'
+                // var chartData = data;    
+
+                // Ambil elemen canvas berdasarkan ID
+                var donutChartCanvas = document.getElementById('donutChart').getContext('2d');
+
+                // Proses data untuk digunakan oleh Chart.js
+                // Proses data untuk digunakan oleh Chart.js
+                var labels = chartData.map(function(item) {
+                    let persenan = item.persentase_pemesanan.toFixed(2)
+                    return item.nama_vendor + ' (' + persenan + '%)';
+                });
+
+                var values = chartData.map(function(item) {
+                    let persenan = item.persentase_pemesanan.toFixed(2)
+                    return persenan;
+                });
+
+                var donutData = {
+                    labels: labels,
+                    datasets: [{
+                        data: values,
+                        backgroundColor: ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc', '#d2d6de'],
+                    }]
+                };
+
+                var donutOptions = {
+                    maintainAspectRatio: false,
+                    responsive: true,
+                };
+
+                // Buat chart donat dengan Chart.js
+                new Chart(donutChartCanvas, {
+                    type: 'doughnut',
+                    data: donutData,
+                    options: donutOptions
+                });
+            },
+            error: function(error) {
+                console.error('Error:', error);
+            }
+        });
+    });
 </script>
 @endsection

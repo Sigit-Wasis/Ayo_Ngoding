@@ -52,11 +52,11 @@
         </tr>
         @endforeach
         <tr style="font-size: 10px;">
-                <td style="padding-top: 2px; padding-bottom: 5px;" colspan="5">Grand Total</td>
-                <td style="padding-top: 2px; padding-bottom: 5px; font-weight: bold;">
+            <td style="padding-top: 2px; padding-bottom: 5px;" colspan="5">Grand Total</td>
+            <td style="padding-top: 2px; padding-bottom: 5px; font-weight: bold;">
                 {{ "Rp " . number_format($laporan->grand_total,2,',','.') }}
             </td>
-    </tr>
+        </tr>
     </table>
 </body>
 

@@ -12,7 +12,17 @@ Example
 ---------------
 
 .. code-block:: php
+<<<<<<< HEAD
     
     $stream = $response->getBody();
     // add a file named 'streamfile.txt' from the content of the stream
     $zip->addFileFromPsr7Stream('streamfile.txt', $stream);
+=======
+
+    $stream = $response->getBody();
+    // add a file named 'streamfile.txt' from the content of the stream
+    $zip->addFileFromPsr7Stream(
+        fileName: 'streamfile.txt',
+        stream: $stream,
+    );
+>>>>>>> 34d8e98f63b8b75b3996f5a00da830531ffbe070
