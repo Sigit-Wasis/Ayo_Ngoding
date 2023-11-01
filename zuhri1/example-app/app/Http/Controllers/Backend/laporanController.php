@@ -36,4 +36,12 @@ class laporanController extends Controller
         $pdf = Pdf::loadView('backend.laporan.laporan', compact('data'));
         return $pdf->download('laporan_pengajuan.pdf');
     }
-}
+
+    public function otherlaporan()
+    {
+       $pdf = PDF::setOptions(['isRemoteEnabled' => true, 'chroot' => public_path('assets/images/')])
+            ->loadView('backend.laporan.other_laporan')->setPaper('folio', 'portrait');
+
+        return $pdf->stream('other_laporan.pdf');
+    }
+    }
