@@ -8,8 +8,11 @@ use App\Http\Requests\BarangRequest;
 use App\Http\Requests\BarangUpdateRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB as FacadesDB;
+use Illuminate\Routing\Controller as BaseController;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class BarangController extends Controller
+
 {
     /**
      * Display a listing of the resource.
@@ -189,6 +192,63 @@ class BarangController extends Controller
             }
         }
 
+      
+    public function import(Request $request)
+    {
+        $this->validate($request,[ 
+            'file_barang'=> 'required|file|mimes:xls,xlsx,csv' 
+        ]); 
+
+        $the_file = $request->file('file_barang'); 
+
+        $spreadsheet = IOFactory::load($the_file->getRealPath()); 
+
+        $sheet = $spreadsheet->getActiveSheet(); 
+        $row_limit = $sheet->getHighestDataRow(); 
+        $row_range = range(2, $row_limit); 
+        $startcount = 1; 
+
+        FacadesDB::beginTransaction(); 
+
+        try { 
+        foreach ($row_range as $row) {
+            try{
+                //Generate kode barang
+                $bytes = random_bytes(8);
+ 
+                FacadesDB::table('barang')->insert([ 
+                    'id_jenis_barang' => $sheet->getCell('A'.$row)->getValue(),
+                    'kode_barang' => bin2hex($bytes),
+                    'nama_barang' => $sheet->getCell('C'.$row)->getValue(),
+                    'harga' => $sheet->getCell('D'.$row)->getValue(),                  
+                    'satuan' => $sheet->getCell('E'.$row)->getValue(),                   
+                    'deskripsi' => $sheet->getCell('F'.$row)->getValue(),
+                    'gambar' =>'-',
+                    'stok' => $sheet->getCell('G'.$row)->getValue(),                 
+                    'id_vendor' => $sheet->getCell('B'.$row)->getValue(),
+                    'created_by' => Auth::user()->id,
+                    'updated_by' => Auth::user()->id,
+                    'created_at' => \Carbon\Carbon::now(),
+                    'updated_at' => \Carbon\Carbon::now(),
+                ]); 
+        
+
+        } catch (\Throwable $th) { 
+                continue; 
+        } 
+
+        $startcount++; 
+        } 
+            FacadesDB::commit(); 
+
+            return redirect()->route('barang')->with('message','Data Berhasil Diimport !!!');
+        } catch (\Throwable $th) { 
+            FacadesDB::rollBack(); 
+            return redirect()->back()->with('error', $th->getMessage()); 
+        } 
+    }
+}
+
 
 
         //     public function destroy(string $id)
@@ -211,4 +271,4 @@ class BarangController extends Controller
         //     }
         // }
 
-    }
+    
