@@ -31,7 +31,8 @@ class RoleController extends Controller
     public function index(Request $request)
     {
         $roles = Role::orderBy('id','DESC')->paginate(5);
-        return view('backend.roles.index',compact('roles'))
+        $permissions = DB::table("permissions")->select('id','name')->orderBy('id','DESC')->paginate(5);
+        return view('backend.roles.index',compact('roles','permissions'))
             ->with('i', ($request->input('page', 1) - 1) * 5);
     }
     
@@ -62,8 +63,7 @@ class RoleController extends Controller
         $role = Role::create(['name' => $request->input('name')]);
         $role->syncPermissions($request->input('permission'));
     
-        return redirect()->route('roles.index')
-                        ->with('message','Role created successfully');
+        return redirect()->route('roles.index')->with('message','Role created successfully');
     }
     /**
      * Display the specified resource.
@@ -118,8 +118,7 @@ class RoleController extends Controller
     
         $role->syncPermissions($request->input('permission'));
     
-        return redirect()->route('roles.index')
-                        ->with('message','Role updated successfully');
+        return redirect()->route('roles.index')->with('message','Role updated successfully');
     }
     /**
      * Remove the specified resource from storage.
@@ -130,7 +129,6 @@ class RoleController extends Controller
     public function destroy($id)
     {
         DB::table("roles")->where('id',$id)->delete();
-        return redirect()->route('roles.index')
-                        ->with('message','Role deleted successfully');
+        return redirect()->route('roles.index')->with('message','Role deleted successfully');
     }
 }

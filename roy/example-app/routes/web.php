@@ -82,6 +82,12 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/other_laporan', 'Backend\laporanController@otherLaporan')->name('other_laporan');
 
         Route::post('/barang/import.','Backend\DataBarangController@import')->name('import.barang');
+
+        Route::get('/add-permission', 'Backend\PermissionController@create')->name('add.permission');
+        Route::post('/store-permission', 'Backend\PermissionController@store')->name('store.permission');
+        Route::get('/edit-permission', 'Backend\PermissionController@create')->name('permission.edit');
+        Route::post('/update-permission', 'Backend\PermissionController@update')->name('permission.update');
+        Route::get('/destroy-permission', 'Backend\PermissionController@destroy')->name('permission.destroy');
         
 
     

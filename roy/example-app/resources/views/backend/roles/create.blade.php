@@ -56,7 +56,7 @@
                 
                 <div class="card-footer">
                     <button type="submit" class="btn btn-primary">Simpan Roles</button>
-                    <a href="{{ route('user') }}" class="btn btn-info">Kembali</a>
+                    <a href="{{ route('roles.index') }}" class="btn btn-info">Kembali</a>
 
                 </div>
         </form>

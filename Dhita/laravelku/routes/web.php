@@ -85,7 +85,13 @@ Route::group(['namespace' =>'App\Http\Controllers'], function() {
         Route::get('/cetak_laporan/{id}', 'Backend\LaporanController@cetak')->name('cetak_laporan');
         Route::get('/other_laporan', 'Backend\LaporanController@otherLaporan')->name('other_laporan');
 
-        
+        Route::get('/add-permission', 'Backend\PermissionController@create')->name('add.permission');
+        Route::post('/store-permission', 'Backend\PermissionController@store')->name('store.permission');
+        Route::post('/edit-permission/{id}', 'Backend\PermissionController@edit')->name('permission.edit');
+        Route::get('/update-permission/{id}', 'Backend\PermissionController@update')->name('permission.update');
+        Route::get('/destroy-permission/{id}', 'Backend\PermissionController@destroy')->name('permission.destroy');
+
+        Route::resource('roles', RoleController::class);
     });
 });
 
