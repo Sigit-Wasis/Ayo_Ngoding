@@ -84,7 +84,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <a href="{{ route('edit_barang', ['id' => $detailBarang->id]) }}" class="btn btn-primary mt-3">Edit Barang</a>
+                           
                             <a href="{{ route('data_barang') }}" class="btn btn-secondary mt-3">Kembali ke Daftar Barang</a>
                         </td>
                     </tr>

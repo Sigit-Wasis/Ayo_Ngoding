@@ -88,6 +88,11 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
 
         //roles
         Route::resource('roles', RoleController::class);
+        Route::get('/tambah-permission', 'Backend\PermissionController@createpermission')->name('tambah-permission');
+        Route::post('/permissionAdd', 'Backend\PermissionController@permissionAdd')->name('permissionAdd');
+        Route::get('/delete_permission/{id}', 'Backend\PermissionController@deletepermission')->name('delete_permission');
+        Route::get('/edit_permission/{id}', 'Backend\PermissionController@editpermission')->name('edit_permission');
+        Route::put('/update_permission/{id}', 'Backend\PermissionController@updatepermission')->name('update_permission');
     });
 });
 

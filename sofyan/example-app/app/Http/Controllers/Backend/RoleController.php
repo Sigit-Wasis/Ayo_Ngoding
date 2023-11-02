@@ -6,7 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
-use DB;
+use Illuminate\Support\Facades\DB;
+
 
 class RoleController extends Controller
 {
@@ -31,7 +32,8 @@ class RoleController extends Controller
     public function index(Request $request)
     {
         $roles = Role::orderBy('id', 'DESC')->paginate(5);
-        return view('backend.roles.index', compact('roles'))
+        $permission=DB::table('permissions')->select('permissions.*', 'name as created_by')->orderBy('permissions.id', 'DESC')->paginate(10);
+        return view('backend.roles.index', compact('roles', 'permission'))
             ->with('i', ($request->input('page', 1) - 1) * 5);
     }
 
@@ -120,7 +122,7 @@ class RoleController extends Controller
         $role->syncPermissions($request->input('permission'));
 
         return redirect()->route('roles.index')
-        ->with('message', 'Role updated successfully');
+        ->with('success', 'Role updated successfully');
     }
 
     /**
@@ -133,6 +135,11 @@ class RoleController extends Controller
     {
         DB::table("roles")->where('id', $id)->delete();
         return redirect()->route('roles.index')
-            ->with('message', 'Role deleted successfully');
+            ->with('success', 'Role deleted successfully');
     }
+
+
+
+   
+
 }

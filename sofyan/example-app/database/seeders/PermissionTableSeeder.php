@@ -54,7 +54,9 @@ class PermissionTableSeeder extends Seeder
             'approve_vendor',
             'approve_ap',
             'tolak_vendor',
-            'tolak_ap'
+            'tolak_ap',
+
+            'import_barang'
         ];
 
         foreach ($permissions as $permission) {
