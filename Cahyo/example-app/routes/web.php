@@ -24,6 +24,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
         // Route untuk Home
         Route::get('/home', 'Backend\BerandaController@index')->name('beranda');
         Route::get('/char', 'Backend\BerandaController@handleChart')->name('char');
+        Route::get('/charvendordonut', 'Backend\BerandaController@vendorChartData')->name('charvendordonut');
 
         Route::get('/jenis_barang', 'Backend\JenisBarangController@index')->name('jenis_barang');
         Route::get('/tambah_jenis_barang', 'Backend\JenisBarangController@create')->name('tambah_jenis_barang');
@@ -51,9 +52,18 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
         Route::get('/delete_barang/{id}', 'Backend\dataBarangController@destroy')->name('delete_barang');
         Route::get('/show_barang/{id}', 'Backend\dataBarangController@show')->name('show_barang');
 
+        Route::post('/barang/import','Backend\dataBarangController@import')->name('import.barang');
+
         // Route roles
         Route::resource('roles', RoleController::class);
         Route::get('/roles/delete/{id}', 'RoleController@destroy')->name('delete_role');
+
+        // Route Permission
+        Route::get('add-permission', 'Backend\PermissionController@create')->name('add.permission');
+        Route::post('store-permission', 'Backend\PermissionController@store')->name('store.permission');
+        Route::get('edit-permission/{id}', 'Backend\PermissionController@edit')->name('permission.edit');
+        Route::post('update-permission/{id}', 'Backend\PermissionController@update')->name('permission.update');
+        Route::get('destroy-permission/{id}', 'Backend\PermissionController@destroy')->name('permission.destroy');
 
         // Route Transaksi Pengajuan
         Route::get('/pengajuan', 'Backend\TransaksiPengajuanController@index')->name('pengajuan'); 

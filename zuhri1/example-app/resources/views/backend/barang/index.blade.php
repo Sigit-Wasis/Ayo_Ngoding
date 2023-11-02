@@ -6,7 +6,8 @@
 <link rel="stylesheet" href="{{ url('asset/plugins/select2/css/select2.min.css') }}">
 <link rel="stylesheet" href="{{ url('asset/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
 <style>
-  .select2-container--default.select2-container--focus .select2-selection--multiple, .select2-container--default.select2-container--focus .select2-selection--single {
+  .select2-container--default.select2-container--focus .select2-selection--multiple,
+  .select2-container--default.select2-container--focus .select2-selection--single {
     height: 37px !important;
   }
 
@@ -45,101 +46,131 @@
       <a href="{{ route('tambah_DataBarang') }}" class="btn btn-sm btn-block btn-primary">Tambah Data Barang</a>
     </div>
     <!-- END BUTTON TAMBAH Data BARANG -->
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+      import
+    </button>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form action="{{ route ('import.barang') }}" method="POST" enctype="multipart/form-data">
+              @csrf
+              <div class="modal-body">
+                <div class="cal-md-12">
+                  <input type="file" name="file_barang" class="form-control" required>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                <button type="submit" class="btn btn-primary">import</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
 
-    <div class="card">
-      <div class="card-body">
+      <div class="card">
         <div class="card-body">
+          <div class="card-body">
 
-          @if(Session::has('message'))
-          <div class="alert alert-success alert-dismissible">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-            <h5>
-              <i class="icon fas fa-check"></i> Sukses
-            </h5>
-            {{ Session('message')}}
+            @if(Session::has('message'))
+            <div class="alert alert-success alert-dismissible">
+              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+              <h5>
+                <i class="icon fas fa-check"></i> Sukses
+              </h5>
+              {{ Session('message')}}
+            </div>
+            @endif
+
+            <form action="{{ route('DataBarang') }}" method="get">
+              <div class="row mb-3">
+                <div class="col-md-3">
+                  <label for="jenis_barang">Jenis Barang</label>
+                  <select class="form-control select2" style="width: 100%;" name="jenis_barang">
+                    <option value="">--pilih --</option>
+                    @foreach($jenisBarang as $jenis)
+                    <option value="{{ $jenis->id }}">{{ $jenis->nama_jenis_barang }}</option>
+                    @endforeach
+
+                  </select>
+                </div>
+                <div class="col-md-4">
+                  <label for="nama_barang">Nama Barang</label>
+                  <input type="text" class="form-control" name="nama_barang">
+                </div>
+                <div class="col-md-3">
+                  <label for="kode_barang">Kode Barang</label>
+                  <input type="text" class="form-control" name="kode_barang">
+                </div>
+                <div class="row mb-2">
+                  <button type="submit" class="btn btn-primary" style="margin-top:  30px;">
+                    <i class="fa fa search"></i>Cari barang
+                  </button>
+                </div>
+              </div>
+
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">jenis_barang</th>
+                    <th scope="col">kode_barang</th>
+                    <th scope="col">nama_barang</th>
+
+                    <th scope="col">deskripsi</th>
+
+                    <th scope="col">Dibuat Pada</th>
+                    <th scope="col">Diupdate Pada</th>
+                    <th scope="col">Aksi</th>
+                  </tr>
+                </thead>
+                <tbody>
+
+
+                  @forelse($DataBarang as $Barang)
+                  <tr>
+                    <!--<th scope="row">{{$loop->iteration }}</th>-->
+                    <th>{{$DataBarang->firstItem() +$loop->index }}</td>
+                    <td>{{ $Barang->nama_jenis_barang }}</td>
+                    <td>{{ $Barang->kode_barang }}</td>
+                    <td>{{ $Barang->nama_barang }}</td>
+
+                    <td>{{ $Barang->deskripsi }}</td>
+
+                    <td>{{ $Barang->created_at ?? \Carbon\Carbon::now()}}</td>
+                    <td>{{ $Barang->updated_at ?? \Carbon\Carbon::now()}}</td>
+
+                    <td>
+
+                      <a href="{{route('show_DataBarang',$Barang->id)}}" oncklick="return confirm('you sure?')" class="btn btn-sm btn-info">Show</a>
+                      <a href="{{route('edit_DataBarang',$Barang->id)}}" oncklick="return confirm('you sure?')" class="btn btn-sm btn-primary">Edit</a>
+                      <a href="{{route('delete_DataBarang',$Barang->id)}}" onclick="return confirm('Are you sure?')" class="btn btn-sm btn-danger">Delete</a>
+                    </td>
+                  </tr>
+                  @empty
+                  <tr>
+                    <td colspan="13" class="text-center">
+                      Tidak Ada Data Barang
+                    </td>
+                  </tr>
+                  @endforelse
+
+                </tbody>
+              </table>
+              {{ $DataBarang->links() }}
+
           </div>
-          @endif
-
-          <form action="{{ route('DataBarang') }}" method="get">
-          <div class="row mb-3">
-            <div class="col-md-3">
-              <label for="jenis_barang">Jenis Barang</label>
-              <select class="form-control select2" style="width: 100%;" name="jenis_barang">
-                <option value="">--pilih --</option>
-                @foreach($jenisBarang as $jenis)
-                <option value="{{ $jenis->id }}">{{ $jenis->nama_jenis_barang }}</option>
-                @endforeach
-
-              </select>
-            </div>
-            <div class="col-md-4">
-              <label for="nama_barang">Nama Barang</label>
-              <input type="text" class="form-control" name="nama_barang">
-            </div>
-            <div class="col-md-3">
-              <label for="kode_barang">Kode Barang</label>
-              <input type="text" class="form-control" name="kode_barang">
-            </div>
-            <div class="row mb-2">
-              <button type="submit" class="btn btn-primary" style="margin-top:  30px;">
-                <i class="fa fa search"></i>Cari barang
-              </button>
-            </div>
-          </div>
-
-          <table class="table table-bordered">
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">jenis_barang</th>
-                <th scope="col">kode_barang</th>
-                <th scope="col">nama_barang</th>
-
-                <th scope="col">deskripsi</th>
-
-                <th scope="col">Dibuat Pada</th>
-                <th scope="col">Diupdate Pada</th>
-                <th scope="col">Aksi</th>
-              </tr>
-            </thead>
-            <tbody>
-
-
-              @forelse($DataBarang as $Barang)
-              <tr>
-                <!--<th scope="row">{{$loop->iteration }}</th>-->
-                <th>{{$DataBarang->firstItem() +$loop->index }}</td>
-                <td>{{ $Barang->nama_jenis_barang }}</td>
-                <td>{{ $Barang->kode_barang }}</td>
-                <td>{{ $Barang->nama_barang }}</td>
-
-                <td>{{ $Barang->deskripsi }}</td>
-
-                <td>{{ $Barang->created_at ?? \Carbon\Carbon::now()}}</td>
-                <td>{{ $Barang->updated_at ?? \Carbon\Carbon::now()}}</td>
-
-                <td>
-
-                  <a href="{{route('show_DataBarang',$Barang->id)}}" oncklick="return confirm('you sure?')" class="btn btn-sm btn-info">Show</a>
-                  <a href="{{route('edit_DataBarang',$Barang->id)}}" oncklick="return confirm('you sure?')" class="btn btn-sm btn-primary">Edit</a>
-                  <a href="{{route('delete_DataBarang',$Barang->id)}}" onclick="return confirm('Are you sure?')" class="btn btn-sm btn-danger">Delete</a>
-                </td>
-              </tr>
-              @empty
-              <tr>
-                <td colspan="13" class="text-center">
-                  Tidak Ada Data Barang
-                </td>
-              </tr>
-              @endforelse
-
-            </tbody>
-          </table>
-          {{ $DataBarang->links() }}
 
         </div>
-
-      </div>
 
 
   </section>

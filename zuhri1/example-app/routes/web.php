@@ -48,6 +48,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
     Route::get('/edit-DataBarang/{id}', 'Backend\DataBarangController@edit')->name('edit_DataBarang');
     Route::post('/update-DataBarang/{id}', 'Backend\DataBarangController@update')->name('update_DataBarang');
     Route::get('/show-DataBarang/{id}', 'Backend\DataBarangController@show')->name('show_DataBarang');
+    Route::post('/barang/import','Backend\DataBarangController@import')->name('import.barang');
 
 
     //PENGAJUAN BARANG
@@ -85,6 +86,11 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
     Route::get('/cetak_laporan/{id}', 'Backend\laporanController@cetak')->name('cetak_laporan');
     Route::get('/other-laporan', 'Backend\laporanController@otherlaporan')->name('other_laporan');
 
+    Route::get('/add-permission', 'Backend\PermissionController@create')->name('add.permission');
+    Route::post('/store-permission', 'Backend\PermissionController@store')->name('store.permission');
+    Route::get('/edit-permission/{id}', 'Backend\PermissionController@edit')->name('permission.edit');
+    Route::post('/update-permission/{id}', 'Backend\PermissionController@update')->name('permission.update');
+    Route::get('/destroy-permission/{id}', 'Backend\PermissionController@destroy')->name('permission.destroy');
     //vendor
     Route::get('/vendor', 'Backend\vendorController@index')->name('vendor');
     Route::get('/tambah-vendor', 'Backend\vendorController@create')->name('tambah_vendor');
@@ -94,6 +100,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
     Route::post('/update-vendor/{id}', 'Backend\vendorController@update')->name('update_vendor');
     Route::get('/show-vendor/{id}', 'Backend\vendorController@show')->name('show_vendor');
 
+  
 
     Route::resource('roles', RoleController::class);
   });

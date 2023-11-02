@@ -52,6 +52,8 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
         Route::put('/update_barang/{id}', 'Backend\DataBarangController@updateBarang')->name('update_barang');
         Route::get('/detail_barang/{id}', 'Backend\DataBarangController@detailBarang')->name('detail_barang');
 
+        Route::post('/barang/import', 'Backend\DataBarangController@importBarang')->name('spreadsheet');
+
 
         //Pengajuan
         Route::get('/pengajuan', 'Backend\TransaksiBarangController@index')->name('pengajuan');

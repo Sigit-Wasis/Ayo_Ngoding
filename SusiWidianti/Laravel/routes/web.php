@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Backend\RoleController;
+use GuzzleHttp\Promise\Create;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,7 +49,8 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
         Route::get('show_barang/{id}', 'Backend\DataBarangController@show')->name('show_barang');
         Route::post('update_barang/{id}', 'Backend\DataBarangController@update')->name('update_barang');
 
-        Route::resource('roles', RoleController::class);
+       
+
 
         Route::get('/data_pengajuan', 'Backend\PengajuanBarangController@index')->name('pengajuan');
         Route::get('/data_pengajuan/barang', 'Backend\PengajuanBarangController@getBarangById')->name('pengajuan_barang');
@@ -81,6 +83,16 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
 
         Route::get('/other_laporan', 'Backend\LaporanController@otherLaporan')->name('other_laporan');
 
+        Route::post('/barang/import','Backend\DataBarangController@import')->name('import.barang');
+
+
+        Route::resource('roles', RoleController::class);
+
+        Route::get('add-permission', 'Backend\PermissionController@Create')->name('add.permission');
+        Route::post('store-permission', 'Backend\PermissionController@store')->name('store.permission');
+        Route::get('edit-permission/{id}', 'Backend\PermissionController@edit')->name('edit.permission');
+        Route::post('update-permission/{id}', 'Backend\PermissionController@update')->name('update.permission');
+        Route::get('destroy-permission/{id}', 'Backend\PermissionController@destroy')->name('destroy.permission');
     });
 });
 Auth::routes();

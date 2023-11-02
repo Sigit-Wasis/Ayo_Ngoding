@@ -15,7 +15,14 @@ class BerandaController extends Controller
      */
     public function index()
     {
-        return view('backend.home.index');
+        $countDitolakVendor = DB::table('tr_pengajuan')->where('status_pengajuan_vendor', 2)->count();
+        $countDiterimaVendor = DB::table('tr_pengajuan')->where('status_pengajuan_vendor', 1)->count();
+        $counttotalBarang = DB::table('detail_pengajuan')->get('id')->count();
+        $counttotaluser = DB::table('users')->get('id')->count();
+        $countDitolakPengajuan = DB::table('tr_pengajuan')->where('status_pengajuan_ap', 2)->count();
+        $countDiterimaPengajuan = DB::table('tr_pengajuan')->where('status_pengajuan_ap', 1)->count();
+
+        return view('backend.home.index', compact('countDitolakVendor', 'countDiterimaVendor', 'countDitolakPengajuan', 'countDiterimaPengajuan', 'counttotalBarang', 'counttotaluser'));
     }
     public function handleChart()
     {
@@ -41,6 +48,28 @@ class BerandaController extends Controller
         }
 
         return response()->json($chartData);
+    }
+
+    public function vendorChartData()
+    {
+        $allVendor = DB::table('vendors')->select('id', 'nama')->get();
+
+        $simpananDoi = [];
+        $totalAll = DB::table('detail_pengajuan')->count();
+
+        foreach ($allVendor as $key => $value) {
+            $totalPerVendor = DB::table('detail_pengajuan')
+                ->join('mst_barang', 'mst_barang.id', 'detail_pengajuan.id_barang')
+                ->where('Id_vendor', $value->id)
+                ->count();
+
+            array_push($simpananDoi, (object)[
+                'nama_vendor' => $value->nama,
+                'persentase_pemesanan' => $totalPerVendor / $totalAll * 100
+            ]);
+        }
+
+        return response()->json($simpananDoi);
     }
 
     /**
