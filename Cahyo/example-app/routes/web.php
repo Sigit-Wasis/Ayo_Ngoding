@@ -24,6 +24,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
         // Route untuk Home
         Route::get('/home', 'Backend\BerandaController@index')->name('beranda');
         Route::get('/char', 'Backend\BerandaController@handleChart')->name('char');
+        Route::get('/charvendordonut', 'Backend\BerandaController@vendorChartData')->name('charvendordonut');
 
         Route::get('/jenis_barang', 'Backend\JenisBarangController@index')->name('jenis_barang');
         Route::get('/tambah_jenis_barang', 'Backend\JenisBarangController@create')->name('tambah_jenis_barang');
@@ -50,6 +51,8 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
         Route::put('/update_barang/{id}', 'Backend\dataBarangController@update')->name('update_barang');
         Route::get('/delete_barang/{id}', 'Backend\dataBarangController@destroy')->name('delete_barang');
         Route::get('/show_barang/{id}', 'Backend\dataBarangController@show')->name('show_barang');
+
+        Route::post('/barang/import','Backend\dataBarangController@import')->name('import.barang');
 
         // Route roles
         Route::resource('roles', RoleController::class);

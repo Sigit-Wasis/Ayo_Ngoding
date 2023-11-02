@@ -87,6 +87,16 @@
 </div>
 </div>
 
+@if(Session::has('error'))
+            <div class="alert alert-danger mt-3 alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <h5>
+                    <i class="icon fas fa-times"></i> Error!
+                </h5>
+                {{ Session::get('error') }}
+            </div>
+            @endif
+
         @if(Session::has('message'))
             <div class="alert alert-success mt-3 alert-dismissible">
               <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>

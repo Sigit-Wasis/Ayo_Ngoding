@@ -6,7 +6,7 @@
     <title>Login Admin ATK</title>
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-    <link rel="stylesheet" href="{{ url('assets/plugins/fontawesome-free/css/all.min.css') }}">
+    <link rel="stylesheet" href="{{ url('assets/plugins/fontawesome-free/css/all.min.css') }}">    
     <link rel="stylesheet" href="{{ url('assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ url('assets/dist/css/adminlte.min.css?v=3.2.0') }}">
 </head>
@@ -14,7 +14,7 @@
     <div class="login-box">
         <div class="card card-outline card-primary">
             <div class="card-header text-center">
-                <a href="../../index2.html" class="h1"><b>Login</b>ATK</a>
+                <a href="../../index2.html" class="h1"><b>Login</b>ATK</a>                
             </div>
 
             <div class="card-body">

@@ -81,6 +81,8 @@ Route::group(['namespace' => 'App\Http\Controllers'], function() {
         Route::post('/update-vendor/{id}', 'Backend\VendorController@update')->name('update_vendor');
         
         Route::resource('roles', RoleController::class);
+
+        Route::post('/barang/import','Backend\BarangController@import')->name('import.barang');
         
     });   
 });
