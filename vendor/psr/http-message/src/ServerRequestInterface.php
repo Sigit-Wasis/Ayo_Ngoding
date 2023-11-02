@@ -1,5 +1,10 @@
 <?php
 
+<<<<<<< HEAD
+declare(strict_types=1);
+
+=======
+>>>>>>> 34d8e98f63b8b75b3996f5a00da830531ffbe070
 namespace Psr\Http\Message;
 
 /**
@@ -51,7 +56,11 @@ interface ServerRequestInterface extends RequestInterface
      *
      * @return array
      */
+<<<<<<< HEAD
+    public function getServerParams();
+=======
     public function getServerParams(): array;
+>>>>>>> 34d8e98f63b8b75b3996f5a00da830531ffbe070
 
     /**
      * Retrieve cookies.
@@ -63,7 +72,11 @@ interface ServerRequestInterface extends RequestInterface
      *
      * @return array
      */
+<<<<<<< HEAD
+    public function getCookieParams();
+=======
     public function getCookieParams(): array;
+>>>>>>> 34d8e98f63b8b75b3996f5a00da830531ffbe070
 
     /**
      * Return an instance with the specified cookies.
@@ -82,7 +95,11 @@ interface ServerRequestInterface extends RequestInterface
      * @param array $cookies Array of key/value pairs representing cookies.
      * @return static
      */
+<<<<<<< HEAD
+    public function withCookieParams(array $cookies);
+=======
     public function withCookieParams(array $cookies): ServerRequestInterface;
+>>>>>>> 34d8e98f63b8b75b3996f5a00da830531ffbe070
 
     /**
      * Retrieve query string arguments.
@@ -96,7 +113,11 @@ interface ServerRequestInterface extends RequestInterface
      *
      * @return array
      */
+<<<<<<< HEAD
+    public function getQueryParams();
+=======
     public function getQueryParams(): array;
+>>>>>>> 34d8e98f63b8b75b3996f5a00da830531ffbe070
 
     /**
      * Return an instance with the specified query string arguments.
@@ -120,7 +141,11 @@ interface ServerRequestInterface extends RequestInterface
      *     $_GET.
      * @return static
      */
+<<<<<<< HEAD
+    public function withQueryParams(array $query);
+=======
     public function withQueryParams(array $query): ServerRequestInterface;
+>>>>>>> 34d8e98f63b8b75b3996f5a00da830531ffbe070
 
     /**
      * Retrieve normalized file upload data.
@@ -134,7 +159,11 @@ interface ServerRequestInterface extends RequestInterface
      * @return array An array tree of UploadedFileInterface instances; an empty
      *     array MUST be returned if no data is present.
      */
+<<<<<<< HEAD
+    public function getUploadedFiles();
+=======
     public function getUploadedFiles(): array;
+>>>>>>> 34d8e98f63b8b75b3996f5a00da830531ffbe070
 
     /**
      * Create a new instance with the specified uploaded files.
@@ -147,7 +176,11 @@ interface ServerRequestInterface extends RequestInterface
      * @return static
      * @throws \InvalidArgumentException if an invalid structure is provided.
      */
+<<<<<<< HEAD
+    public function withUploadedFiles(array $uploadedFiles);
+=======
     public function withUploadedFiles(array $uploadedFiles): ServerRequestInterface;
+>>>>>>> 34d8e98f63b8b75b3996f5a00da830531ffbe070
 
     /**
      * Retrieve any parameters provided in the request body.
@@ -194,7 +227,11 @@ interface ServerRequestInterface extends RequestInterface
      * @throws \InvalidArgumentException if an unsupported argument type is
      *     provided.
      */
+<<<<<<< HEAD
+    public function withParsedBody($data);
+=======
     public function withParsedBody($data): ServerRequestInterface;
+>>>>>>> 34d8e98f63b8b75b3996f5a00da830531ffbe070
 
     /**
      * Retrieve attributes derived from the request.
@@ -207,7 +244,11 @@ interface ServerRequestInterface extends RequestInterface
      *
      * @return array Attributes derived from the request.
      */
+<<<<<<< HEAD
+    public function getAttributes();
+=======
     public function getAttributes(): array;
+>>>>>>> 34d8e98f63b8b75b3996f5a00da830531ffbe070
 
     /**
      * Retrieve a single derived request attribute.
@@ -241,7 +282,11 @@ interface ServerRequestInterface extends RequestInterface
      * @param mixed $value The value of the attribute.
      * @return static
      */
+<<<<<<< HEAD
+    public function withAttribute(string $name, $value);
+=======
     public function withAttribute(string $name, $value): ServerRequestInterface;
+>>>>>>> 34d8e98f63b8b75b3996f5a00da830531ffbe070
 
     /**
      * Return an instance that removes the specified derived request attribute.
@@ -257,5 +302,9 @@ interface ServerRequestInterface extends RequestInterface
      * @param string $name The attribute name.
      * @return static
      */
+<<<<<<< HEAD
+    public function withoutAttribute(string $name);
+=======
     public function withoutAttribute(string $name): ServerRequestInterface;
+>>>>>>> 34d8e98f63b8b75b3996f5a00da830531ffbe070
 }

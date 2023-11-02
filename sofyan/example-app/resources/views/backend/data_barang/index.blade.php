@@ -39,10 +39,43 @@
         </section>
 
         <div class="card-footer clearfix">
+
             @can('data_barang-create')
-            <a href="{{ route ('tambah-barang') }}" class="btn btn-primary float-right"><i class="fas fa-plus"></i> Tambah Barang</a>
+            <a href="{{ route ('tambah-barang') }}" class="btn btn-primary float-left"><i class="fas fa-plus"></i> Tambah Barang</a>
             @endcan
+            <button style="margin-left: 5px" class="btn btn-info float-info" data-toggle="modal" data-target="#inportBarang" class="fas fa-plus"><i class="fas fa-upload"></i> Import Barang </button>
         </div>
+
+        <!-- Modal for Keterangan Import Excel -->
+        <div class="modal fade" id="inportBarang" tabindex="-1" role="dialog" aria-labelledby="keteranganModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="keteranganModalLabel">Inport Data Excel</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form method="post" action="{{ route('spreadsheet') }}" enctype="multipart/form-data">
+                        @csrf
+                        <div class="modal-body">
+                            <div class="col-md-12">
+                                <input type="file" class="form-control" name="inportBarang" required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal Import</button>
+                            <button type="submit" class="btn btn-info">Import</button>
+                        </div>
+
+                    </form>
+
+
+
+                </div>
+            </div>
+        </div>
+
         <section class="content">
             <div class="card">
                 <div class="card-body">
@@ -56,8 +89,21 @@
                     </div>
                     @endif
 
+
+                    @if(Session::has('error'))
+                    <div class="alert alert-success alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        <h5>
+                            <i class="icon fas fa-check"></i> Error!
+                        </h5>
+                        {{ Session('error')}}
+                    </div>
+                    @endif
+
+
+
                     <form action="{{route('data_barang')}}" mthode="get">
-                    <div class="row">
+                        <div class="row">
                             <div class="col-md-3">
                                 <label for="jenis_barang">Jenis Barang</label>
                                 <select class="form-control select2" style="width: 100%;" name="jenis_barang">
