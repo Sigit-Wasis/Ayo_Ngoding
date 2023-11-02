@@ -3,7 +3,11 @@
         'name' => '__root__',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
+<<<<<<< HEAD
+        'reference' => '2b62647e4dfed0a847386a5f6068e060ed90cd9a',
+=======
         'reference' => '86da9c04d4f368a93791284f780b2f91d31e974a',
+>>>>>>> 34d8e98f63b8b75b3996f5a00da830531ffbe070
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +17,11 @@
         '__root__' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
+<<<<<<< HEAD
+            'reference' => '2b62647e4dfed0a847386a5f6068e060ed90cd9a',
+=======
             'reference' => '86da9c04d4f368a93791284f780b2f91d31e974a',
+>>>>>>> 34d8e98f63b8b75b3996f5a00da830531ffbe070
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -29,9 +37,15 @@
             'dev_requirement' => false,
         ),
         'maennchen/zipstream-php' => array(
+<<<<<<< HEAD
+            'pretty_version' => '2.4.0',
+            'version' => '2.4.0.0',
+            'reference' => '3fa72e4c71a43f9e9118752a5c90e476a8dc9eb3',
+=======
             'pretty_version' => '3.1.0',
             'version' => '3.1.0.0',
             'reference' => 'b8174494eda667f7d13876b4a7bfef0f62a7c0d1',
+>>>>>>> 34d8e98f63b8b75b3996f5a00da830531ffbe070
             'type' => 'library',
             'install_path' => __DIR__ . '/../maennchen/zipstream-php',
             'aliases' => array(),
@@ -55,6 +69,18 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+<<<<<<< HEAD
+        'myclabs/php-enum' => array(
+            'pretty_version' => '1.8.4',
+            'version' => '1.8.4.0',
+            'reference' => 'a867478eae49c9f59ece437ae7f9506bfaa27483',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../myclabs/php-enum',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+=======
+>>>>>>> 34d8e98f63b8b75b3996f5a00da830531ffbe070
         'phpoffice/phpspreadsheet' => array(
             'pretty_version' => '1.29.0',
             'version' => '1.29.0.0',
@@ -83,9 +109,15 @@
             'dev_requirement' => false,
         ),
         'psr/http-message' => array(
+<<<<<<< HEAD
+            'pretty_version' => '1.1',
+            'version' => '1.1.0.0',
+            'reference' => 'cb6ce4845ce34a8ad9e68117c10ee90a29919eba',
+=======
             'pretty_version' => '2.0',
             'version' => '2.0.0.0',
             'reference' => '402d35bcb92c70c026d1a6a9883f06b2ead23d71',
+>>>>>>> 34d8e98f63b8b75b3996f5a00da830531ffbe070
             'type' => 'library',
             'install_path' => __DIR__ . '/../psr/http-message',
             'aliases' => array(),

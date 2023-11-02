@@ -59,17 +59,17 @@
                         </button>
                     </div>
                     <form action="{{ route('import.barang') }}" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    <div class="modal-body">
-                        <div class="col-md-12">
-                            <input type="file" name="file_barang" class="form_control" required>
+                        @csrf
+                        <div class="modal-body">
+                            <div class="col-md-12">
+                                <input type="file" name="file_barang" class="form_control" required>
+                            </div>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Import</button>
-                    </div>
-                </form>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Import</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

@@ -225,7 +225,7 @@ class DataBarangController extends Controller
 
             DB::commit();
 
-            return redirect()->route('barang')->with('message','Jadi dong!!!');
+            return redirect()->route('barang')->with('message', 'Jadi dong!!!');
         } catch (\Throwable $th) {
             DB::rollBack();
             return redirect()->back()->with('error', $th->getMessage());

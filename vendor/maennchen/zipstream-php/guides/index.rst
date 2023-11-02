@@ -22,12 +22,18 @@ Installation
 
 Simply add a dependency on ``maennchen/zipstream-php`` to your project's
 ``composer.json`` file if you use Composer to manage the dependencies of your
+<<<<<<< HEAD
+project. Use following command to add the package to your project's dependencies:
+=======
 project. Use following command to add the package to your project's
 dependencies:
+>>>>>>> 34d8e98f63b8b75b3996f5a00da830531ffbe070
 
 .. code-block:: sh
    composer require maennchen/zipstream-php
 
+<<<<<<< HEAD
+=======
 If you want to use``addFileFromPsr7Stream```
 (``Psr\Http\Message\StreamInterface``) or use a stream instead of a
 ``resource`` as ``outputStream``, the following dependencies must be installed
@@ -36,6 +42,7 @@ as well:
 .. code-block:: sh
    composer require psr/http-message guzzlehttp/psr7
 
+>>>>>>> 34d8e98f63b8b75b3996f5a00da830531ffbe070
 If ``composer install`` yields the following error, your installation is missing
 the `mbstring extension <https://www.php.net/manual/en/book.mbstring.php>`_,
 either `install it <https://www.php.net/manual/en/mbstring.installation.php>`_
@@ -61,6 +68,27 @@ Here's a simple example:
    // Autoload the dependencies
    require 'vendor/autoload.php';
 
+<<<<<<< HEAD
+   // enable output of HTTP headers
+   $options = new ZipStream\Option\Archive();
+   $options->setSendHttpHeaders(true);
+
+   // create a new zipstream object
+   $zip = new ZipStream\ZipStream('example.zip', $options);
+
+   // create a file named 'hello.txt'
+   $zip->addFile('hello.txt', 'This is the contents of hello.txt');
+
+   // add a file named 'some_image.jpg' from a local file 'path/to/image.jpg'
+   $zip->addFileFromPath('some_image.jpg', 'path/to/image.jpg');
+
+   // add a file named 'goodbye.txt' from an open stream resource
+   $fp = tmpfile();
+   fwrite($fp, 'The quick brown fox jumped over the lazy dog.');
+   rewind($fp);
+   $zip->addFileFromStream('goodbye.txt', $fp);
+   fclose($fp);
+=======
    // create a new zipstream object
    $zip = new ZipStream\ZipStream(
       outputName: 'example.zip',
@@ -97,6 +125,7 @@ Here's a simple example:
       fileName: 'streamfile.txt',
       stream: $response->getBody(),
    );
+>>>>>>> 34d8e98f63b8b75b3996f5a00da830531ffbe070
 
    // finish the zip stream
    $zip->finish();
