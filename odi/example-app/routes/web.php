@@ -83,7 +83,14 @@ Route::group(['namespace' => 'App\Http\Controllers'], function() {
         Route::resource('roles', RoleController::class);
 
         Route::post('/barang/import','Backend\BarangController@import')->name('import.barang');
-        
+
+        Route::get('/permission-add', 'Backend\PermissionController@create')->name('permission.add');
+        Route::get('/permission-destroy/{id}', 'Backend\PermissionController@destroy')->name('permission.destroy');
+        Route::get('/permission-edit/{id}', 'Backend\PermissionController@edit')->name('permission.edit');
+        Route::post('/permission-store', 'Backend\PermissionController@store')->name('permission.store');
+        Route::post('/permission-update/{id}', 'Backend\PermissionController@update')->name('permission.update');          
+
+
     });   
 });
 
